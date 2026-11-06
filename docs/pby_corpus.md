@@ -63,8 +63,8 @@ a death year and a citable source, and it ships empty.
 | --- | --- |
 | `pby_lines_il_plain_v1.txt`, `pby_lines_il_niqqud_v1.txt` | lines from works with `pd_israel` true |
 | `pby_lines_il_us_plain_v1.txt`, `pby_lines_il_us_niqqud_v1.txt` | the subset whose works also have `pd_us` true |
-| `pby_rights_index.v1.jsonl` | §1, one row per catalogue work (all 26,455), with `as_of` |
-| `pby_line_index.v1.jsonl` | one row per `il` line: `sha256`, `pby_work_id`, `subset`, `genre`, `period` (decade of the latest creator death), `il_us` |
+| `pby_rights_index.v1.jsonl.gz` | §1, one row per catalogue work (all 26,455), with `as_of` |
+| `pby_line_index.v1.jsonl.gz` | one row per `il` line: `sha256`, `pby_work_id`, `subset`, `genre`, `period` (decade of the latest creator death), `il_us` |
 | `pby_excluded_works.v1.json` | §6, every work with a line in any variant, with title, creator QIDs and the corpus sha256s |
 | `corpus_card.json`, `CORPUS_CARD.md` | provenance, parameters, rights tallies, per-file counts, sha256 and length profile, pipeline counts, niqqud density histogram |
 | `SHA256SUMS` | sha256 of every file above |
@@ -145,8 +145,9 @@ The rights fields are the project's reading of the law, not legal advice.
    - A per-work cap (200 by default, sampled deterministically) keeps long
      works from dominating.
    - The content screen (`--screen-terms`) drops lines containing any listed
-     term. No list ships yet, so a default build screens nothing; the card
-     says so.
+     term. By maintainer decision no list ships and a default build screens
+     nothing: HeOCR has to read real historical text as written. The card says
+     so.
 6. **Leakage.**
    - No line may share its NFC text, or any word 3-gram, with protected
      evaluation text. Both the pointed and the stripped forms are checked.
@@ -160,8 +161,16 @@ The rights fields are the project's reading of the law, not legal advice.
 
 ## Open items
 
-- **Content screen term list:** needs a maintainer-reviewed list.
 - **Manual creator rows:** 2,781 works lack a usable death year. The largest
   groups are medieval and early-modern poets without a QID in the catalogue.
 - **First-publication years:** sourcing these would widen `il_us`.
-- **Hosting of large outputs:** see the S15b PR.
+
+## Published build (`v1`)
+
+The pinned `v1` build is in [`data/pby/v1/`](../data/pby/v1/): the corpus card
+(`CORPUS_CARD.md`, `corpus_card.json`), `SHA256SUMS`, the exclusion list and
+the gzipped rights index. The four corpus files and the gzipped line index
+are assets of the [`pby-v1` release](https://github.com/HeOCR/htext/releases/tag/pby-v1).
+Check them with `sha256sum -c` against `data/pby/v1/SHA256SUMS`. Gzip bytes
+depend on the zlib version, so a rebuild elsewhere should compare the
+decompressed indexes if their `.gz` sha256 differs.

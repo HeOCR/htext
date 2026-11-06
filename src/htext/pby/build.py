@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import gzip
 import hashlib
 import json
 import random
@@ -40,6 +41,8 @@ SUBSETS = ("plain", "niqqud")
 LINE_INDEX_SCHEMA = "pby_line_index.v1"
 EXCLUSION_SCHEMA = "pby_excluded_works.v1"
 CARD_SCHEMA = "pby_corpus_card.v1"
+LINE_INDEX_FILE = "pby_line_index.v1.jsonl.gz"
+RIGHTS_INDEX_FILE = "pby_rights_index.v1.jsonl.gz"
 # S10b length profile targets (S15a §7.3).
 PROFILE_TARGETS = {
     "max_chars": MAX_LINE_CHARS,
@@ -214,11 +217,13 @@ def _write_lines(path: Path, lines: Iterable[str]) -> int:
     return count
 
 
-def _write_jsonl(path: Path, rows: Iterable[dict[str, Any]], *, compact: bool = False) -> None:
+def _write_jsonl_gz(path: Path, rows: Iterable[dict[str, Any]], *, compact: bool = False) -> None:
+    """Write gzipped JSONL with a fixed header (no name, mtime 0), so equal rows give equal bytes."""
+
     separators = (",", ":") if compact else (", ", ": ")
-    with path.open("w", encoding="utf-8", newline="\n") as handle:
+    with path.open("wb") as raw, gzip.GzipFile(filename="", mode="wb", fileobj=raw, compresslevel=9, mtime=0) as handle:
         for row in rows:
-            handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True, separators=separators) + "\n")
+            handle.write((json.dumps(row, ensure_ascii=False, sort_keys=True, separators=separators) + "\n").encode("utf-8"))
 
 
 def corpus_file_name(variant: str, subset: str) -> str:
@@ -272,8 +277,8 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
                 "genres": dict(sorted(Counter(line.genre for line in selected).items())),
             }
 
-    _write_jsonl(
-        output / "pby_line_index.v1.jsonl",
+    _write_jsonl_gz(
+        output / LINE_INDEX_FILE,
         (
             {
                 "sha256": sha256_text(line.text),
@@ -287,7 +292,7 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
         ),
         compact=True,
     )
-    _write_jsonl(output / "pby_rights_index.v1.jsonl", (records[work.work_id] for work in works))
+    _write_jsonl_gz(output / RIGHTS_INDEX_FILE, (records[work.work_id] for work in works))
 
     corpus_work_ids = sorted({line.work_id for line in corpus})
     exclusion = {
@@ -395,7 +400,7 @@ def render_card(card: dict[str, Any]) -> str:
         f"- Source: `{source['repository']}` at `{source['commit']}` (VERSION `{source['version']}`), "
         f"{source['catalogue_rows']} catalogue rows.",
         f"- Rights computed for `as_of` {parameters['as_of']}. `pd_israel` and `pd_us` are this build's reading "
-        "of the law, not legal advice; see `pby_rights_index.v1.jsonl`.",
+        "of the law, not legal advice; see `pby_rights_index.v1.jsonl.gz`.",
         f"- Outputs are {card['licence']['outputs']}. Source text: {card['licence']['source']}.",
         f"- Builder: `htext` {card['builder']['version']}.",
         "",
@@ -454,8 +459,12 @@ def render_card(card: dict[str, Any]) -> str:
         f"- Niqqud threshold: {parameters['niqqud_threshold']}. Seed: {parameters['seed']}. "
         f"Max lines per work: {parameters['max_lines_per_work']}.",
         f"- Maqaf allowed: {parameters['maqaf_allowed']}.",
-        f"- Content screen: {parameters['content_screen']['terms']} terms"
-        + (f" from `{parameters['content_screen']['source']}`." if parameters["content_screen"]["source"] else " (none applied)."),
+        (
+            f"- Content screen: {parameters['content_screen']['terms']} terms from `{parameters['content_screen']['source']}`."
+            if parameters["content_screen"]["source"]
+            else "- Content screen: none applied. No words are filtered by default: HeOCR has to read real historical "
+            "text as written. `--screen-terms` exists for builds that need a screen."
+        ),
         f"- No-loss wrap check: {json.dumps(card['inputs']['fit_check'], ensure_ascii=False)}.",
         f"- Length profile source: {card['inputs']['length_profile_source']}.",
         "- Leakage: no line, and no word 3-gram, is shared with these protected texts (pointed and stripped forms):",

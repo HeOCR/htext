@@ -35,6 +35,29 @@ def test_hebrew_years(note, years):
     assert hebrew_years(note) == years
 
 
+@pytest.mark.parametrize(
+    "note, year",
+    [
+        # From the pd_us audit: Davar issue numbers, not years.
+        ('מתוך: "דבר" גליונות 1262 – 64', None),
+        ('מתוך "דבר" גילונות  1242 – 44', None),
+        ("עמ' 1024", None),
+        ("כרך 1600", None),
+        ("מס' 1880", None),
+        ("גליונות 13, 1890", None),
+        ("vol. 1888, p. 1890", None),
+        ("שנת 1320 לספירה", None),  # below the 1450 floor
+        # Real dates next to other numbers still parse.
+        ('"העולם", גליונות 36, 37, 11 בספטמבר 1908', 1908),
+        ("מאזנים, 1929, Vol.א (ז), p.6-9", 1929),
+        ("וילנה 1864.", 1864),
+        ("ורשה: Druk H. J. Rundo, 1893", 1893),
+    ],
+)
+def test_source_edition_year_ignores_page_volume_and_issue_numbers(note, year):
+    assert source_edition_year(note, max_year=2026) == year
+
+
 def test_source_edition_year_takes_the_latest_year():
     assert source_edition_year('תל אביב: דביר, תשי"ט 1959', max_year=2026) == 1959
     assert source_edition_year("1880; second edition 1925", max_year=2026) == 1925
