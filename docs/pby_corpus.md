@@ -7,8 +7,8 @@ Hebrew text. It implements the `hocrsyngen` plan
 [ADR 0007](https://github.com/HeOCR/hocrsyngen/blob/main/docs/decisions/0007-third-party-public-domain-training-text.md).
 Section numbers below (§1–§7) refer to that plan.
 
-Text from Project Ben-Yehuda (https://benyehuda.org), prepared by Project
-Ben-Yehuda volunteers.
+Credit: [Project Ben-Yehuda volunteers](https://benyehuda.org), as PBY's dump
+README asks of reusers who give credit. Every corpus card carries it.
 
 ## Inputs
 

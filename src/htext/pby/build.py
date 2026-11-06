@@ -14,7 +14,7 @@ from typing import Any, Callable, Iterable, Sequence
 from htext import __version__
 from htext.hebrew import nfc, strip_marks
 from htext.leakage import Protected, sha256_text
-from htext.pby import PBY_ATTRIBUTION, PBY_DUMP_COMMIT, PBY_DUMP_VERSION, PBY_REPOSITORY
+from htext.pby import PBY_ATTRIBUTION, PBY_CREDIT, PBY_DUMP_COMMIT, PBY_DUMP_VERSION, PBY_REPOSITORY, PBY_URL
 from htext.pby.catalogue import Work, read_catalogue
 from htext.pby.rights import RIGHTS_SCHEMA, Creators, rights_record
 from htext.pby.text import (
@@ -331,6 +331,7 @@ def _card(
         "name": "PBY public-domain Hebrew lines",
         "builder": {"package": "htext", "version": __version__},
         "attribution": PBY_ATTRIBUTION,
+        "credit": {"text": PBY_CREDIT, "url": PBY_URL},
         "licence": {
             "outputs": "CC0-1.0",
             "source": "Public domain (public_domain_dump LICENSE); PBY requests credit, which this card gives",
@@ -388,6 +389,8 @@ def render_card(card: dict[str, Any]) -> str:
         f"# {card['name']}",
         "",
         f"{card['attribution']}.",
+        "",
+        f"Credit: [{card['credit']['text']}]({card['credit']['url']}).",
         "",
         f"- Source: `{source['repository']}` at `{source['commit']}` (VERSION `{source['version']}`), "
         f"{source['catalogue_rows']} catalogue rows.",

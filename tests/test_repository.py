@@ -27,6 +27,11 @@ def test_readme_states_both_licence_scopes() -> None:
     assert "| Data |" in readme and "CC0-1.0" in readme
 
 
+def test_readme_gives_the_linked_pby_credit() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "[Project Ben-Yehuda volunteers](https://benyehuda.org)" in readme
+
+
 def test_package_version_matches_pyproject() -> None:
     pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
     assert pyproject["project"]["version"] == htext.__version__
