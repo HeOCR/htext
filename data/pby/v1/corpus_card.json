@@ -1,0 +1,329 @@
+{
+  "schema": "pby_corpus_card.v1",
+  "name": "PBY public-domain Hebrew lines",
+  "builder": {
+    "package": "htext",
+    "version": "0.1.0"
+  },
+  "attribution": "Text from Project Ben-Yehuda (https://benyehuda.org), prepared by Project Ben-Yehuda volunteers",
+  "credit": {
+    "text": "Project Ben-Yehuda volunteers",
+    "url": "https://benyehuda.org"
+  },
+  "licence": {
+    "outputs": "CC0-1.0",
+    "source": "Public domain (public_domain_dump LICENSE); PBY requests credit, which this card gives"
+  },
+  "text_rights": "third_party_public_domain",
+  "schemas": {
+    "rights_index": "pby_rights_index.v1",
+    "line_index": "pby_line_index.v1",
+    "excluded_works": "pby_excluded_works.v1"
+  },
+  "source": {
+    "repository": "projectbenyehuda/public_domain_dump",
+    "commit": "5e4277fead7b565f32cc4b352abd3565023a77d8",
+    "version": "2026-03",
+    "catalogue_rows": 26455
+  },
+  "inputs": {
+    "creators_json_sha256": "5a8c553bfcf0a752f1732b23c7f8e13b3741d2be5ef27dc4d24f06087f23e77a",
+    "leakage_fixtures": [
+      {
+        "repository": "HeOCR/hocrgen",
+        "path": "docs/evaluation-fixtures/bidi-synthetic-corpus.txt",
+        "commit": "c8fb74eb5d0afedd812a0da69562e4610a0b3394",
+        "sha256": "b325673476bce8c16f0a2731e5de1ec9b226b8274fc1e7dfb723dbccb3edf966",
+        "lines": 100,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "ac7e1dc2c21d2506b93c26ce81cab3327baf217d82fb6620c1ddf6f597235fd6",
+        "lines": 19,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "89e52f8b90cdbb8a276fbdaf96530afff2cc266e13ad6355c215c79e5a58d97f",
+        "lines": 812,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_niqqud_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "974ffa19251bcc1137a3baf908f22d2770d801a38d93456d6109bf6565de5640",
+        "lines": 40,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_mixed_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "45a81fff1105ba347c2e80ebfe5cafa0c4e3763975279709c0b9af7a0eedaa88",
+        "lines": 401,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_typographic_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "3364283592492d8827ae94b8899ce44cecedf1281b4fbeb69f9d76b3e9a09a3c",
+        "lines": 418,
+        "stripped": true
+      }
+    ],
+    "length_profile_source": "hocrsyngen texts/hebrew_lines_train_v1.txt",
+    "fit_check": {
+      "ran": true,
+      "hocrsyngen_version": null,
+      "hocrsyngen_commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+      "bodies": [
+        {
+          "template_id": "printed_letter",
+          "font_file": "Alef-Regular.ttf",
+          "size": 42,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "handwritten_note",
+          "font_file": "GveretLevin-Regular.ttf",
+          "size": 46,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "archive_card",
+          "font_file": "Alef-Regular.ttf",
+          "size": 38,
+          "width": 498,
+          "rows_per_line": 2
+        },
+        {
+          "template_id": "ledger",
+          "font_file": "Alef-Regular.ttf",
+          "size": 30,
+          "width": 206,
+          "rows_per_line": 10
+        }
+      ],
+      "maqaf_glyph_check": true
+    }
+  },
+  "parameters": {
+    "as_of": 2026,
+    "seed": 15,
+    "niqqud_threshold": 0.5,
+    "genres": [
+      "prose",
+      "article",
+      "memoir",
+      "letters",
+      "fables",
+      "poetry"
+    ],
+    "max_lines_per_work": 200,
+    "max_line_chars": 55,
+    "maqaf_allowed": true,
+    "content_screen": {
+      "terms": 0,
+      "source": null
+    }
+  },
+  "rights": {
+    "pd_israel": {
+      "all_creators_died_by:1955": 23302,
+      "anonymous_unresolved": 164,
+      "creator_death_year_unknown": 2781,
+      "creator_in_term": 208
+    },
+    "pd_us": {
+      "published_before:1931": 715,
+      "unknown": 25740
+    },
+    "source_edition_year_parsed": 3475,
+    "works_in_corpus": 21799,
+    "works_in_il_us": 668
+  },
+  "files": {
+    "pby_lines_il_plain_v1.txt": {
+      "variant": "il",
+      "subset": "plain",
+      "lines": 1627470,
+      "works": 13857,
+      "sha256": "4cedcd0a882c1a7fbab93fb2efb55b26d9b2b34a92be77129cf78288ef4fbade",
+      "bytes": 74372961,
+      "length_profile": {
+        "lines": 1627470,
+        "max_chars": 55,
+        "median": 23.0,
+        "share_31_55": 0.2103,
+        "share_36_47": 0.1189
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      },
+      "genres": {
+        "article": 1049061,
+        "fables": 1116,
+        "letters": 75131,
+        "memoir": 63154,
+        "poetry": 15596,
+        "prose": 423412
+      }
+    },
+    "pby_lines_il_niqqud_v1.txt": {
+      "variant": "il",
+      "subset": "niqqud",
+      "lines": 401492,
+      "works": 12911,
+      "sha256": "a1b78dc5b467189ed431b7daf8f044f1aa03b1f0389dc7320109dfbf0bb2285f",
+      "bytes": 30797418,
+      "length_profile": {
+        "lines": 401492,
+        "max_chars": 55,
+        "median": 23.0,
+        "share_31_55": 0.2269,
+        "share_36_47": 0.119
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      },
+      "genres": {
+        "article": 10297,
+        "fables": 11981,
+        "letters": 362,
+        "memoir": 547,
+        "poetry": 276125,
+        "prose": 102180
+      }
+    },
+    "pby_lines_il_us_plain_v1.txt": {
+      "variant": "il_us",
+      "subset": "plain",
+      "lines": 70251,
+      "works": 559,
+      "sha256": "05983a2088e8da4ed6855f3bb52c97a727a2d31ed952b9422c2e23de42cf8161",
+      "bytes": 3263817,
+      "length_profile": {
+        "lines": 70251,
+        "max_chars": 55,
+        "median": 23,
+        "share_31_55": 0.2236,
+        "share_36_47": 0.1354
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      },
+      "genres": {
+        "article": 37447,
+        "letters": 2548,
+        "memoir": 2776,
+        "poetry": 608,
+        "prose": 26872
+      }
+    },
+    "pby_lines_il_us_niqqud_v1.txt": {
+      "variant": "il_us",
+      "subset": "niqqud",
+      "lines": 10050,
+      "works": 290,
+      "sha256": "ead01b4247123b10bd47007540a1a542d44c727335ae7bd77595a01a18d7adef",
+      "bytes": 738977,
+      "length_profile": {
+        "lines": 10050,
+        "max_chars": 55,
+        "median": 24.0,
+        "share_31_55": 0.1564,
+        "share_36_47": 0.0617
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": false,
+        "share_36_47": false,
+        "median": true
+      },
+      "genres": {
+        "article": 234,
+        "letters": 6,
+        "memoir": 5,
+        "poetry": 9160,
+        "prose": 645
+      }
+    }
+  },
+  "pipeline": {
+    "density_bin:0": 8255288,
+    "density_bin:1": 399111,
+    "density_bin:2": 158525,
+    "density_bin:3": 30807,
+    "density_bin:4": 11406,
+    "density_bin:5": 139347,
+    "density_bin:6": 623881,
+    "density_bin:7": 410063,
+    "density_bin:8": 66734,
+    "density_bin:9": 6170,
+    "segments": 10206495,
+    "segments_dropped:charset": 58791,
+    "segments_dropped:duplicate": 335407,
+    "segments_dropped:fit:archive_card:too_many_rows": 4940,
+    "segments_dropped:fit:archive_card:word_too_wide": 28,
+    "segments_dropped:fit:ledger:word_too_wide": 5668,
+    "segments_dropped:fit:printed_letter:word_too_wide": 1,
+    "segments_dropped:leak_line": 43,
+    "segments_dropped:leak_word3": 1180,
+    "segments_dropped:long_digit_run": 6,
+    "segments_dropped:medial_final_form": 1200,
+    "segments_dropped:per_work_cap": 7726087,
+    "segments_dropped:too_few_letters": 43019,
+    "segments_dropped:too_long": 1163,
+    "source_lines": 3634797,
+    "source_lines_dropped:entity": 5535,
+    "source_lines_dropped:latin": 21627,
+    "source_lines_dropped:letter_digit": 4482,
+    "source_lines_plain_only:word_mismatch": 119,
+    "works_read": 22049,
+    "works_skipped:genre": 1361,
+    "works_skipped:not_pd_israel": 3045,
+    "works_with_lines": 21799
+  },
+  "niqqud_density_histogram": {
+    "0.0-0.1": 8255288,
+    "0.1-0.2": 399111,
+    "0.2-0.3": 158525,
+    "0.3-0.4": 30807,
+    "0.4-0.5": 11406,
+    "0.5-0.6": 139347,
+    "0.6-0.7": 623881,
+    "0.7-0.8": 410063,
+    "0.8-0.9": 66734,
+    "0.9-1.0": 6170
+  },
+  "length_profile_targets": {
+    "max_chars": 55,
+    "share_31_55": [
+      0.18,
+      0.35
+    ],
+    "min_share_36_47": 0.1,
+    "median": [
+      18,
+      30
+    ]
+  }
+}

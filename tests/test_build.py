@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -28,6 +29,10 @@ def _config(mini_dump, mini_creators, mini_leakage, output, **overrides):
     return BuildConfig(**values)
 
 
+def _gz_text(path: Path) -> str:
+    return gzip.decompress(path.read_bytes()).decode("utf-8")
+
+
 def _lines(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
     assert text == "" or (text.endswith("\n") and not text.endswith("\n\n"))
@@ -45,8 +50,8 @@ def test_outputs_exist_and_checksums_match(built):
     output, _card = built
     expected = {
         *(corpus_file_name(variant, subset) for variant in ("il", "il_us") for subset in ("plain", "niqqud")),
-        "pby_line_index.v1.jsonl",
-        "pby_rights_index.v1.jsonl",
+        "pby_line_index.v1.jsonl.gz",
+        "pby_rights_index.v1.jsonl.gz",
         "pby_excluded_works.v1.json",
         "corpus_card.json",
         "CORPUS_CARD.md",
@@ -68,7 +73,7 @@ def test_build_is_deterministic(mini_dump, mini_creators, mini_leakage, tmp_path
 
 def test_only_pd_israel_allowlisted_works_contribute(built):
     output, card = built
-    index = [json.loads(row) for row in (output / "pby_line_index.v1.jsonl").read_text(encoding="utf-8").splitlines()]
+    index = [json.loads(row) for row in _gz_text(output / "pby_line_index.v1.jsonl.gz").splitlines()]
     # 1 (prose, PD), 2 (poetry, PD and pre-1931 edition), 8 (poetry, PD).
     # 3: translator in term; 4: anonymous; 5: no QID; 6: reference genre;
     # 7: misaligned files.
@@ -83,14 +88,14 @@ def test_il_us_is_the_pre_1931_subset(built):
     il = set(_lines(output / corpus_file_name("il", "niqqud"))) | set(_lines(output / corpus_file_name("il", "plain")))
     il_us = set(_lines(output / corpus_file_name("il_us", "niqqud"))) | set(_lines(output / corpus_file_name("il_us", "plain")))
     assert il_us and il_us < il
-    rights = {row["pby_work_id"]: row for row in map(json.loads, (output / "pby_rights_index.v1.jsonl").read_text(encoding="utf-8").splitlines())}
+    rights = {row["pby_work_id"]: row for row in map(json.loads, _gz_text(output / "pby_rights_index.v1.jsonl.gz").splitlines())}
     assert rights[2]["source_edition_year"] == 1912 and rights[2]["pd_us"] is True
     assert rights[1]["pd_us"] == "unknown"
 
 
 def test_rights_index_covers_the_whole_catalogue(built):
     output, _card = built
-    rows = [json.loads(row) for row in (output / "pby_rights_index.v1.jsonl").read_text(encoding="utf-8").splitlines()]
+    rows = [json.loads(row) for row in _gz_text(output / "pby_rights_index.v1.jsonl.gz").splitlines()]
     assert [row["pby_work_id"] for row in rows] == list(range(1, 9))
     by_id = {row["pby_work_id"]: row for row in rows}
     assert by_id[3]["pd_israel_basis"] == "creator_in_term"
@@ -138,6 +143,7 @@ def test_exclusion_list_and_card(built):
     assert card["credit"] == {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
     assert "Credit: [Project Ben-Yehuda volunteers](https://benyehuda.org)." in markdown
     assert "test/protected" in markdown
+    assert "No words are filtered by default" in markdown
 
 
 def test_fit_failures_and_cap_drop_lines(mini_dump, mini_creators, mini_leakage, tmp_path):
@@ -155,5 +161,5 @@ def test_fit_failures_and_cap_drop_lines(mini_dump, mini_creators, mini_leakage,
     text = (tmp_path / "fit" / corpus_file_name("il", "plain")).read_text(encoding="utf-8")
     assert "הגשר" not in text
     assert card["pipeline"]["segments_dropped:per_work_cap"] > 0
-    index = [json.loads(row) for row in (tmp_path / "fit" / "pby_line_index.v1.jsonl").read_text(encoding="utf-8").splitlines()]
+    index = [json.loads(row) for row in _gz_text(tmp_path / "fit" / "pby_line_index.v1.jsonl.gz").splitlines()]
     assert max(sum(row["pby_work_id"] == work for row in index) for work in (1, 2, 8)) <= 2

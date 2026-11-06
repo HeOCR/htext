@@ -41,6 +41,29 @@ _HEBREW_YEAR = re.compile(
     rf"(?<![א-ת])(?:ה[{_GERESH}]\s?)?(ת[א-ת]{{0,2}}[{_GERSHAYIM}][א-ת])(?![א-ת])"
 )
 _GREGORIAN_YEAR = re.compile(r"(?<!\d)(1[0-9]{3}|20[0-9]{2})(?!\d)")
+# No PBY source edition predates printing; an earlier four-digit number is a
+# page, issue or volume number.
+MIN_GREGORIAN_YEAR = 1450
+# A number right after a page, volume, issue or serial marker (or after a list
+# of numbers that follows one, as in "גליונות 13, 1262") is not a year.
+_NUMBER_MARKER = re.compile(
+    r"(?:עמ['׳’]?|עמוד(?:ים)?|כרך|כרכים|מס['׳’]|מספר|גל['׳’]|גליון|גיליון|גליונות|גילונות|גיליונות|"
+    r"חוברת|חוברות|דף|דפים|סימן|סימנים|pp?\.|vol\.?|no\.?|nr\.?)"
+    r"\s*(?:\d+\s*[,–—-]\s*)*$",
+    re.IGNORECASE,
+)
+
+
+def gregorian_years(text: str) -> list[int]:
+    """Four-digit years in ``text``, skipping pre-1450 numbers and marked page, volume or issue numbers."""
+
+    years = []
+    for match in _GREGORIAN_YEAR.finditer(text):
+        year = int(match.group(1))
+        if year < MIN_GREGORIAN_YEAR or _NUMBER_MARKER.search(text[max(0, match.start() - 40) : match.start()]):
+            continue
+        years.append(year)
+    return years
 
 
 def _gematria(letters: str) -> int | None:
@@ -71,7 +94,7 @@ def source_edition_year(note: str | None, *, max_year: int) -> int | None:
 
     if not note:
         return None
-    years = [int(year) for year in _GREGORIAN_YEAR.findall(note)] + hebrew_years(note)
+    years = gregorian_years(note) + hebrew_years(note)
     years = [year for year in years if year <= max_year]
     return max(years) if years else None
 
