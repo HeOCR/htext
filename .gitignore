@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.coverage
+coverage.xml
+
+# Environments
+.venv/
+venv/
+.env
+
+# OS metadata
+.DS_Store
+
+# Local inputs and build outputs. Source dumps (for example the Project
+# Ben-Yehuda public_domain_dump checkout) and corpus builds stay outside git.
+/work/
+/dumps/
+/out/
