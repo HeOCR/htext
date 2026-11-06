@@ -37,13 +37,16 @@ def _build(args: argparse.Namespace) -> int:
 
         from htext.fit import FitChecker, hocrsyngen_commit
 
+        commit = hocrsyngen_commit() or args.hocrsyngen_commit
+        if not commit:
+            raise SystemExit("hocrsyngen was not installed from git; pass --hocrsyngen-commit so the card records it")
         checker = FitChecker()
         fit = checker.failure
         allow_maqaf = checker.maqaf_allowed()
         provenance = {
             "ran": True,
             "hocrsyngen_version": getattr(hocrsyngen, "__version__", None),
-            "hocrsyngen_commit": hocrsyngen_commit(),
+            "hocrsyngen_commit": commit,
             "bodies": [body.__dict__ for body in checker.bodies],
             "maqaf_glyph_check": allow_maqaf,
         }
@@ -92,6 +95,7 @@ def main(argv: list[str] | None = None) -> int:
     build_parser.add_argument("--max-lines-per-work", type=int, default=DEFAULT_MAX_LINES_PER_WORK, help="0 for no cap")
     build_parser.add_argument("--screen-terms", type=Path, default=None, help="content screen: one term per line")
     build_parser.add_argument("--length-profile", type=Path, default=None, help="text file whose line lengths are the target profile (default: hocrsyngen S10b train)")
+    build_parser.add_argument("--hocrsyngen-commit", default=None, help="record this hocrsyngen commit when pip did not record one")
     build_parser.add_argument("--no-fit-check", action="store_true", help="skip the hocrsyngen no-loss wrap check (the card records it)")
     build_parser.set_defaults(handler=_build)
     args = parser.parse_args(argv)
