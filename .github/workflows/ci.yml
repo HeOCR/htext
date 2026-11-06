@@ -48,3 +48,48 @@ jobs:
 
       - name: Run tests
         run: python -m pytest
+
+  fit:
+    name: No-loss wrap check (hocrsyngen 88c61af)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Check out hocrsyngen at the pinned commit
+        uses: actions/checkout@v6
+        with:
+          repository: HeOCR/hocrsyngen
+          ref: 88c61af4c12cc4a462fc1f57a1c4027b3459366d
+          path: .hocrsyngen
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install native Pillow/libraqm dependencies
+        run: .github/scripts/install-native-pillow-deps.sh
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --force-reinstall --no-binary Pillow -C raqm=enable "Pillow>=10"
+          python -m pip install ./.hocrsyngen
+          python -m pip install -e ".[test]"
+
+      - name: Verify Pillow libraqm support
+        run: |
+          python - <<'PY'
+          from PIL import features
+
+          if not features.check("raqm"):
+              raise SystemExit("Pillow libraqm support is required for the no-loss wrap check.")
+          PY
+
+      - name: Run tests, including the fit tests
+        env:
+          HOCRSYNGEN_SOURCE: .hocrsyngen
+        run: python -m pytest -rs
