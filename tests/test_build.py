@@ -135,7 +135,9 @@ def test_exclusion_list_and_card(built):
     assert card["licence"]["outputs"] == "CC0-1.0"
     assert card["inputs"]["fit_check"] == {"ran": False}
     markdown = (output / "CORPUS_CARD.md").read_text(encoding="utf-8")
-    assert "Project Ben-Yehuda volunteers" in markdown and "test/protected" in markdown
+    assert card["credit"] == {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
+    assert "Credit: [Project Ben-Yehuda volunteers](https://benyehuda.org)." in markdown
+    assert "test/protected" in markdown
 
 
 def test_fit_failures_and_cap_drop_lines(mini_dump, mini_creators, mini_leakage, tmp_path):

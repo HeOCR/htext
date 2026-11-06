@@ -56,9 +56,12 @@ the public domain under CC0-1.0 too, so the data can be used without
 conditions.
 
 **Attribution.** PBY asks for credit but does not require it. HeOCR gives it
-anyway: "Text from Project Ben-Yehuda (https://benyehuda.org), prepared by
-Project Ben-Yehuda volunteers". Every PBY corpus card carries this line, and
-so should any dataset or model card that uses a PBY corpus.
+anyway, in the form PBY's dump README asks for:
+
+> Credit: [Project Ben-Yehuda volunteers](https://benyehuda.org)
+
+Every PBY corpus card carries this credit with the link, and so should any
+dataset or model card that uses a PBY corpus.
 
 ## Development
 
