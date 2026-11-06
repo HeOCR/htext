@@ -31,6 +31,8 @@ def test_footnote_without_a_blank_gap_drops_the_work():
 def test_normalise_strips_selectors_references_and_spacing():
     assert normalise("עיר\ufe0e  עתיקה3 ,\tוזהו ", strip_references=True) == "עיר עתיקה , וזהו"
     assert normalise("עתיקה3 שם", strip_references=False) == "עתיקה3 שם"
+    assert normalise("אל ארצות החיים.1", strip_references=True) == "אל ארצות החיים."
+    assert normalise("בשנת 1920, אמר", strip_references=True) == "בשנת 1920, אמר"
 
 
 def test_source_lines_require_alignment():
@@ -45,6 +47,8 @@ def test_source_lines_require_alignment():
         ("שורה &nbsp; כאן", "entity"),
         ("ראו www.example.com", "url"),
         ("עיר3 עתיקה", "letter_digit"),
+        ("החיים.1", "letter_digit"),
+        ("בשנת 1920.", None),
         ("שורה רגילה בהחלט", None),
     ],
 )

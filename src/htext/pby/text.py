@@ -42,9 +42,12 @@ _URL = re.compile(r"https?:|www\.", re.IGNORECASE)
 _LATIN = re.compile(r"[A-Za-z]")
 _SPACES = re.compile(r"[\s  -   　]+")
 _BIDI_AND_ZERO_WIDTH = re.compile("[​-‏‪-‮⁦-⁩﻿­]")
-# A footnote reference: digits right after a Hebrew letter or point.
-_FOOTNOTE_REFERENCE = re.compile(r"(?<=[א-ת֑-ׇ])\d{1,3}(?=$|[\s.,:;!?)\]\"'׳״”’–—…])")
-_LETTER_DIGIT = re.compile(r"[א-ת֑-ׇ]\d")
+# A footnote reference: digits right after a Hebrew letter or point, or after
+# punctuation that follows one ("הַחַיִים.1").
+_FOOTNOTE_REFERENCE = re.compile(
+    r"(?<=[\u05D0-\u05EA\u0591-\u05C7])([.,:;!?\"'”’׳״)]?)\d{1,3}(?=$|[\s.,:;!?)\]\"'׳״”’–—…])"
+)
+_LETTER_DIGIT = re.compile(r"[\u05D0-\u05EA\u0591-\u05C7][.,:;!?\"'”’׳״)]?\d")
 _SENTENCE_END = re.compile(r"[.!?…][\"'”’״׳)]*$")
 _LONG_DIGIT_RUN = re.compile(r"\d{7,}")
 
@@ -104,7 +107,7 @@ def normalise(line: str, *, strip_references: bool) -> str:
     line = _VARIATION_SELECTORS.sub("", line)
     line = _BIDI_AND_ZERO_WIDTH.sub("", line)
     if strip_references:
-        line = _FOOTNOTE_REFERENCE.sub("", line)
+        line = _FOOTNOTE_REFERENCE.sub(r"\1", line)
     return nfc(_SPACES.sub(" ", line).strip())
 
 
