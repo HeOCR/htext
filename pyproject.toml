@@ -24,6 +24,15 @@ dependencies = []
 test = [
   "pytest>=8",
 ]
+# The no-loss wrap check renders with the generator's own code and fonts.
+# Pillow must be built with libraqm (see .github/workflows/ci.yml).
+fit = [
+  "hocrsyngen @ git+https://github.com/HeOCR/hocrsyngen@88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+  "Pillow>=10",
+]
+
+[project.scripts]
+htext = "htext.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

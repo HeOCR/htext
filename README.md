@@ -11,9 +11,12 @@ The corpora feed the HeOCR synthetic page generator,
 
 ## Status
 
-Scaffolding only. The first corpus is planned: public-domain text from
-[Project Ben-Yehuda](https://benyehuda.org) (PBY), built offline from a pinned
-checkout of PBY's `public_domain_dump`. The design is in the `hocrsyngen` plan
+The first corpus is public-domain text from
+[Project Ben-Yehuda](https://benyehuda.org) (PBY). The `htext pby build`
+command builds it offline, from a pinned checkout of PBY's
+`public_domain_dump`. How to build it, what a build writes, and the rights and
+line rules are in [`docs/pby_corpus.md`](docs/pby_corpus.md). The design is the
+`hocrsyngen` plan
 [`docs/pby_public_domain_text_intake_plan.md`](https://github.com/HeOCR/hocrsyngen/blob/main/docs/pby_public_domain_text_intake_plan.md)
 (`S15a`), and the maintainer decisions are in
 [ADR 0007](https://github.com/HeOCR/hocrsyngen/blob/main/docs/decisions/0007-third-party-public-domain-training-text.md):
@@ -65,3 +68,7 @@ python -m venv .venv
 python -m pip install -e ".[test]"
 python -m pytest
 ```
+
+The fit tests (`tests/test_fit.py`) also need `hocrsyngen` and Pillow built
+with libraqm. They skip without them. CI runs them in its `fit` job, against
+`hocrsyngen` at the pinned commit.

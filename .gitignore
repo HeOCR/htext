@@ -21,3 +21,4 @@ venv/
 /work/
 /dumps/
 /out/
+.hocrsyngen/
