@@ -15,7 +15,8 @@ from typing import Any, Callable, Iterable, Sequence
 from htext import __version__
 from htext.hebrew import nfc, strip_marks
 from htext.leakage import Protected, sha256_text
-from htext.pby import PBY_ATTRIBUTION, PBY_CREDIT, PBY_DUMP_COMMIT, PBY_DUMP_VERSION, PBY_REPOSITORY, PBY_URL
+from htext.release import Credit, ReleaseGuard, release_fields
+from htext.pby import PBY_ATTRIBUTION, PBY_CREDIT, PBY_DUMP_COMMIT, PBY_DUMP_VERSION, PBY_LICENCE, PBY_REPOSITORY, PBY_URL
 from htext.pby.catalogue import Work, read_catalogue
 from htext.pby.rights import RIGHTS_SCHEMA, Creators, rights_record
 from htext.pby.text import (
@@ -236,6 +237,12 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
     creators = Creators.load(config.creators)
     protected = Protected.load(config.leakage_fixtures)
     records = {work.work_id: rights_record(work, creators, as_of=config.as_of) for work in works}
+    # Decision 0022: every entry carries its licence, release and credit; the
+    # guard admits only htext-cc0 entries into this build.
+    fields = release_fields(source_licence=PBY_LICENCE, credit=Credit(PBY_CREDIT, PBY_URL))
+    for record in records.values():
+        record.update(fields)
+    guard = ReleaseGuard(fields["htext_release"])
     stats: Counter = Counter()
     seen: set[str] = set()
     corpus: list[CorpusLine] = []
@@ -295,6 +302,7 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
     _write_jsonl_gz(output / RIGHTS_INDEX_FILE, (records[work.work_id] for work in works))
 
     corpus_work_ids = sorted({line.work_id for line in corpus})
+    guard.admit_all(records[work_id] for work_id in corpus_work_ids)
     exclusion = {
         "schema": EXCLUSION_SCHEMA,
         "note": "Every PBY work with at least one line in any variant of this build. Exclude these works from real-scan evaluation sets.",
@@ -313,7 +321,7 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
     }
     (output / "pby_excluded_works.v1.json").write_text(json.dumps(exclusion, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-    card = _card(config, records, files, stats, corpus_work_ids)
+    card = _card(config, records, files, stats, corpus_work_ids, guard)
     (output / "corpus_card.json").write_text(json.dumps(card, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (output / "CORPUS_CARD.md").write_text(render_card(card), encoding="utf-8")
 
@@ -328,6 +336,7 @@ def _card(
     files: dict[str, dict[str, Any]],
     stats: Counter,
     corpus_work_ids: list[int],
+    guard: ReleaseGuard,
 ) -> dict[str, Any]:
     rights = list(records.values())
     density_bins = {f"{bin_ / 10:.1f}-{(bin_ + 1) / 10:.1f}": stats.get(f"density_bin:{bin_}", 0) for bin_ in range(10)}
@@ -342,6 +351,9 @@ def _card(
             "source": "Public domain (public_domain_dump LICENSE); PBY requests credit, which this card gives",
         },
         "text_rights": "third_party_public_domain",
+        "htext_release": guard.release,
+        "release": guard.summary(),
+        "text_quality": "transcription",
         "schemas": {
             "rights_index": RIGHTS_SCHEMA,
             "line_index": LINE_INDEX_SCHEMA,
@@ -402,6 +414,9 @@ def render_card(card: dict[str, Any]) -> str:
         f"- Rights computed for `as_of` {parameters['as_of']}. `pd_israel` and `pd_us` are this build's reading "
         "of the law, not legal advice; see `pby_rights_index.v1.jsonl.gz`.",
         f"- Outputs are {card['licence']['outputs']}. Source text: {card['licence']['source']}.",
+        f"- Release: `{card['release']['release_name']}` ({card['release']['release_licence']}); source licences: "
+        + ", ".join(f"`{label}` ({count} works)" for label, count in card["release"]["source_licences"].items())
+        + f". Text quality: `{card['text_quality']}`.",
         f"- Builder: `htext` {card['builder']['version']}.",
         "",
         "## Files",

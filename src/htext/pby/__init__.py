@@ -14,3 +14,5 @@ PBY_DUMP_VERSION = "2026-03"
 PBY_CREDIT = "Project Ben-Yehuda volunteers"
 PBY_URL = "https://benyehuda.org"
 PBY_ATTRIBUTION = f"Text from Project Ben-Yehuda ({PBY_URL}), prepared by {PBY_CREDIT}"
+# The dump's LICENSE text; it maps to the htext-cc0 release.
+PBY_LICENCE = "Public Domain"

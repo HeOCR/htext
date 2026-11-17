@@ -4,7 +4,7 @@ This plan takes htext from one corpus, Project Ben-Yehuda (PBY), to every openly
 find. It lists the candidate sources, the rights basis of each, an estimated size, and the order to build them in.
 It is a plan only: it adds no builder and no data.
 
-- **Status:** proposed, 2026-11-18.
+- **Status:** accepted by heocr-lead, 2026-11-18 (#6); decisions on the open questions below.
 - **Written by:** `htext[claude/claude-code#shay-macbook-m4]@heocr/opensource`.
 - **Builds on:**
   - [ADR 0007](https://github.com/HeOCR/hocrsyngen/blob/main/docs/decisions/0007-third-party-public-domain-training-text.md):
@@ -67,7 +67,7 @@ The site page (HeOCR/heocr.github.io, `htext/corpora.json`) is updated whenever 
 | ---: | --- | --- | --- | --- | --- |
 | 1 | `pby` v2 | PBY `public_domain_dump`, pinned | creators died ≤ `as_of`−71 (Wikidata); PBY dump licence "Public domain" | 2.03M lines *measured* (v1) → about 9.8M | clear |
 | 2 | `knesset-laws` | Knesset OData `KNS_Bill` → laws as enacted (`*_lsr_*.PDF`) on `fs.knesset.gov.il`, K1–8 | §6: laws and regulations | thousands of laws; about 2,146 K1–8 bills carry a publication series; words unmeasured | clear |
-| 3 | `knesset-plenary` | Knesset OData `KNS_PlenumSession` → `KNS_DocumentPlenumSession` (`*_ptm_*.pdf`), sittings before 1976-01-01 | §6: Knesset protocols; publishable for the period up to 1975 (2026-11-11 decision) | about 3,300 sittings (K1–8); order of tens of millions of words | clear |
+| 3 | `knesset-plenary` | Knesset OData `KNS_PlenumSession` → `KNS_DocumentPlenumSession` (`*_ptm_*.pdf`), sittings before 1976-01-01; K13–25 born-digital protocols (decision 1 below) | §6: Knesset protocols; publishable for the period up to 1975 (2026-11-11 decision) | about 3,300 sittings (K1–8); order of tens of millions of words | clear |
 | 4 | `tanakh` | Unicode/XML Leningrad Codex (UXLC), tanach.us `Tanach.xml.zip`, pinned by date and sha256 | the codex is ancient; tanach.us: "You may view or copy all biblical Hebrew text, in any format, without restriction" | about 305k words; about 75k lines per form | clear |
 | 5 | `sefaria-pd` | Sefaria-Export (public bucket), version JSON, cross-checked with `/api/texts/versions/<title>` | version licence exactly `Public Domain` or `CC0`, **and** `versionSource` names a printing, **and** every named author and editor died ≤ `as_of`−71 | tens of millions of words before filtering; unmeasured after | probable |
 | 6 | `gutenberg-he` | Project Gutenberg, via a mirror (not gutenberg.org directly) | PD in the US per PG's record; Israeli status per author | 7 books, one out (living author) | clear but tiny |
@@ -151,7 +151,7 @@ redistributed. This builder is low priority, and it may be folded into a later "
 | hebrewbooks.org | terms unreachable; scans |
 | Dicta datasets, HeDC4 | NC or unknown licences; HeDC4 is web crawl with unclear rights |
 | Knesset Corpus (Haifa), ParlaMint-IL | conflicting or BY-SA labels; 1992 on; mixes committee text |
-| Knesset plenary from 1976 on | §6, and hocrgen marks its K13–25 plenary lines publishable. htext stays at ≤1975 until lead confirms (open question 1) |
+| Knesset plenary K8 (from 1976) and K9–12 | no hocrgen publishability flag (decision 1 below) |
 
 ## `htext-by`: sources
 
@@ -211,13 +211,24 @@ One builder per PR, each branched from `main`, with tests that need no network a
 7. `wikisource` (`htext-by-sa`);
 8. small sources: Gutenberg, and Open Siddur if a bulk route appears.
 
-## Open questions for lead
+## Decisions on the open questions (heocr-lead, 2026-11-18)
 
-1. **Plenary records from 1976 on.** These are §6, and hocrgen marks its K13–25 plenary lines `publishable`. Should
-   `knesset-plenary` cover every period (privacy-gated), or stay at ≤1975 as briefed?
-2. **Bills.** Should bills stay out, or should their main text go in without the explanatory notes?
-3. **OCR-derived text.** Is a lexicon-based line filter, plus a sampled check by eye, enough to publish OCR text
-   layers as `htext-cc0` text? Or should OCR-derived corpora be marked `ocr_text_layer` and kept out of the default
-   mix?
+1. **Plenary records from 1976 on.** htext follows hocrgen's existing publishability flags exactly, per Knesset,
+   with no judgment of its own, and every line passes `plenary_private_names_v1`. Today that means:
+   - **K1–8 sittings up to 1975-12-31:** period 1 of the 2026-11-11 decision; scans with an OCR text layer.
+   - **K13–25:** hocrgen's `knesset_lines` plenary series (`knessetplenarylines_v1`) marks every unit `publishable`.
+     The source is born-digital DOC/DOCX protocols, so `text_quality: transcription`.
+   - **Out:** K8 sittings from 1976-01-01, and K9–12, which no hocrgen flag marks. They come in only if hocrgen
+     marks them.
+
+   Committee protocols stay out of every period, including the pre-1976 committee scans.
+2. **Bills** stay out of v1. Enacted laws already carry the enacted text. Revisit only with a reason.
+3. **OCR text layers** may be published in `htext-cc0`, on three conditions:
+   - the lexicon line filter;
+   - a sampled check by eye, whose **measured error rate goes on the card**;
+   - `text_quality: ocr_layer` on every entry, so users and `hocrsyngen` can include or exclude it.
+
+   Lines from OCR layers never build word lists, lexicons or dawgs (`htext.release.lexicon_eligible`). The lexicon
+   that filters OCR lines is built from `transcription` entries only.
 
 — htext[claude/claude-code#shay-macbook-m4]@heocr/opensource
