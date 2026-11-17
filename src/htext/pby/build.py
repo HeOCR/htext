@@ -34,10 +34,17 @@ from htext.pby.text import (
 
 # S15a §7.5: start with these genres; reference and lexicon entries are left
 # out, and drama is not on the list.
-DEFAULT_GENRES = ("prose", "article", "memoir", "letters", "fables", "poetry")
+V1_GENRES = ("prose", "article", "memoir", "letters", "fables", "poetry")
+# v2 (sources plan): reference and drama were reviewed by sample and read as
+# ordinary prose and dialogue; lexicon entries (2 works) stay out.
+DEFAULT_GENRES = V1_GENRES + ("reference", "drama")
 # Long works (the largest has tens of thousands of lines) would otherwise
 # dominate; a cap keeps the corpus spread across works.
-DEFAULT_MAX_LINES_PER_WORK = 200
+V1_MAX_LINES_PER_WORK = 200
+# v2: no build-time cap. The cap dropped 7.7M v1 segments; a per-work share is
+# a mix-time choice for hocrsyngen, and the line index keeps pby_work_id for it.
+DEFAULT_MAX_LINES_PER_WORK: int | None = None
+DEFAULT_CORPUS_VERSION = "v2"
 VARIANTS = ("il", "il_us")
 SUBSETS = ("plain", "niqqud")
 LINE_INDEX_SCHEMA = "pby_line_index.v1"
@@ -69,6 +76,8 @@ class BuildConfig:
     niqqud_threshold: float = DEFAULT_NIQQUD_THRESHOLD
     genres: Sequence[str] = DEFAULT_GENRES
     max_lines_per_work: int | None = None
+    # Names the corpus files (pby_lines_<variant>_<subset>_<version>.txt).
+    corpus_version: str = "v1"
     screen_terms: Sequence[str] = ()
     screen_terms_source: str | None = None
     # A fit function returns a failure reason or None; None skips the check.
@@ -230,8 +239,8 @@ def _write_jsonl_gz(path: Path, rows: Iterable[dict[str, Any]], *, compact: bool
             handle.write((json.dumps(row, ensure_ascii=False, sort_keys=True, separators=separators) + "\n").encode("utf-8"))
 
 
-def corpus_file_name(variant: str, subset: str) -> str:
-    return f"pby_lines_{variant}_{subset}_v1.txt"
+def corpus_file_name(variant: str, subset: str, version: str = "v1") -> str:
+    return f"pby_lines_{variant}_{subset}_{version}.txt"
 
 
 def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None) -> dict[str, Any]:
@@ -275,7 +284,7 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
     for variant in VARIANTS:
         for subset in SUBSETS:
             selected = [line for line in corpus if line.subset == subset and (variant == "il" or line.pd_us)]
-            name = corpus_file_name(variant, subset)
+            name = corpus_file_name(variant, subset, config.corpus_version)
             _write_lines(output / name, (line.text for line in selected))
             lengths = [len(line.text) if subset == "plain" else len(strip_marks(line.text)) for line in selected]
             profile = length_profile(lengths)
@@ -379,6 +388,7 @@ def _card(
             "length_profile_source": config.length_profile_source,
             "fit_check": config.fit_provenance if config.fit is not None else {"ran": False},
         },
+        "corpus_version": config.corpus_version,
         "parameters": {
             "as_of": config.as_of,
             "seed": config.seed,

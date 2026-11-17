@@ -21,7 +21,7 @@ def test_cli_build_without_fit_check(mini_dump, mini_creators, mini_leakage, tmp
         ]
     )
     assert code == 0
-    assert "pby_lines_il_plain_v1.txt:" in capsys.readouterr().out
+    assert "pby_lines_il_plain_v2.txt:" in capsys.readouterr().out
     card = json.loads((output / "corpus_card.json").read_text(encoding="utf-8"))
     assert card["parameters"]["max_lines_per_work"] is None
     assert card["inputs"]["fit_check"] == {"ran": False}
