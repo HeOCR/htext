@@ -28,6 +28,11 @@ def _length_profile(path: Path | None) -> tuple[list[int], str]:
 
 
 def _build(args: argparse.Namespace) -> int:
+    if not args.reserved and not args.no_reservations:
+        raise SystemExit(
+            "pass eval's reservations with --reserved (heocr-restricted-eval reservations/eval_reservations_v1.json), "
+            "or --no-reservations for an experiment that will not be published"
+        )
     lengths, profile_source = _length_profile(args.length_profile)
     fit = None
     allow_maqaf = False
@@ -92,6 +97,10 @@ def main(argv: list[str] | None = None) -> int:
     build_parser.add_argument(
         "--reserved", type=Path, action="append", default=[],
         help="an htext_reservations.v1 file of eval-reserved works (repeatable); reserved works are left out whole",
+    )
+    build_parser.add_argument(
+        "--no-reservations", action="store_true",
+        help="build without eval reservations (experiments only; the card records that none were loaded)",
     )
     build_parser.add_argument("--as-of", type=int, default=2026)
     build_parser.add_argument("--seed", type=int, default=15)

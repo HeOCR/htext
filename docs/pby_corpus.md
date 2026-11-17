@@ -32,7 +32,8 @@ git -C dumps/pby checkout 5e4277fead7b565f32cc4b352abd3565023a77d8
 ```bash
 python -m pip install --no-binary Pillow -C raqm=enable "Pillow>=10"
 python -m pip install -e ".[fit]"
-htext pby build --dump dumps/pby --output out/pby-v1
+htext pby build --dump dumps/pby --output out/pby-v1 \
+  --reserved ~/clones/heocr-restricted-eval/reservations/eval_reservations_v1.json
 ```
 
 The build reads no network. Defaults: `--as-of 2026`, `--seed 15`,
@@ -166,12 +167,15 @@ The rights fields are the project's reading of the law, not legal advice.
    - The fixtures are hash-only, so tests stay offline. They also hash each
      protected line's niqqud-stripped form. The `hocrgen` hashes are a superset
      of `hocrsyngen`'s S13a fixture.
-   - **Eval reservations.** `--reserved FILE` (repeatable) loads an
-     `htext_reservations.v1` file (`htext.reservations`). Every work it lists
-     is left out whole, whatever its rights or genre, and counted as
-     `works_skipped:eval_reserved`. A reservation file may stay in eval's
-     restricted repository. The card then records its set, registry, sha256
-     and per-source count, but never the work ids.
+   - **Eval reservations.** `--reserved FILE` (repeatable) loads eval's
+     `reservations/eval_reservations_v1.json` from heocr-restricted-eval
+     (schema `heocr_eval_reservations.v1`), or an `htext_reservations.v1`
+     file (`htext.reservations`). Every reserved PBY work is left out whole,
+     whatever its rights or genre, and counted as `works_skipped:eval_reserved`.
+     A CLI build refuses to run without `--reserved`, unless `--no-reservations`
+     is given; that is for experiments only, and the card then records that no
+     reservations were loaded. The card records each set's name, the file's
+     sha256 and per-source counts, but never the reserved ids.
    - **Scope of the exclusion list.** `pby_excluded_works` lists the works
      with lines in *this* corpus. Other HeOCR training lists also draw on PBY
      works, for example lines aligned to NLI scans of the same books. So a set

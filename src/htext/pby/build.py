@@ -495,7 +495,7 @@ def render_card(card: dict[str, Any]) -> str:
         "- Eval reservations: works reserved by HeOCR's evaluation are left out whole. "
         + (
             "; ".join(
-                f"set `{row['set']}` ({row['registry']}): {', '.join(f'{n} {src}' for src, n in row['works'].items())} works, file sha256 `{row['sha256'][:12]}`"
+                f"set `{row['set']}`: {', '.join(f'{n} {src}' for src, n in row['units'].items())} units, file sha256 `{row['sha256'][:12]}`"
                 for row in card["inputs"]["eval_reservations"]
             )
             or "none loaded."

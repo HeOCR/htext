@@ -200,19 +200,36 @@ used.
 
 ### Reservations received
 
-- **PS-v1, the print-and-scan set** (heocr-eval, 2026-11-18, registered in heocr-restricted-eval#30). Its parts:
-  - four PBY works, excluded whole, in every release;
-  - a hash fixture over all twelve printed pages, PBY prose and 2026 Reshumot legislation.
+- **Source of truth.** Eval's `reservations/eval_reservations_v1.json` in heocr-restricted-eval (#31), schema
+  `heocr_eval_reservations.v1`. It holds identifiers only, never reference text. htext reads it as it is
+  (`htext.reservations`), and every builder passes it with `--reserved`. A unit it lists is excluded whole, in every
+  release. The loader fails closed on any field it does not recognise.
+- **What it reserves** (2026-11-18, as htext reads it):
 
-  None of the four works has lines in `pby` v1. Three of them are in genres that v1 skipped (reference, drama),
-  which `pby` v2 reviews, so the reservation matters from v2 on. The fixture applies to PBY corpora by line and by
-  word 3-gram. For legal corpora, a word 3-gram match on legal formulas would drop far too much, so the fixture is
-  applied by line, and the reserved legislation is excluded by document. Each legal builder PR records which mode it
-  used.
-- **How reservations enter a build:** `htext.reservations` (whole works, `--reserved`) and the hash fixtures
-  (`--leakage`). Both may be read from eval's restricted repository at build time. Cards record their sha256 and
-  counts, never the reserved ids. Before any reserved id is committed to this public repository, eval and lead must
-  agree to it.
+  | Unit kind | Units | Sets |
+  | --- | ---: | --- |
+  | PBY works | 4 | PS-v1 print-and-scan |
+  | Reshumot booklets, scanned or born-digital | 226 | PS-v1, mid-century, P-mod, D-bench text pool |
+  | Knesset plenary sittings (K1–25) | 138 | mid-century, P-mod |
+  | Knesset committee protocols | 7 | P-mod (committees are out of htext anyway) |
+  | Hebrew Wikisource Indexes | 28 | P-hist audit2, line_verify |
+  | NLI records aligned to PBY books | 2 | line_verify |
+
+  Pages and lines are cut to their unit, so a reserved Wikisource page reserves its whole Index, and a reserved
+  aligned line reserves its whole NLI record. Scanned and born-digital Reshumot are the same booklets.
+- **Fixtures.** The PS-v1 fixture covers the twelve printed pages. The D-bench fixture covers the 83 born-digital
+  booklets' text pool (17,779 lines). Both are in htext's leakage format and are passed with `--leakage`.
+  PBY corpora apply fixtures by line and by word 3-gram. Legal corpora apply them by line and exclude reserved
+  booklets and sittings whole, because a word 3-gram match on legal formulas would drop far too much. Each legal
+  builder PR records which mode it used.
+- **Standing rule** (eval and htext, 2026-11-18). A source that eval might use gets its reservation from eval before
+  htext publishes any corpus built from it. New eval sets arrive as a new version of eval's file.
+- **Ids stay private.** Cards record each set's name, the file's sha256 and counts, never the reserved ids.
+- **Open: PBY works behind line_verify.** Two line_verify units are NLI records aligned to PBY books. Before `pby`
+  v2, eval names the PBY work behind each, so that the work is reserved too.
+- **Exposure through other routes.** `pby_excluded_works` lists only the works with lines in htext. PBY works also
+  reach training through other lists, for example lines aligned to NLI scans of the same books. A set meant to be
+  safe for evaluation is checked against those lists too.
 
 ## Order of work
 
@@ -221,7 +238,7 @@ One builder per PR, each branched from `main`, with tests that need no network a
 1. this plan;
 2. shared machinery: the rights record, the release guard and its tests, and the PBY card re-emitted;
 3. `pby` v2;
-4. `knesset-laws`, then `knesset-plenary` (once eval's reservations arrive);
+4. `knesset-laws`, then `knesset-plenary` (eval's reservations: received 2026-11-18);
 5. `tanakh`;
 6. `sefaria-pd`, then `sefaria-by` and `sefaria-by-sa` from the same fetcher;
 7. `wikisource` (`htext-by-sa`);
