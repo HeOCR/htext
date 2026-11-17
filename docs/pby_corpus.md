@@ -32,13 +32,14 @@ git -C dumps/pby checkout 5e4277fead7b565f32cc4b352abd3565023a77d8
 ```bash
 python -m pip install --no-binary Pillow -C raqm=enable "Pillow>=10"
 python -m pip install -e ".[fit]"
-htext pby build --dump dumps/pby --output out/pby-v1 \
-  --reserved ~/clones/heocr-restricted-eval/reservations/eval_reservations_v1.json
+htext pby build --dump dumps/pby --output out/pby-v2 \
+  --reserved ~/clones/heocr-restricted-eval/reservations/eval_reservations_v2.json \
+  --leakage <dir with data/leakage/*.hashes.json and eval's fixtures>
 ```
 
 The build reads no network. Defaults: `--as-of 2026`, `--seed 15`,
-`--niqqud-threshold 0.5`, `--max-lines-per-work 200`, the §7.5 genre
-allowlist, and the S10b training text in `hocrsyngen` as the length profile.
+`--niqqud-threshold 0.5`, `--corpus-version v2`, no per-work cap
+(`--max-lines-per-work 0`), the v2 genre allowlist, and the S10b training text in `hocrsyngen` as the length profile.
 `--no-fit-check` skips the wrap check (for experiments only). The card records
 that the check did not run.
 
@@ -55,8 +56,13 @@ rules are conservative:
 - several death claims give the latest.
 
 The catalogue writes `Q0` for "no item"; that is treated as no QID. The
-`manual` list resolves a creator without a QID by name. Each manual row needs
-a death year and a citable source, and it ships empty.
+`manual` list resolves, by name, a creator without a QID or whose Wikidata item
+has no death year; a Wikidata death year always wins. Each manual row needs a
+death year and a citable source. Since v2 it holds 139 reviewed rows, for the
+creators who blocked the most works. 138 died by 1955 and one in 1970. Most
+sources are the creator's PBY author page. A creator known only by period
+gets the latest year the period allows. Rerunning the fetch script keeps the
+manual rows.
 
 ## What a build writes
 
@@ -149,10 +155,13 @@ The rights fields are the project's reading of the law, not legal advice.
    - Every other segment goes to the plain subset in its stripped form.
      Leftover marks in `txt_stripped/` (qamats qatan, rafe) are removed.
 5. **Register.**
-   - The genre allowlist is prose, article, memoir, letters, fables and poetry.
+   - The genre allowlist is prose, article, memoir, letters, fables and poetry
+     (v1), plus reference and drama (v2). Lexicon entries stay out.
    - Lines are deduplicated on their plain form across the whole build.
-   - A per-work cap (200 by default, sampled deterministically) keeps long
-     works from dominating.
+   - A per-work cap (`--max-lines-per-work`, sampled deterministically) can
+     keep long works from dominating. v1 used 200. Since v2 there is no
+     build-time cap: the line index keeps `pby_work_id`, so a per-work share
+     is a mix-time choice.
    - The content screen (`--screen-terms`) drops lines containing any listed
      term. By maintainer decision no list ships and a default build screens
      nothing: HeOCR has to read real historical text as written. The card says
@@ -184,8 +193,9 @@ The rights fields are the project's reading of the law, not legal advice.
 
 ## Open items
 
-- **Manual creator rows:** 2,781 works lack a usable death year. The largest
-  groups are medieval and early-modern poets without a QID in the catalogue.
+- **Manual creator rows:** in v1, 2,781 works lacked a usable death year.
+  v2 adds rows for the top 150 creators: 139 are settled, and 11 are living,
+  unknown or unsure. Rows for the remaining 225 creators can follow.
 - **First-publication years:** sourcing these would widen `il_us`.
 
 ## Published build (`v1`)
