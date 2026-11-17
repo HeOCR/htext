@@ -21,6 +21,7 @@ Every reserved id is normalised to a ``(source, id)`` pair:
 | ``pby_work_ids`` | ``pby`` | the work id |
 | ``reshumot_booklets`` ``{series: [n]}`` | ``reshumot`` | ``<series>_<n>`` |
 | ``reshumot_born_digital_booklets`` | ``reshumot`` | the booklet id, ``<series>_<n>`` |
+| ``hash_source_ids`` | ``hash`` | the HASH unit id (htext builds no HASH text) |
 | ``unit_ids`` / ``item_ids`` ``prefix:rest`` | ``prefix`` | ``rest``, cut to its unit |
 
 A Reshumot booklet is one document whether eval uses its scan or its born-digital
@@ -51,7 +52,7 @@ SCHEMA = "htext_reservations.v1"
 EVAL_SCHEMA = "heocr_eval_reservations.v1"
 
 # Fields of an eval set that carry no ids.
-_EVAL_METADATA = {"set", "registration", "fixture", "splits", "labels", "note", "source_pages"}
+_EVAL_METADATA = {"set", "registration", "fixture", "splits", "labels", "note", "source_pages", "pby_work_ids_basis"}
 # Item ids are cut to their unit: a Wikisource page to its Index, an aligned line to its record.
 _UNIT_OF_ITEM = (
     re.compile(r"^(ws_index_\d+)__p\d+(?:#L\d+)?$"),
@@ -89,6 +90,9 @@ def _eval_set_ids(row: dict[str, Any], where: str) -> list[tuple[str, str]]:
             ids += [("reshumot", f"{series}_{number}") for series, numbers in value.items() for number in numbers]
         elif key == "reshumot_born_digital_booklets":
             ids += [("reshumot", str(booklet)) for booklet in value]
+        elif key == "hash_source_ids":
+            # HASH handwriting units; htext builds no HASH text, but they are read so the reservation stays complete.
+            ids += [("hash", str(unit)) for unit in value]
         elif key in ("unit_ids", "item_ids"):
             ids += [_prefixed(item, where) for item in value]
         else:

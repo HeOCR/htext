@@ -22,7 +22,8 @@ def _write(path: Path, works, **overrides) -> Path:
 
 
 def _eval_file(path: Path, sets) -> Path:
-    path.write_text(json.dumps({"schema": EVAL_SCHEMA, "owner": "eval", "as_of": "2026-11-18", "reservations": sets}), encoding="utf-8")
+    path.write_text(json.dumps({"schema": EVAL_SCHEMA, "owner": "eval", "as_of": "2026-11-18", "reservations": sets,
+                               "supersedes": {"file": "v1.json", "sha256": "0"}}), encoding="utf-8")
     return path
 
 
@@ -35,7 +36,8 @@ EVAL_SETS = [
     {"set": "dbench", "source_pages": 750, "note": "n", "reshumot_born_digital_booklets": ["kovetz_hatakanot_100", "sefer_hachukim_7"]},
     {"set": "phist", "labels": {"file": "l.json", "sha256": "0"},
      "item_ids": ["wikisource_he_proofread:ws_index_1725257__p0003", "wikisource_he_proofread:ws_index_1725257__p0011"]},
-    {"set": "line_verify", "item_ids": ["benyehuda_nli_aligned:nli_990018546440205171__c0014#L017", "wikisource_he_proofread:ws_index_42__p0002#L005"]},
+    {"set": "handwriting", "registration": "r", "note": "n", "hash_source_ids": ["hash_a", "hash_b"]},
+    {"set": "line_verify", "pby_work_ids": [3, 4], "pby_work_ids_basis": "alignment", "item_ids": ["benyehuda_nli_aligned:nli_990018546440205171__c0014#L017", "wikisource_he_proofread:ws_index_42__p0002#L005"]},
 ]
 
 
@@ -50,7 +52,9 @@ def test_load_and_lookup(tmp_path):
 
 def test_eval_schema_is_read_and_items_are_cut_to_units(tmp_path):
     reservations = Reservations.load([_eval_file(tmp_path / "eval.json", EVAL_SETS)])
-    assert reservations.units["pby"] == {"2", "77"}
+    # v2 adds the PBY works behind line_verify's aligned records, and HASH units.
+    assert reservations.units["pby"] == {"2", "77", "3", "4"}
+    assert reservations.units["hash"] == {"hash_a", "hash_b"}
     # Scanned and born-digital Reshumot are the same booklets.
     assert reservations.units["reshumot"] == {"kovetz_hatakanot_100", "kovetz_hatakanot_101", "yalkut_hapirsumim_5", "sefer_hachukim_7", "sefer_hachukim_9"}
     assert "reshumot_scanned" not in reservations.units

@@ -204,7 +204,17 @@ used.
   `heocr_eval_reservations.v1`. It holds identifiers only, never reference text. htext reads it as it is
   (`htext.reservations`), and every builder passes it with `--reserved`. A unit it lists is excluded whole, in every
   release. The loader fails closed on any field it does not recognise.
-- **What it reserves** (2026-11-18, as htext reads it):
+- **Pins** (repository commit plus file sha256; cards record the file sha256):
+
+  | File in heocr-restricted-eval | Commit | sha256 |
+  | --- | --- | --- |
+  | `reservations/eval_reservations_v1.json` | `7190455e7492ee2674768e09af74b87dd7e38b6d` | `6952c8d5e93b3c2118dbc1031db844d142b83a795252c9eba00659c165a1b4a5` |
+  | `reservations/dbench_text_pool.hashes.json` | `7190455e7492ee2674768e09af74b87dd7e38b6d` | `6b5a0b8188d8ed44c01d13c0ed00998c8c67911f86e53d95dc5cd25e6556e9b7` |
+  | `preregistration/print_scan_PS-v1_2026-11-18/htext_leakage_ps_v1.hashes.json` | `876f3dc284531ac339fc5ec6de3dc0f0d1520d9a` | `adc0559fcce29c53eff43f6f323cfd68c6ceccc06d49d79d05f046ccbc8aa10f` |
+
+  `eval_reservations_v2.json` (heocr-restricted-eval#34) supersedes v1. It is pinned here once it merges, and
+  `pby` v2 is built against it.
+- **What it reserves** (v1, 2026-11-18, as htext reads it):
 
   | Unit kind | Units | Sets |
   | --- | ---: | --- |
@@ -225,8 +235,12 @@ used.
 - **Standing rule** (eval and htext, 2026-11-18). A source that eval might use gets its reservation from eval before
   htext publishes any corpus built from it. New eval sets arrive as a new version of eval's file.
 - **Ids stay private.** Cards record each set's name, the file's sha256 and counts, never the reserved ids.
-- **Open: PBY works behind line_verify.** Two line_verify units are NLI records aligned to PBY books. Before `pby`
-  v2, eval names the PBY work behind each, so that the work is reserved too.
+- **v2 additions.**
+  - line_verify's two NLI records now name their PBY works, which gives 10 more PBY works, held out whole. The reader
+    takes `pby_work_ids` from any set.
+  - A handwriting set adds 34 HASH units (`hash_source_ids`). htext builds no HASH text, but the reader keeps them,
+    so the reservation is complete.
+  - With v2, htext reads 14 PBY works.
 - **Exposure through other routes.** `pby_excluded_works` lists only the works with lines in htext. PBY works also
   reach training through other lists, for example lines aligned to NLI scans of the same books. A set meant to be
   safe for evaluation is checked against those lists too.
