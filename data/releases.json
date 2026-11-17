@@ -1,0 +1,16 @@
+{
+  "schema": "htext_releases.v1",
+  "note": "Which htext release (decision 0022) each published corpus version belongs to. tests/test_release.py checks it against every card under data/.",
+  "corpora": [
+    {
+      "corpus": "pby",
+      "version": "v1",
+      "card": "data/pby/v1/corpus_card.json",
+      "release_tag": "pby-v1",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
+    }
+  ]
+}

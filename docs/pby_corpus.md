@@ -96,6 +96,14 @@ Rights are computed per work against `as_of`:
 - **PBY's own flag:** `pby_public_domain` is true for every row, with the
   dump LICENSE as its basis. It never sets `pd_israel` on its own.
 
+- **Release fields** (decision 0022, from builds after `v1`): every rights
+  row also carries `source_licence: "Public Domain"`, `htext_release: "cc0"`,
+  the PBY `credit` and `text_quality: "transcription"`. The build passes every
+  work with lines through `htext.release.ReleaseGuard("cc0")`, and the card
+  records the guard's summary under `release`. The published `v1` files predate
+  these fields; [`data/releases.json`](../data/releases.json) records `v1` as
+  `htext-cc0`.
+
 The rights fields are the project's reading of the law, not legal advice.
 
 ## Lines (§7)

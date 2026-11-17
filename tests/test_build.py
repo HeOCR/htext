@@ -141,6 +141,11 @@ def test_exclusion_list_and_card(built):
     assert card["inputs"]["fit_check"] == {"ran": False}
     markdown = (output / "CORPUS_CARD.md").read_text(encoding="utf-8")
     assert card["credit"] == {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
+    # Decision 0022: a PBY build is htext-cc0, and every entry says so.
+    assert card["htext_release"] == "cc0" and card["text_quality"] == "transcription"
+    assert card["release"]["release_name"] == "htext-cc0"
+    assert set(card["release"]["source_licences"]) == {"Public Domain"}
+    assert "Release: `htext-cc0` (CC0-1.0)" in (output / "CORPUS_CARD.md").read_text(encoding="utf-8")
     assert "Credit: [Project Ben-Yehuda volunteers](https://benyehuda.org)." in markdown
     assert "test/protected" in markdown
     assert "No words are filtered by default" in markdown
@@ -163,3 +168,13 @@ def test_fit_failures_and_cap_drop_lines(mini_dump, mini_creators, mini_leakage,
     assert card["pipeline"]["segments_dropped:per_work_cap"] > 0
     index = [json.loads(row) for row in _gz_text(tmp_path / "fit" / "pby_line_index.v1.jsonl.gz").splitlines()]
     assert max(sum(row["pby_work_id"] == work for row in index) for work in (1, 2, 8)) <= 2
+
+
+def test_rights_index_entries_carry_their_release(built):
+    output, _ = built
+    rows = [json.loads(line) for line in _gz_text(output / "pby_rights_index.v1.jsonl.gz").splitlines()]
+    assert rows and all(
+        row["source_licence"] == "Public Domain" and row["htext_release"] == "cc0" and row["text_quality"] == "transcription"
+        for row in rows
+    )
+    assert all(row["credit"] == {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"} for row in rows)

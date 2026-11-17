@@ -44,6 +44,15 @@ ND text is in none of them, and no line crosses releases.
   the build, and their results are committed as pinned, reviewed files.
 - **Leakage checks.** Corpus lines must not overlap HeOCR evaluation text.
   Each corpus card says which checks ran.
+- **One release per licence** (decision 0022). Every entry records its
+  `source_licence` (the source's exact label), the `htext_release` that label
+  maps to (`cc0`, `by` or `by-sa`), its `credit` and its `text_quality`
+  (`transcription` or `ocr_layer`). `htext.release` holds the label map and
+  the guard every corpus writer calls; NC, ND, unknown and unlisted labels are
+  refused, and a build admits only entries of its own release.
+  [`data/releases.json`](data/releases.json) lists each published corpus
+  version and its release. Lines with `text_quality: ocr_layer` never feed
+  word lists, lexicons or dawgs.
 - **Rights are per entry.** A corpus variant includes an entry only if its
   rights record passes that variant's rule. The rights fields are the
   project's reading of the law, not legal advice.
