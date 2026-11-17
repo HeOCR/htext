@@ -16,6 +16,7 @@ from htext import __version__
 from htext.hebrew import nfc, strip_marks
 from htext.leakage import Protected, sha256_text
 from htext.release import Credit, ReleaseGuard, release_fields
+from htext.reservations import Reservations
 from htext.pby import PBY_ATTRIBUTION, PBY_CREDIT, PBY_DUMP_COMMIT, PBY_DUMP_VERSION, PBY_LICENCE, PBY_REPOSITORY, PBY_URL
 from htext.pby.catalogue import Work, read_catalogue
 from htext.pby.rights import RIGHTS_SCHEMA, Creators, rights_record
@@ -61,6 +62,8 @@ class BuildConfig:
     output: Path
     length_profile: Sequence[int]
     length_profile_source: str
+    # Whole-work eval reservations (htext.reservations); each file may live outside the repo.
+    reservations: Sequence[Path] = ()
     as_of: int = 2026
     seed: int = 15
     niqqud_threshold: float = DEFAULT_NIQQUD_THRESHOLD
@@ -236,6 +239,7 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
     works = read_catalogue(config.dump / "pseudocatalogue.csv")
     creators = Creators.load(config.creators)
     protected = Protected.load(config.leakage_fixtures)
+    reservations = Reservations.load(config.reservations)
     records = {work.work_id: rights_record(work, creators, as_of=config.as_of) for work in works}
     # Decision 0022: every entry carries its licence, release and credit; the
     # guard admits only htext-cc0 entries into this build.
@@ -249,6 +253,9 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
     genres = set(config.genres)
     for number, work in enumerate(works, 1):
         record = records[work.work_id]
+        if reservations.reserved("pby", work.work_id):
+            stats["works_skipped:eval_reserved"] += 1
+            continue
         if work.genre not in genres:
             stats["works_skipped:genre"] += 1
             continue
@@ -368,6 +375,7 @@ def _card(
         "inputs": {
             "creators_json_sha256": _sha256_file(config.creators),
             "leakage_fixtures": Protected.load(config.leakage_fixtures).sources,
+            "eval_reservations": Reservations.load(config.reservations).card(),
             "length_profile_source": config.length_profile_source,
             "fit_check": config.fit_provenance if config.fit is not None else {"ran": False},
         },
@@ -484,6 +492,14 @@ def render_card(card: dict[str, Any]) -> str:
         f"- Length profile source: {card['inputs']['length_profile_source']}.",
         "- Leakage: no line, and no word 3-gram, is shared with these protected texts (pointed and stripped forms):",
         *(f"  - `{fixture['repository']}` `{fixture['path']}` @ `{fixture['commit'][:12]}`" for fixture in card["inputs"]["leakage_fixtures"]),
+        "- Eval reservations: works reserved by HeOCR's evaluation are left out whole. "
+        + (
+            "; ".join(
+                f"set `{row['set']}`: {', '.join(f'{n} {src}' for src, n in row['units'].items())} units, file sha256 `{row['sha256'][:12]}`"
+                for row in card["inputs"]["eval_reservations"]
+            )
+            or "none loaded."
+        ),
         "",
         "## Pipeline counts",
         "",

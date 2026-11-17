@@ -198,6 +198,53 @@ used.
 - **Standing rule (proposed).** Before a corpus from a source that eval also draws on is published, eval confirms
   that its reservations are in the fixtures.
 
+### Reservations received
+
+- **Source of truth.** Eval's `reservations/eval_reservations_v1.json` in heocr-restricted-eval (#31), schema
+  `heocr_eval_reservations.v1`. It holds identifiers only, never reference text. htext reads it as it is
+  (`htext.reservations`), and every builder passes it with `--reserved`. A unit it lists is excluded whole, in every
+  release. The loader fails closed on any field it does not recognise.
+- **Pins** (repository commit plus file sha256; cards record the file sha256):
+
+  | File in heocr-restricted-eval | Commit | sha256 |
+  | --- | --- | --- |
+  | `reservations/eval_reservations_v1.json` | `7190455e7492ee2674768e09af74b87dd7e38b6d` | `6952c8d5e93b3c2118dbc1031db844d142b83a795252c9eba00659c165a1b4a5` |
+  | `reservations/dbench_text_pool.hashes.json` | `7190455e7492ee2674768e09af74b87dd7e38b6d` | `6b5a0b8188d8ed44c01d13c0ed00998c8c67911f86e53d95dc5cd25e6556e9b7` |
+  | `preregistration/print_scan_PS-v1_2026-11-18/htext_leakage_ps_v1.hashes.json` | `876f3dc284531ac339fc5ec6de3dc0f0d1520d9a` | `adc0559fcce29c53eff43f6f323cfd68c6ceccc06d49d79d05f046ccbc8aa10f` |
+
+  `eval_reservations_v2.json` (heocr-restricted-eval#34) supersedes v1. It is pinned here once it merges, and
+  `pby` v2 is built against it.
+- **What it reserves** (v1, 2026-11-18, as htext reads it):
+
+  | Unit kind | Units | Sets |
+  | --- | ---: | --- |
+  | PBY works | 4 | PS-v1 print-and-scan |
+  | Reshumot booklets, scanned or born-digital | 226 | PS-v1, mid-century, P-mod, D-bench text pool |
+  | Knesset plenary sittings (K1–25) | 138 | mid-century, P-mod |
+  | Knesset committee protocols | 7 | P-mod (committees are out of htext anyway) |
+  | Hebrew Wikisource Indexes | 28 | P-hist audit2, line_verify |
+  | NLI records aligned to PBY books | 2 | line_verify |
+
+  Pages and lines are cut to their unit, so a reserved Wikisource page reserves its whole Index, and a reserved
+  aligned line reserves its whole NLI record. Scanned and born-digital Reshumot are the same booklets.
+- **Fixtures.** The PS-v1 fixture covers the twelve printed pages. The D-bench fixture covers the 83 born-digital
+  booklets' text pool (17,779 lines). Both are in htext's leakage format and are passed with `--leakage`.
+  PBY corpora apply fixtures by line and by word 3-gram. Legal corpora apply them by line and exclude reserved
+  booklets and sittings whole, because a word 3-gram match on legal formulas would drop far too much. Each legal
+  builder PR records which mode it used.
+- **Standing rule** (eval and htext, 2026-11-18). A source that eval might use gets its reservation from eval before
+  htext publishes any corpus built from it. New eval sets arrive as a new version of eval's file.
+- **Ids stay private.** Cards record each set's name, the file's sha256 and counts, never the reserved ids.
+- **v2 additions.**
+  - line_verify's two NLI records now name their PBY works, which gives 10 more PBY works, held out whole. The reader
+    takes `pby_work_ids` from any set.
+  - A handwriting set adds 34 HASH units (`hash_source_ids`). htext builds no HASH text, but the reader keeps them,
+    so the reservation is complete.
+  - With v2, htext reads 14 PBY works.
+- **Exposure through other routes.** `pby_excluded_works` lists only the works with lines in htext. PBY works also
+  reach training through other lists, for example lines aligned to NLI scans of the same books. A set meant to be
+  safe for evaluation is checked against those lists too.
+
 ## Order of work
 
 One builder per PR, each branched from `main`, with tests that need no network and green CI:
@@ -205,7 +252,7 @@ One builder per PR, each branched from `main`, with tests that need no network a
 1. this plan;
 2. shared machinery: the rights record, the release guard and its tests, and the PBY card re-emitted;
 3. `pby` v2;
-4. `knesset-laws`, then `knesset-plenary` (once eval's reservations arrive);
+4. `knesset-laws`, then `knesset-plenary` (eval's reservations: received 2026-11-18);
 5. `tanakh`;
 6. `sefaria-pd`, then `sefaria-by` and `sefaria-by-sa` from the same fetcher;
 7. `wikisource` (`htext-by-sa`);
