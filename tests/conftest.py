@@ -83,7 +83,7 @@ WORKS = [
     (3, "/p1/m3", "תרגום", "סופר ראשון", "מתרגם שלישי", "https://wikidata.org/wiki/Q1", "https://wikidata.org/wiki/Q3", "de", "prose", ""),
     (4, "/p4/m4", "עלום", "אלמוני/ת", "", "", "", "", "prose", ""),
     (5, "/p5/m5", "בלי מזהה", "כותב חמישי", "", "https://wikidata.org/wiki/Q0", "", "", "prose", ""),
-    (6, "/p1/m6", "מילון", "סופר ראשון", "", "https://wikidata.org/wiki/Q1", "", "", "reference", ""),
+    (6, "/p1/m6", "מילון", "סופר ראשון", "", "https://wikidata.org/wiki/Q1", "", "", "lexicon", ""),
     (7, "/p1/m7", "שבור", "סופר ראשון", "", "https://wikidata.org/wiki/Q1", "", "", "prose", "1890"),
     (8, "/p2/m8", "דליפה", "משורר שני", "", "https://wikidata.org/wiki/Q2", "", "", "poetry", ""),
 ]

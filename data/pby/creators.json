@@ -8148,5 +8148,1257 @@
       "wikidata_revision": 2542834816
     }
   ],
-  "manual": []
+  "manual": [
+    {
+      "name": "אביב ברזלי",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3028",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3028",
+      "note": "PBY (1931‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "אברהם אריה הויזמן",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3053",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3053",
+      "note": "PBY (1923‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "אברהם בן חלפון",
+      "death_year": 1700,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/722",
+      "wikidata_qid": null,
+      "pby_author_page_id": "722",
+      "note": "PBY dates only \"(ה-ה)\"; PBY period Middle Ages/Renaissance (to 1700); early Yemenite poet"
+    },
+    {
+      "name": "אברהם בן שמואל",
+      "death_year": 1300,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1539",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1539",
+      "note": "PBY: second half 13th c."
+    },
+    {
+      "name": "אברהם גלמן",
+      "death_year": 1937,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/733",
+      "wikidata_qid": null,
+      "pby_author_page_id": "733",
+      "note": "PBY (1889‏-1937)"
+    },
+    {
+      "name": "אברהם היימן חרל\"פ",
+      "death_year": 1916,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1910",
+      "wikidata_qid": "Q114692290",
+      "pby_author_page_id": "1910",
+      "note": "PBY (1861‏-1916)"
+    },
+    {
+      "name": "אברהם יצחק גולני",
+      "death_year": 1952,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1288",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1288",
+      "note": "PBY (1876‏-1952)"
+    },
+    {
+      "name": "אברהם כצ'יר",
+      "death_year": 1890,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2404",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2404",
+      "note": "PBY (1823‏-1890)"
+    },
+    {
+      "name": "אברהם קריצמן",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3153",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3153",
+      "note": "PBY (1912‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "אהרן שמי (ג'ימי)",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3170",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3170",
+      "note": "PBY (1926‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "אחיטוב בן יצחק מפלרמו",
+      "death_year": 1300,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2237",
+      "wikidata_qid": "Q6891976",
+      "pby_author_page_id": "2237",
+      "note": "PBY: Palermo, second half 13th c."
+    },
+    {
+      "name": "איתמר גולני",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1473",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1473",
+      "note": "PBY (1928‏-1948)"
+    },
+    {
+      "name": "אלדד פן",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3134",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3134",
+      "note": "PBY (1928‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "אליה בר שמעיה",
+      "death_year": 1100,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2027",
+      "wikidata_qid": "Q124365732",
+      "pby_author_page_id": "2027",
+      "note": "PBY: 11th c."
+    },
+    {
+      "name": "אליהו בלנק",
+      "death_year": 1955,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2721",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2721",
+      "note": "PBY (1887‏-1955)"
+    },
+    {
+      "name": "אליעזר צוקרמן",
+      "death_year": 1887,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1598",
+      "wikidata_qid": "Q135686935",
+      "pby_author_page_id": "1598",
+      "note": "own page 1598 (1852-1887); second id 16 is Abraham Levinson (d.1955), likely translator"
+    },
+    {
+      "name": "אלעזר בן יעקב הבבלי",
+      "death_year": 1250,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1880",
+      "wikidata_qid": "Q136188967",
+      "pby_author_page_id": "1880",
+      "note": "PBY 1195-1250"
+    },
+    {
+      "name": "אמיתי בן שפטיה",
+      "death_year": 1000,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2019",
+      "wikidata_qid": "Q3614373",
+      "pby_author_page_id": "2019",
+      "note": "9th-c. Italian paytan (PBY gives 890-); 1000 taken to be safe"
+    },
+    {
+      "name": "אמציה ברלס",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2702",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2702",
+      "note": "PBY (1913‏-1948)"
+    },
+    {
+      "name": "אסף רוזנבלום",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3160",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3160",
+      "note": "PBY (1927‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "אריה ליב יגולניצר",
+      "death_year": 1945,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/732",
+      "wikidata_qid": "Q106945280",
+      "pby_author_page_id": "732",
+      "note": "PBY (1882‏-1945)"
+    },
+    {
+      "name": "אשר למל לוי",
+      "death_year": 1853,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1319",
+      "wikidata_qid": "Q129469277",
+      "pby_author_page_id": "1319",
+      "note": "PBY (?‏-1853)"
+    },
+    {
+      "name": "בן־עמי פחטר",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3129",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3129",
+      "note": "PBY (1919‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "בנימין אלחנן",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3003",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3003",
+      "note": "PBY (1926‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "בנימין באלזאק",
+      "death_year": 1930,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2013",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2013",
+      "note": "PBY (1855‏-1930)"
+    },
+    {
+      "name": "בנימין בן אברהם מהענווים",
+      "death_year": 1300,
+      "death_year_precision": "century",
+      "source": "https://en.wikipedia.org/wiki/Benjamin_ben_Abraham_Anaw",
+      "wikidata_qid": "Q4889450",
+      "pby_author_page_id": "1904",
+      "note": "PBY 1210-1285; en.wiki: 13th-c. commentator, active from 1239; 1300 taken to be safe"
+    },
+    {
+      "name": "בנימין שפירא",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3175",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3175",
+      "note": "PBY (1914‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "ברוך אמון",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3007",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3007",
+      "note": "PBY (1927‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "בת שבע אלטשולר",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2699",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2699",
+      "note": "PBY (1928‏-1948)"
+    },
+    {
+      "name": "גליקל מהמלן",
+      "death_year": 1724,
+      "death_year_precision": "day",
+      "source": "https://www.wikidata.org/wiki/Q76993",
+      "wikidata_qid": "Q76993",
+      "pby_author_page_id": "111",
+      "note": "Glückel of Hameln; page 111 is her translator A.Z. Rabinovitz (d.1945)"
+    },
+    {
+      "name": "דוד וינברג",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3062",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3062",
+      "note": "PBY (1927‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "דוד זמושץ'",
+      "death_year": 1864,
+      "death_year_precision": "year",
+      "source": "https://www.wikidata.org/wiki/Q94643914",
+      "wikidata_qid": "Q94643914",
+      "pby_author_page_id": "99",
+      "note": "PBY 1854, WD 1864; latest taken"
+    },
+    {
+      "name": "דוד ט\"ש",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3080",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3080",
+      "note": "PBY (1928‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "דן הוכברג",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3054",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3054",
+      "note": "PBY (1931‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "ולדיסלב חודסביץ'",
+      "death_year": 1939,
+      "death_year_precision": "day",
+      "source": "https://www.wikidata.org/wiki/Q724343",
+      "wikidata_qid": "Q724343",
+      "pby_author_page_id": "141",
+      "note": "Vladislav Khodasevich (1886-1939); pages 141/57 are translators Rachel (1931) and Tchernichovsky (1943)"
+    },
+    {
+      "name": "זאב ולדימירסקי",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3067",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3067",
+      "note": "PBY (1923‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "זהר דיין",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3049",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3049",
+      "note": "PBY (1926‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "זרק ברפת",
+      "death_year": 1400,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1566",
+      "wikidata_qid": "Q105320267",
+      "pby_author_page_id": "1566",
+      "note": "PBY: active mid-14th c."
+    },
+    {
+      "name": "חיים אליעזר מושקט",
+      "death_year": 1916,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1912",
+      "wikidata_qid": "Q118912936",
+      "pby_author_page_id": "1912",
+      "note": "PBY (1851‏-1916)"
+    },
+    {
+      "name": "חיים דוד נוסבוים",
+      "death_year": 1944,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/747",
+      "wikidata_qid": "Q108096949",
+      "pby_author_page_id": "747",
+      "note": "PBY (1860‏-1944)"
+    },
+    {
+      "name": "חיים נומיס",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3116",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3116",
+      "note": "PBY (1920‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "טוביה בן משה כץ",
+      "death_year": 1898,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1730",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1730",
+      "note": "page 48 redirects home; example work 214 is credited to טוביה בן דוד כהן (1819-1898, page 1730), but catalogue name matches Tobias Cohn (d.1729); either way <=1955"
+    },
+    {
+      "name": "יהודה אבן גיאת",
+      "death_year": 1200,
+      "death_year_precision": "century",
+      "source": "https://www.wikidata.org/wiki/Q107170280",
+      "wikidata_qid": "Q107170280",
+      "pby_author_page_id": "382",
+      "note": "WD death 12th c."
+    },
+    {
+      "name": "יהודה אבן שבתי",
+      "death_year": 1225,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/198",
+      "wikidata_qid": "Q6302184",
+      "pby_author_page_id": "198",
+      "note": "PBY 1168-1225"
+    },
+    {
+      "name": "יהודה איגס",
+      "death_year": 1946,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1994",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1994",
+      "note": "PBY (1891‏-1946)"
+    },
+    {
+      "name": "יהודה אפל",
+      "death_year": 1934,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/112",
+      "wikidata_qid": "Q7045194",
+      "pby_author_page_id": "112",
+      "note": "PBY (1857‏-1934)"
+    },
+    {
+      "name": "יהודה סלומון",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3120",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3120",
+      "note": "PBY (1928‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "יהושע השל ייבין",
+      "death_year": 1970,
+      "death_year_precision": "day",
+      "source": "https://www.wikidata.org/wiki/Q12407856",
+      "wikidata_qid": "Q12407856",
+      "pby_author_page_id": "229",
+      "note": "died 1970 (>1955)"
+    },
+    {
+      "name": "יואל שטרן",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3167",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3167",
+      "note": "PBY (1920‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "יוחנן יהודה בן שלמה אלטרינו",
+      "death_year": 1600,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2284",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2284",
+      "note": "PBY: lived in Italy end of 16th c."
+    },
+    {
+      "name": "יונה הכהן רפא",
+      "death_year": 1700,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1933",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1933",
+      "note": "PBY: second half 17th c."
+    },
+    {
+      "name": "יוסי בן יוסי",
+      "death_year": 500,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1463",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1463",
+      "note": "PBY: active 4th or 5th c."
+    },
+    {
+      "name": "יוסף אבן ברזל",
+      "death_year": 1700,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/211",
+      "wikidata_qid": null,
+      "pby_author_page_id": "211",
+      "note": "medieval physician-poet; PBY period ends 1700"
+    },
+    {
+      "name": "יוסף אבן חסדאי",
+      "death_year": 1100,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/194",
+      "wikidata_qid": null,
+      "pby_author_page_id": "194",
+      "note": "PBY: born 1000, Andalusian poet; 11th c."
+    },
+    {
+      "name": "יוסף אבן ששת",
+      "death_year": 1700,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/210",
+      "wikidata_qid": "Q104193267",
+      "pby_author_page_id": "210",
+      "note": "Spanish medieval poet; PBY period ends 1700 (fl. c.1200)"
+    },
+    {
+      "name": "יוסף אליהו טריבוש",
+      "death_year": 1940,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/98",
+      "wikidata_qid": "Q105732976",
+      "pby_author_page_id": "98",
+      "note": "PBY (1855‏-1940)"
+    },
+    {
+      "name": "יוסף בן ישראל",
+      "death_year": 1600,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1878",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1878",
+      "note": "PBY: 16th-c. Yemenite poet"
+    },
+    {
+      "name": "יוסף גאנשו",
+      "death_year": 1800,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2289",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2289",
+      "note": "PBY: born first half 17th c., died Jerusalem; 1800 to be safe"
+    },
+    {
+      "name": "יוסף יהודה לרנר",
+      "death_year": 1907,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1176",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1176",
+      "note": "PBY (1847‏-1907)"
+    },
+    {
+      "name": "יוסף צרפתי",
+      "death_year": 1527,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/140",
+      "wikidata_qid": "Q137826834",
+      "pby_author_page_id": "140",
+      "note": "PBY (1470‏-1527)"
+    },
+    {
+      "name": "יחיאל אהרן אלדמע",
+      "death_year": 1955,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2938",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2938",
+      "note": "PBY (1902‏-1955)"
+    },
+    {
+      "name": "יחיאל בן יקותיאל מהענווים",
+      "death_year": 1300,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2236",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2236",
+      "note": "PBY: died end of 13th c."
+    },
+    {
+      "name": "יחיאל בר אברהם",
+      "death_year": 1070,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2028",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2028",
+      "note": "PBY 11th c.-1070"
+    },
+    {
+      "name": "יחיאל פישל קסטלמן",
+      "death_year": 1889,
+      "death_year_precision": "decade",
+      "source": "https://www.wikidata.org/wiki/Q106977964",
+      "wikidata_qid": "Q106977964",
+      "pby_author_page_id": "932",
+      "note": "WD death 1880s; PBY 1825-?"
+    },
+    {
+      "name": "יניי",
+      "death_year": 600,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1470",
+      "wikidata_qid": "Q454433",
+      "pby_author_page_id": "1470",
+      "note": "PBY: active 5th or 6th c."
+    },
+    {
+      "name": "יעקב אריאל",
+      "death_year": 1954,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2177",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2177",
+      "note": "PBY (1887‏-1954)"
+    },
+    {
+      "name": "יעקב בודק",
+      "death_year": 1855,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1327",
+      "wikidata_qid": "Q104551281",
+      "pby_author_page_id": "1327",
+      "note": "PBY (1819‏-1855)"
+    },
+    {
+      "name": "יעקב בן דוד פראנשיס",
+      "death_year": 1667,
+      "death_year_precision": "year",
+      "source": "https://www.jewishencyclopedia.com/articles/6264",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2291",
+      "note": "Jacob ben David Frances, Mantua 1615-Florence 1667 (Jewish Encyclopedia); PBY page 2291 no longer resolves"
+    },
+    {
+      "name": "יעקב בן יצחק סגרי",
+      "death_year": 1629,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2287",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2287",
+      "note": "PBY (?‏-1629)"
+    },
+    {
+      "name": "יעקב ישראל פינק",
+      "death_year": 1955,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2853",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2853",
+      "note": "PBY (1894‏-1955)"
+    },
+    {
+      "name": "יצחק אַלְאַחְדַּב",
+      "death_year": 1450,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1590",
+      "wikidata_qid": "Q25492636",
+      "pby_author_page_id": "1590",
+      "note": "PBY: first half 15th c.; WD 1420s"
+    },
+    {
+      "name": "יצחק בן אברהם הגרני",
+      "death_year": 1300,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1674",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1674",
+      "note": "PBY: second half 13th c."
+    },
+    {
+      "name": "יצחק בעל \"משלי ערב\"",
+      "death_year": 1300,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/214",
+      "wikidata_qid": "Q122881727",
+      "pby_author_page_id": "214",
+      "note": "PBY: second half 12th or early 13th c."
+    },
+    {
+      "name": "יצחק לבנה",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3094",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3094",
+      "note": "PBY (1920‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "יצחק מירקין",
+      "death_year": 1941,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/715",
+      "wikidata_qid": "Q107567079",
+      "pby_author_page_id": "715",
+      "note": "PBY (1871‏-1941)"
+    },
+    {
+      "name": "יצחק סמוטריץ'",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3122",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3122",
+      "note": "PBY (1925‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "יצחק פוחס",
+      "death_year": 1947,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3126",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3126",
+      "note": "PBY (1924‏-1947); 1948 war fallen batch"
+    },
+    {
+      "name": "יצחק שנירי",
+      "death_year": 1300,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1423",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1423",
+      "note": "PBY: active 13th c."
+    },
+    {
+      "name": "ירחמיאל בן שלמה",
+      "death_year": 1200,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2223",
+      "wikidata_qid": "Q182434",
+      "pby_author_page_id": "2223",
+      "note": "PBY: Italian scholar, 12th c."
+    },
+    {
+      "name": "ישראל נג'ארה",
+      "death_year": 1628,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/596",
+      "wikidata_qid": "Q465942",
+      "pby_author_page_id": "596",
+      "note": "PBY (1555‏-1628)"
+    },
+    {
+      "name": "ישראל שף",
+      "death_year": 1938,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1003",
+      "wikidata_qid": "Q106720939",
+      "pby_author_page_id": "1003",
+      "note": "PBY (1865‏-1938)"
+    },
+    {
+      "name": "לוי אבן אלתבאן",
+      "death_year": 1200,
+      "death_year_precision": "century",
+      "source": "https://www.wikidata.org/wiki/Q3237216",
+      "wikidata_qid": "Q3237216",
+      "pby_author_page_id": "1310",
+      "note": "PBY: second half 11th c.; WD death 12th c."
+    },
+    {
+      "name": "ליאונטי בר אברהם",
+      "death_year": 1200,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2218",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2218",
+      "note": "PBY: early 12th c."
+    },
+    {
+      "name": "מאיר פוני",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3127",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3127",
+      "note": "PBY (1926‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "מאיר פרנקל",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3142",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3142",
+      "note": "PBY (1923‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "מנחם בורשטין",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3019",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3019",
+      "note": "PBY (1930‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "מנחם טפר",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3077",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3077",
+      "note": "PBY (1926‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "מנחם שמואלי",
+      "death_year": 1911,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1837",
+      "wikidata_qid": "Q20825009",
+      "pby_author_page_id": "1837",
+      "note": "PBY (1879‏-1911)"
+    },
+    {
+      "name": "מרדכי ארקין",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3014",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3014",
+      "note": "PBY (1907‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "מרדכי דאטו",
+      "death_year": 1601,
+      "death_year_precision": "circa",
+      "source": "https://www.encyclopedia.com/religion/encyclopedias-almanacs-transcripts-and-maps/dato-mordecai-ben-judah",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2281",
+      "note": "PBY 1527-1585; EJ 1525-1591/1601; latest taken"
+    },
+    {
+      "name": "מריה שקפסקיה",
+      "death_year": 1952,
+      "death_year_precision": "day",
+      "source": "https://www.wikidata.org/wiki/Q4524920",
+      "wikidata_qid": "Q4524920",
+      "pby_author_page_id": "141",
+      "note": "Maria Shkapskaya (1891-1952); page 141 is translator Rachel (d.1931)"
+    },
+    {
+      "name": "משה בן יואב",
+      "death_year": 1530,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2276",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2276",
+      "note": "PBY (?‏-1530)"
+    },
+    {
+      "name": "משה בן יצחק מריאיטי",
+      "death_year": 1460,
+      "death_year_precision": "circa",
+      "source": "https://benyehuda.org/author/2260",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2260",
+      "note": "PBY 1398-1460"
+    },
+    {
+      "name": "משה בן קלונימוס",
+      "death_year": 1000,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2025",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2025",
+      "note": "PBY: 10th c."
+    },
+    {
+      "name": "משה בנזימן",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3024",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3024",
+      "note": "PBY (1923‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "משה גליקסון",
+      "death_year": 1939,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/135",
+      "wikidata_qid": "Q1919503",
+      "pby_author_page_id": "135",
+      "note": "PBY (1878‏-1939)"
+    },
+    {
+      "name": "משה זבלוצקי",
+      "death_year": 1932,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2346",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2346",
+      "note": "PBY (1871‏-1932)"
+    },
+    {
+      "name": "משה זכות",
+      "death_year": 1697,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2295",
+      "wikidata_qid": "Q1148266",
+      "pby_author_page_id": "2295",
+      "note": "PBY (1625‏-1697)"
+    },
+    {
+      "name": "משה חוצין",
+      "death_year": 1810,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2242",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2242",
+      "note": "PBY (?‏-1810)"
+    },
+    {
+      "name": "משה יצחק וולך",
+      "death_year": 1952,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1293",
+      "wikidata_qid": "Q104196335",
+      "pby_author_page_id": "1293",
+      "note": "PBY (1870‏-1952)"
+    },
+    {
+      "name": "משה נתן",
+      "death_year": 1367,
+      "death_year_precision": "year",
+      "source": "https://www.wikidata.org/wiki/Q27028103",
+      "wikidata_qid": "Q27028103",
+      "pby_author_page_id": "1567",
+      "note": "PBY mid-14th c.; WD 1367"
+    },
+    {
+      "name": "משה פתיא",
+      "death_year": 1866,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2370",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2370",
+      "note": "PBY (?‏-1866)"
+    },
+    {
+      "name": "משה קאטלאנו",
+      "death_year": 1661,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1140",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1140",
+      "note": "PBY (1615‏-1661)"
+    },
+    {
+      "name": "משה רובינגר",
+      "death_year": 1954,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2663",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2663",
+      "note": "PBY (1895‏-1954)"
+    },
+    {
+      "name": "משה שווייגר",
+      "death_year": 1943,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1724",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1724",
+      "note": "PBY (1892‏-1943)"
+    },
+    {
+      "name": "משלם בן שלמה דיפיארה",
+      "death_year": 1300,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1443",
+      "wikidata_qid": "Q95984523",
+      "pby_author_page_id": "1443",
+      "note": "13th-c. poet (WD born 1201); latest of 13th c."
+    },
+    {
+      "name": "מתתיה",
+      "death_year": 1500,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1630",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1630",
+      "note": "PBY: poet, full name unknown, Spain first half 15th c."
+    },
+    {
+      "name": "נחום אריאלי",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3011",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3011",
+      "note": "PBY (1927‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "נחום שושני",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3165",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3165",
+      "note": "PBY (1926‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "נחמה פוחצ'בסקי",
+      "death_year": 1934,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/70",
+      "wikidata_qid": "Q12409829",
+      "pby_author_page_id": "70",
+      "note": "PBY (1869‏-1934)"
+    },
+    {
+      "name": "נסים מצליח",
+      "death_year": 1816,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2195",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2195",
+      "note": "PBY (לא ידוע‏-1816)"
+    },
+    {
+      "name": "נעם גרוסמן",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3043",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3043",
+      "note": "PBY (1927‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "סבו גולנד",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3033",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3033",
+      "note": "PBY (1928‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "עבדאללה חנין",
+      "death_year": 1859,
+      "death_year_precision": "day",
+      "source": "https://www.wikidata.org/wiki/Q133454572",
+      "wikidata_qid": "Q133454572",
+      "pby_author_page_id": "2274",
+      "note": "PBY ?-1859; WD Aug 1859"
+    },
+    {
+      "name": "עזרא בן ששון עזרא",
+      "death_year": 1878,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2369",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2369",
+      "note": "PBY (?‏-1878)"
+    },
+    {
+      "name": "עזרא סופר",
+      "death_year": 1900,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2348",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2348",
+      "note": "PBY: scribe and paytan, first half 19th c."
+    },
+    {
+      "name": "עמנואל מנחם מידב",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3105",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3105",
+      "note": "PBY (1925‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "עמרם אוסלנדר",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2993",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2993",
+      "note": "PBY (1928‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "עקיבא פליישמן",
+      "death_year": 1929,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2134",
+      "wikidata_qid": "Q124048231",
+      "pby_author_page_id": "2134",
+      "note": "PBY (1870‏-1929)"
+    },
+    {
+      "name": "פסח קפלן",
+      "death_year": 1943,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/163",
+      "wikidata_qid": "Q6758702",
+      "pby_author_page_id": "163",
+      "note": "PBY (1870‏-1943)"
+    },
+    {
+      "name": "פסח רודרמן",
+      "death_year": 1886,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1829",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1829",
+      "note": "PBY page 1829 (1854-1886), found via example work 35732"
+    },
+    {
+      "name": "צבי גובר",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3032",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3032",
+      "note": "PBY (1931‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "צבי גלזר",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3035",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3035",
+      "note": "PBY (1928‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "רפאל ארן",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3012",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3012",
+      "note": "PBY (1928‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "שאול עבדאללה יוסף",
+      "death_year": 1906,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1801",
+      "wikidata_qid": "Q18120914",
+      "pby_author_page_id": "1801",
+      "note": "PBY (1849‏-1906)"
+    },
+    {
+      "name": "שבתי בר משה ראש כלה",
+      "death_year": 1100,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2216",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2216",
+      "note": "PBY: mid-11th c."
+    },
+    {
+      "name": "שבתי חיים מריני",
+      "death_year": 1748,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2307",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2307",
+      "note": "PBY 1690-1748"
+    },
+    {
+      "name": "שלום דב בר מקסימון",
+      "death_year": 1933,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/798",
+      "wikidata_qid": "Q108330710",
+      "pby_author_page_id": "798",
+      "note": "PBY (1881‏-1933)"
+    },
+    {
+      "name": "שלום קרניאל",
+      "death_year": 1947,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3154",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3154",
+      "note": "PBY (1912‏-1947); 1948 war fallen batch"
+    },
+    {
+      "name": "שלום שבזי",
+      "death_year": 1719,
+      "death_year_precision": "year",
+      "source": "https://www.wikidata.org/wiki/Q2916129",
+      "wikidata_qid": "Q2916129",
+      "pby_author_page_id": "146",
+      "note": "PBY page says 1686, Wikidata 1719; latest taken"
+    },
+    {
+      "name": "שלמה בר יהודה הבבלי",
+      "death_year": 1100,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/2215",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2215",
+      "note": "PBY: lived end of 10th c.; 1100 to be safe"
+    },
+    {
+      "name": "שלמה הלל'ס",
+      "death_year": 1953,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1959",
+      "wikidata_qid": "Q4138282",
+      "pby_author_page_id": "1959",
+      "note": "PBY (1873‏-1953)"
+    },
+    {
+      "name": "שלמה זרחי",
+      "death_year": 1955,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/2792",
+      "wikidata_qid": null,
+      "pby_author_page_id": "2792",
+      "note": "PBY (1905‏-1955)"
+    },
+    {
+      "name": "שלמה מאוטנר",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3102",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3102",
+      "note": "PBY (1925‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "שמואל בן יוסף אבן ששון",
+      "death_year": 1400,
+      "death_year_precision": "century",
+      "source": "https://benyehuda.org/author/1559",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1559",
+      "note": "PBY: active first half 14th c."
+    },
+    {
+      "name": "שמואל בן שלום",
+      "death_year": 1829,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/1401",
+      "wikidata_qid": null,
+      "pby_author_page_id": "1401",
+      "note": "PBY (?‏-1829)"
+    },
+    {
+      "name": "שמואל הר",
+      "death_year": 1950,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/818",
+      "wikidata_qid": null,
+      "pby_author_page_id": "818",
+      "note": "PBY page 818 (1887-1950), found via example work 24246"
+    },
+    {
+      "name": "שמואל רובינוביץ",
+      "death_year": 1948,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/3157",
+      "wikidata_qid": null,
+      "pby_author_page_id": "3157",
+      "note": "PBY (1911‏-1948); 1948 war fallen batch"
+    },
+    {
+      "name": "שמואל שרירא",
+      "death_year": 1944,
+      "death_year_precision": "year",
+      "source": "https://benyehuda.org/author/460",
+      "wikidata_qid": null,
+      "pby_author_page_id": "460",
+      "note": "PBY page 460 (1883-1944), found via example work 24246"
+    }
+  ]
 }

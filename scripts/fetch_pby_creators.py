@@ -160,7 +160,8 @@ def main() -> None:
             "allow; several death claims give the latest year"
         ),
         "creators": [creators[qid] for qid in qids],
-        "manual": [],
+        # Reviewed manual rows are kept: a refetch replaces only the Wikidata rows.
+        "manual": json.loads(args.output.read_text(encoding="utf-8")).get("manual", []) if args.output.exists() else [],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(document, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

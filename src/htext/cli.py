@@ -6,7 +6,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from htext.pby.build import DEFAULT_GENRES, DEFAULT_MAX_LINES_PER_WORK, BuildConfig, build
+from htext.pby.build import DEFAULT_CORPUS_VERSION, DEFAULT_GENRES, DEFAULT_MAX_LINES_PER_WORK, BuildConfig, build
 from htext.pby.text import DEFAULT_NIQQUD_THRESHOLD
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -72,6 +72,7 @@ def _build(args: argparse.Namespace) -> int:
         niqqud_threshold=args.niqqud_threshold,
         genres=tuple(args.genres.split(",")),
         max_lines_per_work=args.max_lines_per_work or None,
+        corpus_version=args.corpus_version,
         screen_terms=terms,
         screen_terms_source=str(args.screen_terms) if args.screen_terms else None,
         fit=fit,
@@ -106,7 +107,8 @@ def main(argv: list[str] | None = None) -> int:
     build_parser.add_argument("--seed", type=int, default=15)
     build_parser.add_argument("--niqqud-threshold", type=float, default=DEFAULT_NIQQUD_THRESHOLD)
     build_parser.add_argument("--genres", default=",".join(DEFAULT_GENRES))
-    build_parser.add_argument("--max-lines-per-work", type=int, default=DEFAULT_MAX_LINES_PER_WORK, help="0 for no cap")
+    build_parser.add_argument("--max-lines-per-work", type=int, default=DEFAULT_MAX_LINES_PER_WORK or 0, help="0 for no cap (the default since v2)")
+    build_parser.add_argument("--corpus-version", default=DEFAULT_CORPUS_VERSION, help="names the corpus files (default %(default)s)")
     build_parser.add_argument("--screen-terms", type=Path, default=None, help="content screen: one term per line")
     build_parser.add_argument("--length-profile", type=Path, default=None, help="text file whose line lengths are the target profile (default: hocrsyngen S10b train)")
     build_parser.add_argument("--hocrsyngen-commit", default=None, help="record this hocrsyngen commit when pip did not record one")

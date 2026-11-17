@@ -117,3 +117,15 @@ def test_missing_qid_and_manual_rows():
 def test_manual_rows_need_a_source():
     with pytest.raises(ValueError):
         _creators([{"name": "x", "death_year": 1890}])
+
+
+def test_manual_row_fills_a_wikidata_item_without_a_death_year():
+    manual = {"name": "סופר", "death_year": 1700, "source": "https://benyehuda.org/author/1"}
+    creators = _creators([manual])
+    # Q4 has no death year in Wikidata: the manual row for the same name applies.
+    resolved = creators.resolve(Creator("סופר", "Q4"))
+    assert resolved["death_year"] == 1700 and resolved["death_year_source"].startswith("manual:")
+    # A Wikidata death year always wins over a manual row.
+    assert creators.resolve(Creator("סופר", "Q3"))["death_year"] == 1956
+    # Without a manual row, Q4 stays unknown.
+    assert _creators().resolve(Creator("סופר", "Q4"))["death_year"] is None

@@ -75,7 +75,7 @@ def test_only_pd_israel_allowlisted_works_contribute(built):
     output, card = built
     index = [json.loads(row) for row in _gz_text(output / "pby_line_index.v1.jsonl.gz").splitlines()]
     # 1 (prose, PD), 2 (poetry, PD and pre-1931 edition), 8 (poetry, PD).
-    # 3: translator in term; 4: anonymous; 5: no QID; 6: reference genre;
+    # 3: translator in term; 4: anonymous; 5: no QID; 6: lexicon genre;
     # 7: misaligned files.
     assert {row["pby_work_id"] for row in index} == {1, 2, 8}
     assert card["pipeline"]["works_skipped:genre"] == 1
@@ -178,3 +178,19 @@ def test_rights_index_entries_carry_their_release(built):
         for row in rows
     )
     assert all(row["credit"] == {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"} for row in rows)
+
+
+def test_v2_defaults_add_reference_and_drama_and_drop_the_cap():
+    from htext.pby.build import DEFAULT_CORPUS_VERSION, DEFAULT_GENRES, DEFAULT_MAX_LINES_PER_WORK, V1_GENRES
+
+    assert set(DEFAULT_GENRES) == set(V1_GENRES) | {"reference", "drama"}
+    assert "lexicon" not in DEFAULT_GENRES
+    assert DEFAULT_MAX_LINES_PER_WORK is None and DEFAULT_CORPUS_VERSION == "v2"
+
+
+def test_corpus_version_names_the_files(mini_dump, mini_creators, mini_leakage, tmp_path):
+    output = tmp_path / "out"
+    card = build(_config(mini_dump, mini_creators, mini_leakage, output, corpus_version="v2"))
+    assert card["corpus_version"] == "v2"
+    assert set(card["files"]) == {corpus_file_name(v, s, "v2") for v in ("il", "il_us") for s in ("plain", "niqqud")}
+    assert all((output / name).exists() for name in card["files"])

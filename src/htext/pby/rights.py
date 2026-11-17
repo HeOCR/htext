@@ -118,8 +118,9 @@ class Creators:
             row["qid"]: CreatorRecord(row["qid"], row.get("death_year"), row.get("death_year_precision"), row.get("wikidata_revision"))
             for row in document["creators"]
         }
-        # Manual rows resolve creators the catalogue gives no QID. Each needs a
-        # death year and a citable source.
+        # Manual rows resolve creators the catalogue gives no QID, or whose
+        # Wikidata item has no death year. Each needs a death year and a
+        # citable source.
         self.manual = {}
         for row in document.get("manual", []):
             if not row.get("source") or not isinstance(row.get("death_year"), int):
@@ -131,7 +132,9 @@ class Creators:
         return cls(json.loads(path.read_text(encoding="utf-8")))
 
     def resolve(self, creator: Creator) -> dict[str, Any]:
-        if creator.qid and creator.qid in self.by_qid:
+        if creator.qid and creator.qid in self.by_qid and (
+            self.by_qid[creator.qid].death_year is not None or creator.name not in self.manual
+        ):
             record = self.by_qid[creator.qid]
             source = None
             if record.death_year is not None:
