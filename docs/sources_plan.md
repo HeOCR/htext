@@ -198,6 +198,22 @@ used.
 - **Standing rule (proposed).** Before a corpus from a source that eval also draws on is published, eval confirms
   that its reservations are in the fixtures.
 
+### Reservations received
+
+- **PS-v1, the print-and-scan set** (heocr-eval, 2026-11-18, registered in heocr-restricted-eval#30). Its parts:
+  - four PBY works, excluded whole, in every release;
+  - a hash fixture over all twelve printed pages, PBY prose and 2026 Reshumot legislation.
+
+  None of the four works has lines in `pby` v1. Three of them are in genres that v1 skipped (reference, drama),
+  which `pby` v2 reviews, so the reservation matters from v2 on. The fixture applies to PBY corpora by line and by
+  word 3-gram. For legal corpora, a word 3-gram match on legal formulas would drop far too much, so the fixture is
+  applied by line, and the reserved legislation is excluded by document. Each legal builder PR records which mode it
+  used.
+- **How reservations enter a build:** `htext.reservations` (whole works, `--reserved`) and the hash fixtures
+  (`--leakage`). Both may be read from eval's restricted repository at build time. Cards record their sha256 and
+  counts, never the reserved ids. Before any reserved id is committed to this public repository, eval and lead must
+  agree to it.
+
 ## Order of work
 
 One builder per PR, each branched from `main`, with tests that need no network and green CI:

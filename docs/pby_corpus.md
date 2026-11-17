@@ -166,6 +166,17 @@ The rights fields are the project's reading of the law, not legal advice.
    - The fixtures are hash-only, so tests stay offline. They also hash each
      protected line's niqqud-stripped form. The `hocrgen` hashes are a superset
      of `hocrsyngen`'s S13a fixture.
+   - **Eval reservations.** `--reserved FILE` (repeatable) loads an
+     `htext_reservations.v1` file (`htext.reservations`). Every work it lists
+     is left out whole, whatever its rights or genre, and counted as
+     `works_skipped:eval_reserved`. A reservation file may stay in eval's
+     restricted repository. The card then records its set, registry, sha256
+     and per-source count, but never the work ids.
+   - **Scope of the exclusion list.** `pby_excluded_works` lists the works
+     with lines in *this* corpus. Other HeOCR training lists also draw on PBY
+     works, for example lines aligned to NLI scans of the same books. So a set
+     meant to be safe for evaluation must also be checked against those
+     training lists, not only against htext.
 
 ## Open items
 
