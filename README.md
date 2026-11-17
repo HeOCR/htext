@@ -28,6 +28,13 @@ line rules are in [`docs/pby_corpus.md`](docs/pby_corpus.md). The design is the
 4. A translation is public domain only if both its author and its translator
    are.
 
+## Plan
+
+[`docs/sources_plan.md`](docs/sources_plan.md) lists the sources htext will add, their rights basis, estimated
+sizes and build order. htext ships three releases split by licence (heocr-engine decision 0022): `htext-cc0`
+(public domain, CC0 and §6 official texts; the default), `htext-by` (CC BY) and `htext-by-sa` (CC BY-SA). NC and
+ND text is in none of them, and no line crosses releases.
+
 ## Rules for this repository
 
 - **No source dumps in git.** Builders read a local checkout of each source at
