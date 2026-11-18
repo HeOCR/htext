@@ -23,6 +23,18 @@ Every reserved id is normalised to a ``(source, id)`` pair:
 | ``reshumot_born_digital_booklets`` | ``reshumot`` | the booklet id, ``<series>_<n>`` |
 | ``hash_source_ids`` | ``hash`` | the HASH unit id (htext builds no HASH text) |
 | ``unit_ids`` / ``item_ids`` ``prefix:rest`` | ``prefix`` | ``rest``, cut to its unit |
+| ``wikisource_indexes`` | ``wikisource`` | the Index, ``ws_index_<n>`` |
+| ``ia_identifiers`` | ``ia`` | the Internet Archive identifier |
+| ``sefaria_works`` | ``sefaria`` | the Sefaria work title |
+| ``books`` | ``wikisource`` for ``ws_index_<n>``, else ``ia`` | the book's unit |
+| ``strata`` ``{name: [id]}`` | as ``books`` | each id |
+
+``wikisource_he_proofread:<index>`` and ``wikisource_indexes`` name the same
+Hebrew Wikisource Indexes, so both are read as ``wikisource``. Schema
+``heocr_eval_reservations.v3`` (P-hist eval hold-out, 2026-11-18) adds the
+last five fields; its rule holds out every other edition, scan or text of a
+reserved work too. A builder matches its own ids; other editions are listed
+in a reviewed ``htext_reservations.v1`` file.
 
 A Reshumot booklet is one document whether eval uses its scan or its born-digital
 PDF, so ``reshumot_scanned:<booklet>`` is read as ``reshumot``.
@@ -50,9 +62,10 @@ from typing import Any, Iterable
 
 SCHEMA = "htext_reservations.v1"
 EVAL_SCHEMA = "heocr_eval_reservations.v1"
+EVAL_SCHEMAS = frozenset({EVAL_SCHEMA, "heocr_eval_reservations.v3"})
 
 # Fields of an eval set that carry no ids.
-_EVAL_METADATA = {"set", "registration", "fixture", "splits", "labels", "note", "source_pages", "pby_work_ids_basis"}
+_EVAL_METADATA = {"set", "registration", "fixture", "splits", "labels", "note", "source_pages", "pby_work_ids_basis", "rule"}
 # Item ids are cut to their unit: a Wikisource page to its Index, an aligned line to its record.
 _UNIT_OF_ITEM = (
     re.compile(r"^(ws_index_\d+)__p\d+(?:#L\d+)?$"),
@@ -69,7 +82,17 @@ def _unit(rest: str) -> str:
 
 
 # Prefixes that name the same documents captured another way.
-_SAME_DOCUMENTS = {"reshumot_scanned": "reshumot"}
+_SAME_DOCUMENTS = {"reshumot_scanned": "reshumot", "wikisource_he_proofread": "wikisource"}
+_WIKISOURCE_INDEX = re.compile(r"^ws_index_\d+$")
+
+
+def _book_unit(value: object, where: str) -> tuple[str, str]:
+    """A P-hist book: a Wikisource Index, or else an Internet Archive identifier."""
+
+    unit = str(value).strip()
+    if not unit or ":" in unit:
+        raise ValueError(f"{where}: unexpected book id {value!r}")
+    return ("wikisource", unit) if _WIKISOURCE_INDEX.match(unit) else ("ia", unit)
 
 
 def _prefixed(value: str, where: str) -> tuple[str, str]:
@@ -95,6 +118,19 @@ def _eval_set_ids(row: dict[str, Any], where: str) -> list[tuple[str, str]]:
             ids += [("hash", str(unit)) for unit in value]
         elif key in ("unit_ids", "item_ids"):
             ids += [_prefixed(item, where) for item in value]
+        elif key == "wikisource_indexes":
+            for index in value:
+                if not _WIKISOURCE_INDEX.match(str(index)):
+                    raise ValueError(f"{where}: expected ws_index_<n>, found {index!r}")
+                ids.append(("wikisource", str(index)))
+        elif key == "ia_identifiers":
+            ids += [("ia", str(identifier)) for identifier in value]
+        elif key == "sefaria_works":
+            ids += [("sefaria", str(title)) for title in value]
+        elif key == "books":
+            ids += [_book_unit(book, where) for book in value]
+        elif key == "strata":
+            ids += [_book_unit(book, where) for books in value.values() for book in books]
         else:
             raise ValueError(f"{where}: unknown reservation field {key!r}; teach htext.reservations to read it")
     return ids
@@ -112,7 +148,7 @@ class Reservations:
             raw = path.read_bytes()
             document = json.loads(raw.decode("utf-8"))
             schema = document.get("schema")
-            if schema == EVAL_SCHEMA:
+            if schema in EVAL_SCHEMAS:
                 sets = document.get("reservations")
                 if not sets:
                     raise ValueError(f"{path}: no reservations")
@@ -133,7 +169,7 @@ class Reservations:
                     ids.append((str(source), str(work_id)))
                 parsed = [(document["set"], ids)]
             else:
-                raise ValueError(f"{path}: expected schema {EVAL_SCHEMA!r} or {SCHEMA!r}, found {schema!r}")
+                raise ValueError(f"{path}: expected schema {' or '.join(sorted(EVAL_SCHEMAS | {SCHEMA}))}, found {schema!r}")
             for set_name, ids in parsed:
                 if not ids:
                     raise ValueError(f"{path}: set {set_name!r} reserves nothing")
