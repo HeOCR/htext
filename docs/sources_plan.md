@@ -68,7 +68,7 @@ The site page (HeOCR/heocr.github.io, `htext/corpora.json`) is updated whenever 
 | 1 | `pby` v2 | PBY `public_domain_dump`, pinned | creators died ≤ `as_of`−71 (Wikidata); PBY dump licence "Public domain" | 2.03M lines *measured* (v1) → about 9.8M | clear |
 | 2 | `knesset-laws` | Knesset OData `KNS_Bill` → laws as enacted (`*_lsr_*.PDF`) on `fs.knesset.gov.il`, K1–8 | §6: laws and regulations | thousands of laws; about 2,146 K1–8 bills carry a publication series; words unmeasured | clear |
 | 3 | `knesset-plenary` | Knesset OData `KNS_PlenumSession` → `KNS_DocumentPlenumSession` (`*_ptm_*.pdf`), sittings before 1976-01-01; K13–25 born-digital protocols (decision 1 below) | §6: Knesset protocols; publishable for the period up to 1975 (2026-11-11 decision) | about 3,300 sittings (K1–8); order of tens of millions of words | clear |
-| 4 | `tanakh` | Unicode/XML Leningrad Codex (UXLC), tanach.us `Tanach.xml.zip`, pinned by date and sha256 | the codex is ancient; tanach.us: "You may view or copy all biblical Hebrew text, in any format, without restriction" | about 305k words; about 75k lines per form | clear |
+| 4 | `tanakh` | Westminster Leningrad Codex (WLC 4.20), `openscriptures/morphhb` `wlc/`, pinned by commit (changed from UXLC, 2026-11-18) | the codex is ancient; the WLC text is in the public domain (OSHB README and file headers) | 23,213 verses; about 58k lines per form *measured* | clear |
 | 5 | `sefaria-pd` | Sefaria-Export (public bucket), version JSON, cross-checked with `/api/texts/versions/<title>` | version licence exactly `Public Domain` or `CC0`, **and** `versionSource` names a printing, **and** every named author and editor died ≤ `as_of`−71 | tens of millions of words before filtering; unmeasured after | probable |
 | 6 | `gutenberg-he` | Project Gutenberg, via a mirror (not gutenberg.org directly) | PD in the US per PG's record; Israeli status per author | 7 books, one out (living author) | clear but tiny |
 
@@ -110,13 +110,15 @@ The rights rule does not change.
 
 ### 4. Tanakh
 
-- **Source.** UXLC from tanach.us. The OSHB `morphhb` WLC text is the same text in the public domain, but its lemma
-  and morphology layers are CC BY 4.0 and are not used.
+- **Source.** The WLC from OSHB's `morphhb`, pinned by commit (heocr-lead, 2026-11-18). UXLC from tanach.us was the
+  first choice, but tanach.us's robots file disallows automated fetching, so htext does not fetch it. The WLC text is
+  in the public domain; OSHB's lemma and morphology layers are CC BY 4.0 and are not used, and its `/` morpheme
+  dividers are removed.
 - **Two forms.** A pointed form without cantillation: U+0591–U+05AF removed, maqaf kept, meteg decided against the
   S10b mark set, and the {פ}/{ס} section markers removed. A plain form with all points removed.
-- **Naming.** tanach.us asks that its text not be called "WLC", so the card names it UXLC and cites tanach.us, as
-  it requests.
-- **Line length.** Verses are cut like PBY poetry.
+- **Naming.** The card names the edition WLC 4.x, not UXLC, and credits OSHB.
+- **Line length.** Each verse is packed to the S10b length profile, as PBY prose is, and no line crosses a verse.
+  Balanced verse halves, as PBY poetry is cut, left the median line at 38 characters, outside the S10b targets.
 
 ### 5. Sefaria public-domain versions
 

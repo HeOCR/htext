@@ -1,4 +1,4 @@
-"""Command-line entry point: ``htext pby build``, ``htext knesset-laws extract`` and ``htext knesset-laws build``."""
+"""Command-line entry point: ``htext pby build``, ``htext knesset-laws extract|build`` and ``htext tanakh build``."""
 
 from __future__ import annotations
 
@@ -154,6 +154,36 @@ def _laws_build(args: argparse.Namespace) -> int:
     return 0
 
 
+def _tanakh_build(args: argparse.Namespace) -> int:
+    from htext.tanakh import WLC_COMMIT, TanakhConfig, build as build_tanakh
+
+    if not args.reserved and not args.no_reservations:
+        raise SystemExit("pass eval's reservations with --reserved, or --no-reservations for an experiment that will not be published")
+    if args.source_commit != WLC_COMMIT:
+        raise SystemExit(f"--source-commit {args.source_commit} is not the pinned WLC commit {WLC_COMMIT}; update WLC_COMMIT in a reviewed PR first")
+    lengths, profile_source = _length_profile(args.length_profile)
+    fit, allow_maqaf, provenance = _fit(args)
+    leakage = sorted(args.leakage.glob("*.hashes.json")) if args.leakage.is_dir() else [args.leakage]
+    config = TanakhConfig(
+        wlc=args.wlc,
+        leakage_fixtures=leakage,
+        output=args.output,
+        length_profile=lengths,
+        length_profile_source=profile_source,
+        source_commit=args.source_commit,
+        reservations=args.reserved,
+        seed=args.seed,
+        corpus_version=args.corpus_version,
+        fit=fit,
+        allow_maqaf=allow_maqaf,
+        fit_provenance=provenance,
+    )
+    card = build_tanakh(config, progress=lambda message: print(message, file=sys.stderr))
+    for name, info in card["files"].items():
+        print(f"{name}: {info['lines']} lines from {info['books']} books")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="htext")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -212,6 +242,22 @@ def main(argv: list[str] | None = None) -> int:
     laws_build.add_argument("--hocrsyngen-commit", default=None)
     laws_build.add_argument("--no-fit-check", action="store_true")
     laws_build.set_defaults(handler=_laws_build)
+
+    tanakh = commands.add_parser("tanakh", help="the Westminster Leningrad Codex, pointed and plain")
+    tanakh_commands = tanakh.add_subparsers(dest="tanakh_command", required=True)
+    tanakh_build = tanakh_commands.add_parser("build", help="build the corpus from a local morphhb checkout at the pinned commit")
+    tanakh_build.add_argument("--wlc", type=Path, required=True, help="the checkout's wlc/ directory (openscriptures/morphhb)")
+    tanakh_build.add_argument("--source-commit", required=True, help="the morphhb commit the checkout is at; must equal htext.tanakh.WLC_COMMIT")
+    tanakh_build.add_argument("--output", type=Path, required=True)
+    tanakh_build.add_argument("--leakage", type=Path, default=DEFAULT_LEAKAGE)
+    tanakh_build.add_argument("--reserved", type=Path, action="append", default=[])
+    tanakh_build.add_argument("--no-reservations", action="store_true")
+    tanakh_build.add_argument("--seed", type=int, default=15)
+    tanakh_build.add_argument("--corpus-version", default="v1")
+    tanakh_build.add_argument("--length-profile", type=Path, default=None)
+    tanakh_build.add_argument("--hocrsyngen-commit", default=None)
+    tanakh_build.add_argument("--no-fit-check", action="store_true")
+    tanakh_build.set_defaults(handler=_tanakh_build)
     args = parser.parse_args(argv)
     return args.handler(args)
 
