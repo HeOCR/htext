@@ -47,9 +47,26 @@ JSON-lines log (`<inputs>/fetch_log.jsonl` by default): time, URL, attempt, stat
 | Field | Contents |
 | --- | --- |
 | `source` | the OData root, the bill filter, the document group, formats, files host, client name, `fetched_at` |
-| `knessets`, `counts` | the Knessets fetched; bills, files, files pinned or failed, and per Knesset the bills with a DOC, with a PDF, and with no file |
+| `knessets`, `counts` | the Knessets fetched; bills, files, files pinned or failed, and per Knesset the bills with a DOC listed, with a PDF listed, with no file, and the files pinned |
 | `bills[]` | `bill_id`, `knesset`, `name`, `publication_date`, `publication_series_id`, `publication_series`, `magazine_number`, `page_number`, `odata_last_updated`, and `documents[]` |
 | `documents[]` | `document_bill_id`, `format`, `url`, `file` (path under `--inputs`), `bytes`, `sha256`, `odata_last_updated`, and `error` when the download failed |
 | `skipped_documents[]` | document rows not fetched, with a reason: `scan_only`, `format_not_fetched`, `unexpected_path`, or `not_group_9` if the service ever returns another group |
 
 The manifest is the build's input list: the builder reads only files whose sha256 matches it.
+
+## Catalogue (K1–8, measured 2026-11-18)
+
+A catalogue-only run made 166 requests, all answered 200.
+
+| | Count |
+| --- | ---: |
+| Bills with a publication series | 2,146 |
+| of which Sefer HaChukim (series 6071) | 2,070 |
+| of which budget laws, חוקי תקציב (series 6075) | 76 |
+| Group-9 files listed (DOC and PDF) | 4,228 |
+| Bills with one DOC, two DOCs, no DOC | 2,060 / 3 / 83 |
+| TIF scans skipped | 2,066 |
+
+Budget laws are in their own Reshumot series, so their `MagazineNumber` is not a Sefer HaChukim booklet. The
+builder maps only series 6071 to `sefer_hachukim_<n>`, and checks eval's reservations for how budget-law booklets
+are named before it admits any.

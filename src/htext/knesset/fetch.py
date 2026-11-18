@@ -298,12 +298,15 @@ def manifest(catalogue: dict[str, Any], *, knessets: Iterable[int], formats: Ite
     docs = [doc for bill in bills for doc in bill["documents"]]
     per_knesset: dict[str, dict[str, int]] = {}
     for bill in bills:
-        row = per_knesset.setdefault(str(bill["knesset"]), {"bills": 0, "with_doc": 0, "with_pdf": 0, "without_file": 0})
+        row = per_knesset.setdefault(
+            str(bill["knesset"]), {"bills": 0, "with_doc": 0, "with_pdf": 0, "without_file": 0, "files_pinned": 0}
+        )
         row["bills"] += 1
-        formats_here = {doc["format"] for doc in bill["documents"] if doc.get("sha256")}
+        formats_here = {doc["format"] for doc in bill["documents"]}
         row["with_doc"] += "DOC" in formats_here
         row["with_pdf"] += "PDF" in formats_here
         row["without_file"] += not formats_here
+        row["files_pinned"] += sum(1 for doc in bill["documents"] if doc.get("sha256"))
     return {
         "schema": MANIFEST_SCHEMA,
         "source": {

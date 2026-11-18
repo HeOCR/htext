@@ -212,9 +212,14 @@ def test_manifest_counts(tmp_path):
     assert document["source"]["user_agent"] == fetch.USER_AGENT
     assert document["counts"]["bills"] == 3 and document["counts"]["files_pinned"] == 3
     assert document["counts"]["per_knesset"] == {
-        "3": {"bills": 2, "with_doc": 1, "with_pdf": 2, "without_file": 0},
-        "4": {"bills": 1, "with_doc": 0, "with_pdf": 0, "without_file": 1},
+        "3": {"bills": 2, "with_doc": 1, "with_pdf": 2, "without_file": 0, "files_pinned": 3},
+        "4": {"bills": 1, "with_doc": 0, "with_pdf": 0, "without_file": 1, "files_pinned": 0},
     }
+    listed_only = fetch.manifest(
+        fetch.fetch_catalogue(client, range(1, 9)), knessets=range(1, 9), formats=["DOC"], counts={}, fetched_at="T"
+    )
+    assert listed_only["counts"]["per_knesset"]["3"]["with_pdf"] == 2
+    assert listed_only["counts"]["per_knesset"]["3"]["files_pinned"] == 0
     assert document["counts"]["skipped_documents"] == 2
     json.dumps(document, ensure_ascii=False)
 
