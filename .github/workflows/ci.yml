@@ -21,6 +21,9 @@ jobs:
   test:
     name: Test (${{ matrix.os }}, Python ${{ matrix.python-version }})
     runs-on: ${{ matrix.os }}
+    # The suite runs in seconds. A job that is still running after 5 minutes is hung; fail it fast.
+    # (This limit counts from when a runner picks the job up, not time spent waiting for a runner.)
+    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
@@ -30,6 +33,10 @@ jobs:
         python-version:
           - "3.11"
           - "3.12"
+        # macOS runners are scarce (jobs have waited 15 minutes and been cancelled), so macOS runs on 3.12 only.
+        exclude:
+          - os: macos-latest
+            python-version: "3.11"
 
     steps:
       - name: Check out repository
@@ -52,6 +59,8 @@ jobs:
   fit:
     name: No-loss wrap check (hocrsyngen 88c61af)
     runs-on: ubuntu-latest
+    # Building Pillow with libraqm takes a few minutes on a cold cache.
+    timeout-minutes: 15
 
     steps:
       - name: Check out repository
