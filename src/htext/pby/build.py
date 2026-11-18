@@ -136,6 +136,10 @@ def profile_passes(profile: dict[str, Any]) -> dict[str, bool]:
     }
 
 
+# A lone token PBY uses for a verse break inside a running line.
+VERSE_BREAK_MARKS = frozenset({"/", "//"})
+
+
 def _work_lines(
     work: Work,
     record: dict[str, Any],
@@ -171,40 +175,75 @@ def _work_lines(
         if len(pointed_words) != len(plain_words):
             stats["source_lines_plain_only:word_mismatch"] += 1
             pointed_words = []
-        for start, end in word_spans(plain_words, verse=verse, targets=sampler):
-            stats["segments"] += 1
-            pointed = " ".join(pointed_words[start:end]) if pointed_words else None
-            segment, why = choose_segment(
-                pointed, " ".join(plain_words[start:end]), threshold=config.niqqud_threshold, allow_maqaf=config.allow_maqaf
+        # PBY marks a verse break inside a running line with a lone "/"; print never shows it, so it ends a line.
+        breaks = [index for index, word in enumerate(plain_words) if word in VERSE_BREAK_MARKS]
+        if breaks:
+            stats["source_lines_split:verse_break_mark"] += 1
+            if pointed_words and any(pointed_words[index] not in VERSE_BREAK_MARKS for index in breaks):
+                stats["source_lines_plain_only:word_mismatch"] += 1
+                pointed_words = []
+        bounds = [-1, *breaks, len(plain_words)]
+        for chunk_start, chunk_end in ((left + 1, right) for left, right in zip(bounds, bounds[1:])):
+            chunk_plain = plain_words[chunk_start:chunk_end]
+            chunk_pointed = pointed_words[chunk_start:chunk_end] if pointed_words else []
+            out.extend(_segments(chunk_plain, chunk_pointed, work, record, config, protected, seen, stats, sampler, verse, period))
+    return _cap_and_fit(out, work, config, stats)
+
+
+def _segments(
+    plain_words: list[str],
+    pointed_words: list[str],
+    work: Work,
+    record: dict[str, Any],
+    config: BuildConfig,
+    protected: Protected,
+    seen: set[str],
+    stats: Counter,
+    sampler: LengthSampler,
+    verse: bool,
+    period: int | None,
+) -> list[CorpusLine]:
+    out: list[CorpusLine] = []
+    if not plain_words:
+        return out
+    for start, end in word_spans(plain_words, verse=verse, targets=sampler):
+        stats["segments"] += 1
+        pointed = " ".join(pointed_words[start:end]) if pointed_words else None
+        segment, why = choose_segment(
+            pointed, " ".join(plain_words[start:end]), threshold=config.niqqud_threshold, allow_maqaf=config.allow_maqaf
+        )
+        if segment is None:
+            stats[f"segments_dropped:{why}"] += 1
+            continue
+        if pointed is not None:
+            stats[f"density_bin:{min(int(segment.density * 10), 9)}"] += 1
+        leak = protected.leak(segment.text, segment.plain_form)
+        if leak:
+            stats[f"segments_dropped:leak_{leak}"] += 1
+            continue
+        if config.screen_terms and any(term in segment.plain_form for term in config.screen_terms):
+            stats["segments_dropped:content_screen"] += 1
+            continue
+        key = nfc(segment.plain_form)
+        if key in seen:
+            stats["segments_dropped:duplicate"] += 1
+            continue
+        seen.add(key)
+        out.append(
+            CorpusLine(
+                text=segment.text,
+                subset=segment.subset,
+                work_id=work.work_id,
+                genre=work.genre,
+                period=period,
+                pd_us=record["pd_us"] is True,
+                density=segment.density,
             )
-            if segment is None:
-                stats[f"segments_dropped:{why}"] += 1
-                continue
-            if pointed is not None:
-                stats[f"density_bin:{min(int(segment.density * 10), 9)}"] += 1
-            leak = protected.leak(segment.text, segment.plain_form)
-            if leak:
-                stats[f"segments_dropped:leak_{leak}"] += 1
-                continue
-            if config.screen_terms and any(term in segment.plain_form for term in config.screen_terms):
-                stats["segments_dropped:content_screen"] += 1
-                continue
-            key = nfc(segment.plain_form)
-            if key in seen:
-                stats["segments_dropped:duplicate"] += 1
-                continue
-            seen.add(key)
-            out.append(
-                CorpusLine(
-                    text=segment.text,
-                    subset=segment.subset,
-                    work_id=work.work_id,
-                    genre=work.genre,
-                    period=period,
-                    pd_us=record["pd_us"] is True,
-                    density=segment.density,
-                )
-            )
+        )
+    return out
+
+
+def _cap_and_fit(out: list[CorpusLine], work: Work, config: BuildConfig, stats: Counter) -> list[CorpusLine]:
     if config.max_lines_per_work is not None and len(out) > config.max_lines_per_work:
         stats["segments_dropped:per_work_cap"] += len(out) - config.max_lines_per_work
         keep = sorted(random.Random(f"{config.seed}:cap:{work.work_id}").sample(range(len(out)), config.max_lines_per_work))

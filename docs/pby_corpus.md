@@ -137,6 +137,10 @@ The rights fields are the project's reading of the law, not legal advice.
    - Lines with any other character, a medial final form or a run of seven or
      more digits are dropped.
 3. **Cut.**
+   - PBY writes a verse break inside a running line as a lone `/` (or `//`).
+     Print never shows it, so since v2 it ends a line and the mark is dropped
+     (`source_lines_split:verse_break_mark`). The published `v1` corpus still
+     has these marks: 43,176 of its 401,492 niqqud lines contain one.
    - Poetry keeps its verse lines, and a verse over 55 characters is split in
      balance at spaces.
    - Other genres are packed: each line draws a target length from the S10b

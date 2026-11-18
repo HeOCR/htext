@@ -211,3 +211,12 @@ def test_corpus_version_names_the_files(mini_dump, mini_creators, mini_leakage, 
     assert card["corpus_version"] == "v2"
     assert set(card["files"]) == {corpus_file_name(v, s, "v2") for v in ("il", "il_us") for s in ("plain", "niqqud")}
     assert all((output / name).exists() for name in card["files"])
+
+
+def test_a_verse_break_mark_ends_a_line(built):
+    output, card = built
+    lines = (output / corpus_file_name("il", "niqqud")).read_text(encoding="utf-8").splitlines()
+    lines += (output / corpus_file_name("il", "plain")).read_text(encoding="utf-8").splitlines()
+    assert not any("/" in line.split() for line in lines)
+    assert "הַכּוֹכָבִים זוֹרְחִים בַּלַּיְלָה" in lines and "וְהַיָּרֵחַ עוֹלֶה מֵעַל הֶהָרִים" in lines
+    assert card["pipeline"]["source_lines_split:verse_break_mark"] == 1

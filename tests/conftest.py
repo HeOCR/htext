@@ -89,6 +89,8 @@ WORKS = [
 ]
 
 PROTECTED_LINE = "הקו הזה מוגן מפני דליפה"
+# PBY writes a verse break inside a running line as a lone "/".
+VERSE_BREAK_LINE = "הַכּוֹכָבִים זוֹרְחִים בַּלַּיְלָה / וְהַיָּרֵחַ עוֹלֶה מֵעַל הֶהָרִים"
 
 
 @pytest.fixture
@@ -102,7 +104,7 @@ def mini_dump(tmp_path: Path) -> Path:
         5: _work_text("בלי מזהה", ["", "לכותב אין מזהה ולכן אין לו שנת פטירה ידועה."]),
         6: _work_text("מילון", ["", "ערך במילון אינו נכנס כי הסוגה אינה ברשימה."]),
         7: _work_text("שבור", ["", "שורה אחת בלבד בקובץ המנוקד."]),
-        8: _work_text("דליפה", ["", PROTECTED_LINE, "", "הַשּׁוּרָה הַזֹּאת נִשְׁאֶרֶת בַּקּוֹרְפּוּס"]),
+        8: _work_text("דליפה", ["", PROTECTED_LINE, "", "הַשּׁוּרָה הַזֹּאת נִשְׁאֶרֶת בַּקּוֹרְפּוּס", "", VERSE_BREAK_LINE]),
     }
     with_columns = ["ID", "path", "title", "authors", "translators", "author_uris", "translator_uris", "original_language", "genre", "source_edition"]
     dump.mkdir()
