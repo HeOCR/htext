@@ -6,8 +6,9 @@ and fixed in later builds.
 
 ## Works now held out by HeOCR's evaluation (fixed in `v3`)
 
-`v2` was built with eval reservations v1. Since then, HeOCR's evaluation has
-reserved the P-hist eval hold-out v1 and its top-up (reservations v4). Fifteen
+`v2` was built with `eval_reservations_v2.json` (sha256 `2abce5ea…`). Since
+then, HeOCR's evaluation has reserved the P-hist eval hold-out v1 and its
+top-up, in `eval_reservations_v4.json` (sha256 `c8842a90…`). Fifteen
 works with lines in `v2` are in those hold-outs:
 
 | Set | Works | `v2` lines |
