@@ -5,7 +5,7 @@ leaves laws unprotected, so the corpus goes to `htext-cc0` with the source licen
 `Israel Copyright Act 2007 s.6 (not protected)`. This is source 2 of the
 [sources plan](sources_plan.md).
 
-This page covers the fetch step. The builder (`htext.knesset.laws`) follows in its own PR.
+The intake has three steps: fetch (network, once per pin), extract (local tools), and build (no network).
 
 ## What is fetched
 
@@ -70,3 +70,77 @@ A catalogue-only run made 166 requests, all answered 200.
 Budget laws are in their own Reshumot series, so their `MagazineNumber` is not a Sefer HaChukim booklet. The
 builder maps only series 6071 to `sefer_hachukim_<n>`, and checks eval's reservations for how budget-law booklets
 are named before it admits any.
+
+## Extract
+
+```bash
+htext knesset-laws extract --manifest data/knesset_laws/sources.v1.json \
+  --inputs ../work/knesset-laws/inputs --output ../work/knesset-laws/texts.v1.jsonl.gz
+```
+
+Each pinned DOC is checked against its manifest sha256 and converted to UTF-8 text with `textutil` (macOS), or
+LibreOffice elsewhere. The card records the extractor and the sha256 of the texts file. PDFs are not extracted: their
+text layer comes out of `pdftotext` in visual order, with mirrored brackets and margin notes mixed into the columns.
+So `v1` leaves out the laws that have no DOC: all 76 budget laws and 7 others.
+
+## Build
+
+```bash
+htext knesset-laws build --manifest data/knesset_laws/sources.v1.json \
+  --texts ../work/knesset-laws/texts.v1.jsonl.gz --output out/knesset-laws-v1 \
+  --lexicon-corpus <pby v2>/pby_lines_il_plain_v2.txt --lexicon-corpus <pby v2>/pby_lines_il_niqqud_v2.txt \
+  --reserved ~/clones/heocr-restricted-eval/reservations/eval_reservations_v2.json \
+  --leakage <dir with data/leakage/*.hashes.json and eval's fixtures>
+```
+
+1. **Booklets and reservations.**
+   - A Sefer HaChukim law (series 6071) is in booklet `sefer_hachukim_<MagazineNumber>`, and a budget law (series
+     6075) in `chukei_taktziv_<MagazineNumber>`. These are eval's ids (2026-11-18).
+   - Ids are matched in full, never by number alone: `kovetz_hatakanot_6075` is a Kovetz HaTakanot booklet, and it
+     says nothing about budget booklet 6075 or Sefer HaChukim booklet 6075.
+   - A law in a reserved booklet is left out whole. A law in any other series (`series_unmapped`), or with no booklet
+     number in OData (`no_booklet_number`, one K1–8 law), is held out, because its reservation cannot be checked.
+2. **Paragraphs** (`htext.knesset.text`).
+   - Each printed line is one line of the DOC's text.
+   - Running headers (`ספר החוקים <n>` with a date), footnotes (from a line opening with `*` or with a citation such
+     as `1 ס"ח`, to the next blank line) and the printer's line are dropped.
+   - Paragraphs are cut at blank lines, headers and section openings. A paragraph's body runs to its last long line
+     (30 characters or more) or its last line that ends a sentence. Short lines after that are a margin note, kept
+     as a paragraph of its own, so a heading is never glued into running text.
+3. **OCR fixes.** Each fix is counted on the card:
+   - an apostrophe after a word of three or more letters, before a space or the end of the line, becomes a comma
+     (`ישראל' סכום`);
+   - a doubled apostrophe between letters becomes gershayim (`בה''ח`);
+   - a lone one- or two-digit footnote reference after a law's year is removed;
+   - the section number that opens a paragraph is removed, because the OCR often misreads its punctuation (`3,`,
+     `.4 .`).
+4. **Lines.**
+   - Paragraphs are packed to the S10b length profile, as PBY prose is, and pass the PBY character rules.
+   - **Lexicon filter** (plan decision 3): every word must be in a lexicon built from transcription corpora only,
+     where it occurs at least twice (`--lexicon-min-count`). Hebrew numerals (`תשי"ט`, `בתשל"ג`) are checked by
+     rule instead. The card reports the drop rate.
+   - **Leakage** by line only. Legal formulas repeat, so word 3-grams would drop far too much; reserved booklets are
+     left out whole instead.
+   - Lines are deduplicated across the build and pass the hocrsyngen wrap check.
+5. **Release fields.** Every law carries `source_licence` `Israel Copyright Act 2007 s.6 (not protected)`,
+   `htext_release` `cc0` (null for a law with no lines), and `text_quality` `ocr_layer`, with the Knesset as credit.
+   Its lines never feed a lexicon (`htext.release.lexicon_eligible`).
+
+### Eye check
+
+The build writes `knesset_laws_eye_check_sample.v1.jsonl`, a seeded random sample of lines (100 by default). Each
+line is read against the page scan, and the results go in an `htext_eye_check.v1` file. The file holds the sample
+file's sha256, who checked it, when, the method, and per line a list of errors, each with a `kind` and a count of
+`words`. Rebuilding with `--eye-check FILE` puts the measured line and word error rates on the card. The build
+refuses a check made on another sample.
+
+### Outputs
+
+| File | Contents |
+| --- | --- |
+| `knesset_laws_lines_plain_v1.txt` | the corpus, in the S10b format |
+| `knesset_laws_line_index.v1.jsonl.gz` | per line: `sha256`, `bill_id`, `knesset`, `booklet`, `kind` (`body` or `note`), source `file` |
+| `knesset_laws_rights_index.v1.jsonl.gz` | per law: the OData fields, booklet, files with sha256, `pd_israel` (`s6_official_text`), release fields, `text_source` and the reason it was `skipped` |
+| `knesset_laws_excluded.v1.json` | every law with lines and its booklet: booklets to keep out of real-scan evaluation |
+| `knesset_laws_eye_check_sample.v1.jsonl` | the eye-check sample |
+| `corpus_card.json`, `CORPUS_CARD.md`, `SHA256SUMS` | card and checksums |

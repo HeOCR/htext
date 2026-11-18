@@ -1,0 +1,333 @@
+"""Offline tests for the knesset-laws builder.
+
+The law text below is invented for these tests, in the shape of an OCR'd law:
+running headers, margin notes, footnotes and typical OCR slips.
+"""
+
+from __future__ import annotations
+
+import gzip
+import hashlib
+import json
+from pathlib import Path
+
+import pytest
+
+from htext.knesset import laws
+from htext.knesset.extract import TEXTS_SCHEMA, extract_all, read_texts
+from htext.knesset.fetch import MANIFEST_SCHEMA
+from htext.knesset.lexicon import Lexicon, is_hebrew_numeral, word_keys
+from htext.knesset.text import paragraphs
+from htext.leakage import corpus_hashes
+from htext.release import S6_LABEL
+
+LAW_TEXT = "\n".join(
+    [
+        'חוק שמירת הגנים העירוניים, תשי"ב-1952 *',
+        "",
+        "1. בחוק זה - \"גן\" - שטח פתוח שהרשות המקומית קבעה אותו כגן ציבורי בתחום העיר'",
+        "לרבות השבילים והספסלים שבו.",
+        "הגדרות",
+        "2, הרשות המקומית רשאית לקבוע כללים בדבר השמירה על הגנים, הניקיון והשקיה' וכן",
+        "בדבר שעות הפתיחה של הגן לציבור הרחב.",
+        "סמכויות הרשות",
+        "",
+        '* נתקבל בכנסת ביום ה\' בטבת תשי"ב (3 בינואר 1952); הצעת החוק פורסמה בה\'\'ח 90.',
+        "",
+        '4                                            ספר החוקים 92                  ט"ו בטבת התשי"ב 13.01.1952',
+        "",
+        "שמירת זכויות",
+        ".3 . אין בחוק זה כדי לגרוע מכל דין אחר, ובכלל זה פקודת העיריות, תרצ\"ד-1934 1 (להלן - הפקודה).",
+        "4. תחילתו של חוק זה ביום פרסומו ברשומות.",
+        "תחילה",
+        "",
+        '1 ע"ר 1934, תוס\' 1, עמ\' 1.',
+        "נדפס בדפוס הממשלה",
+    ]
+)
+
+LEXICON_TEXT = """
+חוק שמירת הגנים העירוניים בחוק זה גן שטח פתוח שהרשות המקומית קבעה אותו כגן ציבורי בתחום העיר
+לרבות השבילים והספסלים שבו הגדרות הרשות המקומית רשאית לקבוע כללים בדבר השמירה על הגנים הניקיון והשקיה וכן
+בדבר שעות הפתיחה של הגן לציבור הרחב סמכויות הרשות שמירת זכויות אין בחוק זה כדי לגרוע מכל דין אחר ובכלל זה
+פקודת העיריות להלן הפקודה תחילתו של חוק זה ביום פרסומו ברשומות תחילה
+"""
+
+
+def _lexicon() -> Lexicon:
+    return Lexicon.from_lines([LEXICON_TEXT, LEXICON_TEXT], min_count=2)
+
+
+def test_paragraphs_drop_headers_footnotes_and_printer_line():
+    stats: dict[str, int] = {}
+    found = paragraphs(LAW_TEXT, stats)
+    texts = [paragraph.text for paragraph in found]
+    assert not any("ספר החוקים" in text or "נדפס" in text or "נתקבל" in text or 'ע"ר' in text for text in texts)
+    assert stats["lines_dropped:page_header"] == 1
+    assert stats["lines_dropped:printer"] == 1
+    assert stats["lines_dropped:footnote"] == 2
+
+
+def test_margin_notes_are_their_own_paragraphs():
+    found = paragraphs(LAW_TEXT)
+    notes = [paragraph.text for paragraph in found if paragraph.kind == "note"]
+    assert notes == ["הגדרות", "סמכויות הרשות", "שמירת זכויות", "תחילה"]
+    bodies = [paragraph.text for paragraph in found if paragraph.kind == "body"]
+    assert bodies[1].endswith("לרבות השבילים והספסלים שבו.")
+    assert not any("הגדרות" in body for body in bodies)
+
+
+def test_ocr_fixes_and_section_labels():
+    stats: dict[str, int] = {}
+    bodies = [paragraph.text for paragraph in paragraphs(LAW_TEXT, stats) if paragraph.kind == "body"]
+    assert bodies[0] == 'חוק שמירת הגנים העירוניים, תשי"ב-1952'
+    assert bodies[1].startswith('בחוק זה - "גן" -') and "בתחום העיר, לרבות" in bodies[1]
+    assert "הניקיון והשקיה, וכן" in bodies[2]
+    assert bodies[3].startswith("אין בחוק זה") and 'תרצ"ד-1934 (להלן' in bodies[3]
+    assert bodies[4] == "תחילתו של חוק זה ביום פרסומו ברשומות."
+    assert stats["ocr_fix:apostrophe_comma"] == 2
+    assert stats["ocr_fix:footnote_reference"] == 1
+    assert stats["section_labels_removed"] == 4
+    assert "*" not in " ".join(bodies)
+
+
+def test_double_apostrophe_is_gershayim():
+    stats: dict[str, int] = {}
+    text = "הצעת החוק פורסמה בה''ח מספר תשעים וכל זה נכתב כאן לשם הבדיקה בלבד."
+    assert 'בה"ח' in paragraphs(text, stats)[0].text
+    assert stats["ocr_fix:double_apostrophe"] == 1
+
+
+@pytest.mark.parametrize(
+    ("token", "expected"),
+    [
+        ('תש"ט', True),
+        ('תשי"א', True),
+        ('בתשל"ג', True),
+        ('התשט"ו', True),
+        ("ה'", True),
+        ('תשכ"ט,', True),
+        ('י"ה', False),
+        ('יה"ה', False),
+        ("מדיבת", False),
+        ('תשי"ח-1958', False),
+    ],
+)
+def test_hebrew_numerals(token, expected):
+    assert is_hebrew_numeral(token) is expected
+
+
+def test_word_keys_strip_punctuation_split_joiners_skip_numbers():
+    assert word_keys('("גן")') == ["גן"]
+    assert word_keys("הפיתוח-הוצאה") == ["הפיתוח", "הוצאה"]
+    assert word_keys('תשי"ח-1958') == []
+    assert word_keys("(א)") == []
+    assert word_keys("20%") == []
+
+
+def test_lexicon_min_count_and_unknown_words():
+    lexicon = Lexicon.from_lines(["מדינת ישראל", "מדינת"], min_count=2)
+    assert lexicon.words == {"מדינת"}
+    assert lexicon.unknown("איגרות מדיבת ישראל") == ["איגרות", "מדיבת", "ישראל"]
+    assert lexicon.unknown('מדינת, תשי"ט (א) 1958') == []
+
+
+def test_booklet_units_are_series_qualified():
+    assert laws.booklet_unit({"publication_series_id": 6071, "magazine_number": 263}) == "sefer_hachukim_263"
+    assert laws.booklet_unit({"publication_series_id": 6075, "magazine_number": 70}) == "chukei_taktziv_70"
+    assert laws.booklet_unit({"publication_series_id": 9999, "magazine_number": 1}) is None
+    assert laws.booklet_unit({"publication_series_id": 6071, "magazine_number": None}) is None
+
+
+# ---- end to end -------------------------------------------------------------
+
+
+def _bill(bill_id, series, magazine, documents, knesset=2):
+    return {
+        "bill_id": bill_id,
+        "knesset": knesset,
+        "name": f"חוק בדיקה {bill_id}",
+        "publication_date": "1952-01-13",
+        "publication_series_id": series,
+        "publication_series": "ספר החוקים" if series == 6071 else "חוקי תקציב",
+        "magazine_number": magazine,
+        "page_number": 4,
+        "odata_last_updated": None,
+        "documents": documents,
+    }
+
+
+def _doc(path, fmt, body: bytes):
+    return {"document_bill_id": "1", "format": fmt, "url": f"https://fs.knesset.gov.il//2/law/{Path(path).name}", "file": path, "sha256": hashlib.sha256(body).hexdigest(), "bytes": len(body)}
+
+
+@pytest.fixture
+def law_inputs(tmp_path: Path):
+    bodies = {name: name.encode() for name in ("2/2_lsr_1.DOC", "2/2_lsr_2.PDF", "2/2_lsr_3.DOC", "2/2_lsr_4.DOC", "2/2_lsr_5.DOC", "2/2_lsr_6.DOC")}
+    bills = [
+        _bill(1, 6071, 92, [_doc("2/2_lsr_1.DOC", "DOC", bodies["2/2_lsr_1.DOC"])]),
+        _bill(2, 6075, 70, [_doc("2/2_lsr_2.PDF", "PDF", bodies["2/2_lsr_2.PDF"])]),  # PDF only: no_doc
+        _bill(3, 6071, 263, [_doc("2/2_lsr_3.DOC", "DOC", bodies["2/2_lsr_3.DOC"])]),  # reserved booklet
+        _bill(4, 6075, 6075, [_doc("2/2_lsr_4.DOC", "DOC", bodies["2/2_lsr_4.DOC"])]),  # trap: kovetz_hatakanot_6075
+        _bill(5, 7777, 5, [_doc("2/2_lsr_5.DOC", "DOC", bodies["2/2_lsr_5.DOC"])]),  # unmapped series
+        _bill(6, 6071, 6075, [_doc("2/2_lsr_6.DOC", "DOC", bodies["2/2_lsr_6.DOC"])]),  # SH booklet 6075: not the trap
+        _bill(7, 6071, None, [_doc("2/2_lsr_5.DOC", "DOC", bodies["2/2_lsr_5.DOC"])]),  # no booklet number
+    ]
+    manifest = {"schema": MANIFEST_SCHEMA, "source": {"odata": "https://knesset.gov.il/Odata/ParliamentInfo.svc", "fetched_at": "2026-11-18T00:00:00Z"}, "knessets": [2], "bills": bills}
+    (tmp_path / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False), encoding="utf-8")
+    other = "הרשות המקומית רשאית לקבוע כללים בדבר שעות הפתיחה של הגן לציבור הרחב וכן בדבר השמירה על השבילים."
+    texts = {
+        "2/2_lsr_1.DOC": LAW_TEXT,
+        "2/2_lsr_3.DOC": other,
+        "2/2_lsr_4.DOC": other.replace("הרחב", "הרחב והשבילים"),
+        "2/2_lsr_5.DOC": other,
+        "2/2_lsr_6.DOC": "תחילתו של חוק זה ביום פרסומו ברשומות, ובכלל זה הפקודה וכל דין אחר שבו.",
+    }
+    with gzip.open(tmp_path / "texts.jsonl.gz", "wt", encoding="utf-8") as handle:
+        handle.write(json.dumps({"schema": TEXTS_SCHEMA, "extractor": "test"}) + "\n")
+        for name, text in texts.items():
+            handle.write(json.dumps({"file": name, "sha256": hashlib.sha256(bodies[name]).hexdigest(), "extractor": "test", "text": text}, ensure_ascii=False) + "\n")
+    reservations = {
+        "schema": "heocr_eval_reservations.v1",
+        "reservations": [{"set": "test-set", "reshumot_booklets": {"sefer_hachukim": [263], "kovetz_hatakanot": [6075]}}],
+    }
+    (tmp_path / "reserved.json").write_text(json.dumps(reservations), encoding="utf-8")
+    protected_line = "הרשות המקומית רשאית לקבוע כללים"
+    fixture = {"source": {"repository": "test", "path": "eval.txt", "commit": "0" * 40, "sha256": "0" * 64, "lines": 1}, "normalization": "NFC lines; word 3-grams are whitespace-split words joined by one space; sha256 of UTF-8", "stripped": True, **corpus_hashes([protected_line])}
+    (tmp_path / "fixture.hashes.json").write_text(json.dumps(fixture), encoding="utf-8")
+    return tmp_path
+
+
+def _config(root: Path, **overrides) -> laws.LawsConfig:
+    values = dict(
+        manifest=root / "manifest.json",
+        texts=root / "texts.jsonl.gz",
+        lexicon_corpora=(),
+        lexicon=_lexicon(),
+        leakage_fixtures=[root / "fixture.hashes.json"],
+        reservations=[root / "reserved.json"],
+        output=root / "out",
+        length_profile=[20, 25, 30, 35, 40, 45],
+        length_profile_source="test",
+        eye_sample_size=5,
+    )
+    values.update(overrides)
+    return laws.LawsConfig(**values)
+
+
+def _rights(root: Path) -> dict[int, dict]:
+    with gzip.open(root / "out" / laws.RIGHTS_INDEX_FILE, "rt", encoding="utf-8") as handle:
+        return {row["bill_id"]: row for row in map(json.loads, handle)}
+
+
+def test_build_end_to_end(law_inputs: Path):
+    card = laws.build(_config(law_inputs))
+    rights = _rights(law_inputs)
+    assert {bill_id: row["skipped"] for bill_id, row in rights.items()} == {
+        1: None,
+        2: "no_doc",
+        3: "eval_reserved",
+        4: None,
+        5: "series_unmapped",
+        6: None,
+        7: "no_booklet_number",
+    }
+    for bill_id, row in rights.items():
+        assert row["source_licence"] == S6_LABEL and row["text_quality"] == "ocr_layer"
+        assert row["htext_release"] == ("cc0" if row["skipped"] is None else None)
+    assert rights[4]["booklet"] == "chukei_taktziv_6075" and rights[6]["booklet"] == "sefer_hachukim_6075"
+    assert card["htext_release"] == "cc0" and card["text_quality"] == "ocr_layer" and card["lexicon_eligible"] is False
+    assert card["laws"]["skipped"] == {"eval_reserved": 1, "no_booklet_number": 1, "no_doc": 1, "series_unmapped": 1}
+    assert card["inputs"]["eval_reservations"][0]["set"] == "test-set"
+    assert "263" not in json.dumps(card["inputs"]["eval_reservations"])
+
+    corpus = (law_inputs / "out" / laws.corpus_file_name()).read_text(encoding="utf-8").splitlines()
+    assert corpus and len(corpus) == len(set(corpus))
+    assert all(len(line) <= 55 for line in corpus)
+    assert not any("ספר החוקים" in line for line in corpus)
+    assert "הרשות המקומית רשאית לקבוע כללים" not in corpus
+    excluded = json.loads((law_inputs / "out" / laws.EXCLUSION_FILE).read_text(encoding="utf-8"))
+    assert excluded["booklets"] == ["chukei_taktziv_6075", "sefer_hachukim_6075", "sefer_hachukim_92"]
+    sums = (law_inputs / "out" / "SHA256SUMS").read_text().splitlines()
+    assert {line.split()[1] for line in sums} >= {laws.corpus_file_name(), laws.RIGHTS_INDEX_FILE, laws.LINE_INDEX_FILE, laws.EYE_SAMPLE_FILE, "corpus_card.json"}
+    assert card["eye_check"]["ran"] is False
+    assert "Eye check:** not yet run" in (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+
+
+def test_lexicon_filter_drops_lines_with_unknown_words(law_inputs: Path):
+    tiny = Lexicon.from_lines(["חוק זה"] * 2, min_count=2)
+    card = laws.build(_config(law_inputs, lexicon=tiny))
+    assert card["lexicon_filter"]["segments_dropped"] > 0
+    assert card["lexicon_filter"]["drop_rate"] > 0.5
+    corpus = (law_inputs / "out" / laws.corpus_file_name()).read_text(encoding="utf-8").splitlines()
+    assert all(not tiny.unknown(line) for line in corpus)
+
+
+def test_build_refuses_texts_not_matching_the_pins(law_inputs: Path):
+    manifest = json.loads((law_inputs / "manifest.json").read_text(encoding="utf-8"))
+    manifest["bills"][0]["documents"][0]["sha256"] = "f" * 64
+    (law_inputs / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    with pytest.raises(ValueError, match="no extracted text for the pinned file"):
+        laws.build(_config(law_inputs))
+
+
+def _eye_check(root: Path, *, errors_for: int = 1, sample_sha: str | None = None) -> Path:
+    sample_path = root / "out" / laws.EYE_SAMPLE_FILE
+    rows = [json.loads(line) for line in sample_path.read_text(encoding="utf-8").splitlines()[1:]]
+    document = {
+        "schema": laws.EYE_CHECK_SCHEMA,
+        "sample_file_sha256": sample_sha or hashlib.sha256(sample_path.read_bytes()).hexdigest(),
+        "checked_by": "test",
+        "checked_at": "2026-11-18",
+        "method": "each line read against the page scan",
+        "lines": [
+            {"sha256": row["sha256"], "errors": [{"kind": "letter", "words": 1}] if index < errors_for else []}
+            for index, row in enumerate(rows)
+        ],
+    }
+    path = root / "eye_check.json"
+    path.write_text(json.dumps(document), encoding="utf-8")
+    return path
+
+
+def test_eye_check_goes_on_the_card(law_inputs: Path):
+    laws.build(_config(law_inputs))
+    card = laws.build(_config(law_inputs, eye_check=_eye_check(law_inputs)))
+    eye = card["eye_check"]
+    assert eye["ran"] and eye["lines_with_error"] == 1 and eye["sample_lines"] == 5
+    assert eye["line_error_rate"] == 0.2 and eye["errors_by_kind"] == {"letter": 1}
+    assert "Lines with at least one error: 1 (20.0%)" in (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+
+
+def test_eye_check_for_another_sample_is_refused(law_inputs: Path):
+    laws.build(_config(law_inputs))
+    with pytest.raises(ValueError, match="another sample"):
+        laws.build(_config(law_inputs, eye_check=_eye_check(law_inputs, sample_sha="0" * 64)))
+
+
+def test_build_is_deterministic(law_inputs: Path):
+    laws.build(_config(law_inputs))
+    first = (law_inputs / "out" / "SHA256SUMS").read_text()
+    laws.build(_config(law_inputs))
+    assert (law_inputs / "out" / "SHA256SUMS").read_text() == first
+
+
+def test_extract_checks_pins_and_records_failures(tmp_path: Path):
+    (tmp_path / "in" / "2").mkdir(parents=True)
+    (tmp_path / "in" / "2" / "a.DOC").write_bytes(b"a")
+    (tmp_path / "in" / "2" / "b.DOC").write_bytes(b"b")
+    manifest = {"bills": [_bill(1, 6071, 1, [_doc("2/a.DOC", "DOC", b"a"), _doc("2/b.DOC", "DOC", b"b"), _doc("2/c.PDF", "PDF", b"c")])]}
+
+    def fake(path: Path) -> str:
+        if path.name == "b.DOC":
+            raise OSError("cannot read")
+        return "טקסט " + path.name
+
+    counts = extract_all(manifest, tmp_path / "in", tmp_path / "texts.jsonl.gz", extractor=("fake", fake))
+    assert counts == {"extracted": 1, "failed": 1}
+    header, rows = read_texts(tmp_path / "texts.jsonl.gz")
+    assert header["extractor"] == "fake" and rows["2/a.DOC"]["text"] == "טקסט a.DOC" and rows["2/b.DOC"]["text"] is None
+    assert "2/c.PDF" not in rows
+    manifest["bills"][0]["documents"][0]["sha256"] = "0" * 64
+    with pytest.raises(SystemExit, match="does not match the manifest"):
+        extract_all(manifest, tmp_path / "in", tmp_path / "texts2.jsonl.gz", extractor=("fake", fake))
