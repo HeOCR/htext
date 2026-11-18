@@ -32,7 +32,9 @@ The second corpus is the enacted laws of the first eight Knessets, as
 published in Reshumot (section 6 of the Copyright Act, `htext-cc0`). Its text is
 the scans' OCR layer, filtered against a lexicon and checked by eye. How it is
 fetched and built, and the published `v1`, are in
-[`docs/knesset_laws.md`](docs/knesset_laws.md).
+[`docs/knesset_laws.md`](docs/knesset_laws.md). The `htext tanakh build` command
+builds the Hebrew Bible from the public-domain Westminster Leningrad Codex,
+pointed and plain; see [`docs/tanakh.md`](docs/tanakh.md).
 
 ## Plan
 
