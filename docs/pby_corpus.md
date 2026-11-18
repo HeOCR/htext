@@ -214,7 +214,8 @@ corpus files and the gzipped line index are assets of the
 [`pby-v3` release](https://github.com/HeOCR/htext/releases/tag/pby-v3).
 It supersedes `v2`.
 
-`v3` is `v2` rebuilt with eval reservations v4 instead of v1. Nothing else
+`v3` is `v2` rebuilt with `eval_reservations_v4.json` (sha256 `c8842a90…`)
+instead of `eval_reservations_v2.json` (sha256 `2abce5ea…`). Nothing else
 changed: same dump pin, creators, parameters, leakage fixtures and length
 profile. The 31 PBY works that v4 reserves are left out whole. Fifteen of them
 had lines in `v2` (see [`data/pby/v2/KNOWN_ISSUES.md`](../data/pby/v2/KNOWN_ISSUES.md)).
@@ -232,7 +233,8 @@ in `v2`: the plain files meet every S10b target, and the niqqud files miss the
 
 25,267 works have lines, all `htext-cc0`. `tests/test_published_v3.py` checks
 the committed files, as the `v2` test does, and also checks that the card
-names reservations v4 and that `v3` drops exactly the 15 newly reserved works.
+pins the `eval_reservations_v4.json` sha256 and that `v3` drops exactly the 15
+newly reserved works.
 
 ## Published build (`v2`)
 
