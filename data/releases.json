@@ -21,6 +21,16 @@
       "source_licence": "Public Domain",
       "text_quality": "transcription",
       "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
+    },
+    {
+      "corpus": "knesset-laws",
+      "version": "v1",
+      "card": "data/knesset_laws/v1/corpus_card.json",
+      "release_tag": "knesset-laws-v1",
+      "htext_release": "cc0",
+      "source_licence": "Israel Copyright Act 2007 s.6 (not protected)",
+      "text_quality": "ocr_layer",
+      "credit": {"text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)", "url": "https://main.knesset.gov.il"}
     }
   ]
 }
