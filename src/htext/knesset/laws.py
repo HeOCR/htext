@@ -34,6 +34,7 @@ import gzip
 import hashlib
 import json
 import random
+import re
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -43,7 +44,7 @@ from htext import __version__
 from htext.knesset.extract import read_texts
 from htext.knesset.fetch import MANIFEST_SCHEMA
 from htext.knesset.lexicon import Lexicon
-from htext.knesset.text import paragraphs
+from htext.knesset.text import UNRESOLVED_BREAK, paragraphs
 from htext.leakage import Protected, sha256_text
 from htext.pby.build import PROFILE_TARGETS, length_profile, profile_passes
 from htext.pby.text import MAX_LINE_CHARS, LengthSampler, choose_segment, word_spans
@@ -51,6 +52,8 @@ from htext.release import S6_LABEL, Credit, ReleaseGuard, lexicon_eligible, rele
 from htext.reservations import Reservations
 
 SOURCE = "knesset-laws"
+# A comma between digits that is not a thousands separator: the OCR reverses number lists ("75,74" for "74, 75").
+_NUMBER_LIST = re.compile(r"\d,(?!\d{3}(?!\d))\d")
 CARD_SCHEMA = "knesset_laws_corpus_card.v1"
 RIGHTS_SCHEMA = "knesset_laws_rights_index.v1"
 LINE_INDEX_SCHEMA = "knesset_laws_line_index.v1"
@@ -173,16 +176,26 @@ def _law_lines(
     for doc in docs:
         text = texts[doc["file"]]["text"]
         law_stats: dict[str, int] = {}
-        for paragraph in paragraphs(text, law_stats):
+        for paragraph in paragraphs(text, law_stats, is_word=lexicon.is_word):
             words = paragraph.text.split()
             for start, end in word_spans(words, verse=False, targets=sampler):
                 stats["segments"] += 1
-                segment, why = choose_segment(None, " ".join(words[start:end]), threshold=1.0, allow_maqaf=config.allow_maqaf)
+                candidate = " ".join(words[start:end])
+                if UNRESOLVED_BREAK in candidate:
+                    stats["segments_dropped:unresolved_line_break"] += 1
+                    continue
+                if _NUMBER_LIST.search(candidate):
+                    stats["segments_dropped:number_list_order"] += 1
+                    continue
+                segment, why = choose_segment(None, candidate, threshold=1.0, allow_maqaf=config.allow_maqaf)
                 if segment is None:
                     stats[f"segments_dropped:{why}"] += 1
                     continue
                 if lexicon.unknown(segment.text):
                     stats["segments_dropped:lexicon"] += 1
+                    continue
+                if lexicon.suspects(segment.text):
+                    stats["segments_dropped:lexicon_suspect"] += 1
                     continue
                 if sha256_text(segment.text) in protected.lines:
                     stats["segments_dropped:leak_line"] += 1
@@ -235,14 +248,20 @@ def eye_check_summary(path: Path | None, sample_sha256: str, sample: list[dict[s
     lines_with_error = 0
     words_wrong = 0
     words = 0
+    unverifiable = 0
     for row in sample:
         verdict = verdicts[row["sha256"]]
+        if verdict.get("unverifiable"):
+            # The scan is damaged where the line is printed; it counts toward neither side.
+            unverifiable += 1
+            continue
         words += len(row["text"].split())
         if verdict["errors"]:
             lines_with_error += 1
         for error in verdict["errors"]:
             errors[error["kind"]] += 1
             words_wrong += int(error.get("words", 1))
+    checked = len(sample) - unverifiable
     return {
         "ran": True,
         "sample_file_sha256": sample_sha256,
@@ -250,8 +269,10 @@ def eye_check_summary(path: Path | None, sample_sha256: str, sample: list[dict[s
         "checked_at": document["checked_at"],
         "method": document["method"],
         "sample_lines": len(sample),
+        "unverifiable_lines": unverifiable,
+        "lines_checked": checked,
         "lines_with_error": lines_with_error,
-        "line_error_rate": round(lines_with_error / len(sample), 4) if sample else None,
+        "line_error_rate": round(lines_with_error / checked, 4) if checked else None,
         "sample_words": words,
         "words_wrong": words_wrong,
         "word_error_rate": round(words_wrong / words, 4) if words else None,
@@ -370,8 +391,9 @@ def _card(config, manifest, texts_header, lexicon, protected, reservations, reco
     rows = list(records.values())
     considered = stats.get("segments", 0)
     lexicon_dropped = stats.get("segments_dropped:lexicon", 0)
+    suspect_dropped = stats.get("segments_dropped:lexicon_suspect", 0)
     after_charset = considered - sum(
-        value for key, value in stats.items() if key.startswith("segments_dropped:") and key.split(":", 1)[1] in {"charset", "too_few_letters", "too_long", "maqaf", "medial_final_form", "long_digit_run"}
+        value for key, value in stats.items() if key.startswith("segments_dropped:") and key.split(":", 1)[1] in {"charset", "too_few_letters", "too_long", "maqaf", "medial_final_form", "long_digit_run", "unresolved_line_break", "number_list_order"}
     )
     return {
         "schema": CARD_SCHEMA,
@@ -414,6 +436,8 @@ def _card(config, manifest, texts_header, lexicon, protected, reservations, reco
             "segments_after_character_rules": after_charset,
             "segments_dropped": lexicon_dropped,
             "drop_rate": round(lexicon_dropped / after_charset, 4) if after_charset else None,
+            "segments_dropped_suspect": suspect_dropped,
+            "suspect_drop_rate": round(suspect_dropped / after_charset, 4) if after_charset else None,
         },
         "eye_check": eye,
         "files": files,
@@ -450,12 +474,15 @@ def render_card(card: dict[str, Any]) -> str:
     ]
     lines += [f"  - `{source['file']}` (sha256 `{source['sha256']}`, {source['lines']:,} lines)" for source in card["inputs"]["lexicon"]["sources"]]
     if lex["drop_rate"] is not None:
-        lines.append(
-            f"- **Drop rate:** {lex['segments_dropped']:,} of {lex['segments_after_character_rules']:,} lines that passed the character rules ({lex['drop_rate']:.1%})."
-        )
+        rule = card["inputs"]["lexicon"]["suspect_rule"]
+        lines += [
+            f"- **Drop rate:** {lex['segments_dropped']:,} of {lex['segments_after_character_rules']:,} lines that passed the character rules ({lex['drop_rate']:.1%}) had a word outside the lexicon.",
+            f"- **Look-alike words:** {lex['segments_dropped_suspect']:,} more ({lex['suspect_drop_rate']:.1%}) had a word that one OCR confusion ({', '.join(rule['confusions'])}) turns into a word at least {rule['ratio']} times more common (and seen at least {rule['min_variant_count']} times).",
+        ]
     if eye["ran"]:
         lines += [
             f"- **Eye check:** {eye['sample_lines']} lines sampled at random, checked against the scans by {eye['checked_by']} on {eye['checked_at']} ({eye['method']}).",
+            f"  - Lines checked: {eye['lines_checked']} ({eye['unverifiable_lines']} could not be verified on a damaged scan and are left out of the rates).",
             f"  - Lines with at least one error: {eye['lines_with_error']} ({eye['line_error_rate']:.1%}).",
             f"  - Words wrong: {eye['words_wrong']} of {eye['sample_words']} ({eye['word_error_rate']:.2%}).",
         ]
