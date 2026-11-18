@@ -176,3 +176,35 @@ normalisations, not misreadings.
 | `knesset_laws_excluded.v1.json` | every law with lines and its booklet: booklets to keep out of real-scan evaluation |
 | `knesset_laws_eye_check_sample.v1.jsonl` | the eye-check sample |
 | `corpus_card.json`, `CORPUS_CARD.md`, `SHA256SUMS` | card and checksums |
+
+## Published build (`v1`)
+
+The pinned `v1` build is in [`data/knesset_laws/v1/`](../data/knesset_laws/v1/): the corpus card, `SHA256SUMS`, the
+exclusion list, the gzipped rights index and the eye-check sample. The corpus file and the gzipped line index are
+assets of the [`knesset-laws-v1` release](https://github.com/HeOCR/htext/releases/tag/knesset-laws-v1). It was built
+from `b9c2923` with eval's reservations, the pby v2 plain and niqqud files as the lexicon, and the fit check.
+
+| File | Lines | Laws |
+| --- | ---: | ---: |
+| `knesset_laws_lines_plain_v1.txt` | 234,821 | 2,004 |
+
+Of the 2,146 laws in the manifest, 2,004 have lines and are `htext-cc0`; the others have `htext_release: null`
+(59 eval-reserved, 82 with no DOC file, 1 with no booklet number). The file meets every S10b length target.
+
+**Filters.** The lexicon drops 10.1% of the lines that pass the character rules, and the look-alike rule another
+1.3% (3,882 lines). The two-corpus test keeps 15,143 lines whose word is a look-alike only by the PBY counts. The card
+gives both thresholds, the counts per confusion pair and the 30 most frequent kept look-alikes. 24,676 printed lines
+were dropped as table cells.
+
+**Eye check.** [`eye_check/`](../data/knesset_laws/v1/eye_check/) holds the verdicts:
+
+- `eye_check_build4.json`: the fresh sample on the card, 100 lines none of which the rules were tuned on.
+  9 lines have an error (9%), and 9 of 454 words are wrong (2.0%). By kind: punctuation 5, letter 1, look-alike 1,
+  digit for letter 1, garbled margin note 1. No line was unverifiable. The look-alike rate (1%) is within the 2% bar.
+- `eye_sample_build1.jsonl` and `eye_check_build1_tuning.json` (**tuning**): the build-1 sample the rules were
+  tuned on. 11 of its 99 verifiable lines had an error in build 1. Under the v1 rules, 76 of its lines are still in
+  the corpus and 1 of them has an error (a ס/מ look-alike), 1.3%. This rate is not an unbiased estimate.
+
+`tests/test_published_knesset_laws.py` checks the committed files. It checks that the card pins the corpus, the
+manifest and the exclusion list, that every law is §6, `ocr_layer` and in `htext-cc0` exactly when it has lines,
+and that the card's eye check recomputes from the committed verdict and sample and excludes the tuning sample.

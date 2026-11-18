@@ -1,0 +1,564 @@
+{
+ "schema": "htext_eye_check.v1",
+ "sample_file_sha256": "b46e3d7a71ce34168673188939294ba5f2528105d8f46deac8289bc98d9c562d",
+ "checked_by": "htext[claude/claude-code#shay-macbook-m4]@heocr/opensource",
+ "checked_at": "2026-11-18",
+ "method": "tuning pass on the build-1 sample (a22bfb2), corrected: each line cropped from its PDF page scan by OCR word boxes and read against the corpus line's raw text (an early reading of the rendered line mistook כ for ב in 6 lines; a locator mismatch on 1); dash and quote shapes not counted",
+ "lines": [
+  {
+   "sha256": "e4a2299d14623e991cc25ff3c7214515eca5538551ebfd930201023f0eff6f97",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "2da3cca0e89fd0bea81dee6504803725ae9049d68bc59349b4c2b347acb9c7a5",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "c15624a973b664b9bb1ba32f23d7cff788a361cae90354a6341e9857c944324d",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "91c8a36c73eb8b4572ae2c6b1d0cd3b81dc2ce2dc4d426a2fdf8d7a1c7cb512a",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "c5c4f758649c60fb210d6aab88fb03ff8bcac78ed015847b82ea6a2d60b2b519",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "479081458d312ebf67f5f3cc39367f3fabbdb05df0b0e4f031bcd4d72dd846d1",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "b4fd2c63625eb71bd90b30f21f89360a67fc1e63ece3d8e905248f82fe00a610",
+   "errors": [
+    {
+     "kind": "line_break_split",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "80532c90defa557efd0eee360080091876a0f04a7968b238585661df440af3d1",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "d11c006a336d831b349de48c766e97a44e73379c79458bb43e620881536fe970",
+   "errors": [
+    {
+     "kind": "look_alike",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "3b51fb46e8722afab8895ea44db40a2f9425803f248fe1335a5e18a3c11c3deb",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "19abc6f1d3d2a1394d9eb4f0258afe0122290d9aa6abbdfcf57c34d7cfcc678f",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "00e622b435ed39c7f45a7a2466af8d56030253214c306627b65aebeb57b4fc47",
+   "errors": [],
+   "unverifiable": true
+  },
+  {
+   "sha256": "38001ac51649dbefdc25a0dc29dc715e3a6e1d90fe059a6d4ab573aa3133749a",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "d7bba2aaa14cf1cace8fcf063e552b9385c23dbd0f34b91187ad00c152259145",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "d98ba81dd5b16eac8eb12fa3aaf3111a3e74c0e20dff8c1e5be247a3ec66fcea",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "a99c971ab274b4b9a8c55c299c6624c74d7fe82c5cdca3a3117ea82b944d26f4",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "4b760cc9cbef150c9f25d1d365c39c61eda38331186e69e37e0f532842e9110d",
+   "errors": [
+    {
+     "kind": "punctuation",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "7c2d4f4560160ca4401259441fe11da1c4c7524b4243d8b768a02e8d46bfaec3",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "e21d44ec4cc03ea21034cfacfdbfb4773559d1f27123576f6279c8afdbb31462",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "922ae763be059957dc7af71656212cc0afce37f12b2e5c42356e632cc2e80d19",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "b1979140b5f4cb5af3bd986d50832fbe2cd30c5a6bdf08f200ddb14a801586d7",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "453ba60e46abc4ddd0c31eee112b155e7924d0b2c5eedcb87ad3f6373ab0705a",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "bbc45c3649ee5e7823f72c51f34202f4857b27d17bed2e33141ffcc6b2e48ccb",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "a3fe10147ddcbcda1a0efbffc7fe508e4abfb362cc028a421c4ef9fcd172643c",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "52879d74b678a13b2bf4b581ecce5d9ab276fd1d7243713b54b5cd480faab3c3",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "e24473d52c1be0a9b61dcaee2c09db50bc85454d6dd7a4075fea576a2f1e92d0",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "fcca90a252ca888cd9945b4b858cbcf0394652dcd51bbed146fb374d2a029d12",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "7fad056d5b4bfb8600438eea139d81ebdbdf18ca401d1a333f302a40c2ef40d7",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "5a26d57153e64c51a1e9c0a59ac5b7efe5ff0876682d742f4ec7176c247d7f85",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "8be27b2c580285acc3e63f42a554ae5ff5511688c2aa1a37a623810f696fa4f2",
+   "errors": [
+    {
+     "kind": "line_break_split",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "5d88e9f68343428f1307d839dc716fedeaf64e04d76ea7c2339b8d1abb572cbc",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "364f46faa0548f1038de0c6d423e59ff18de10b64773d8f2b972f59c91f732c0",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "aceb7ca15beea98991a22eb2a57cfa3b5f886d096c241554af8eb9f9182253fe",
+   "errors": [
+    {
+     "kind": "line_break_split",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "59a3d0329a70de12b9cc13db7b36d3fb3872fe0ebfd85ff44961d24269e7edd5",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "1fd67560d5a53f5632b1b71bfc05d0fd8e89cb0bcdedb7fda9418bd27a51d55f",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "31bb9b2448f02de5fb4c614df79c19fed6af351dc095fadbbbcfa58de4066335",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "a8c6934f00bd3feac33aa3a262a1ce1d8695e144c9b275333a7c0eb3d633cb89",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "149455ecd19307e7ae16e44578a4374058bc54454e0b2b2808b1aacad3e03db5",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "737e27321fb4744e115f20e17fc86f6a37c10f1e4b9d0956f7fdc90ac47cc0f2",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "005082539c48863cb478f354e9178e1437e163e389cb582e324fcb1a02e411d6",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "9bfc73891f91b8cefe394ab62386fe2625aa320e5c60f7c80c50fcbeeb905247",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "46daa8398bffc5c79407281e7554c4a5480b9b9f91df515ea67f0d53b68199ab",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "486eaba9775dfbc40f672dc38ac8a8fa95e44d3be5d4af0fb40253baa1277b9f",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "063b3e714145a49c93ac9602d05a3d939ca2468bf3f5ebc56018f130cce0aa9f",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "b56e5ee4679bbdfb45dd5475d9cdd8f6048cd3f51fd225aec33fc4eaf88947b4",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "354407add4e8d6aea93b71841def664fe762c218639882bfee8616443e0af4e1",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "152a1256e15265c46176b3e65dde66888256183196eed5374f0eb03b9a174d50",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "a6eb4145156e4283fa111881d496b942bde1814ac5d5ce873d4df5d573c2a0d4",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "6f2ac04bb841e005eedd709398c4a9ab4565095ddfc22d46c197436d38273bd4",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "952258032e03ee632ced1e49a72c07422f4e3fc3622a5f18d9b973c25f5d095e",
+   "errors": [
+    {
+     "kind": "number_order",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "2638895029fcd881b008cd1dc94f183558f503f6c2ff83ca737c71eaae840987",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "9e9c56f2160c8e5ba7d2ae1eda4c5b8644d7fb3de3e0863cdc18f5d69fff67bc",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "2322e5c889b1a1cd5ee1286411b5cf862918afd2a8f02876b0c3826c1b7eab7a",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "d47f47c883b5e9c43e86553ff864c875b5316a120fc01e90650a66b8d10b7b21",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "83314725ae96e50db46ac920b4a9b73ffb0c3063e7a7dd387f20f80cccd07aac",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "52228f9e2c4bacbd7398c9965cc767b3a1c8a8792f5b76bf1ae5a3d631992c15",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "01b14d931369cdb65987ffb7e8797d0852e2782aef27bc0063dbe788ec5114fe",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "d10d15543750e1ab2eca118f5e07917c890bac6c12507dd674cb41549f95a09b",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "aafdffd545718abcb985bb4767b2c142a4d574f9073a1974c53e394946fc9b2e",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "c19fe33e74d378cf11b79c8ce1160e5355d835bd25a748976394445b4c7967f9",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "4dca7895908e7681f3eef6586110b54c9a441a7faaf5de9fb36d1f6dab649cdc",
+   "errors": [
+    {
+     "kind": "look_alike",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "530173200d40526ac4bfbc91803d0dcc3bcaf2787fb24488546c6037ee54f44c",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "94d967c2bbe44b82909b4390eebaefc298a71663458b9de1b7c8bf03ee804381",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "0431acc8193c605a96724f1c3a7c9b389edb9e2a900bd7ff950bbe8440387a86",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "b89cb8201371f6bafff1142f119d7393df552eac999b62abe98dd21ec8258c6f",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "307e738c42d492273ebccde044ad0cb9a13564331b195aa8cba8fccc46501d7f",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "ea26984c150bbba799ba3b37613845645c613104a923a134bed3e23e21f97623",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "21d1cad5a1c8f3a974f6429fce7236706374b10e986ef0ba0750d85c4d40d738",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "eb329145b815da276d2a7d8b7a57436e952ef5674561fec50cf676b4f3dd2b49",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "621e2854d94ddca248b2ca2d82bb8583562b226ed36a596d9f49e7e24fceb000",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "040f429f9571a92fc893f357cb8e24362a53f852951eb275bbc59532f91f51a1",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "8954071dd25d3e86fd1723cec7de651fa5db27e2c3c2f2dcfe2f0bd5567a0e89",
+   "errors": [
+    {
+     "kind": "digit",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "b42e0d50c2a98adb5dad2944471144d87b9061c0bb96104cb682d59214c430d6",
+   "errors": [
+    {
+     "kind": "table_cells_merged",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "3ae0b84cf2475bbda203e929bac9eb167d303b4fdbea254eff38e9e91f690729",
+   "errors": [
+    {
+     "kind": "table_cells_merged",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "cd4cc25f85bfc3c598a06950a9680374e38ea9cc7663208ad50a276e43f83045",
+   "errors": [
+    {
+     "kind": "table_cells_merged",
+     "words": 1
+    }
+   ],
+   "unverifiable": false
+  },
+  {
+   "sha256": "d2521d7708db3a6708f741faffb5ad851d4686907346f3d8c7811c695c08c5cc",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "82d84444f66f5d120fe356ad18c215f5c163300a1d1009c6e42d7cb79adaa493",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "73268181e3ad48de14131c763eac3f948eeecdaa54041937fb9b0f561b90ac5b",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "9e91e21dd2a7bf6be6aa1fb3e341515a81bcd2ab465d49faff3779794decea61",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "1d065e5f1b9a30ee069a27def8bd1e02ff24595dc116b5855dea7ce82b048ae2",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "bccd632795a0fa834994bc068c72017b9b486aadd042f9d6a3200fb5543679e5",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "ac958d0f34832b96c0f3e004d4f43a835265220a1619740701999c4dfdc0ae4e",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "354968cace7691ad49bf66499cffafda1056cddb53b58306824d295af249d976",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "6477074d83efeda6ee0a748fe74563a2b18c2ceb6eed9afc0d30b320f4d90290",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "66d3e541854ae6eae0afc68cbcc17755bc2c0a6b31d93f2b26aa9d7363c41e8d",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "a62157719ed29db1ed752c1c566f787dd2fe45551a4e9b42790ba41a0ad0499b",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "3206c6d2a92bf52253fe99ee86f3605c5ba482a6f172c51a9fbe79b02c0c52d2",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "ed0ee1895f8d3225ec9e0ab8580f78aca05cc2bbbe23dd0732539f0cebc7aa7a",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "904947ed1f377ecfcab09d35d0a8f1db7a857231d0c9339e0d85fa4a2225316e",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "54e956447abec5d23cdd1b4d59690649e9430ff556b240b2a3755003213e9d9e",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "d5f9b120c34172cfb7a3f32b037a7d825a03d99f134834269b33333a7624e9fc",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "939c0d7d20fb03a948b1672b007ebe53fa6161c09b4f70c9dc4db03887ceb6b3",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "3a8b163b3029c9a26eb9482480319467f37bb4d457ed9cfbda77c70e69c35892",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "0959bc8b085a7f6663002df31bcdced7d17fd0a4a8c61decd514fe3f66fde659",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "ec3e055a706e95e748c5935df61ecdff90ebf65a1b8b3e12db463fd00f92eb38",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "d2114e322eb9fe5a0098fc17249890716e57dcc8ab12a9de087c5a0de9bed06e",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "8588563008ec7c2fc45515d75549e988757414ecd22e0f643b13b6c9eea50a2c",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "8973c19528ecbe6aeb0732147da01aeae51dc8ebb5bbba463468e8b6d1cc2979",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "6483af755435ab1e28683f322778093cd033d8155b85138151cde085e4cf552c",
+   "errors": [],
+   "unverifiable": false
+  },
+  {
+   "sha256": "acb55e1d5f85f091771949e0d2fbb38e6404cfca6bd2ad7a88767c25f2c35f41",
+   "errors": [],
+   "unverifiable": false
+  }
+ ]
+}

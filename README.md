@@ -28,6 +28,12 @@ line rules are in [`docs/pby_corpus.md`](docs/pby_corpus.md). The design is the
 4. A translation is public domain only if both its author and its translator
    are.
 
+The second corpus is the enacted laws of the first eight Knessets, as
+published in Reshumot (section 6 of the Copyright Act, `htext-cc0`). Its text is
+the scans' OCR layer, filtered against a lexicon and checked by eye. How it is
+fetched and built, and the published `v1`, are in
+[`docs/knesset_laws.md`](docs/knesset_laws.md).
+
 ## Plan
 
 [`docs/sources_plan.md`](docs/sources_plan.md) lists the sources htext will add, their rights basis, estimated
