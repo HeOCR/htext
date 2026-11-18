@@ -32,13 +32,13 @@ git -C dumps/pby checkout 5e4277fead7b565f32cc4b352abd3565023a77d8
 ```bash
 python -m pip install --no-binary Pillow -C raqm=enable "Pillow>=10"
 python -m pip install -e ".[fit]"
-htext pby build --dump dumps/pby --output out/pby-v2 \
-  --reserved ~/clones/heocr-restricted-eval/reservations/eval_reservations_v2.json \
+htext pby build --dump dumps/pby --output out/pby-v3 --corpus-version v3 \
+  --reserved <eval_reservations_v4.json from HeOCR's evaluation> \
   --leakage <dir with data/leakage/*.hashes.json and eval's fixtures>
 ```
 
 The build reads no network. Defaults: `--as-of 2026`, `--seed 15`,
-`--niqqud-threshold 0.5`, `--corpus-version v2`, no per-work cap
+`--niqqud-threshold 0.5`, `--corpus-version v2` (the published `v3` passes `v3`), no per-work cap
 (`--max-lines-per-work 0`), the v2 genre allowlist, and the S10b training text in `hocrsyngen` as the length profile.
 `--no-fit-check` skips the wrap check (for experiments only). The card records
 that the check did not run.
@@ -206,13 +206,44 @@ The rights fields are the project's reading of the law, not legal advice.
   unknown or unsure. Rows for the remaining 225 creators can follow.
 - **First-publication years:** sourcing these would widen `il_us`.
 
+## Published build (`v3`)
+
+The pinned `v3` build is in [`data/pby/v3/`](../data/pby/v3/): the corpus card,
+`SHA256SUMS`, the exclusion list and the gzipped rights index. The four
+corpus files and the gzipped line index are assets of the
+[`pby-v3` release](https://github.com/HeOCR/htext/releases/tag/pby-v3).
+It supersedes `v2`.
+
+`v3` is `v2` rebuilt with eval reservations v4 instead of v1. Nothing else
+changed: same dump pin, creators, parameters, leakage fixtures and length
+profile. The 31 PBY works that v4 reserves are left out whole. Fifteen of them
+had lines in `v2` (see [`data/pby/v2/KNOWN_ISSUES.md`](../data/pby/v2/KNOWN_ISSUES.md)).
+
+| File | Lines | Works |
+| --- | ---: | ---: |
+| `pby_lines_il_plain_v3.txt` | 12,278,848 | 16,409 |
+| `pby_lines_il_niqqud_v3.txt` | 1,680,290 | 15,738 |
+| `pby_lines_il_us_plain_v3.txt` | 407,456 | 564 |
+| `pby_lines_il_us_niqqud_v3.txt` | 18,613 | 325 |
+
+The two `il_us` files are byte-identical to `v2`'s. The length profile is as
+in `v2`: the plain files meet every S10b target, and the niqqud files miss the
+31–55 floor (17.6% in `il`).
+
+25,267 works have lines, all `htext-cc0`. `tests/test_published_v3.py` checks
+the committed files, as the `v2` test does, and also checks that the card
+names reservations v4 and that `v3` drops exactly the 15 newly reserved works.
+
 ## Published build (`v2`)
+
+Superseded by `v3`. Known issues found after publication are in
+[`data/pby/v2/KNOWN_ISSUES.md`](../data/pby/v2/KNOWN_ISSUES.md); the `v2` files
+and their sha256s stay as published.
 
 The pinned `v2` build is in [`data/pby/v2/`](../data/pby/v2/): the corpus card,
 `SHA256SUMS`, the exclusion list and the gzipped rights index. The four
 corpus files and the gzipped line index are assets of the
 [`pby-v2` release](https://github.com/HeOCR/htext/releases/tag/pby-v2).
-It supersedes `v1`.
 
 | File | Lines | Works |
 | --- | ---: | ---: |
@@ -236,7 +267,7 @@ in no release, and that the creator who died in 1970 has 7 works, all
 
 ## Published build (`v1`)
 
-Superseded by `v2`. Known issues found after publication are in
+Superseded by `v2` and `v3`. Known issues found after publication are in
 [`data/pby/v1/KNOWN_ISSUES.md`](../data/pby/v1/KNOWN_ISSUES.md); the `v1` files
 and their sha256s stay as published.
 

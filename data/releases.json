@@ -23,6 +23,16 @@
       "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
     },
     {
+      "corpus": "pby",
+      "version": "v3",
+      "card": "data/pby/v3/corpus_card.json",
+      "release_tag": "pby-v3",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
+    },
+    {
       "corpus": "knesset-laws",
       "version": "v1",
       "card": "data/knesset_laws/v1/corpus_card.json",
