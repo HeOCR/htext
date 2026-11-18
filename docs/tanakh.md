@@ -62,3 +62,19 @@ evaluation set before training on this corpus. The card says so too.
 | `tanakh_line_index.v1.jsonl.gz` | per line: `subset`, `sha256`, `ref` (`Book.chapter.verse`), `part` and `parts` |
 | `tanakh_rights_index.v1.jsonl.gz` | per book: OSIS name, Hebrew name, section, verse count, source file and sha256, rights and release fields |
 | `corpus_card.json`, `CORPUS_CARD.md`, `SHA256SUMS` | card and checksums |
+
+## Published build (`v1`)
+
+The pinned `v1` build is in [`data/tanakh/v1/`](../data/tanakh/v1/): the corpus card, `SHA256SUMS` and the gzipped
+rights index. The two corpus files and the gzipped line index are assets of the
+[`tanakh-v1` release](https://github.com/HeOCR/htext/releases/tag/tanakh-v1). It was built from `87fe9be`, with
+eval's reservations v3 (no biblical unit is reserved), the leakage fixtures and the fit check.
+
+| File | Lines | Median chars | 31–55 share | 36–47 share |
+| --- | ---: | ---: | ---: | ---: |
+| `tanakh_lines_niqqud_v1.txt` | 58,120 | 23 | 21.9% | 10.9% |
+| `tanakh_lines_plain_v1.txt` | 58,074 | 23 | 21.9% | 10.9% |
+
+Both files meet every S10b length target. Of 59,589 cut lines from 23,213 verses, the build dropped 1,262 repeated
+lines, 200 that failed the wrap check, 6 that share a word 3-gram with evaluation text, and 1 with a medial final
+form. All 39 books are `htext-cc0`. `tests/test_published_tanakh.py` checks the committed files.

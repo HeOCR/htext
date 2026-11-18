@@ -1,0 +1,339 @@
+{
+  "schema": "tanakh_corpus_card.v1",
+  "name": "Tanakh: the Westminster Leningrad Codex, pointed and plain",
+  "builder": {
+    "package": "htext",
+    "version": "0.1.0"
+  },
+  "credit": {
+    "text": "Westminster Leningrad Codex (public domain), via the Open Scriptures Hebrew Bible",
+    "url": "https://github.com/openscriptures/morphhb"
+  },
+  "licence": {
+    "outputs": "CC0-1.0",
+    "source": "Public Domain"
+  },
+  "text_rights": "ancient_text_public_domain_edition",
+  "htext_release": "cc0",
+  "release": {
+    "htext_release": "cc0",
+    "release_name": "htext-cc0",
+    "release_licence": "CC0-1.0",
+    "entries_admitted": 39,
+    "source_licences": {
+      "Public Domain": 39
+    }
+  },
+  "text_quality": "transcription",
+  "schemas": {
+    "rights_index": "tanakh_rights_index.v1",
+    "line_index": "tanakh_line_index.v1"
+  },
+  "source": {
+    "repository": "openscriptures/morphhb",
+    "commit": "db6c5c9b46b8f39346f10915ddb1a70dcd429901",
+    "path": "wlc/",
+    "edition": "Westminster Leningrad Codex (WLC), not UXLC",
+    "wlc_versions": [
+      "4.20"
+    ],
+    "public_domain_statements": [
+      {
+        "where": "README.md",
+        "text": "The text of the WLC remains in the Public Domain."
+      },
+      {
+        "where": "LICENSE.md",
+        "text": "This work is based on The Westminster Leningrad Codex, which is in the public domain."
+      },
+      {
+        "where": "wlc/*.xml <work osisWork=\"WLC\">",
+        "text": "<rights>Public Domain</rights>"
+      }
+    ],
+    "not_used": "OSHB's lemma, morphology and n attributes (CC BY 4.0) and its / morpheme dividers; marginal readings (qere) and notes",
+    "books": 39
+  },
+  "inputs": {
+    "leakage_fixtures": [
+      {
+        "repository": "HeOCR/heocr-restricted-eval",
+        "path": "dbench/synth/text_pool.json (sentences)",
+        "commit": "e56d79e",
+        "sha256": "8d28491cd29bbffc108ba416777de2113259e487752531a0ce2fea1a501967d0",
+        "lines": 17777,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/heocr-restricted-eval",
+        "path": "preregistration/print_scan_PS-v1_2026-11-18/PS-v1_all_text.txt",
+        "commit": "prereg/print-scan-ps-v1",
+        "sha256": "56ece1442711ed4899505fd1cdbc544659ec1fe9e8baa746e679d20a7b3d9fd0",
+        "lines": 456,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrgen",
+        "path": "docs/evaluation-fixtures/bidi-synthetic-corpus.txt",
+        "commit": "c8fb74eb5d0afedd812a0da69562e4610a0b3394",
+        "sha256": "b325673476bce8c16f0a2731e5de1ec9b226b8274fc1e7dfb723dbccb3edf966",
+        "lines": 100,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "ac7e1dc2c21d2506b93c26ce81cab3327baf217d82fb6620c1ddf6f597235fd6",
+        "lines": 19,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "89e52f8b90cdbb8a276fbdaf96530afff2cc266e13ad6355c215c79e5a58d97f",
+        "lines": 812,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_niqqud_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "974ffa19251bcc1137a3baf908f22d2770d801a38d93456d6109bf6565de5640",
+        "lines": 40,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_mixed_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "45a81fff1105ba347c2e80ebfe5cafa0c4e3763975279709c0b9af7a0eedaa88",
+        "lines": 401,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_typographic_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "3364283592492d8827ae94b8899ce44cecedf1281b4fbeb69f9d76b3e9a09a3c",
+        "lines": 418,
+        "stripped": true
+      }
+    ],
+    "leakage_mode": "line and word 3-grams, in either form",
+    "eval_reservations": [
+      {
+        "schema": "heocr_eval_reservations.v3",
+        "set": "print_scan_PS-v1",
+        "sha256": "969618a8fc7aab5d0f6fc09112196ec756f80c4eb753a78fe4037479f3ce1318",
+        "units": {
+          "pby": 4,
+          "reshumot": 20
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v3",
+        "set": "midcentury (test, dev, retired dev units; v0-v2 union)",
+        "sha256": "969618a8fc7aab5d0f6fc09112196ec756f80c4eb753a78fe4037479f3ce1318",
+        "units": {
+          "plenary": 60,
+          "reshumot": 125
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v3",
+        "set": "P-mod eval and holdout units (v6-v7 union, incl. exposed units)",
+        "sha256": "969618a8fc7aab5d0f6fc09112196ec756f80c4eb753a78fe4037479f3ce1318",
+        "units": {
+          "knesset_protocol": 7,
+          "plenary": 138,
+          "reshumot": 157
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v3",
+        "set": "D-bench synthetic text pool (sets A, B, C and the gate's fresh set)",
+        "sha256": "969618a8fc7aab5d0f6fc09112196ec756f80c4eb753a78fe4037479f3ce1318",
+        "units": {
+          "reshumot": 83
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v3",
+        "set": "P-hist audit2 (Hebrew Wikisource proofread pages)",
+        "sha256": "969618a8fc7aab5d0f6fc09112196ec756f80c4eb753a78fe4037479f3ce1318",
+        "units": {
+          "wikisource": 14
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v3",
+        "set": "line_verify scored lines (units held out whole)",
+        "sha256": "969618a8fc7aab5d0f6fc09112196ec756f80c4eb753a78fe4037479f3ce1318",
+        "units": {
+          "benyehuda_nli_aligned": 2,
+          "pby": 10,
+          "wikisource": 23
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v3",
+        "set": "h_eval_v1 (handwriting)",
+        "sha256": "969618a8fc7aab5d0f6fc09112196ec756f80c4eb753a78fe4037479f3ce1318",
+        "units": {
+          "hash": 34
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v3",
+        "set": "P-hist eval hold-out v1 (27 P-hist books + 3 Rashi-script stratum; with audit2, 40 P-hist books)",
+        "sha256": "969618a8fc7aab5d0f6fc09112196ec756f80c4eb753a78fe4037479f3ce1318",
+        "units": {
+          "ia": 13,
+          "pby": 11,
+          "sefaria": 5,
+          "wikisource": 23
+        }
+      }
+    ],
+    "length_profile_source": "hocrsyngen texts/hebrew_lines_train_v1.txt",
+    "fit_check": {
+      "ran": true,
+      "hocrsyngen_version": null,
+      "hocrsyngen_commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+      "bodies": [
+        {
+          "template_id": "printed_letter",
+          "font_file": "Alef-Regular.ttf",
+          "size": 42,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "handwritten_note",
+          "font_file": "GveretLevin-Regular.ttf",
+          "size": 46,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "archive_card",
+          "font_file": "Alef-Regular.ttf",
+          "size": 38,
+          "width": 498,
+          "rows_per_line": 2
+        },
+        {
+          "template_id": "ledger",
+          "font_file": "Alef-Regular.ttf",
+          "size": 30,
+          "width": 206,
+          "rows_per_line": 10
+        }
+      ],
+      "maqaf_glyph_check": true
+    }
+  },
+  "corpus_version": "v1",
+  "parameters": {
+    "seed": 15,
+    "max_line_chars": 55,
+    "maqaf_allowed": true
+  },
+  "books": {
+    "total": 39,
+    "with_lines": 39,
+    "skipped": {},
+    "verses": 23213
+  },
+  "notes": [
+    "Biblical verses are quoted in many printed Hebrew pages, including pages in HeOCR's evaluation sets. The leakage check drops lines that match evaluation text, but a quotation can still match a line here; run the training-time overlap check (CLEAN) against your evaluation set before training on this corpus.",
+    "Every line exists in both files. A repeated verse is kept once per file, so the two files can differ slightly in length."
+  ],
+  "files": {
+    "tanakh_lines_niqqud_v1.txt": {
+      "subset": "niqqud",
+      "lines": 58120,
+      "books": 39,
+      "sha256": "3c7cd4579f6c5a352848862a0fcab5a46b4f56516cef08104c31d591ec60909f",
+      "bytes": 4631929,
+      "length_profile": {
+        "lines": 58120,
+        "max_chars": 55,
+        "median": 23.0,
+        "share_31_55": 0.2192,
+        "share_36_47": 0.1095
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      },
+      "per_section": {
+        "prophets": 26856,
+        "torah": 14790,
+        "writings": 16474
+      }
+    },
+    "tanakh_lines_plain_v1.txt": {
+      "subset": "plain",
+      "lines": 58074,
+      "books": 39,
+      "sha256": "954a0ad534b464356e4b948bf088d3e13192cf8061b6b22f0a75d156a78d71af",
+      "bytes": 2681470,
+      "length_profile": {
+        "lines": 58074,
+        "max_chars": 55,
+        "median": 23.0,
+        "share_31_55": 0.2194,
+        "share_36_47": 0.1095
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      },
+      "per_section": {
+        "prophets": 26834,
+        "torah": 14781,
+        "writings": 16459
+      }
+    }
+  },
+  "pipeline": {
+    "books:with_lines": 39,
+    "lines_deduplicated:plain": 46,
+    "marks_removed:paseq": 2273,
+    "marks_removed:pe": 1181,
+    "marks_removed:reversednun": 9,
+    "marks_removed:samekh": 1981,
+    "marks_removed:sof-pasuq": 23192,
+    "notes_skipped:alternative": 119,
+    "notes_skipped:editorial": 3099,
+    "notes_skipped:exegesis": 21,
+    "notes_skipped:variant": 1260,
+    "segments": 59589,
+    "segments_dropped:duplicate": 1262,
+    "segments_dropped:fit:archive_card:too_many_rows": 194,
+    "segments_dropped:fit:ledger:word_too_wide": 6,
+    "segments_dropped:leak_word3": 6,
+    "segments_dropped:medial_final_form": 1,
+    "verses": 23213,
+    "words:ketiv": 1268
+  },
+  "length_profile_targets": {
+    "max_chars": 55,
+    "share_31_55": [
+      0.18,
+      0.35
+    ],
+    "min_share_36_47": 0.1,
+    "median": [
+      18,
+      30
+    ]
+  }
+}
