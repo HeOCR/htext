@@ -128,6 +128,14 @@ htext knesset-laws build --manifest data/knesset_laws/sources.v1.json \
      (seen at least 50 times) by one OCR confusion: ב/כ, ב/נ, ס/מ, ג/נ, ד/ר, ה/ח, ו/ז, ו/י or ם/ס. Examples are
      `זבאי` for `זכאי` and `באמור` for `כאמור`. These misreadings are rare but real words, so the lexicon alone keeps
      them. The first eye-check pass found them to be the most common error.
+   - **Two-corpus rule** (heocr-lead, 2026-11-18). A look-alike is suspect only if the variant is also at least 10
+     times more common in the laws being built. PBY is literary, so legal words it rarely uses (`ברשומות` beside
+     `ברשימות`, `ציוד` beside `ציור`, `ערר` beside `עדר`) were dropping in build 2: the rule dropped 6.1% of lines,
+     most of them correct. The laws' counts only veto a suspicion, and a word still needs the lexicon.
+     Reserved laws are never read for these counts.
+   - **Blind spot.** A misreading the OCR makes consistently can be common in the laws and veto its own suspicion. So
+     the card counts the lines rescued this way per pair, and lists the 30 most frequent rescued words with both
+     counts, for review.
    - **Number lists:** a comma between digits that is not a thousands separator means the OCR reversed a list
      (`75,74` for `74, 75`), and the line is dropped.
    - **Leakage** by line only. Legal formulas repeat, so word 3-grams would drop far too much; reserved booklets are

@@ -373,7 +373,9 @@ def test_reversed_number_lists_are_detected(text, dropped):
     assert bool(laws._NUMBER_LIST.search(text)) is dropped
 
 
-def test_build_reports_suspect_drops(law_inputs: Path):
+def test_build_reports_suspect_drops(law_inputs: Path, monkeypatch: pytest.MonkeyPatch):
+    # The two-corpus veto off: the drop path itself is under test here.
+    monkeypatch.setattr("htext.knesset.lexicon.LOCAL_RATIO", 0)
     lexicon = _lexicon()
     # ג/נ is a confusion pair: make "הננים" far more common than "הגנים", so lines with "הגנים" become suspect.
     lexicon.counts = {**lexicon.counts, "הננים": 1000}
@@ -397,13 +399,14 @@ def test_confusion_pair_names():
         laws.confusion_pair("אבג", "אבד")
 
 
-def test_suspect_drops_are_counted_by_pair(law_inputs: Path):
+def test_suspect_drops_are_counted_by_pair(law_inputs: Path, monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setattr("htext.knesset.lexicon.LOCAL_RATIO", 0)
     lexicon = _lexicon()
     lexicon.counts = {**lexicon.counts, "הננים": 1000}
     card = laws.build(_config(law_inputs, lexicon=lexicon))
     by_pair = card["lexicon_filter"]["suspect_drops_by_pair"]
     assert by_pair.get("ג/נ", 0) >= 1 and sum(by_pair.values()) >= card["lexicon_filter"]["segments_dropped_suspect"]
-    assert "By pair: ג/נ" in (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+    assert "Dropped by pair: ג/נ" in (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")
 
 
 def test_fresh_eye_sample_excludes_earlier_samples(law_inputs: Path):
@@ -417,3 +420,24 @@ def test_fresh_eye_sample_excludes_earlier_samples(law_inputs: Path):
     assert not old_shas & {row["sha256"] for row in new_rows[1:]}
     assert card["eye_check"]["excluded_samples"][0]["file"] == "old_sample.jsonl"
     assert "Fresh sample" in (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+
+
+def test_two_corpus_rule_rescues_words_common_in_the_corpus():
+    lexicon = Lexicon.from_lines(["ברשימות"] * 300 + ["ברשומות"] * 3 + ["זכאי"] * 300 + ["זבאי"] * 2, min_count=2)
+    assert lexicon.suspects("פורסם ברשומות") == [("ברשומות", "ברשימות")]
+    local = {"ברשומות": 500, "ברשימות": 4, "זכאי": 400, "זבאי": 5}
+    assert lexicon.look_alikes("פורסם ברשומות", local) == [("ברשומות", "ברשימות", True)]
+    assert lexicon.suspects("פורסם ברשומות", local) == []
+    assert lexicon.suspects("הוא זבאי", local) == [("זבאי", "זכאי")]
+
+
+def test_build_reports_rescued_look_alikes(law_inputs: Path):
+    lexicon = _lexicon()
+    # "הגנים" is a look-alike of "הננים" in the lexicon, but common in the corpus and "הננים" absent: rescued.
+    lexicon.counts = {**lexicon.counts, "הננים": 1000}
+    card = laws.build(_config(law_inputs, lexicon=lexicon))
+    lex = card["lexicon_filter"]
+    assert lex["segments_rescued"] >= 1 and lex["rescued_by_pair"].get("ג/נ", 0) >= 1
+    assert lex["rescued_top"][0]["word"] == "הגנים" and lex["rescued_top"][0]["variant"] == "הננים"
+    card_md = (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+    assert "Rescued by the corpus counts" in card_md and "at least 10 times more common in this corpus" in card_md

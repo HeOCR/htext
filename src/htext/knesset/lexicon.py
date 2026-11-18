@@ -97,6 +97,10 @@ CONFUSIONS = (("ב", "כ"), ("ב", "נ"), ("ס", "מ"), ("ג", "נ"), ("ד", "ר
 SUSPECT_RATIO = 20
 # ... and that word occurs at least this often.
 SUSPECT_MIN_VARIANT = 50
+# Two-corpus rule (heocr-lead, 2026-11-18): the variant must also be this many times more common in the corpus being
+# built. A legal word PBY rarely uses (ברשומות beside ברשימות) is common in the laws and is not suspect; a misreading
+# (זבאי beside זכאי) stays rare there. The corpus' counts only veto a suspicion: a word still needs the lexicon.
+LOCAL_RATIO = 10
 _SWAPS: dict[str, tuple[str, ...]] = {}
 for _a, _b in CONFUSIONS:
     _SWAPS[_a] = _SWAPS.get(_a, ()) + (_b,)
@@ -154,11 +158,12 @@ class Lexicon:
         keys = word_keys(token)
         return bool(keys) and all(key in self.words for key in keys)
 
-    def suspects(self, line: str) -> list[tuple[str, str]]:
-        """Words of ``line`` that look like an OCR confusion of a far more common word, with that word.
+    def look_alikes(self, line: str, local: dict[str, int] | None = None) -> list[tuple[str, str, bool]]:
+        """Words of ``line`` that look like an OCR confusion of a far more common word: ``(word, variant, rescued)``.
 
-        ``זבאי`` (rare) beside ``זכאי`` (common) is suspect; ``בזאת`` beside ``כזאת`` is not,
-        because both are common.
+        A word is a look-alike when one confusion turns it into a word at least :data:`SUSPECT_RATIO` times more
+        common in the lexicon (and seen :data:`SUSPECT_MIN_VARIANT` times). With ``local`` (word counts of the corpus
+        being built), it is ``rescued`` unless the variant is also :data:`LOCAL_RATIO` times more common there.
         """
 
         out = []
@@ -170,8 +175,15 @@ class Lexicon:
                         variant = key[:index] + swap + key[index + 1 :]
                         other = self.counts.get(variant, 0)
                         if other >= SUSPECT_MIN_VARIANT and other >= SUSPECT_RATIO * count:
-                            out.append((key, variant))
+                            rescued = local is not None and local.get(variant, 0) < LOCAL_RATIO * local.get(key, 0)
+                            out.append((key, variant, rescued))
         return out
+
+    def suspects(self, line: str, local: dict[str, int] | None = None) -> list[tuple[str, str]]:
+        """Look-alikes of ``line`` that are not rescued: ``זבאי`` beside ``זכאי`` is suspect; ``בזאת`` beside ``כזאת``
+        is not, because both are common."""
+
+        return [(word, variant) for word, variant, rescued in self.look_alikes(line, local) if not rescued]
 
     def card(self) -> dict:
         return {
@@ -182,5 +194,6 @@ class Lexicon:
                 "confusions": ["/".join(pair) for pair in CONFUSIONS],
                 "ratio": SUSPECT_RATIO,
                 "min_variant_count": SUSPECT_MIN_VARIANT,
+                "corpus_ratio": LOCAL_RATIO,
             },
         }
