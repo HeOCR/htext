@@ -164,3 +164,5 @@ def test_registry_rows_agree_with_the_gate_and_the_card(row):
             entry = json.loads(line)
             if "source_licence" in entry:
                 assert release_for_licence(entry["source_licence"]) == row["htext_release"]
+                # A work with no lines in the build is in no release.
+                assert entry["htext_release"] in (row["htext_release"], None)
