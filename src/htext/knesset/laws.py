@@ -43,7 +43,7 @@ from typing import Any, Callable, Sequence
 from htext import __version__
 from htext.knesset.extract import read_texts
 from htext.knesset.fetch import MANIFEST_SCHEMA
-from htext.knesset.lexicon import CONFUSIONS, Lexicon
+from htext.knesset.lexicon import CONFUSIONS, Lexicon, word_keys
 from htext.knesset.text import UNRESOLVED_BREAK, paragraphs
 from htext.leakage import Protected, sha256_text
 from htext.pby.build import PROFILE_TARGETS, length_profile, profile_passes
@@ -183,13 +183,15 @@ def _law_lines(
     protected: Protected,
     seen: set[str],
     stats: Counter,
+    prepared: dict[str, tuple[list, dict[str, int]]],
+    local: dict[str, int],
+    rescued_words: Counter,
 ) -> list[LawLine]:
     out: list[LawLine] = []
     sampler = LengthSampler(config.length_profile, f"{config.seed}:law:{bill['bill_id']}")
     for doc in docs:
-        text = texts[doc["file"]]["text"]
-        law_stats: dict[str, int] = {}
-        for paragraph in paragraphs(text, law_stats, is_word=lexicon.is_word):
+        found, law_stats = prepared[doc["file"]]
+        for paragraph in found:
             words = paragraph.text.split()
             for start, end in word_spans(words, verse=False, targets=sampler):
                 stats["segments"] += 1
@@ -207,12 +209,20 @@ def _law_lines(
                 if lexicon.unknown(segment.text):
                     stats["segments_dropped:lexicon"] += 1
                     continue
-                suspects = lexicon.suspects(segment.text)
+                look_alikes = lexicon.look_alikes(segment.text, local)
+                suspects = [(word, variant) for word, variant, rescued in look_alikes if not rescued]
                 if suspects:
                     stats["segments_dropped:lexicon_suspect"] += 1
                     for pair in sorted({confusion_pair(word, variant) for word, variant in suspects}):
                         stats[f"suspect_pair:{pair}"] += 1
                     continue
+                if look_alikes:
+                    # Kept only because the laws' own counts vetoed the suspicion.
+                    stats["segments_rescued:lexicon_suspect"] += 1
+                    for pair in sorted({confusion_pair(word, variant) for word, variant, _ in look_alikes}):
+                        stats[f"rescued_pair:{pair}"] += 1
+                    for word, variant, _ in look_alikes:
+                        rescued_words[(word, variant)] += 1
                 if sha256_text(segment.text) in protected.lines:
                     stats["segments_dropped:leak_line"] += 1
                     continue
@@ -323,7 +333,8 @@ def build(config: LawsConfig, *, progress: Callable[[str], None] | None = None) 
     corpus: list[LawLine] = []
     records: dict[int, dict[str, Any]] = {}
     bills = sorted(manifest["bills"], key=lambda bill: bill["bill_id"])
-    for number, bill in enumerate(bills, 1):
+    eligible: list[tuple[dict[str, Any], str, list[dict[str, Any]]]] = []
+    for bill in bills:
         unit = booklet_unit(bill)
         record = records[bill["bill_id"]] = _rights_record(bill, unit, config.as_of)
         if unit is None:
@@ -347,13 +358,30 @@ def build(config: LawsConfig, *, progress: Callable[[str], None] | None = None) 
                 record["skipped"] = "no_doc"
             else:
                 record["text_source"] = [doc["file"] for doc in docs]
-                lines = _law_lines(bill, unit, docs, texts, config, lexicon, protected, seen, stats)
-                if not lines:
-                    record["skipped"] = "no_line_kept"
-                corpus.extend(lines)
-        stats[f"laws:{record['skipped'] or 'with_lines'}"] += 1
+                eligible.append((bill, unit, docs))
+    # First pass: paragraphs of every law that may contribute lines, and their word counts for the two-corpus rule.
+    # Reserved laws are never read, so eval's text never shapes the counts.
+    prepared: dict[str, tuple[list, dict[str, int]]] = {}
+    local: Counter = Counter()
+    for _bill, _unit, docs in eligible:
+        for doc in docs:
+            law_stats: dict[str, int] = {}
+            found = paragraphs(texts[doc["file"]]["text"], law_stats, is_word=lexicon.is_word)
+            prepared[doc["file"]] = (found, law_stats)
+            for paragraph in found:
+                for token in paragraph.text.split():
+                    local.update(word_keys(token))
+    rescued_words: Counter = Counter()
+    for number, (bill, unit, docs) in enumerate(eligible, 1):
+        record = records[bill["bill_id"]]
+        lines = _law_lines(bill, unit, docs, texts, config, lexicon, protected, seen, stats, prepared, local, rescued_words)
+        if not lines:
+            record["skipped"] = "no_line_kept"
+        corpus.extend(lines)
         if progress and number % 200 == 0:
-            progress(f"{number}/{len(bills)} laws, {len(corpus)} lines")
+            progress(f"{number}/{len(eligible)} laws, {len(corpus)} lines")
+    for record in records.values():
+        stats[f"laws:{record['skipped'] or 'with_lines'}"] += 1
 
     name = corpus_file_name(config.corpus_version)
     with (output / name).open("w", encoding="utf-8", newline="\n") as handle:
@@ -409,7 +437,18 @@ def build(config: LawsConfig, *, progress: Callable[[str], None] | None = None) 
     eye = eye_check_summary(config.eye_check, _sha256_file(output / EYE_SAMPLE_FILE), sample)
     eye["excluded_samples"] = excluded_sources
 
+    rescued_top = [
+        {
+            "word": word,
+            "variant": variant,
+            "lexicon_counts": [lexicon.counts.get(word, 0), lexicon.counts.get(variant, 0)],
+            "corpus_counts": [local.get(word, 0), local.get(variant, 0)],
+            "lines": lines_kept,
+        }
+        for (word, variant), lines_kept in rescued_words.most_common(30)
+    ]
     card = _card(config, manifest, texts_header, lexicon, protected, reservations, records, files, stats, guard, eye)
+    card["lexicon_filter"]["rescued_top"] = rescued_top
     (output / "corpus_card.json").write_text(json.dumps(card, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (output / "CORPUS_CARD.md").write_text(render_card(card), encoding="utf-8")
     names = sorted(path.name for path in output.iterdir() if path.is_file() and path.name != "SHA256SUMS")
@@ -470,6 +509,8 @@ def _card(config, manifest, texts_header, lexicon, protected, reservations, reco
             "suspect_drop_rate": round(suspect_dropped / after_charset, 4) if after_charset else None,
             # A line with suspects from two pairs counts once under each.
             "suspect_drops_by_pair": {key.split(":", 1)[1]: value for key, value in sorted(stats.items()) if key.startswith("suspect_pair:")},
+            "segments_rescued": stats.get("segments_rescued:lexicon_suspect", 0),
+            "rescued_by_pair": {key.split(":", 1)[1]: value for key, value in sorted(stats.items()) if key.startswith("rescued_pair:")},
         },
         "eye_check": eye,
         "files": files,
@@ -510,10 +551,18 @@ def render_card(card: dict[str, Any]) -> str:
         lines += [
             f"- **Drop rate:** {lex['segments_dropped']:,} of {lex['segments_after_character_rules']:,} lines that passed the character rules ({lex['drop_rate']:.1%}) had a word outside the lexicon.",
             f"- **Table cells:** {card['pipeline'].get('text:lines_dropped:table_cell', 0):,} printed lines with fewer than two Hebrew letters were dropped as table cells.",
-            f"- **Look-alike words:** {lex['segments_dropped_suspect']:,} more ({lex['suspect_drop_rate']:.1%}) had a word that one OCR confusion ({', '.join(rule['confusions'])}) turns into a word at least {rule['ratio']} times more common (and seen at least {rule['min_variant_count']} times).",
+            f"- **Look-alike words:** {lex['segments_dropped_suspect']:,} more ({lex['suspect_drop_rate']:.1%}) had a word that one OCR confusion ({', '.join(rule['confusions'])}) turns into a word at least {rule['ratio']} times more common in the lexicon (and seen there at least {rule['min_variant_count']} times) and at least {rule['corpus_ratio']} times more common in this corpus.",
+            f"  - Rescued by the corpus counts (look-alike in the lexicon, but not in this corpus): {lex['segments_rescued']:,} lines kept. By pair: " + ", ".join(f"{pair} {count:,}" for pair, count in lex["rescued_by_pair"].items()) + ".",
         ]
+    if lex.get("rescued_top"):
+        lines += ["", "Most frequent rescued look-alikes (counts: lexicon, this corpus):", "", "| Word | Variant | Word counts | Variant counts | Lines kept |", "| --- | --- | ---: | ---: | ---: |"]
+        lines += [
+            f"| {row['word']} | {row['variant']} | {row['lexicon_counts'][0]:,} / {row['corpus_counts'][0]:,} | {row['lexicon_counts'][1]:,} / {row['corpus_counts'][1]:,} | {row['lines']:,} |"
+            for row in lex["rescued_top"]
+        ]
+        lines.append("")
     if lex.get("suspect_drops_by_pair"):
-        lines.append("  - By pair: " + ", ".join(f"{pair} {count:,}" for pair, count in lex["suspect_drops_by_pair"].items()) + ".")
+        lines.append("  - Dropped by pair: " + ", ".join(f"{pair} {count:,}" for pair, count in lex["suspect_drops_by_pair"].items()) + ".")
     if eye.get("excluded_samples"):
         lines.append(
             "- **Fresh sample:** the eye-check sample excludes the lines of earlier samples the rules were tuned on: "
