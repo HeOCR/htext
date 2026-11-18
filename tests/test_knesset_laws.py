@@ -388,3 +388,32 @@ def test_unverifiable_lines_leave_the_rates(law_inputs: Path):
     eye = card["eye_check"]
     assert eye["unverifiable_lines"] == 1 and eye["lines_checked"] == 4
     assert eye["line_error_rate"] == 0.25
+
+
+def test_confusion_pair_names():
+    assert laws.confusion_pair("זבאי", "זכאי") == "ב/כ"
+    assert laws.confusion_pair("מעיף", "סעיף") == "ס/מ"
+    with pytest.raises(ValueError):
+        laws.confusion_pair("אבג", "אבד")
+
+
+def test_suspect_drops_are_counted_by_pair(law_inputs: Path):
+    lexicon = _lexicon()
+    lexicon.counts = {**lexicon.counts, "הננים": 1000}
+    card = laws.build(_config(law_inputs, lexicon=lexicon))
+    by_pair = card["lexicon_filter"]["suspect_drops_by_pair"]
+    assert by_pair.get("ג/נ", 0) >= 1 and sum(by_pair.values()) >= card["lexicon_filter"]["segments_dropped_suspect"]
+    assert "By pair: ג/נ" in (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+
+
+def test_fresh_eye_sample_excludes_earlier_samples(law_inputs: Path):
+    laws.build(_config(law_inputs))
+    old = law_inputs / "old_sample.jsonl"
+    old.write_bytes((law_inputs / "out" / laws.EYE_SAMPLE_FILE).read_bytes())
+    old_shas = {json.loads(line)["sha256"] for line in old.read_text(encoding="utf-8").splitlines()[1:]}
+    card = laws.build(_config(law_inputs, eye_exclude=[old]))
+    new_rows = [json.loads(line) for line in (law_inputs / "out" / laws.EYE_SAMPLE_FILE).read_text(encoding="utf-8").splitlines()]
+    assert new_rows[0]["excluded_samples"][0]["lines"] == len(old_shas)
+    assert not old_shas & {row["sha256"] for row in new_rows[1:]}
+    assert card["eye_check"]["excluded_samples"][0]["file"] == "old_sample.jsonl"
+    assert "Fresh sample" in (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")

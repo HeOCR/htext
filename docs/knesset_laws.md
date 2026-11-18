@@ -146,6 +146,14 @@ file's sha256, who checked it, when, the method, and per line a list of errors, 
 rates. Rebuilding with `--eye-check FILE` puts the measured line and word error rates on the card. The build refuses
 a check made on another sample.
 
+**Fresh samples.** `--eye-exclude FILE` (repeatable) names earlier sample files whose lines must not be drawn
+again. The published card's check is made on lines the rules were never tuned on, and the card lists the excluded
+samples. A line is marked `unverifiable` only where the scan itself is damaged, never because it is hard to read. If
+more than 5 in 100 are unverifiable, the sample is enlarged.
+
+The card also counts look-alike drops per confusion pair. A line whose suspects come from two pairs counts once
+under each.
+
 **Not counted as errors:** the OCR writes the em dash as `-` and typographic quotes as `"`. Those are shape
 normalisations, not misreadings.
 

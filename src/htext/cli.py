@@ -144,6 +144,7 @@ def _laws_build(args: argparse.Namespace) -> int:
         allow_maqaf=allow_maqaf,
         fit_provenance=provenance,
         eye_sample_size=args.eye_sample,
+        eye_exclude=args.eye_exclude,
         eye_check=args.eye_check,
     )
     card = build_laws(config, progress=lambda message: print(message, file=sys.stderr))
@@ -202,6 +203,10 @@ def main(argv: list[str] | None = None) -> int:
     laws_build.add_argument("--seed", type=int, default=15)
     laws_build.add_argument("--corpus-version", default="v1")
     laws_build.add_argument("--eye-sample", type=int, default=100, help="lines in the eye-check sample")
+    laws_build.add_argument(
+        "--eye-exclude", type=Path, action="append", default=[],
+        help="an earlier eye-check sample file whose lines are not drawn again (repeatable)",
+    )
     laws_build.add_argument("--eye-check", type=Path, default=None, help="a completed htext_eye_check.v1 file for this build's sample")
     laws_build.add_argument("--length-profile", type=Path, default=None)
     laws_build.add_argument("--hocrsyngen-commit", default=None)

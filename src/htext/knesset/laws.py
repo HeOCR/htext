@@ -43,7 +43,7 @@ from typing import Any, Callable, Sequence
 from htext import __version__
 from htext.knesset.extract import read_texts
 from htext.knesset.fetch import MANIFEST_SCHEMA
-from htext.knesset.lexicon import Lexicon
+from htext.knesset.lexicon import CONFUSIONS, Lexicon
 from htext.knesset.text import UNRESOLVED_BREAK, paragraphs
 from htext.leakage import Protected, sha256_text
 from htext.pby.build import PROFILE_TARGETS, length_profile, profile_passes
@@ -70,6 +70,17 @@ DEFAULT_EYE_SAMPLE = 100
 # Reshumot series (KNS_Bill.PublicationSeriesID) to eval's booklet id prefix.
 BOOKLET_SERIES = {6071: "sefer_hachukim", 6075: "chukei_taktziv"}
 CREDIT = Credit("The Knesset of Israel (Knesset database, laws as published in Reshumot)", "https://main.knesset.gov.il")
+
+
+def confusion_pair(word: str, variant: str) -> str:
+    """The confusion pair, as named on the card ("ב/כ"), that turns ``word`` into ``variant``."""
+
+    for a, b in zip(word, variant):
+        if a != b:
+            for pair in CONFUSIONS:
+                if {a, b} == set(pair):
+                    return "/".join(pair)
+    raise ValueError(f"{word!r} and {variant!r} differ by no known confusion")
 
 
 def booklet_unit(bill: dict[str, Any]) -> str | None:
@@ -102,6 +113,8 @@ class LawsConfig:
     eye_sample_size: int = DEFAULT_EYE_SAMPLE
     # A completed htext_eye_check.v1 file for this build's sample; None until the check is done.
     eye_check: Path | None = None
+    # Earlier eye-check sample files; their lines are never drawn again, so a check is never made on lines the rules were tuned on.
+    eye_exclude: Sequence[Path] = ()
     # Prebuilt lexicon (tests); None builds it from lexicon_corpora.
     lexicon: Lexicon | None = None
 
@@ -194,8 +207,11 @@ def _law_lines(
                 if lexicon.unknown(segment.text):
                     stats["segments_dropped:lexicon"] += 1
                     continue
-                if lexicon.suspects(segment.text):
+                suspects = lexicon.suspects(segment.text)
+                if suspects:
                     stats["segments_dropped:lexicon_suspect"] += 1
+                    for pair in sorted({confusion_pair(word, variant) for word, variant in suspects}):
+                        stats[f"suspect_pair:{pair}"] += 1
                     continue
                 if sha256_text(segment.text) in protected.lines:
                     stats["segments_dropped:leak_line"] += 1
@@ -215,8 +231,19 @@ def _law_lines(
     return out
 
 
-def _eye_sample(corpus: list[LawLine], size: int, seed: int) -> list[dict[str, Any]]:
-    picks = sorted(random.Random(f"{seed}:eye").sample(range(len(corpus)), min(size, len(corpus))))
+def _excluded_sample_lines(paths: Sequence[Path]) -> tuple[set[str], list[dict[str, Any]]]:
+    shas: set[str] = set()
+    sources = []
+    for path in paths:
+        rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()[1:]]
+        shas.update(row["sha256"] for row in rows)
+        sources.append({"file": path.name, "sha256": _sha256_file(path), "lines": len(rows)})
+    return shas, sources
+
+
+def _eye_sample(corpus: list[LawLine], size: int, seed: int, exclude: set[str] = frozenset()) -> list[dict[str, Any]]:
+    eligible = [index for index, line in enumerate(corpus) if sha256_text(line.text) not in exclude]
+    picks = sorted(random.Random(f"{seed}:eye").sample(eligible, min(size, len(eligible))))
     return [
         {
             "sha256": sha256_text(corpus[index].text),
@@ -372,12 +399,15 @@ def build(config: LawsConfig, *, progress: Callable[[str], None] | None = None) 
         "laws": [{"bill_id": bill_id, "booklet": records[bill_id]["booklet"], "name": records[bill_id]["name"]} for bill_id in in_corpus],
     }
     (output / EXCLUSION_FILE).write_text(json.dumps(exclusion, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    sample = _eye_sample(corpus, config.eye_sample_size, config.seed)
+    excluded_shas, excluded_sources = _excluded_sample_lines(config.eye_exclude)
+    sample = _eye_sample(corpus, config.eye_sample_size, config.seed, excluded_shas)
     with (output / EYE_SAMPLE_FILE).open("w", encoding="utf-8", newline="\n") as handle:
-        handle.write(json.dumps({"schema": EYE_SAMPLE_SCHEMA, "seed": config.seed, "lines": len(sample)}, ensure_ascii=False) + "\n")
+        header = {"schema": EYE_SAMPLE_SCHEMA, "seed": config.seed, "lines": len(sample), "excluded_samples": excluded_sources}
+        handle.write(json.dumps(header, ensure_ascii=False) + "\n")
         for row in sample:
             handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
     eye = eye_check_summary(config.eye_check, _sha256_file(output / EYE_SAMPLE_FILE), sample)
+    eye["excluded_samples"] = excluded_sources
 
     card = _card(config, manifest, texts_header, lexicon, protected, reservations, records, files, stats, guard, eye)
     (output / "corpus_card.json").write_text(json.dumps(card, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -438,6 +468,8 @@ def _card(config, manifest, texts_header, lexicon, protected, reservations, reco
             "drop_rate": round(lexicon_dropped / after_charset, 4) if after_charset else None,
             "segments_dropped_suspect": suspect_dropped,
             "suspect_drop_rate": round(suspect_dropped / after_charset, 4) if after_charset else None,
+            # A line with suspects from two pairs counts once under each.
+            "suspect_drops_by_pair": {key.split(":", 1)[1]: value for key, value in sorted(stats.items()) if key.startswith("suspect_pair:")},
         },
         "eye_check": eye,
         "files": files,
@@ -477,8 +509,17 @@ def render_card(card: dict[str, Any]) -> str:
         rule = card["inputs"]["lexicon"]["suspect_rule"]
         lines += [
             f"- **Drop rate:** {lex['segments_dropped']:,} of {lex['segments_after_character_rules']:,} lines that passed the character rules ({lex['drop_rate']:.1%}) had a word outside the lexicon.",
+            f"- **Table cells:** {card['pipeline'].get('text:lines_dropped:table_cell', 0):,} printed lines with fewer than two Hebrew letters were dropped as table cells.",
             f"- **Look-alike words:** {lex['segments_dropped_suspect']:,} more ({lex['suspect_drop_rate']:.1%}) had a word that one OCR confusion ({', '.join(rule['confusions'])}) turns into a word at least {rule['ratio']} times more common (and seen at least {rule['min_variant_count']} times).",
         ]
+    if lex.get("suspect_drops_by_pair"):
+        lines.append("  - By pair: " + ", ".join(f"{pair} {count:,}" for pair, count in lex["suspect_drops_by_pair"].items()) + ".")
+    if eye.get("excluded_samples"):
+        lines.append(
+            "- **Fresh sample:** the eye-check sample excludes the lines of earlier samples the rules were tuned on: "
+            + ", ".join(f"`{row['file']}` (sha256 `{row['sha256']}`, {row['lines']} lines)" for row in eye["excluded_samples"])
+            + "."
+        )
     if eye["ran"]:
         lines += [
             f"- **Eye check:** {eye['sample_lines']} lines sampled at random, checked against the scans by {eye['checked_by']} on {eye['checked_at']} ({eye['method']}).",
