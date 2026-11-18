@@ -96,6 +96,28 @@ def test_eval_schema_v3_reads_the_phist_holdout(tmp_path):
     }
 
 
+# Shaped like eval's v4 top-up set, with made-up ids.
+TOPUP_SET = {
+    "set": "P-hist top-up",
+    "registration": {"source": "candidates.json"},
+    "rule": "Each book is held out whole.",
+    "books": ["topupbook00test", "reservebook00test"],
+    "reserves": ["reservebook00test"],
+    "conditional": {"condbook00test": "scored only if the editor is not living"},
+    "ia_identifiers": ["topupbook00test", "reservebook00test", "condbook00test"],
+    "pby_work_ids": [8],
+    "pby_work_ids_basis": "same texts",
+}
+
+
+def test_eval_schema_v4_reads_the_topup(tmp_path):
+    path = _eval_file(tmp_path / "v4.json", [*EVAL_SETS, PHIST_SET, TOPUP_SET], schema="heocr_eval_reservations.v4")
+    reservations = Reservations.load([path])
+    assert reservations.units["ia"] >= {"topupbook00test", "reservebook00test", "condbook00test"}
+    assert reservations.reserved("pby", 8) and reservations.reserved("pby", 5)
+    assert reservations.card()[-1]["units"] == {"ia": 3, "pby": 1}
+
+
 @pytest.mark.parametrize(
     "sets",
     [
