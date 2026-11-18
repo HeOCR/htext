@@ -33,6 +33,10 @@ jobs:
         python-version:
           - "3.11"
           - "3.12"
+        # macOS runners are scarce (jobs have waited 15 minutes and been cancelled), so macOS runs on 3.12 only.
+        exclude:
+          - os: macos-latest
+            python-version: "3.11"
 
     steps:
       - name: Check out repository
