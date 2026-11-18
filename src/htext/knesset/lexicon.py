@@ -90,9 +90,11 @@ def word_keys(token: str) -> list[str]:
     return keys
 
 
-# OCR confusions seen in the Knesset laws' eye check (כ read as ב, נ as ב, ס as מ, נ as ג)
-# and other pairs of near-identical letters in the period's typefaces.
-CONFUSIONS = (("ב", "כ"), ("ב", "נ"), ("ס", "מ"), ("ג", "נ"), ("ד", "ר"), ("ה", "ח"), ("ו", "ז"), ("ו", "י"), ("ם", "ס"))
+# OCR confusions seen in the Knesset laws' eye check (כ read as ב, נ as ב, ס as מ, נ as ג), ס for פ found in the
+# build-3 review of rescued words (לסי for לפי), and other near-identical letters in the period's typefaces.
+CONFUSIONS = (
+    ("ב", "כ"), ("ב", "נ"), ("ס", "מ"), ("ג", "נ"), ("ד", "ר"), ("ה", "ח"), ("ו", "ז"), ("ו", "י"), ("ם", "ס"), ("ס", "פ"),
+)
 # A word is suspect when one confusion turns it into a word this many times more common.
 SUSPECT_RATIO = 20
 # ... and that word occurs at least this often.

@@ -441,3 +441,10 @@ def test_build_reports_rescued_look_alikes(law_inputs: Path):
     assert lex["rescued_top"][0]["word"] == "הגנים" and lex["rescued_top"][0]["variant"] == "הננים"
     card_md = (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")
     assert "Rescued by the corpus counts" in card_md and "at least 10 times more common in this corpus" in card_md
+
+
+def test_samekh_pe_is_a_confusion():
+    lexicon = Lexicon.from_lines(["לפי"] * 500 + ["לסי למי"] * 3 + ["למי"] * 20, min_count=2)
+    local = {"לסי": 263, "לפי": 12664, "למי": 423}
+    assert ("לסי", "לפי") in lexicon.suspects("לסי החוק", local)
+    assert laws.confusion_pair("לסי", "לפי") == "ס/פ"
