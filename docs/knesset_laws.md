@@ -104,6 +104,8 @@ htext knesset-laws build --manifest data/knesset_laws/sources.v1.json \
    - Each printed line is one line of the DOC's text.
    - Running headers (`ספר החוקים <n>` with a date), footnotes (from a line opening with `*` or with a citation such
      as `1 ס"ח`, to the next blank line) and the printer's line are dropped.
+   - A line with fewer than two Hebrew letters (a number or a label alone) is a table cell. It is dropped and cuts the
+     paragraph, so table rows are never glued together.
    - Paragraphs are cut at blank lines, headers and section openings. A paragraph's body runs to its last long line
      (30 characters or more) or its last line that ends a sentence. Short lines after that are a margin note, kept
      as a paragraph of its own, so a heading is never glued into running text.
@@ -113,12 +115,21 @@ htext knesset-laws build --manifest data/knesset_laws/sources.v1.json \
    - a doubled apostrophe between letters becomes gershayim (`בה''ח`);
    - a lone one- or two-digit footnote reference after a law's year is removed;
    - the section number that opens a paragraph is removed, because the OCR often misreads its punctuation (`3,`,
-     `.4 .`).
+     `.4 .`);
+   - a word hyphenated at a line end (`הנס־` / `פחים`) is mended when the joined word is in the lexicon. Otherwise the
+     break may be a compound (`במקח־אגב`) or a word the lexicon lacks, and the line is dropped
+     (`unresolved_line_break`).
 4. **Lines.**
    - Paragraphs are packed to the S10b length profile, as PBY prose is, and pass the PBY character rules.
    - **Lexicon filter** (plan decision 3): every word must be in a lexicon built from transcription corpora only,
      where it occurs at least twice (`--lexicon-min-count`). Hebrew numerals (`תשי"ט`, `בתשל"ג`) are checked by
      rule instead. The card reports the drop rate.
+   - **Look-alike words:** a line is also dropped when one of its words becomes a word at least 20 times more common
+     (seen at least 50 times) by one OCR confusion: ב/כ, ב/נ, ס/מ, ג/נ, ד/ר, ה/ח, ו/ז, ו/י or ם/ס. Examples are
+     `זבאי` for `זכאי` and `באמור` for `כאמור`. These misreadings are rare but real words, so the lexicon alone keeps
+     them. The first eye-check pass found them to be the most common error.
+   - **Number lists:** a comma between digits that is not a thousands separator means the OCR reversed a list
+     (`75,74` for `74, 75`), and the line is dropped.
    - **Leakage** by line only. Legal formulas repeat, so word 3-grams would drop far too much; reserved booklets are
      left out whole instead.
    - Lines are deduplicated across the build and pass the hocrsyngen wrap check.
@@ -131,8 +142,12 @@ htext knesset-laws build --manifest data/knesset_laws/sources.v1.json \
 The build writes `knesset_laws_eye_check_sample.v1.jsonl`, a seeded random sample of lines (100 by default). Each
 line is read against the page scan, and the results go in an `htext_eye_check.v1` file. The file holds the sample
 file's sha256, who checked it, when, the method, and per line a list of errors, each with a `kind` and a count of
-`words`. Rebuilding with `--eye-check FILE` puts the measured line and word error rates on the card. The build
-refuses a check made on another sample.
+`words`. A line printed where the scan is damaged can be marked `unverifiable`; it is counted, but left out of the
+rates. Rebuilding with `--eye-check FILE` puts the measured line and word error rates on the card. The build refuses
+a check made on another sample.
+
+**Not counted as errors:** the OCR writes the em dash as `-` and typographic quotes as `"`. Those are shape
+normalisations, not misreadings.
 
 ### Outputs
 

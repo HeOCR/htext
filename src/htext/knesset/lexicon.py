@@ -5,6 +5,11 @@ never an OCR layer (``htext.release.lexicon_eligible``). An OCR line is kept
 only when every word in it is in the lexicon, so OCR misreadings that make
 non-words (``מדיבת`` for ``מדינת``) drop the line.
 
+A line is also dropped when one of its words looks like an OCR confusion of a
+far more common word (:meth:`Lexicon.suspects`): ``זבאי`` for ``זכאי``, ``באמור`` for
+``כאמור``. Such misreadings are often real but rare words, so the lexicon alone
+keeps them.
+
 Words are compared in one normal form, the same for the lexicon and the
 lines: niqqud removed, then punctuation stripped from both ends. A word joined
 by a hyphen or maqaf is checked part by part. A part with fewer than two
@@ -85,11 +90,25 @@ def word_keys(token: str) -> list[str]:
     return keys
 
 
+# OCR confusions seen in the Knesset laws' eye check (כ read as ב, נ as ב, ס as מ, נ as ג)
+# and other pairs of near-identical letters in the period's typefaces.
+CONFUSIONS = (("ב", "כ"), ("ב", "נ"), ("ס", "מ"), ("ג", "נ"), ("ד", "ר"), ("ה", "ח"), ("ו", "ז"), ("ו", "י"), ("ם", "ס"))
+# A word is suspect when one confusion turns it into a word this many times more common.
+SUSPECT_RATIO = 20
+# ... and that word occurs at least this often.
+SUSPECT_MIN_VARIANT = 50
+_SWAPS: dict[str, tuple[str, ...]] = {}
+for _a, _b in CONFUSIONS:
+    _SWAPS[_a] = _SWAPS.get(_a, ()) + (_b,)
+    _SWAPS[_b] = _SWAPS.get(_b, ()) + (_a,)
+
+
 @dataclass
 class Lexicon:
     words: set[str]
     min_count: int
     sources: list[dict] = field(default_factory=list)
+    counts: dict[str, int] = field(default_factory=dict)
 
     @classmethod
     def from_lines(cls, lines: Iterable[str], *, min_count: int = DEFAULT_MIN_COUNT) -> "Lexicon":
@@ -97,7 +116,8 @@ class Lexicon:
         for line in lines:
             for token in line.split():
                 counts.update(word_keys(token))
-        return cls({word for word, count in counts.items() if count >= min_count}, min_count)
+        kept = {word: count for word, count in counts.items() if count >= min_count}
+        return cls(set(kept), min_count, counts=kept)
 
     @classmethod
     def from_files(cls, paths: Iterable[Path], *, min_count: int = DEFAULT_MIN_COUNT) -> "Lexicon":
@@ -115,8 +135,8 @@ class Lexicon:
             sources.append({"file": path.name, "sha256": digest.hexdigest(), "lines": lines})
         if not sources:
             raise ValueError("the lexicon needs at least one transcription corpus")
-        lexicon = cls({word for word, count in counts.items() if count >= min_count}, min_count, sources)
-        return lexicon
+        kept = {word: count for word, count in counts.items() if count >= min_count}
+        return cls(set(kept), min_count, sources, kept)
 
     def unknown(self, line: str) -> list[str]:
         """Words of ``line`` that the lexicon lacks."""
@@ -128,5 +148,39 @@ class Lexicon:
             if key not in self.words
         ]
 
+    def is_word(self, token: str) -> bool:
+        """Whether every part of ``token`` is in the lexicon (and it has at least one)."""
+
+        keys = word_keys(token)
+        return bool(keys) and all(key in self.words for key in keys)
+
+    def suspects(self, line: str) -> list[tuple[str, str]]:
+        """Words of ``line`` that look like an OCR confusion of a far more common word, with that word.
+
+        ``זבאי`` (rare) beside ``זכאי`` (common) is suspect; ``בזאת`` beside ``כזאת`` is not,
+        because both are common.
+        """
+
+        out = []
+        for token in line.split():
+            for key in word_keys(token):
+                count = self.counts.get(key, 0)
+                for index, letter in enumerate(key):
+                    for swap in _SWAPS.get(letter, ()):
+                        variant = key[:index] + swap + key[index + 1 :]
+                        other = self.counts.get(variant, 0)
+                        if other >= SUSPECT_MIN_VARIANT and other >= SUSPECT_RATIO * count:
+                            out.append((key, variant))
+        return out
+
     def card(self) -> dict:
-        return {"sources": self.sources, "min_count": self.min_count, "words": len(self.words)}
+        return {
+            "sources": self.sources,
+            "min_count": self.min_count,
+            "words": len(self.words),
+            "suspect_rule": {
+                "confusions": ["/".join(pair) for pair in CONFUSIONS],
+                "ratio": SUSPECT_RATIO,
+                "min_variant_count": SUSPECT_MIN_VARIANT,
+            },
+        }

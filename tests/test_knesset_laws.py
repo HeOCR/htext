@@ -271,7 +271,7 @@ def test_build_refuses_texts_not_matching_the_pins(law_inputs: Path):
         laws.build(_config(law_inputs))
 
 
-def _eye_check(root: Path, *, errors_for: int = 1, sample_sha: str | None = None) -> Path:
+def _eye_check(root: Path, *, errors_for: int = 1, sample_sha: str | None = None, unverifiable: int = -1) -> Path:
     sample_path = root / "out" / laws.EYE_SAMPLE_FILE
     rows = [json.loads(line) for line in sample_path.read_text(encoding="utf-8").splitlines()[1:]]
     document = {
@@ -281,7 +281,7 @@ def _eye_check(root: Path, *, errors_for: int = 1, sample_sha: str | None = None
         "checked_at": "2026-11-18",
         "method": "each line read against the page scan",
         "lines": [
-            {"sha256": row["sha256"], "errors": [{"kind": "letter", "words": 1}] if index < errors_for else []}
+            {"sha256": row["sha256"], "errors": [{"kind": "letter", "words": 1}] if index < errors_for else [], "unverifiable": index == unverifiable}
             for index, row in enumerate(rows)
         ],
     }
@@ -331,3 +331,60 @@ def test_extract_checks_pins_and_records_failures(tmp_path: Path):
     manifest["bills"][0]["documents"][0]["sha256"] = "0" * 64
     with pytest.raises(SystemExit, match="does not match the manifest"):
         extract_all(manifest, tmp_path / "in", tmp_path / "texts2.jsonl.gz", extractor=("fake", fake))
+
+
+# ---- quality fixes from the first eye-check pass ----------------------------
+
+
+def test_table_cells_cut_paragraphs_and_are_dropped():
+    stats: dict[str, int] = {}
+    text = "660\nציוד משרדי\n(13)\nהוצאות שונות\n1,000"
+    found = [paragraph.text for paragraph in paragraphs(text, stats)]
+    assert found == ["ציוד משרדי", "הוצאות שונות"]
+    assert stats["lines_dropped:table_cell"] == 3
+
+
+def test_line_end_hyphen_is_mended_only_into_a_known_word():
+    from htext.knesset.text import UNRESOLVED_BREAK
+
+    text = "בכל אחד מן המקרים האלה יוצגו לפני הוועדה הנס-\nפחים כאמור בסעיף הקודם לחוק זה."
+    stats: dict[str, int] = {}
+    mended = paragraphs(text, stats, is_word=lambda word: word == "הנספחים")[0].text
+    assert "הנספחים כאמור" in mended and stats["line_breaks:mended"] == 1
+    stats = {}
+    unresolved = paragraphs(text, stats, is_word=lambda word: False)[0].text
+    assert f"הנס{UNRESOLVED_BREAK}פחים" in unresolved and stats["line_breaks:unresolved"] == 1
+    assert UNRESOLVED_BREAK in paragraphs(text)[0].text
+
+
+def test_suspect_words_are_confusions_of_far_more_common_words():
+    lexicon = Lexicon.from_lines(["זכאי"] * 100 + ["זבאי"] * 2 + ["כזאת בזאת"] * 100, min_count=2)
+    assert lexicon.suspects("הוא זבאי לכך") == [("זבאי", "זכאי")]
+    assert lexicon.suspects("הוא זכאי לכך") == []
+    assert lexicon.suspects("בזאת וכזאת") == []
+    assert lexicon.is_word("זכאי") and not lexicon.is_word("זאכי")
+
+
+@pytest.mark.parametrize(
+    ("text", "dropped"),
+    [("לפי סעיפים 75,74 או 75א", True), ("פרט לסעיפים 40,22ב", True), ("סכום של 1,000 לירות", False), ("סכום של 12,500,000 לירות", False), ("סעיפים 74, 75", False)],
+)
+def test_reversed_number_lists_are_detected(text, dropped):
+    assert bool(laws._NUMBER_LIST.search(text)) is dropped
+
+
+def test_build_reports_suspect_drops(law_inputs: Path):
+    lexicon = _lexicon()
+    # ג/נ is a confusion pair: make "הננים" far more common than "הגנים", so lines with "הגנים" become suspect.
+    lexicon.counts = {**lexicon.counts, "הננים": 1000}
+    card = laws.build(_config(law_inputs, lexicon=lexicon))
+    assert card["lexicon_filter"]["segments_dropped_suspect"] >= 1
+    assert "Look-alike words" in (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+
+
+def test_unverifiable_lines_leave_the_rates(law_inputs: Path):
+    laws.build(_config(law_inputs))
+    card = laws.build(_config(law_inputs, eye_check=_eye_check(law_inputs, errors_for=1, unverifiable=4)))
+    eye = card["eye_check"]
+    assert eye["unverifiable_lines"] == 1 and eye["lines_checked"] == 4
+    assert eye["line_error_rate"] == 0.25
