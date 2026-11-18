@@ -32,7 +32,8 @@ def _sums() -> dict[str, str]:
 def test_sha256sums_cover_git_files_and_release_assets():
     sums = _sums()
     assert set(sums) == IN_GIT | RELEASE_ASSETS
-    assert {path.name for path in V1.iterdir()} == IN_GIT | {"SHA256SUMS"}
+    # KNOWN_ISSUES.md was added after publication; it is not a build output.
+    assert {path.name for path in V1.iterdir()} == IN_GIT | {"SHA256SUMS", "KNOWN_ISSUES.md"}
     for name in IN_GIT:
         assert hashlib.sha256((V1 / name).read_bytes()).hexdigest() == sums[name], name
 

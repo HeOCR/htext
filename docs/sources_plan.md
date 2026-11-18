@@ -211,9 +211,10 @@ used.
   | `reservations/eval_reservations_v1.json` | `7190455e7492ee2674768e09af74b87dd7e38b6d` | `6952c8d5e93b3c2118dbc1031db844d142b83a795252c9eba00659c165a1b4a5` |
   | `reservations/dbench_text_pool.hashes.json` | `7190455e7492ee2674768e09af74b87dd7e38b6d` | `6b5a0b8188d8ed44c01d13c0ed00998c8c67911f86e53d95dc5cd25e6556e9b7` |
   | `preregistration/print_scan_PS-v1_2026-11-18/htext_leakage_ps_v1.hashes.json` | `876f3dc284531ac339fc5ec6de3dc0f0d1520d9a` | `adc0559fcce29c53eff43f6f323cfd68c6ceccc06d49d79d05f046ccbc8aa10f` |
+  | `reservations/eval_reservations_v2.json` | `8ca52a4bd3edf098266a9eb6dec6df0fb844d9be` | `2abce5ea8083ae7527461776bbeb70c5e4eecf3e52910e7b607bd94a68ed2a1e` |
 
-  `eval_reservations_v2.json` (heocr-restricted-eval#34) supersedes v1. It is pinned here once it merges, and
-  `pby` v2 is built against it.
+  `eval_reservations_v2.json` (heocr-restricted-eval#34) supersedes v1. `pby` v2 is built against it, with the
+  PS-v1 and D-bench fixtures above; its card lists each set with counts only.
 - **What it reserves** (v1, 2026-11-18, as htext reads it):
 
   | Unit kind | Units | Sets |

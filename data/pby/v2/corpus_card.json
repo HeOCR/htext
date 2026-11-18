@@ -1,0 +1,899 @@
+{
+  "schema": "pby_corpus_card.v1",
+  "name": "PBY public-domain Hebrew lines",
+  "builder": {
+    "package": "htext",
+    "version": "0.1.0"
+  },
+  "attribution": "Text from Project Ben-Yehuda (https://benyehuda.org), prepared by Project Ben-Yehuda volunteers",
+  "credit": {
+    "text": "Project Ben-Yehuda volunteers",
+    "url": "https://benyehuda.org"
+  },
+  "licence": {
+    "outputs": "CC0-1.0",
+    "source": "Public domain (public_domain_dump LICENSE); PBY requests credit, which this card gives"
+  },
+  "text_rights": "third_party_public_domain",
+  "htext_release": "cc0",
+  "release": {
+    "htext_release": "cc0",
+    "release_name": "htext-cc0",
+    "release_licence": "CC0-1.0",
+    "entries_admitted": 25282,
+    "source_licences": {
+      "Public Domain": 25282
+    }
+  },
+  "text_quality": "transcription",
+  "schemas": {
+    "rights_index": "pby_rights_index.v1",
+    "line_index": "pby_line_index.v1",
+    "excluded_works": "pby_excluded_works.v1"
+  },
+  "source": {
+    "repository": "projectbenyehuda/public_domain_dump",
+    "commit": "5e4277fead7b565f32cc4b352abd3565023a77d8",
+    "version": "2026-03",
+    "catalogue_rows": 26455
+  },
+  "inputs": {
+    "creators_json_sha256": "577ddb5267beffe3252431cdeef26cc401cc382a3dc8d1f8c78b9dc6a39e0226",
+    "leakage_fixtures": [
+      {
+        "repository": "HeOCR/heocr-restricted-eval",
+        "path": "dbench/synth/text_pool.json (sentences)",
+        "commit": "e56d79e",
+        "sha256": "8d28491cd29bbffc108ba416777de2113259e487752531a0ce2fea1a501967d0",
+        "lines": 17777,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/heocr-restricted-eval",
+        "path": "preregistration/print_scan_PS-v1_2026-11-18/PS-v1_all_text.txt",
+        "commit": "prereg/print-scan-ps-v1",
+        "sha256": "56ece1442711ed4899505fd1cdbc544659ec1fe9e8baa746e679d20a7b3d9fd0",
+        "lines": 456,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrgen",
+        "path": "docs/evaluation-fixtures/bidi-synthetic-corpus.txt",
+        "commit": "c8fb74eb5d0afedd812a0da69562e4610a0b3394",
+        "sha256": "b325673476bce8c16f0a2731e5de1ec9b226b8274fc1e7dfb723dbccb3edf966",
+        "lines": 100,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "ac7e1dc2c21d2506b93c26ce81cab3327baf217d82fb6620c1ddf6f597235fd6",
+        "lines": 19,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "89e52f8b90cdbb8a276fbdaf96530afff2cc266e13ad6355c215c79e5a58d97f",
+        "lines": 812,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_niqqud_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "974ffa19251bcc1137a3baf908f22d2770d801a38d93456d6109bf6565de5640",
+        "lines": 40,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_mixed_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "45a81fff1105ba347c2e80ebfe5cafa0c4e3763975279709c0b9af7a0eedaa88",
+        "lines": 401,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_typographic_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "3364283592492d8827ae94b8899ce44cecedf1281b4fbeb69f9d76b3e9a09a3c",
+        "lines": 418,
+        "stripped": true
+      }
+    ],
+    "eval_reservations": [
+      {
+        "schema": "heocr_eval_reservations.v1",
+        "set": "print_scan_PS-v1",
+        "sha256": "2abce5ea8083ae7527461776bbeb70c5e4eecf3e52910e7b607bd94a68ed2a1e",
+        "units": {
+          "pby": 4,
+          "reshumot": 20
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v1",
+        "set": "midcentury (test, dev, retired dev units; v0-v2 union)",
+        "sha256": "2abce5ea8083ae7527461776bbeb70c5e4eecf3e52910e7b607bd94a68ed2a1e",
+        "units": {
+          "plenary": 60,
+          "reshumot": 125
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v1",
+        "set": "P-mod eval and holdout units (v6-v7 union, incl. exposed units)",
+        "sha256": "2abce5ea8083ae7527461776bbeb70c5e4eecf3e52910e7b607bd94a68ed2a1e",
+        "units": {
+          "knesset_protocol": 7,
+          "plenary": 138,
+          "reshumot": 157
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v1",
+        "set": "D-bench synthetic text pool (sets A, B, C and the gate's fresh set)",
+        "sha256": "2abce5ea8083ae7527461776bbeb70c5e4eecf3e52910e7b607bd94a68ed2a1e",
+        "units": {
+          "reshumot": 83
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v1",
+        "set": "P-hist audit2 (Hebrew Wikisource proofread pages)",
+        "sha256": "2abce5ea8083ae7527461776bbeb70c5e4eecf3e52910e7b607bd94a68ed2a1e",
+        "units": {
+          "wikisource_he_proofread": 14
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v1",
+        "set": "line_verify scored lines (units held out whole)",
+        "sha256": "2abce5ea8083ae7527461776bbeb70c5e4eecf3e52910e7b607bd94a68ed2a1e",
+        "units": {
+          "benyehuda_nli_aligned": 2,
+          "pby": 10,
+          "wikisource_he_proofread": 23
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v1",
+        "set": "h_eval_v1 (handwriting)",
+        "sha256": "2abce5ea8083ae7527461776bbeb70c5e4eecf3e52910e7b607bd94a68ed2a1e",
+        "units": {
+          "hash": 34
+        }
+      }
+    ],
+    "length_profile_source": "hocrsyngen texts/hebrew_lines_train_v1.txt",
+    "fit_check": {
+      "ran": true,
+      "hocrsyngen_version": null,
+      "hocrsyngen_commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+      "bodies": [
+        {
+          "template_id": "printed_letter",
+          "font_file": "Alef-Regular.ttf",
+          "size": 42,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "handwritten_note",
+          "font_file": "GveretLevin-Regular.ttf",
+          "size": 46,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "archive_card",
+          "font_file": "Alef-Regular.ttf",
+          "size": 38,
+          "width": 498,
+          "rows_per_line": 2
+        },
+        {
+          "template_id": "ledger",
+          "font_file": "Alef-Regular.ttf",
+          "size": 30,
+          "width": 206,
+          "rows_per_line": 10
+        }
+      ],
+      "maqaf_glyph_check": true
+    }
+  },
+  "corpus_version": "v2",
+  "parameters": {
+    "as_of": 2026,
+    "seed": 15,
+    "niqqud_threshold": 0.5,
+    "genres": [
+      "prose",
+      "article",
+      "memoir",
+      "letters",
+      "fables",
+      "poetry",
+      "reference",
+      "drama"
+    ],
+    "max_lines_per_work": null,
+    "max_line_chars": 55,
+    "maqaf_allowed": true,
+    "content_screen": {
+      "terms": 0,
+      "source": null
+    }
+  },
+  "rights": {
+    "pd_israel": {
+      "all_creators_died_by:1955": 25601,
+      "anonymous_unresolved": 164,
+      "creator_death_year_unknown": 475,
+      "creator_in_term": 215
+    },
+    "pd_us": {
+      "published_before:1931": 715,
+      "unknown": 25740
+    },
+    "source_edition_year_parsed": 3475,
+    "works_in_corpus": 25282,
+    "works_in_il_us": 701,
+    "creators_in_term": [
+      {
+        "name": "זלמן שניאור",
+        "wikidata_qid": "Q2357623",
+        "death_year": 1959,
+        "death_year_source": "wikidata:Q2357623@2558287397",
+        "works": 33,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "נתן גורן",
+        "wikidata_qid": "Q4144071",
+        "death_year": 1956,
+        "death_year_source": "wikidata:Q4144071@2536380644",
+        "works": 25,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "חנניה ריכמן",
+        "wikidata_qid": "Q12407568",
+        "death_year": 1982,
+        "death_year_source": "wikidata:Q12407568@2549260736",
+        "works": 18,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "שמשון מלצר",
+        "wikidata_qid": "Q7051598",
+        "death_year": 2000,
+        "death_year_source": "wikidata:Q7051598@2547217225",
+        "works": 18,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "נפתלי הרץ טור־סיני",
+        "wikidata_qid": "Q214141",
+        "death_year": 1973,
+        "death_year_source": "wikidata:Q214141@2529250701",
+        "works": 16,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אמיל פוירשטיין",
+        "wikidata_qid": "Q7043772",
+        "death_year": 1993,
+        "death_year_source": "wikidata:Q7043772@2548905299",
+        "works": 13,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "דב סדן",
+        "wikidata_qid": "Q2890635",
+        "death_year": 1989,
+        "death_year_source": "wikidata:Q2890635@2557311184",
+        "works": 7,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "יהושע השל ייבין",
+        "wikidata_qid": null,
+        "death_year": 1970,
+        "death_year_source": "manual:https://www.wikidata.org/wiki/Q12407856",
+        "works": 7,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "גיטה אבינור",
+        "wikidata_qid": "Q64682595",
+        "death_year": 1975,
+        "death_year_source": "wikidata:Q64682595@2536377448",
+        "works": 5,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "יצחק דב ברקוביץ'",
+        "wikidata_qid": "Q2909488",
+        "death_year": 1967,
+        "death_year_source": "wikidata:Q2909488@2556806764",
+        "works": 5,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "משה אטר (אטינגר)",
+        "wikidata_qid": "Q6900316",
+        "death_year": 1990,
+        "death_year_source": "wikidata:Q6900316@2542812175",
+        "works": 4,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ר' בנימין",
+        "wikidata_qid": "Q12411166",
+        "death_year": 1957,
+        "death_year_source": "wikidata:Q12411166@2526789075",
+        "works": 4,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אברהם שלמון",
+        "wikidata_qid": "Q16129332",
+        "death_year": 1970,
+        "death_year_source": "wikidata:Q16129332@2544582363",
+        "works": 3,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ישעיהו זנה",
+        "wikidata_qid": "Q57418943",
+        "death_year": 1960,
+        "death_year_source": "wikidata:Q57418943@2516862570",
+        "works": 3,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ישראל ישעיהו",
+        "wikidata_qid": "Q983232",
+        "death_year": 1979,
+        "death_year_source": "wikidata:Q983232@2562660724",
+        "works": 3,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ס. יזהר",
+        "wikidata_qid": "Q528647",
+        "death_year": 2006,
+        "death_year_source": "wikidata:Q528647@2558232177",
+        "works": 3,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אהרן שמי",
+        "wikidata_qid": "Q6921055",
+        "death_year": 2010,
+        "death_year_source": "wikidata:Q6921055@2529221912",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "דוד בן־גוריון",
+        "wikidata_qid": "Q37610",
+        "death_year": 1973,
+        "death_year_source": "wikidata:Q37610@2564056957",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "יוסף קלוזנר",
+        "wikidata_qid": "Q964668",
+        "death_year": 1958,
+        "death_year_source": "wikidata:Q964668@2555190316",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "יעקב פיכמן",
+        "wikidata_qid": "Q1972109",
+        "death_year": 1958,
+        "death_year_source": "wikidata:Q1972109@2565378463",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "מנחם זלמן וולפובסקי",
+        "wikidata_qid": "Q7024345",
+        "death_year": 1975,
+        "death_year_source": "wikidata:Q7024345@2542861074",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "מתתיהו לזרסון",
+        "wikidata_qid": "Q7244922",
+        "death_year": 1961,
+        "death_year_source": "wikidata:Q7244922@2557413652",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "סמואיל מרשק",
+        "wikidata_qid": "Q435584",
+        "death_year": 1964,
+        "death_year_source": "wikidata:Q435584@2547838068",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "עמיהוד ארבל",
+        "wikidata_qid": "Q12410379",
+        "death_year": 1987,
+        "death_year_source": "wikidata:Q12410379@2565020868",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ק. א. ברתיני",
+        "wikidata_qid": "Q4206184",
+        "death_year": 1995,
+        "death_year_source": "wikidata:Q4206184@2542866299",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ראובן אבינועם",
+        "wikidata_qid": "Q12411170",
+        "death_year": 1974,
+        "death_year_source": "wikidata:Q12411170@2552227557",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "שולמית איתן",
+        "wikidata_qid": "Q16129642",
+        "death_year": 2014,
+        "death_year_source": "wikidata:Q16129642@2544867734",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "שמואל ישעיהו פנואלי",
+        "wikidata_qid": "Q12411484",
+        "death_year": 1965,
+        "death_year_source": "wikidata:Q12411484@2541339854",
+        "works": 2,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אביגדור המאירי",
+        "wikidata_qid": "Q2874331",
+        "death_year": 1970,
+        "death_year_source": "wikidata:Q2874331@2554765198",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אברהם שלונסקי",
+        "wikidata_qid": "Q373167",
+        "death_year": 1973,
+        "death_year_source": "wikidata:Q373167@2557805695",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אהרן אמיר",
+        "wikidata_qid": "Q2891315",
+        "death_year": 2008,
+        "death_year_source": "wikidata:Q2891315@2545414515",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אהרן זאב בן ישי",
+        "wikidata_qid": "Q30526837",
+        "death_year": 1977,
+        "death_year_source": "wikidata:Q30526837@2544872810",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אלכסנדר טברדובסקי [2042]",
+        "wikidata_qid": "Q362828",
+        "death_year": 1971,
+        "death_year_source": "wikidata:Q362828@2557644130",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אנה אחמטובה",
+        "wikidata_qid": "Q80440",
+        "death_year": 1966,
+        "death_year_source": "wikidata:Q80440@2559777877",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אפרים פרויד",
+        "wikidata_qid": "Q108056032",
+        "death_year": 2017,
+        "death_year_source": "wikidata:Q108056032@2542807616",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "אריה רפאלי",
+        "wikidata_qid": "Q30527733",
+        "death_year": 1977,
+        "death_year_source": "wikidata:Q30527733@2548905304",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ב' טראוון",
+        "wikidata_qid": "Q55072099",
+        "death_year": 1969,
+        "death_year_source": "wikidata:Q55072099@2563986032",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "בן־ציון ידידיה",
+        "wikidata_qid": "Q111889802",
+        "death_year": 1956,
+        "death_year_source": "wikidata:Q111889802@2565021162",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ברוך קרוא",
+        "wikidata_qid": "Q12404704",
+        "death_year": 1972,
+        "death_year_source": "wikidata:Q12404704@2551214652",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ברכה חבס",
+        "wikidata_qid": "Q6910729",
+        "death_year": 1968,
+        "death_year_source": "wikidata:Q6910729@2547216763",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ה. לייוויק",
+        "wikidata_qid": "Q972092",
+        "death_year": 1962,
+        "death_year_source": "wikidata:Q972092@2554578738",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "זאב אלבלינגר",
+        "wikidata_qid": "Q28532615",
+        "death_year": 1989,
+        "death_year_source": "wikidata:Q28532615@2461418915",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "חיים אורלן",
+        "wikidata_qid": "Q98400310",
+        "death_year": 1997,
+        "death_year_source": "wikidata:Q98400310@2461553347",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "יהודה ארז",
+        "wikidata_qid": "Q12407813",
+        "death_year": 1983,
+        "death_year_source": "wikidata:Q12407813@2565010225",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "יהויכין סטוצ'בסקי",
+        "wikidata_qid": "Q214140",
+        "death_year": 1982,
+        "death_year_source": "wikidata:Q214140@2563060375",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "יוסף יואל ריבלין",
+        "wikidata_qid": "Q7035023",
+        "death_year": 1971,
+        "death_year_source": "wikidata:Q7035023@2522960027",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "יוסף יזרעאלי",
+        "wikidata_qid": "Q6546666",
+        "death_year": 1973,
+        "death_year_source": "wikidata:Q6546666@2329723341",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ישראל זמורה",
+        "wikidata_qid": "Q4192630",
+        "death_year": 1983,
+        "death_year_source": "wikidata:Q4192630@2542830519",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "מאיר פרבר",
+        "wikidata_qid": "Q43196479",
+        "death_year": 1993,
+        "death_year_source": "wikidata:Q43196479@2554282214",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "מנחם קפליוק",
+        "wikidata_qid": "Q12409291",
+        "death_year": 1988,
+        "death_year_source": "wikidata:Q12409291@2542857751",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "משה שרת",
+        "wikidata_qid": "Q208477",
+        "death_year": 1965,
+        "death_year_source": "wikidata:Q208477@2562946514",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ניקולאי זבולוצקי [2029]",
+        "wikidata_qid": "Q515872",
+        "death_year": 1958,
+        "death_year_source": "wikidata:Q515872@2558183723",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "צבי ארד",
+        "wikidata_qid": "Q12410810",
+        "death_year": 1994,
+        "death_year_source": "wikidata:Q12410810@2542827419",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "ציליה דראפקין",
+        "wikidata_qid": "Q5057993",
+        "death_year": 1956,
+        "death_year_source": "wikidata:Q5057993@2554592517",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "שלמה הרברג",
+        "wikidata_qid": "Q51719287",
+        "death_year": 1966,
+        "death_year_source": "wikidata:Q51719287@2542817903",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "שלמה צמח",
+        "wikidata_qid": "Q7499621",
+        "death_year": 1974,
+        "death_year_source": "wikidata:Q7499621@2559447613",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "שמואל אביצור",
+        "wikidata_qid": "Q7058607",
+        "death_year": 1999,
+        "death_year_source": "wikidata:Q7058607@2544824444",
+        "works": 1,
+        "works_in_corpus": 0
+      },
+      {
+        "name": "שמואל אייזנשטדט",
+        "wikidata_qid": "Q19692169",
+        "death_year": 1970,
+        "death_year_source": "wikidata:Q19692169@2524573400",
+        "works": 1,
+        "works_in_corpus": 0
+      }
+    ]
+  },
+  "files": {
+    "pby_lines_il_plain_v2.txt": {
+      "variant": "il",
+      "subset": "plain",
+      "lines": 12318857,
+      "works": 16424,
+      "sha256": "ab69e94eb4f038fc1845d4c79a9d6301df2acddf54557d7661f2bee35ae3bf9a",
+      "bytes": 560742640,
+      "length_profile": {
+        "lines": 12318857,
+        "max_chars": 55,
+        "median": 23,
+        "share_31_55": 0.2068,
+        "share_36_47": 0.1173
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      },
+      "genres": {
+        "article": 3403639,
+        "drama": 146400,
+        "fables": 5678,
+        "letters": 613532,
+        "memoir": 953680,
+        "poetry": 31562,
+        "prose": 3982981,
+        "reference": 3181385
+      }
+    },
+    "pby_lines_il_niqqud_v2.txt": {
+      "variant": "il",
+      "subset": "niqqud",
+      "lines": 1680295,
+      "works": 15742,
+      "sha256": "a149c5e5e8eb14e2862a89f45d678518de5e6ef3c3b23ed8824baf5b81ed1b28",
+      "bytes": 119885937,
+      "length_profile": {
+        "lines": 1680295,
+        "max_chars": 55,
+        "median": 21,
+        "share_31_55": 0.176,
+        "share_36_47": 0.1016
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": false,
+        "share_36_47": true,
+        "median": true
+      },
+      "genres": {
+        "article": 44396,
+        "drama": 153040,
+        "fables": 35108,
+        "letters": 5888,
+        "memoir": 5240,
+        "poetry": 520485,
+        "prose": 701429,
+        "reference": 214709
+      }
+    },
+    "pby_lines_il_us_plain_v2.txt": {
+      "variant": "il_us",
+      "subset": "plain",
+      "lines": 407456,
+      "works": 564,
+      "sha256": "8de0454dfd135ff2987db8964e30e397f9d295f1335b995560e57764a2d961f0",
+      "bytes": 18956168,
+      "length_profile": {
+        "lines": 407456,
+        "max_chars": 55,
+        "median": 23.0,
+        "share_31_55": 0.2255,
+        "share_36_47": 0.1399
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      },
+      "genres": {
+        "article": 120160,
+        "drama": 762,
+        "letters": 14612,
+        "memoir": 49634,
+        "poetry": 595,
+        "prose": 204435,
+        "reference": 17258
+      }
+    },
+    "pby_lines_il_us_niqqud_v2.txt": {
+      "variant": "il_us",
+      "subset": "niqqud",
+      "lines": 18613,
+      "works": 325,
+      "sha256": "162e6fbd83762b0921d13375ca17726ca7335ebe9009554547f1ff8c345ec5b8",
+      "bytes": 1325641,
+      "length_profile": {
+        "lines": 18613,
+        "max_chars": 55,
+        "median": 23,
+        "share_31_55": 0.1721,
+        "share_36_47": 0.0529
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": false,
+        "share_36_47": false,
+        "median": true
+      },
+      "genres": {
+        "article": 1368,
+        "drama": 4915,
+        "letters": 21,
+        "memoir": 453,
+        "poetry": 10356,
+        "prose": 1497,
+        "reference": 3
+      }
+    }
+  },
+  "pipeline": {
+    "density_bin:0": 12128561,
+    "density_bin:1": 499812,
+    "density_bin:2": 197232,
+    "density_bin:3": 43946,
+    "density_bin:4": 21894,
+    "density_bin:5": 218153,
+    "density_bin:6": 887259,
+    "density_bin:7": 590217,
+    "density_bin:8": 107883,
+    "density_bin:9": 11248,
+    "segments": 14893666,
+    "segments_dropped:charset": 102354,
+    "segments_dropped:duplicate": 602335,
+    "segments_dropped:fit:archive_card:too_many_rows": 31774,
+    "segments_dropped:fit:archive_card:word_too_wide": 171,
+    "segments_dropped:fit:ledger:word_too_wide": 33704,
+    "segments_dropped:fit:printed_letter:word_too_wide": 28,
+    "segments_dropped:leak_line": 194,
+    "segments_dropped:leak_word3": 40360,
+    "segments_dropped:long_digit_run": 75,
+    "segments_dropped:medial_final_form": 2165,
+    "segments_dropped:too_few_letters": 80538,
+    "segments_dropped:too_long": 816,
+    "source_lines": 5490023,
+    "source_lines_dropped:entity": 8444,
+    "source_lines_dropped:latin": 53223,
+    "source_lines_dropped:letter_digit": 27036,
+    "source_lines_dropped:url": 1,
+    "source_lines_plain_only:word_mismatch": 137,
+    "source_lines_split:verse_break_mark": 91069,
+    "works_read": 25586,
+    "works_skipped:eval_reserved": 14,
+    "works_skipped:genre": 2,
+    "works_skipped:not_pd_israel": 853,
+    "works_with_lines": 25282
+  },
+  "niqqud_density_histogram": {
+    "0.0-0.1": 12128561,
+    "0.1-0.2": 499812,
+    "0.2-0.3": 197232,
+    "0.3-0.4": 43946,
+    "0.4-0.5": 21894,
+    "0.5-0.6": 218153,
+    "0.6-0.7": 887259,
+    "0.7-0.8": 590217,
+    "0.8-0.9": 107883,
+    "0.9-1.0": 11248
+  },
+  "length_profile_targets": {
+    "max_chars": 55,
+    "share_31_55": [
+      0.18,
+      0.35
+    ],
+    "min_share_36_47": 0.1,
+    "median": [
+      18,
+      30
+    ]
+  }
+}

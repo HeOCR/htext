@@ -11,6 +11,16 @@
       "source_licence": "Public Domain",
       "text_quality": "transcription",
       "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
+    },
+    {
+      "corpus": "pby",
+      "version": "v2",
+      "card": "data/pby/v2/corpus_card.json",
+      "release_tag": "pby-v2",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
     }
   ]
 }

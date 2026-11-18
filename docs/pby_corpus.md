@@ -68,8 +68,8 @@ manual rows.
 
 | File | Contents |
 | --- | --- |
-| `pby_lines_il_plain_v1.txt`, `pby_lines_il_niqqud_v1.txt` | lines from works with `pd_israel` true |
-| `pby_lines_il_us_plain_v1.txt`, `pby_lines_il_us_niqqud_v1.txt` | the subset whose works also have `pd_us` true |
+| `pby_lines_il_plain_<version>.txt`, `pby_lines_il_niqqud_<version>.txt` | lines from works with `pd_israel` true |
+| `pby_lines_il_us_plain_<version>.txt`, `pby_lines_il_us_niqqud_<version>.txt` | the subset whose works also have `pd_us` true |
 | `pby_rights_index.v1.jsonl.gz` | §1, one row per catalogue work (all 26,455), with `as_of` |
 | `pby_line_index.v1.jsonl.gz` | one row per `il` line: `sha256`, `pby_work_id`, `subset`, `genre`, `period` (decade of the latest creator death), `il_us` |
 | `pby_excluded_works.v1.json` | §6, every work with a line in any variant, with title, creator QIDs and the corpus sha256s |
@@ -206,7 +206,39 @@ The rights fields are the project's reading of the law, not legal advice.
   unknown or unsure. Rows for the remaining 225 creators can follow.
 - **First-publication years:** sourcing these would widen `il_us`.
 
+## Published build (`v2`)
+
+The pinned `v2` build is in [`data/pby/v2/`](../data/pby/v2/): the corpus card,
+`SHA256SUMS`, the exclusion list and the gzipped rights index. The four
+corpus files and the gzipped line index are assets of the
+[`pby-v2` release](https://github.com/HeOCR/htext/releases/tag/pby-v2).
+It supersedes `v1`.
+
+| File | Lines | Works |
+| --- | ---: | ---: |
+| `pby_lines_il_plain_v2.txt` | 12,318,857 | 16,424 |
+| `pby_lines_il_niqqud_v2.txt` | 1,680,295 | 15,742 |
+| `pby_lines_il_us_plain_v2.txt` | 407,456 | 564 |
+| `pby_lines_il_us_niqqud_v2.txt` | 18,613 | 325 |
+
+**Length profile.** The plain files meet every S10b target. Splitting at verse
+marks leaves more short verse lines, so `pby_lines_il_niqqud_v2.txt` has 17.6%
+of its lines at 31–55 characters, just under the 18% floor; its median (21) and
+36–47 share (10.2%) pass. `il_us` niqqud missed in `v1` too. These files are
+inputs to a training mix, and the profile targets apply to the mix, so v2 does
+not reshape real verse lines to meet them.
+
+25,282 works have lines. All of them are `htext-cc0`, and every other work has
+`htext_release: null`. `tests/test_published_v2.py` checks the committed files.
+It checks that each work with lines is `pd_israel` true and every other work is
+in no release, and that the creator who died in 1970 has 7 works, all
+`creator_in_term`, none with lines.
+
 ## Published build (`v1`)
+
+Superseded by `v2`. Known issues found after publication are in
+[`data/pby/v1/KNOWN_ISSUES.md`](../data/pby/v1/KNOWN_ISSUES.md); the `v1` files
+and their sha256s stay as published.
 
 The pinned `v1` build is in [`data/pby/v1/`](../data/pby/v1/): the corpus card
 (`CORPUS_CARD.md`, `corpus_card.json`), `SHA256SUMS`, the exclusion list and
