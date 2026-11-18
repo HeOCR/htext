@@ -107,7 +107,11 @@ Rights are computed per work against `as_of`:
   row also carries `source_licence: "Public Domain"`, `htext_release: "cc0"`,
   the PBY `credit` and `text_quality: "transcription"`. The build passes every
   work with lines through `htext.release.ReleaseGuard("cc0")`, and the card
-  records the guard's summary under `release`. The published `v1` files predate
+  records the guard's summary under `release`. A work with no line in the build
+  (not public domain in Israel, reserved, another genre, or every line
+  dropped) has `htext_release: null`: it is in no release, whatever PBY's
+  label. The card lists the creators in term (died after `as_of − 71`), with
+  their works and how many have lines, which is always 0. The published `v1` files predate
   these fields; [`data/releases.json`](../data/releases.json) records `v1` as
   `htext-cc0`.
 
@@ -133,6 +137,10 @@ The rights fields are the project's reading of the law, not legal advice.
    - Lines with any other character, a medial final form or a run of seven or
      more digits are dropped.
 3. **Cut.**
+   - PBY writes a verse break inside a running line as a lone `/` (or `//`).
+     Print never shows it, so since v2 it ends a line and the mark is dropped
+     (`source_lines_split:verse_break_mark`). The published `v1` corpus still
+     has these marks: 43,176 of its 401,492 niqqud lines contain one.
    - Poetry keeps its verse lines, and a verse over 55 characters is split in
      balance at spaces.
    - Other genres are packed: each line draws a target length from the S10b

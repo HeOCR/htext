@@ -173,11 +173,28 @@ def test_fit_failures_and_cap_drop_lines(mini_dump, mini_creators, mini_leakage,
 def test_rights_index_entries_carry_their_release(built):
     output, _ = built
     rows = [json.loads(line) for line in _gz_text(output / "pby_rights_index.v1.jsonl.gz").splitlines()]
-    assert rows and all(
-        row["source_licence"] == "Public Domain" and row["htext_release"] == "cc0" and row["text_quality"] == "transcription"
-        for row in rows
-    )
+    assert rows and all(row["source_licence"] == "Public Domain" and row["text_quality"] == "transcription" for row in rows)
     assert all(row["credit"] == {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"} for row in rows)
+    with_lines = {row["pby_work_id"] for row in _line_index(output)}
+    for row in rows:
+        assert row["htext_release"] == ("cc0" if row["pby_work_id"] in with_lines else None), row["pby_work_id"]
+    # A work whose creator is still in term is in no release.
+    by_id = {row["pby_work_id"]: row for row in rows}
+    assert by_id[3]["pd_israel"] is False and by_id[3]["htext_release"] is None
+
+
+def test_card_lists_creators_in_term_with_no_lines(built):
+    output, card = built
+    in_term = card["rights"]["creators_in_term"]
+    assert in_term and all(row["death_year"] > card["parameters"]["as_of"] - 71 for row in in_term)
+    assert all(row["works_in_corpus"] == 0 for row in in_term)
+    assert {row["wikidata_qid"] for row in in_term} == {"Q3"}
+    rendered = (output / "CORPUS_CARD.md").read_text(encoding="utf-8")
+    assert "### Creators in term (died after 1955)" in rendered and "| Q3 | 1980 |" in rendered
+
+
+def _line_index(output):
+    return [json.loads(line) for line in _gz_text(output / "pby_line_index.v1.jsonl.gz").splitlines()]
 
 
 def test_v2_defaults_add_reference_and_drama_and_drop_the_cap():
@@ -194,3 +211,12 @@ def test_corpus_version_names_the_files(mini_dump, mini_creators, mini_leakage, 
     assert card["corpus_version"] == "v2"
     assert set(card["files"]) == {corpus_file_name(v, s, "v2") for v in ("il", "il_us") for s in ("plain", "niqqud")}
     assert all((output / name).exists() for name in card["files"])
+
+
+def test_a_verse_break_mark_ends_a_line(built):
+    output, card = built
+    lines = (output / corpus_file_name("il", "niqqud")).read_text(encoding="utf-8").splitlines()
+    lines += (output / corpus_file_name("il", "plain")).read_text(encoding="utf-8").splitlines()
+    assert not any("/" in line.split() for line in lines)
+    assert "הַכּוֹכָבִים זוֹרְחִים בַּלַּיְלָה" in lines and "וְהַיָּרֵחַ עוֹלֶה מֵעַל הֶהָרִים" in lines
+    assert card["pipeline"]["source_lines_split:verse_break_mark"] == 1

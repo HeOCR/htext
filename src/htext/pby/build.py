@@ -136,6 +136,10 @@ def profile_passes(profile: dict[str, Any]) -> dict[str, bool]:
     }
 
 
+# A lone token PBY uses for a verse break inside a running line.
+VERSE_BREAK_MARKS = frozenset({"/", "//"})
+
+
 def _work_lines(
     work: Work,
     record: dict[str, Any],
@@ -171,40 +175,75 @@ def _work_lines(
         if len(pointed_words) != len(plain_words):
             stats["source_lines_plain_only:word_mismatch"] += 1
             pointed_words = []
-        for start, end in word_spans(plain_words, verse=verse, targets=sampler):
-            stats["segments"] += 1
-            pointed = " ".join(pointed_words[start:end]) if pointed_words else None
-            segment, why = choose_segment(
-                pointed, " ".join(plain_words[start:end]), threshold=config.niqqud_threshold, allow_maqaf=config.allow_maqaf
+        # PBY marks a verse break inside a running line with a lone "/"; print never shows it, so it ends a line.
+        breaks = [index for index, word in enumerate(plain_words) if word in VERSE_BREAK_MARKS]
+        if breaks:
+            stats["source_lines_split:verse_break_mark"] += 1
+            if pointed_words and any(pointed_words[index] not in VERSE_BREAK_MARKS for index in breaks):
+                stats["source_lines_plain_only:word_mismatch"] += 1
+                pointed_words = []
+        bounds = [-1, *breaks, len(plain_words)]
+        for chunk_start, chunk_end in ((left + 1, right) for left, right in zip(bounds, bounds[1:])):
+            chunk_plain = plain_words[chunk_start:chunk_end]
+            chunk_pointed = pointed_words[chunk_start:chunk_end] if pointed_words else []
+            out.extend(_segments(chunk_plain, chunk_pointed, work, record, config, protected, seen, stats, sampler, verse, period))
+    return _cap_and_fit(out, work, config, stats)
+
+
+def _segments(
+    plain_words: list[str],
+    pointed_words: list[str],
+    work: Work,
+    record: dict[str, Any],
+    config: BuildConfig,
+    protected: Protected,
+    seen: set[str],
+    stats: Counter,
+    sampler: LengthSampler,
+    verse: bool,
+    period: int | None,
+) -> list[CorpusLine]:
+    out: list[CorpusLine] = []
+    if not plain_words:
+        return out
+    for start, end in word_spans(plain_words, verse=verse, targets=sampler):
+        stats["segments"] += 1
+        pointed = " ".join(pointed_words[start:end]) if pointed_words else None
+        segment, why = choose_segment(
+            pointed, " ".join(plain_words[start:end]), threshold=config.niqqud_threshold, allow_maqaf=config.allow_maqaf
+        )
+        if segment is None:
+            stats[f"segments_dropped:{why}"] += 1
+            continue
+        if pointed is not None:
+            stats[f"density_bin:{min(int(segment.density * 10), 9)}"] += 1
+        leak = protected.leak(segment.text, segment.plain_form)
+        if leak:
+            stats[f"segments_dropped:leak_{leak}"] += 1
+            continue
+        if config.screen_terms and any(term in segment.plain_form for term in config.screen_terms):
+            stats["segments_dropped:content_screen"] += 1
+            continue
+        key = nfc(segment.plain_form)
+        if key in seen:
+            stats["segments_dropped:duplicate"] += 1
+            continue
+        seen.add(key)
+        out.append(
+            CorpusLine(
+                text=segment.text,
+                subset=segment.subset,
+                work_id=work.work_id,
+                genre=work.genre,
+                period=period,
+                pd_us=record["pd_us"] is True,
+                density=segment.density,
             )
-            if segment is None:
-                stats[f"segments_dropped:{why}"] += 1
-                continue
-            if pointed is not None:
-                stats[f"density_bin:{min(int(segment.density * 10), 9)}"] += 1
-            leak = protected.leak(segment.text, segment.plain_form)
-            if leak:
-                stats[f"segments_dropped:leak_{leak}"] += 1
-                continue
-            if config.screen_terms and any(term in segment.plain_form for term in config.screen_terms):
-                stats["segments_dropped:content_screen"] += 1
-                continue
-            key = nfc(segment.plain_form)
-            if key in seen:
-                stats["segments_dropped:duplicate"] += 1
-                continue
-            seen.add(key)
-            out.append(
-                CorpusLine(
-                    text=segment.text,
-                    subset=segment.subset,
-                    work_id=work.work_id,
-                    genre=work.genre,
-                    period=period,
-                    pd_us=record["pd_us"] is True,
-                    density=segment.density,
-                )
-            )
+        )
+    return out
+
+
+def _cap_and_fit(out: list[CorpusLine], work: Work, config: BuildConfig, stats: Counter) -> list[CorpusLine]:
     if config.max_lines_per_work is not None and len(out) > config.max_lines_per_work:
         stats["segments_dropped:per_work_cap"] += len(out) - config.max_lines_per_work
         keep = sorted(random.Random(f"{config.seed}:cap:{work.work_id}").sample(range(len(out)), config.max_lines_per_work))
@@ -315,10 +354,16 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
         ),
         compact=True,
     )
-    _write_jsonl_gz(output / RIGHTS_INDEX_FILE, (records[work.work_id] for work in works))
-
     corpus_work_ids = sorted({line.work_id for line in corpus})
     guard.admit_all(records[work_id] for work_id in corpus_work_ids)
+    # A work's release says where its lines are. A work with no line in this
+    # build (not public domain in Israel, reserved, another genre, or every
+    # line dropped) is in no release, whatever its source licence.
+    in_corpus = set(corpus_work_ids)
+    for work_id, record in records.items():
+        if work_id not in in_corpus:
+            record["htext_release"] = None
+    _write_jsonl_gz(output / RIGHTS_INDEX_FILE, (records[work.work_id] for work in works))
     exclusion = {
         "schema": EXCLUSION_SCHEMA,
         "note": "Every PBY work with at least one line in any variant of this build. Exclude these works from real-scan evaluation sets.",
@@ -408,12 +453,40 @@ def _card(
             "source_edition_year_parsed": sum(row["source_edition_year"] is not None for row in rights),
             "works_in_corpus": len(corpus_work_ids),
             "works_in_il_us": len({work_id for work_id in corpus_work_ids if records[work_id]["pd_us"] is True}),
+            "creators_in_term": _creators_in_term(rights, config.as_of, set(corpus_work_ids)),
         },
         "files": files,
         "pipeline": dict(sorted(stats.items())),
         "niqqud_density_histogram": density_bins,
         "length_profile_targets": {key: list(value) if isinstance(value, tuple) else value for key, value in PROFILE_TARGETS.items()},
     }
+
+
+def _creators_in_term(rights: list[dict[str, Any]], as_of: int, in_corpus: set[int]) -> list[dict[str, Any]]:
+    """Creators whose death year keeps their works out: died after ``as_of - 71``."""
+    cutoff = as_of - 71
+    found: dict[tuple[str, str | None], dict[str, Any]] = {}
+    for row in rights:
+        for creator in (*row["authors"], *row["translators"]):
+            year = creator["death_year"]
+            if year is None or year <= cutoff:
+                continue
+            key = (creator["name"], creator["wikidata_qid"])
+            entry = found.setdefault(
+                key,
+                {
+                    "name": creator["name"],
+                    "wikidata_qid": creator["wikidata_qid"],
+                    "death_year": year,
+                    "death_year_source": creator["death_year_source"],
+                    "works": set(),
+                },
+            )
+            entry["works"].add(row["pby_work_id"])
+    return [
+        {**entry, "works": len(entry["works"]), "works_in_corpus": len(entry["works"] & in_corpus)}
+        for entry in sorted(found.values(), key=lambda entry: (-len(entry["works"]), entry["name"]))
+    ]
 
 
 def render_card(card: dict[str, Any]) -> str:
@@ -484,7 +557,20 @@ def render_card(card: dict[str, Any]) -> str:
         "| --- | ---: |",
         *(f"| `{basis}` | {count} |" for basis, count in rights["pd_us"].items()),
         "",
-        f"Works with lines in this build: {rights['works_in_corpus']} (`il`), {rights['works_in_il_us']} (`il_us`).",
+        f"Works with lines in this build: {rights['works_in_corpus']} (`il`), {rights['works_in_il_us']} (`il_us`). "
+        "Every other work has `htext_release: null` in the rights index: it is in no release.",
+        "",
+        f"### Creators in term (died after {parameters['as_of'] - 71})",
+        "",
+        "Their works are `pd_israel: false` (`creator_in_term`) and contribute no line.",
+        "",
+        "| Creator | Wikidata | Died | Source | Works | Works with lines |",
+        "| --- | --- | ---: | --- | ---: | ---: |",
+        *(
+            f"| {row['name']} | {row['wikidata_qid'] or ''} | {row['death_year']} | `{row['death_year_source'].split(':', 1)[0]}` "
+            f"| {row['works']} | {row['works_in_corpus']} |"
+            for row in rights.get("creators_in_term", [])
+        ),
         "",
         "## Build parameters and checks",
         "",
@@ -501,7 +587,11 @@ def render_card(card: dict[str, Any]) -> str:
         f"- No-loss wrap check: {json.dumps(card['inputs']['fit_check'], ensure_ascii=False)}.",
         f"- Length profile source: {card['inputs']['length_profile_source']}.",
         "- Leakage: no line, and no word 3-gram, is shared with these protected texts (pointed and stripped forms):",
-        *(f"  - `{fixture['repository']}` `{fixture['path']}` @ `{fixture['commit'][:12]}`" for fixture in card["inputs"]["leakage_fixtures"]),
+        *(
+            f"  - `{fixture['repository']}` `{fixture['path']}` @ `{fixture['commit'][:12]}`"
+            + (f", file sha256 `{fixture['sha256'][:12]}`" if fixture.get("sha256") else "")
+            for fixture in card["inputs"]["leakage_fixtures"]
+        ),
         "- Eval reservations: works reserved by HeOCR's evaluation are left out whole. "
         + (
             "; ".join(
