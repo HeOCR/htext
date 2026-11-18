@@ -28,11 +28,14 @@ Every reserved id is normalised to a ``(source, id)`` pair:
 | ``sefaria_works`` | ``sefaria`` | the Sefaria work title |
 | ``books`` | ``wikisource`` for ``ws_index_<n>``, else ``ia`` | the book's unit |
 | ``strata`` ``{name: [id]}`` | as ``books`` | each id |
+| ``reserves`` (v4) | as ``books`` | each reserve book |
+| ``conditional`` ``{id: note}`` (v4) | as ``books`` | each id; the note is metadata |
 
 ``wikisource_he_proofread:<index>`` and ``wikisource_indexes`` name the same
 Hebrew Wikisource Indexes, so both are read as ``wikisource``. Schema
 ``heocr_eval_reservations.v3`` (P-hist eval hold-out, 2026-11-18) adds the
-last five fields; its rule holds out every other edition, scan or text of a
+last five fields, and ``heocr_eval_reservations.v4`` (the standard-square
+top-up) adds ``reserves`` and ``conditional``; their rule holds out every other edition, scan or text of a
 reserved work too. A builder matches its own ids; other editions are listed
 in a reviewed ``htext_reservations.v1`` file.
 
@@ -62,7 +65,7 @@ from typing import Any, Iterable
 
 SCHEMA = "htext_reservations.v1"
 EVAL_SCHEMA = "heocr_eval_reservations.v1"
-EVAL_SCHEMAS = frozenset({EVAL_SCHEMA, "heocr_eval_reservations.v3"})
+EVAL_SCHEMAS = frozenset({EVAL_SCHEMA, "heocr_eval_reservations.v3", "heocr_eval_reservations.v4"})
 
 # Fields of an eval set that carry no ids.
 _EVAL_METADATA = {"set", "registration", "fixture", "splits", "labels", "note", "source_pages", "pby_work_ids_basis", "rule"}
@@ -127,7 +130,10 @@ def _eval_set_ids(row: dict[str, Any], where: str) -> list[tuple[str, str]]:
             ids += [("ia", str(identifier)) for identifier in value]
         elif key == "sefaria_works":
             ids += [("sefaria", str(title)) for title in value]
-        elif key == "books":
+        elif key in ("books", "reserves"):
+            ids += [_book_unit(book, where) for book in value]
+        elif key == "conditional":
+            # {book id: condition}; the book is reserved whatever the condition says about scoring.
             ids += [_book_unit(book, where) for book in value]
         elif key == "strata":
             ids += [_book_unit(book, where) for books in value.values() for book in books]
