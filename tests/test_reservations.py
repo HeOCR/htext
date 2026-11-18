@@ -21,8 +21,8 @@ def _write(path: Path, works, **overrides) -> Path:
     return path
 
 
-def _eval_file(path: Path, sets) -> Path:
-    path.write_text(json.dumps({"schema": EVAL_SCHEMA, "owner": "eval", "as_of": "2026-11-18", "reservations": sets,
+def _eval_file(path: Path, sets, schema: str = EVAL_SCHEMA) -> Path:
+    path.write_text(json.dumps({"schema": schema, "owner": "eval", "as_of": "2026-11-18", "reservations": sets,
                                "supersedes": {"file": "v1.json", "sha256": "0"}}), encoding="utf-8")
     return path
 
@@ -60,16 +60,48 @@ def test_eval_schema_is_read_and_items_are_cut_to_units(tmp_path):
     assert "reshumot_scanned" not in reservations.units
     assert reservations.reserved("plenary", "K10_125") and reservations.reserved("knesset_protocol", "398637")
     # A Wikisource page reserves its whole Index; an aligned line reserves its whole record.
-    assert reservations.units["wikisource_he_proofread"] == {"ws_index_1725257", "ws_index_42"}
+    assert reservations.units["wikisource"] == {"ws_index_1725257", "ws_index_42"}
+    assert "wikisource_he_proofread" not in reservations.units
     assert reservations.units["benyehuda_nli_aligned"] == {"nli_990018546440205171"}
     assert [row["set"] for row in reservations.card()] == [row["set"] for row in EVAL_SETS]
     assert reservations.card()[0]["units"] == {"pby": 2, "reshumot": 3}
+
+
+# Shaped like eval's v3 P-hist hold-out set, with made-up ids.
+PHIST_SET = {
+    "set": "P-hist eval hold-out",
+    "registration": {"file": "candidates.json", "sha256": "0"},
+    "rule": "Each book is held out whole, with every other edition.",
+    "books": ["ws_index_900", "someiabook00test"],
+    "wikisource_indexes": ["ws_index_900", "ws_index_901"],
+    "ia_identifiers": ["someiabook00test", "rashibook00test"],
+    "strata": {"rashi_stratum": ["rashibook00test"]},
+    "pby_work_ids": [5, 6],
+    "sefaria_works": ["Made Up Responsa"],
+}
+
+
+def test_eval_schema_v3_reads_the_phist_holdout(tmp_path):
+    path = _eval_file(tmp_path / "v3.json", [*EVAL_SETS, PHIST_SET], schema="heocr_eval_reservations.v3")
+    reservations = Reservations.load([path])
+    assert reservations.units["wikisource"] == {"ws_index_1725257", "ws_index_42", "ws_index_900", "ws_index_901"}
+    assert reservations.units["ia"] == {"someiabook00test", "rashibook00test"}
+    assert reservations.units["sefaria"] == {"Made Up Responsa"}
+    assert reservations.reserved("pby", 5) and reservations.reserved("pby", "6") and reservations.reserved("pby", 77)
+    assert reservations.card()[-1] == {
+        "schema": "heocr_eval_reservations.v3",
+        "set": "P-hist eval hold-out",
+        "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "units": {"ia": 2, "pby": 2, "sefaria": 1, "wikisource": 2},
+    }
 
 
 @pytest.mark.parametrize(
     "sets",
     [
         [],
+        [{"set": "x", "wikisource_indexes": ["900"]}],  # not an Index id
+        [{"set": "x", "books": ["wikisource:ws_index_900"]}],  # books are bare ids
         [{"set": "x", "new_kind_of_ids": [1]}],  # unknown field: fail closed
         [{"pby_work_ids": [1]}],  # no set name
         [{"set": "x", "note": "only metadata"}],  # reserves nothing
