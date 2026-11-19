@@ -159,6 +159,21 @@ def test_a_reserved_book_is_left_out_whole(tmp_path):
     assert "Ruth" not in refs
 
 
+def test_a_reserved_verse_range_is_left_out_in_both_forms(tmp_path):
+    reserved = tmp_path / "reserved.json"
+    reserved.write_text(
+        json.dumps({"schema": "heocr_eval_reservations.v7", "owner": "eval", "as_of": "2026-11-19",
+                    "reservations": [{"set": "test", "tanakh_ranges": ["Gen.1.2-Gen.1.2"]}], "supersedes": {"file": "v6.json", "sha256": "0"}}),
+        encoding="utf-8",
+    )
+    config = _config(tmp_path, reservations=[reserved])
+    card = tanakh.build(config)
+    refs = {row["ref"] for row in _jsonl_gz(config.output / tanakh.LINE_INDEX_FILE)}
+    assert "Gen.1.2" not in refs and "Gen.1.1" in refs and "Ruth.1.2" in refs
+    assert card["pipeline"]["verses_skipped:eval_reserved"] == 1
+    assert card["books"]["skipped"] == {}
+
+
 def test_a_line_that_matches_eval_text_is_dropped_in_both_forms(tmp_path):
     first = tanakh.build(_config(tmp_path / "a"))
     plain = (tmp_path / "a" / "out" / "tanakh_lines_plain_v1.txt").read_text(encoding="utf-8").splitlines()

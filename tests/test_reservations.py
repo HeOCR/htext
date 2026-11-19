@@ -128,6 +128,10 @@ def test_eval_schema_v4_reads_the_topup(tmp_path):
         [{"pby_work_ids": [1]}],  # no set name
         [{"set": "x", "note": "only metadata"}],  # reserves nothing
         [{"set": "x", "unit_ids": ["no-prefix"]}],
+        [{"set": "x", "tanakh_ranges": ["Neh.3.1-Ezra.3.2"]}],  # a range crosses books
+        [{"set": "x", "tanakh_ranges": ["Neh.3.9-Neh.3.2"]}],  # a range runs backwards
+        [{"set": "x", "tanakh_ranges": ["Neh 3:1-15"]}],  # not OSIS refs
+        [{"set": "x", "maps": {"ws_index_1": "a book, not a PBY work"}}],
     ],
 )
 def test_eval_schema_fails_closed(tmp_path, sets):
@@ -171,3 +175,39 @@ def test_no_reservations_is_recorded(mini_dump, mini_creators, mini_leakage, tmp
     card = build(_config(mini_dump, mini_creators, mini_leakage, output))
     assert card["inputs"]["eval_reservations"] == []
     assert "none loaded." in (output / "CORPUS_CARD.md").read_text(encoding="utf-8")
+
+
+# Shaped like eval's v5-v7 pointed-print set and its PBY-editions set, with made-up ids and ranges.
+POINTED_SETS = [
+    {"set": "pointed print", "registration": "r", "scope": "s", "pby_all_editions": True, "pby_work_ids": [11, 12],
+     "withdrawn_v1_pby_work_ids_still_reserved": [13], "tanakh_ranges": ["Ruth.2.3-Ruth.2.5", "Joel.1.19-Joel.2.2"],
+     "tanakh_parallels_reserved": {"Ruth.2.3-Ruth.2.5": "Obad.1.4-Obad.1.6 (a parallel)"},
+     "binds": ["every training list"], "s16c_sampling_corpus_files": {"pby:11": ["a.txt"]}, "fonts": "later",
+     "htext_status": {"rule": "a or b", "counts": {"a": 1, "b": 1}}},
+    {"set": "pby editions", "maps": {"14": "ws_index_900 (a reserved book)"}},
+]
+
+
+@pytest.mark.parametrize("schema", ["heocr_eval_reservations.v5", "heocr_eval_reservations.v6", "heocr_eval_reservations.v7"])
+def test_eval_schemas_v5_to_v7_read_ranges_withdrawn_works_and_editions(tmp_path, schema):
+    reservations = Reservations.load([_eval_file(tmp_path / "eval.json", POINTED_SETS, schema=schema)])
+    assert reservations.units["pby"] == {"11", "12", "13", "14"}
+    assert reservations.units["tanakh_range"] == {"Ruth.2.3-Ruth.2.5", "Joel.1.19-Joel.2.2", "Obad.1.4-Obad.1.6"}
+    # Book-level tanakh reservations are a different source; a range reserves no whole book.
+    assert not reservations.reserved("tanakh", "Ruth")
+    assert [row["units"] for row in reservations.card()] == [{"pby": 3, "tanakh_range": 3}, {"pby": 1}]
+
+
+@pytest.mark.parametrize(
+    "ref, reserved",
+    [("Ruth.2.3", True), ("Ruth.2.5", True), ("Ruth.2.2", False), ("Ruth.2.6", False), ("Ruth.3.4", False),
+     ("Joel.1.19", True), ("Joel.1.30", True), ("Joel.2.1", True), ("Joel.2.3", False), ("Obad.1.5", True), ("Gen.2.4", False)],
+)
+def test_verse_reserved(tmp_path, ref, reserved):
+    reservations = Reservations.load([_eval_file(tmp_path / "eval.json", POINTED_SETS, schema="heocr_eval_reservations.v7")])
+    assert reservations.verse_reserved(ref) is reserved
+
+
+def test_verse_reserved_refuses_a_bad_ref(tmp_path):
+    with pytest.raises(ValueError):
+        Reservations().verse_reserved("Ruth 2:3")

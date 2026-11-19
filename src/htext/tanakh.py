@@ -263,6 +263,10 @@ def build(config: TanakhConfig, *, progress: Callable[[str], None] | None = None
         kept = 0
         for verse in verses:
             stats["verses"] += 1
+            if reservations.verse_reserved(verse.ref):
+                # A verse in a reserved range is left out whole, in both forms.
+                stats["verses_skipped:eval_reserved"] += 1
+                continue
             niqqud_words = [pointed_form(word) for word in verse.words]
             plain_words = [strip_marks(word) for word in verse.words]
             spans = word_spans(plain_words, verse=False, targets=sampler)
