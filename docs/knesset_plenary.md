@@ -67,6 +67,16 @@ found every Hebrew word of each DOC in its PDF.
 - **`skipped_documents`:** the group-28 rows of kept sittings that were not
   fetched, with a reason each.
 
+## Pinned fetch (2026-11-19)
+
+The fetch of 2026-11-19 is pinned in
+[`data/knesset_plenary/sources.v1.json`](../data/knesset_plenary/sources.v1.json)
+(sha256 `fa8524f5297ffa0765b37705c112b638451353460435b4db7dc234d352806ee4`):
+6,846 sittings, 6,947 files, all with size and sha256, no failures. The
+downloads (about 3.3 GB) stay outside git. A rerun of the fetcher with this
+manifest's reservations refetches them, and any file the Knesset has changed
+since will show up as a sha256 mismatch.
+
 ## Measured size (2026-11-19)
 
 | Files | Count | Size |
