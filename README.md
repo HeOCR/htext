@@ -35,6 +35,9 @@ fetched and built, and the published `v1`, are in
 [`docs/knesset_laws.md`](docs/knesset_laws.md). The `htext tanakh build` command
 builds the Hebrew Bible from the public-domain Westminster Leningrad Codex,
 pointed and plain; see [`docs/tanakh.md`](docs/tanakh.md).
+The Knesset plenary records (K1–8 to 1975, and K13–25) are next: how they are
+fetched, with eval-reserved sittings never downloaded, is in
+[`docs/knesset_plenary.md`](docs/knesset_plenary.md).
 
 ## Plan
 
