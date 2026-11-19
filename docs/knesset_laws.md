@@ -208,3 +208,10 @@ were dropped as table cells.
 `tests/test_published_knesset_laws.py` checks the committed files. It checks that the card pins the corpus, the
 manifest and the exclusion list, that every law is §6, `ocr_layer` and in `htext-cc0` exactly when it has lines,
 and that the card's eye check recomputes from the committed verdict and sample and excludes the tuning sample.
+
+## Known issue in `v1`
+
+Some `v1` lines overlap HeOCR's evaluation text, which is reserved by page and
+not by booklet, so the booklet check did not catch it. See
+[`data/knesset_laws/v1/KNOWN_ISSUES.md`](../data/knesset_laws/v1/KNOWN_ISSUES.md).
+A decontaminated `v2` is next.

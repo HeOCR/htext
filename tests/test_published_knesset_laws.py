@@ -56,7 +56,7 @@ def _sample_rows(path: Path) -> list[dict]:
 def test_sha256sums_cover_git_files_and_release_assets():
     sums = _sums()
     assert set(sums) == IN_GIT | RELEASE_ASSETS
-    assert {path.name for path in V1.iterdir()} == IN_GIT | {"SHA256SUMS", "eye_check"}
+    assert {path.name for path in V1.iterdir()} == IN_GIT | {"SHA256SUMS", "eye_check", "KNOWN_ISSUES.md"}
     for name in IN_GIT:
         assert _sha(V1 / name) == sums[name], name
 
