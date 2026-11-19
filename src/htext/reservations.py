@@ -30,12 +30,20 @@ Every reserved id is normalised to a ``(source, id)`` pair:
 | ``strata`` ``{name: [id]}`` | as ``books`` | each id |
 | ``reserves`` (v4) | as ``books`` | each reserve book |
 | ``conditional`` ``{id: note}`` (v4) | as ``books`` | each id; the note is metadata |
+| ``withdrawn_v1_pby_work_ids_still_reserved`` (v6) | ``pby`` | the work id |
+| ``maps`` ``{pby id: note}`` (v7) | ``pby`` | each key; the note names the reserved book it is an edition of |
+| ``tanakh_ranges`` (v5) | ``tanakh_range`` | ``Book.c.v-Book.c.v``, OSIS refs |
+| ``tanakh_parallels_reserved`` ``{range: "range (note)"}`` (v5) | ``tanakh_range`` | each value's range |
 
 ``wikisource_he_proofread:<index>`` and ``wikisource_indexes`` name the same
 Hebrew Wikisource Indexes, so both are read as ``wikisource``. Schema
 ``heocr_eval_reservations.v3`` (P-hist eval hold-out, 2026-11-18) adds the
 last five fields, and ``heocr_eval_reservations.v4`` (the standard-square
-top-up) adds ``reserves`` and ``conditional``; their rule holds out every other edition, scan or text of a
+top-up) adds ``reserves`` and ``conditional``. Schemas ``v5`` to ``v7`` (the
+pointed-print test set and its swaps, 2026-11-19) add verse ranges, withdrawn
+works that stay reserved, and PBY editions of reserved books (``maps``).
+``Reservations.verse_reserved`` tells a builder whether a verse falls in a
+reserved range. Their rule holds out every other edition, scan or text of a
 reserved work too. A builder matches its own ids; other editions are listed
 in a reviewed ``htext_reservations.v1`` file.
 
@@ -65,10 +73,14 @@ from typing import Any, Iterable
 
 SCHEMA = "htext_reservations.v1"
 EVAL_SCHEMA = "heocr_eval_reservations.v1"
-EVAL_SCHEMAS = frozenset({EVAL_SCHEMA, "heocr_eval_reservations.v3", "heocr_eval_reservations.v4"})
+EVAL_SCHEMAS = frozenset({EVAL_SCHEMA, *(f"heocr_eval_reservations.v{n}" for n in (3, 4, 5, 6, 7))})
 
 # Fields of an eval set that carry no ids.
-_EVAL_METADATA = {"set", "registration", "fixture", "splits", "labels", "note", "source_pages", "pby_work_ids_basis", "rule"}
+_EVAL_METADATA = {
+    "set", "registration", "fixture", "splits", "labels", "note", "source_pages", "pby_work_ids_basis", "rule",
+    # v5-v7: scope and binding notes, pointers into other teams' files, and the per-page htext status.
+    "scope", "binds", "s16c_sampling_corpus_files", "fonts", "htext_status", "pby_all_editions",
+}
 # Item ids are cut to their unit: a Wikisource page to its Index, an aligned line to its record.
 _UNIT_OF_ITEM = (
     re.compile(r"^(ws_index_\d+)__p\d+(?:#L\d+)?$"),
@@ -98,6 +110,25 @@ def _book_unit(value: object, where: str) -> tuple[str, str]:
     return ("wikisource", unit) if _WIKISOURCE_INDEX.match(unit) else ("ia", unit)
 
 
+_REF = re.compile(r"^([1-3]?[A-Z][A-Za-z]*)\.(\d+)\.(\d+)$")
+
+
+def _verse(ref: str) -> tuple[str, int, int] | None:
+    match = _REF.match(str(ref).strip())
+    return (match.group(1), int(match.group(2)), int(match.group(3))) if match else None
+
+
+def _verse_range(value: object, where: str) -> tuple[str, str]:
+    """``Book.c.v-Book.c.v`` in one book; a trailing note in parentheses is dropped."""
+
+    text = str(value).split("(")[0].strip()
+    first, sep, last = text.partition("-")
+    start, end = _verse(first), _verse(last)
+    if not sep or start is None or end is None or start[0] != end[0] or start[1:] > end[1:]:
+        raise ValueError(f"{where}: expected a verse range Book.c.v-Book.c.v in one book, found {value!r}")
+    return ("tanakh_range", f"{first.strip()}-{last.strip()}")
+
+
 def _prefixed(value: str, where: str) -> tuple[str, str]:
     source, sep, rest = str(value).partition(":")
     if not sep or not source or not rest:
@@ -110,8 +141,17 @@ def _eval_set_ids(row: dict[str, Any], where: str) -> list[tuple[str, str]]:
     for key, value in row.items():
         if key in _EVAL_METADATA:
             continue
-        if key == "pby_work_ids":
+        if key in ("pby_work_ids", "withdrawn_v1_pby_work_ids_still_reserved"):
             ids += [("pby", str(work_id)) for work_id in value]
+        elif key == "maps":
+            for work_id in value:
+                if not str(work_id).isdigit():
+                    raise ValueError(f"{where}: maps keys must be PBY work ids, found {work_id!r}")
+                ids.append(("pby", str(work_id)))
+        elif key == "tanakh_ranges":
+            ids += [_verse_range(item, where) for item in value]
+        elif key == "tanakh_parallels_reserved":
+            ids += [_verse_range(item, where) for item in value.values()]
         elif key == "reshumot_booklets":
             ids += [("reshumot", f"{series}_{number}") for series, numbers in value.items() for number in numbers]
         elif key == "reshumot_born_digital_booklets":
@@ -194,6 +234,18 @@ class Reservations:
 
     def reserved(self, source: str, unit: object) -> bool:
         return str(unit) in self.units.get(source, ())
+
+    def verse_reserved(self, ref: object) -> bool:
+        """Whether an OSIS verse ``Book.c.v`` falls in a reserved verse range."""
+        verse = _verse(str(ref))
+        if verse is None:
+            raise ValueError(f"expected a verse Book.c.v, found {ref!r}")
+        for item in self.units.get("tanakh_range", ()):
+            first, _, last = item.partition("-")
+            start, end = _verse(first), _verse(last)
+            if verse[0] == start[0] and start[1:] <= verse[1:] <= end[1:]:
+                return True
+        return False
 
     def count(self, source: str) -> int:
         return len(self.units.get(source, ()))

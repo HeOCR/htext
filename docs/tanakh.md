@@ -47,7 +47,9 @@ Per verse:
    verse, and both forms are cut at the same words.
 4. **Checks.** Each line passes the PBY character rules and the leakage check (line and word 3-grams, in either
    form), and both forms pass the hocrsyngen wrap check. A line dropped in one form is dropped in the other.
-   Deduplication is per file. A book that eval reserves (source `tanakh`, unit the OSIS book name) is left out whole.
+   Deduplication is per file. A book that eval reserves (source `tanakh`, unit the OSIS book name) is left out whole. A verse in a
+   reserved verse range (eval's `tanakh_ranges` and `tanakh_parallels_reserved`, read as `Book.c.v-Book.c.v`) is left
+   out in both forms, and the card counts it as `verses_skipped:eval_reserved`.
 
 **Biblical quotations.** Verses are quoted in many printed Hebrew pages, HeOCR's evaluation pages among them. The
 leakage check drops lines that match evaluation text, but run the training-time overlap check (CLEAN) against your
