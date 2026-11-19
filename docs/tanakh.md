@@ -78,3 +78,8 @@ eval's reservations v3 (no biblical unit is reserved), the leakage fixtures and 
 Both files meet every S10b length target. Of 59,589 cut lines from 23,213 verses, the build dropped 1,262 repeated
 lines, 200 that failed the wrap check, 6 that share a word 3-gram with evaluation text, and 1 with a medial final
 form. All 39 books are `htext-cc0`. `tests/test_published_tanakh.py` checks the committed files.
+
+**Reserved verse ranges.** Since `v1` was published, HeOCR's evaluation has reserved four verse ranges for its
+pointed-print test set (`eval_reservations_v5.json`): Nehemiah 3:1–15, Ezekiel 40:5–19, Ezra 2:1–28, and Nehemiah
+7:6–32, the parallel of Ezra 2. `v1` has 165 lines of them in each file. Later builds leave them out. To filter `v1`,
+see [`data/tanakh/v1/KNOWN_ISSUES.md`](../data/tanakh/v1/KNOWN_ISSUES.md).
