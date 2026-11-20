@@ -492,7 +492,9 @@ def test_overlap_drop_removes_lines_and_whole_laws(law_inputs: Path):
     assert info["line_sha256s"] == 1 and info["units"] == 1 and info["segments_dropped"] == 1
     assert info["segments_dropped_with_laws"] == len(by_law[first_law])
     assert info["sha256"] == hashlib.sha256(drop.read_bytes()).hexdigest()
-    assert "Overlap with evaluation text:** drop list" in (law_inputs / "out2" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+    card_text = (law_inputs / "out2" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+    assert "(1 private development, test and held-out targets)" in card_text and "target_a" not in card_text
+    assert info["targets"] == 1 and "target_a" not in json.dumps(card)
 
 
 def test_build_without_overlap_drop_says_so(law_inputs: Path):
