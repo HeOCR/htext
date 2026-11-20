@@ -39,6 +39,22 @@ The Knesset plenary records (K1–8 to 1975, and K13–25) are next: how they ar
 fetched, with eval-reserved sittings never downloaded, is in
 [`docs/knesset_plenary.md`](docs/knesset_plenary.md).
 
+## Downloads
+
+Every corpus is a GitHub release of this repository, and also a Hugging Face
+dataset under [HeOCR](https://huggingface.co/HeOCR), where each version is a tag:
+
+| Corpus | Hugging Face | Versions |
+| --- | --- | --- |
+| Project Ben-Yehuda | [`HeOCR/htext-pby`](https://huggingface.co/datasets/HeOCR/htext-pby) | `pby-v1`, `pby-v2`, `pby-v3` |
+| Knesset laws | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | `knesset-laws-v2` |
+| Tanakh | [`HeOCR/htext-tanakh`](https://huggingface.co/datasets/HeOCR/htext-tanakh) | `tanakh-v1` |
+
+The Hugging Face files leave out every line that overlaps HeOCR's evaluation
+text, so for pby and Tanakh they are not byte-identical to the GitHub release:
+each dataset card says what was removed and gives its own sha256s. Knesset laws
+`v2` already leaves those lines out, so its files are the same on both.
+
 ## Plan
 
 [`docs/sources_plan.md`](docs/sources_plan.md) lists the sources htext will add, their rights basis, estimated
