@@ -27,6 +27,6 @@ def test_allowlist_requires_reviewed_roots(tmp_path):
         load([row, {**row, "root": "ספר_בדוי"}])
 
 
-def test_repository_allowlist_starts_empty():
+def test_repository_allowlist_has_valid_entries():
     path = Path(__file__).parents[1] / "data/wikisource/works.v1.json"
-    assert load_works(path, as_of=2026) == {}
+    assert load_works(path, as_of=2026)

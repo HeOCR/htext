@@ -1,4 +1,29 @@
 {
   "schema": "htext_wikisource_works.v1",
-  "works": []
+  "works": [
+    {
+      "root": "מסילת ישרים (שלם)",
+      "work": "Mesillat Yesharim, complete text",
+      "authors": ["Moshe Chaim Luzzatto (18th century)"],
+      "pd_israel_basis": "ancient",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2907208",
+      "reviewer_note": "Luzzatto's work was first printed in 1740. Select the complete-text article, separate from the editorial overview and individually titled chapter pages."
+    },
+    {
+      "root": "ספר החינוך (סדר דפוס ויניציה)",
+      "work": "Sefer HaChinukh, Venice print order",
+      "authors": ["Anonymous medieval author"],
+      "pd_israel_basis": "ancient",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=713473",
+      "reviewer_note": "The author attribution is disputed. The National Library of Israel manuscript catalogue records the 1523 Venice first edition; the Wikisource root identifies this ordering."
+    },
+    {
+      "root": "ראשית חכמה",
+      "work": "Reshit Chokhmah",
+      "authors": ["Eliyahu de Vidas (16th century)"],
+      "pd_israel_basis": "ancient",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1281556",
+      "reviewer_note": "The root names de Vidas and identifies the first printing as Venice 1579. This rights decision covers the historical work."
+    }
+  ]
 }
