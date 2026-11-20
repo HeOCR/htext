@@ -1,5 +1,12 @@
 # Known issues in `pby-v2`
 
+**Withdrawn 2026-11-20.** This release's files were removed from GitHub, and
+its filtered copies on Hugging Face and Zenodo were taken down: a corrected check
+by HeOCR's evaluation found overlap with its evaluation text (see the
+[README](../../../README.md#downloads)). The files here stay as the record of what
+was published. HeOCR keeps a private, checksum-verified backup. Decontaminated
+versions will follow.
+
 The `v2` files are frozen as published: their sha256s in
 [`SHA256SUMS`](SHA256SUMS) still check. Issues found later are listed here
 and fixed in later builds.
