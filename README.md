@@ -45,38 +45,29 @@ The builder is documented in [`docs/wikisource.md`](docs/wikisource.md).
 
 ## Downloads
 
-Every corpus is a GitHub release of this repository, and also a Hugging Face
-dataset under [HeOCR](https://huggingface.co/HeOCR), where each version is a tag:
-
-| Corpus | Hugging Face | Versions | Zenodo |
+| Corpus | GitHub release | Hugging Face | Zenodo |
 | --- | --- | --- | --- |
-| Project Ben-Yehuda | [`HeOCR/htext-pby`](https://huggingface.co/datasets/HeOCR/htext-pby) | `pby-v1`, `pby-v2`, `pby-v3` | `pby-v3`: [10.5281/zenodo.24384745](https://doi.org/10.5281/zenodo.24384745) |
-| Knesset laws | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | `knesset-laws-v2` | [10.5281/zenodo.24384730](https://doi.org/10.5281/zenodo.24384730) |
-| Tanakh | [`HeOCR/htext-tanakh`](https://huggingface.co/datasets/HeOCR/htext-tanakh) | `tanakh-v1` | [10.5281/zenodo.24384726](https://doi.org/10.5281/zenodo.24384726) |
+| Knesset laws | `knesset-laws-v2` | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | [10.5281/zenodo.24384730](https://doi.org/10.5281/zenodo.24384730) |
+| Project Ben-Yehuda | withdrawn (`pby-v1`, `pby-v2`, `pby-v3`) | withdrawn | withdrawn |
+| Tanakh | withdrawn (`tanakh-v1`) | withdrawn | withdrawn |
 
-For pby and Tanakh, the Hugging Face files were filtered against HeOCR's
-evaluation text, so they are not byte-identical to the GitHub release; each
-dataset card says what was removed and gives its own sha256s. Knesset laws `v2`
-already leaves those lines out, so its files are the same on both.
+**Withdrawn 2026-11-20.** HeOCR's evaluation first reported that the filtered
+pby and Tanakh copies on Hugging Face and Zenodo share no text with its
+evaluation sets. That check was faulty: it did not normalise pointed target
+text. The corrected check found remaining overlap in them (and the GitHub
+release files, which were never filtered, overlap more). On the maintainer's
+decision, the files were taken down:
 
-**Correction (2026-11-20).** HeOCR's evaluation first reported that the filtered
-pby-v3 and Tanakh files share no text with its evaluation sets. That check was
-faulty: it did not normalise pointed target text. The corrected check found
-remaining overlap, counted as distinct shared 6-word sequences:
+- the GitHub release assets were removed; the release pages, cards, rights
+  indexes and checksums stay as the record of what was published;
+- the Hugging Face datasets `HeOCR/htext-pby` and `HeOCR/htext-tanakh` are
+  private;
+- the Zenodo records are being deleted (their DOIs then resolve to a tombstone
+  with the citation).
 
-| Files | Pointed | Plain |
-| --- | ---: | ---: |
-| Tanakh (`tanakh-v1` on HF and Zenodo) | 248 | 28 |
-| pby `il` (`pby-v3`) | 93 | 25 |
-| pby `il_us` (`pby-v3`) | 2 | 2 |
-
-Do not train a model on them if it is scored on HeOCR's evaluation sets.
-Decontaminated versions are coming. Knesset laws `v2` passed the corrected
-check.
-
-Each Zenodo record (in the [HeOCR community](https://zenodo.org/communities/heocr)) holds the same files as its Hugging
-Face tag, plus the GitHub card files. Each record's concept DOI resolves to its latest version: pby
-`10.5281/zenodo.24384744`, Knesset laws `10.5281/zenodo.24384729`, Tanakh `10.5281/zenodo.24384725`.
+HeOCR keeps a private, checksum-verified backup. Decontaminated versions, which
+must pass the corrected check with zero overlap, will be published as new
+versions. Knesset laws `v2` passed the corrected check and stays.
 
 ## Plan
 

@@ -1,4 +1,4 @@
-# pby-v3 prose pool v1.1
+# pby-v3 prose pool v1.2
 
 A CC0 pool of paragraph-sized prose chunks for the `hdocsyngen` pilot, cut from
 the published `pby-v3` release (`pby_lines_il_us_plain_v3.txt` and
@@ -21,3 +21,17 @@ keeps that list, and its official check found `v1.1` clean.
 
 Checked on 2026-11-20: a rebuild of `v1`, minus the 19 entries, gives these
 sha256s byte for byte.
+
+## v1.2 (2026-11-20)
+
+A corrected overlap check by HeOCR's evaluation (pointed target text normalised) found 3 entries of `v1.1` that share
+text with its evaluation sets. `v1.2` is `v1.1` without them: 3,978 entries. HeOCR's evaluation checked it and found
+it clean. Use `v1.2`; `v1.1` is superseded.
+
+| File | Entries | sha256 |
+| --- | ---: | --- |
+| `htext_pby_v3_il_us_prose_pool.v1.2.jsonl` | 3,978 | `63ca1f9708111f361ca6959a5576e584392b11171b3f56d28a1e79f49d18926a` |
+| `htext_pby_v3_il_us_prose_pool.v1.2.meta.jsonl` | 3,978 | `d611434e5e859aff1a5abdcb1b88bbec132cae105126ed596a2d1a51a58c5a2e` |
+
+The pool is built from the pby-v3 release files, which have since been withdrawn. HeOCR keeps them in a private backup.
+
