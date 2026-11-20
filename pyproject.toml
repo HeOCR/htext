@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "htext"
 version = "0.1.0"
-description = "Public-domain Hebrew text corpora, with per-entry Israel/US rights, for HeOCR training"
+description = "Hebrew text corpora with per-entry rights records for HeOCR training"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
@@ -29,6 +29,10 @@ test = [
 fit = [
   "hocrsyngen @ git+https://github.com/HeOCR/hocrsyngen@88c61af4c12cc4a462fc1f57a1c4027b3459366d",
   "Pillow>=10",
+]
+# The Wikisource builder parses ProofreadPage wikitext.
+wikisource = [
+  "mwparserfromhell==0.7.2",
 ]
 # The knesset-plenary builder: hocrgen's plenary paragraph rules and its private-names gate (plenary_private_names_v1).
 plenary = [

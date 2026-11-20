@@ -1,4 +1,4 @@
-"""Command-line entry point: ``htext pby build``, ``htext knesset-laws extract|build``, ``htext knesset-plenary extract|candidates|build`` and ``htext tanakh build``."""
+"""Command-line entry point for the htext corpus builders."""
 
 from __future__ import annotations
 
@@ -225,6 +225,26 @@ def _tanakh_build(args: argparse.Namespace) -> int:
     return 0
 
 
+def _wikisource_build(args: argparse.Namespace) -> int:
+    from htext.wikisource import BuildConfig, build
+
+    lengths, profile_source = _length_profile(args.length_profile)
+    fit, allow_maqaf, provenance = _fit(args)
+    leakage = sorted(args.leakage.glob("*.hashes.json")) if args.leakage.is_dir() else [args.leakage]
+    card = build(
+        BuildConfig(
+            dump=args.dump, output=args.output, reservations=args.reserved, eval_overlap_drop=args.eval_overlap_drop,
+            length_profile=lengths, length_profile_source=profile_source, leakage_fixtures=leakage,
+            seed=args.seed, corpus_version=args.corpus_version, niqqud_threshold=args.niqqud_threshold,
+            fit=fit, allow_maqaf=allow_maqaf, fit_provenance=provenance,
+        ),
+        progress=lambda message: print(message, file=sys.stderr),
+    )
+    for name, info in [*card["files"].items(), ("Total", card["totals"])]:
+        print(f"{name}: {info['pages']:,} pages, {info['lines']:,} lines, {info['characters']:,} characters")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="htext")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -342,6 +362,22 @@ def main(argv: list[str] | None = None) -> int:
     tanakh_build.add_argument("--hocrsyngen-commit", default=None)
     tanakh_build.add_argument("--no-fit-check", action="store_true")
     tanakh_build.set_defaults(handler=_tanakh_build)
+
+    wikisource = commands.add_parser("wikisource", help="Hebrew Wikisource proofread text")
+    ws_commands = wikisource.add_subparsers(dest="wikisource_command", required=True)
+    ws_build = ws_commands.add_parser("build", help="build from the pinned local Hebrew Wikisource dump")
+    ws_build.add_argument("--dump", type=Path, required=True, help="the pinned pages-articles.xml.bz2 file")
+    ws_build.add_argument("--output", type=Path, required=True, help="a new output directory")
+    ws_build.add_argument("--reserved", type=Path, action="append", required=True, help="eval reservation manifest (repeatable)")
+    ws_build.add_argument("--eval-overlap-drop", type=Path, required=True, help="htext_eval_overlap_drop.v1 for corpus 'wikisource'")
+    ws_build.add_argument("--leakage", type=Path, default=DEFAULT_LEAKAGE)
+    ws_build.add_argument("--length-profile", type=Path, default=None)
+    ws_build.add_argument("--seed", type=int, default=15)
+    ws_build.add_argument("--corpus-version", default="v1")
+    ws_build.add_argument("--niqqud-threshold", type=float, default=DEFAULT_NIQQUD_THRESHOLD)
+    ws_build.add_argument("--hocrsyngen-commit", default=None)
+    ws_build.add_argument("--no-fit-check", action="store_true")
+    ws_build.set_defaults(handler=_wikisource_build)
     args = parser.parse_args(argv)
     return args.handler(args)
 
