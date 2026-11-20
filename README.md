@@ -49,28 +49,26 @@ The builder is documented in [`docs/wikisource.md`](docs/wikisource.md).
 | Corpus | GitHub release | Hugging Face | Zenodo |
 | --- | --- | --- | --- |
 | Knesset laws | `knesset-laws-v2` | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | [10.5281/zenodo.24384730](https://doi.org/10.5281/zenodo.24384730) |
-| Project Ben-Yehuda | withdrawn (`pby-v1`, `pby-v2`, `pby-v3`) | withdrawn | withdrawn |
-| Tanakh | withdrawn (`tanakh-v1`) | withdrawn | withdrawn |
+| Project Ben-Yehuda | historical builds withdrawn | [v3.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v3.1), [v2.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v2.1), [v1.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v1.1) | See the corpus card |
+| Tanakh | historical build withdrawn | [v1.1](https://huggingface.co/datasets/HeOCR/htext-tanakh/tree/tanakh-v1.1) | See the corpus card |
 
-**Withdrawn 2026-11-20.** HeOCR's evaluation first reported that the filtered
-pby and Tanakh copies on Hugging Face and Zenodo share no text with its
-evaluation sets. That check was faulty: it did not normalise pointed target
-text. The corrected check found remaining overlap in them (and the GitHub
-release files, which were never filtered, overlap more). On the maintainer's
-decision, the files were taken down:
+The new PBY and Tanakh revisions are filtered derivatives. The corrected
+independent overlap check found zero shared 6-grams across 16 evaluation pools
+for the exact released text files. PBY v3.1 ships the two Israel variants.
+The Israel + US variants remain available in v2.1 and v1.1.
 
-- the GitHub release assets were removed; the release pages, cards, rights
-  indexes and checksums stay as the record of what was published;
-- the Hugging Face datasets `HeOCR/htext-pby` and `HeOCR/htext-tanakh` are
-  private;
-- the Zenodo records were deleted: `10.5281/zenodo.24384745` (pby-v3) and
-  `10.5281/zenodo.24384726` (tanakh-v1) now resolve to tombstones that keep the
-  citation. The decontaminated versions will get new Zenodo records with new
-  concept DOIs.
+Corpus cards with file counts and SHA-256 sums:
+[Tanakh v1.1](data/tanakh/v1.1/CORPUS_CARD.md),
+[PBY v3.1](data/pby/v3.1/CORPUS_CARD.md),
+[PBY v2.1](data/pby/v2.1/CORPUS_CARD.md), and
+[PBY v1.1](data/pby/v1.1/CORPUS_CARD.md).
 
-HeOCR keeps a private, checksum-verified backup. Decontaminated versions, which
-must pass the corrected check with zero overlap, will be published as new
-versions. Knesset laws `v2` passed the corrected check and stays.
+**Historical withdrawal, 2026-11-20.** A corrected check found remaining
+overlap in the old PBY and Tanakh files. Their GitHub assets were removed and
+their GitHub release pages, cards and checksums remain as historical records.
+The old Zenodo records [PBY v3](https://doi.org/10.5281/zenodo.24384745) and
+[Tanakh v1](https://doi.org/10.5281/zenodo.24384726) remain tombstones.
+HeOCR keeps a private, checksum-verified backup.
 
 ## Plan
 

@@ -1,0 +1,39 @@
+{
+  "schema": "htext_filtered_republication.v1",
+  "corpus": "tanakh",
+  "version": "v1.1",
+  "title": "htext tanakh-v1.1",
+  "source_card": "data/tanakh/v1/corpus_card.json",
+  "htext_release": "cc0",
+  "source_licence": "Public Domain",
+  "text_quality": "transcription",
+  "credit": {
+    "text": "Westminster Leningrad Codex (public domain), via the Open Scriptures Hebrew Bible",
+    "url": "https://github.com/openscriptures/morphhb"
+  },
+  "huggingface": "https://huggingface.co/datasets/HeOCR/htext-tanakh/tree/tanakh-v1.1",
+  "eval_overlap": {
+    "target_pools": 16,
+    "shared_6grams": 0
+  },
+  "files": {
+    "tanakh_lines_plain_v1.txt": {
+      "bytes": 2656873,
+      "lines": 57637,
+      "sha256": "0291d17d4594bc0a41b5304eb3655add4a2ebb03ab92f90fe9e4d773883d8c7b",
+      "variant": "il",
+      "subset": "plain",
+      "line_index": "tanakh_lines_plain_v1.index.jsonl.gz",
+      "index_sha256": "5f8ae45dfa8eb7816f550c6964eca6997a17693621241786d2439c9091580937"
+    },
+    "tanakh_lines_niqqud_v1.txt": {
+      "bytes": 4589508,
+      "lines": 57683,
+      "sha256": "c4da466e48fef1086dc18fe3d7baed439ff6fd22d09ddc0d7f655066a66a1c0f",
+      "variant": "il",
+      "subset": "niqqud",
+      "line_index": "tanakh_lines_niqqud_v1.index.jsonl.gz",
+      "index_sha256": "9e08c27816845aa6dd4173a2bd33333e23bcfb8a6cab7ecbb7f5dfc22d8ecd7e"
+    }
+  }
+}
