@@ -39,8 +39,9 @@ The Knesset plenary records (K1–8 to 1975, and K13–25) are next: how they ar
 fetched, with eval-reserved sittings never downloaded, and how they are built
 (the privacy gate, OCR and transcription files), is in
 [`docs/knesset_plenary.md`](docs/knesset_plenary.md).
-`htext wikisource build` prepares proofread Hebrew Wikisource text for
-`htext-by-sa`, with attribution by page revision and required eval exclusions.
+`htext wikisource build` prepares Hebrew Wikisource text for `htext-by-sa`,
+with reviewed main-namespace works and laws or proofread Pages, attribution by
+page revision and required eval exclusions.
 The builder is documented in [`docs/wikisource.md`](docs/wikisource.md).
 
 ## Downloads

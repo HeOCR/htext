@@ -237,6 +237,7 @@ def _wikisource_build(args: argparse.Namespace) -> int:
             length_profile=lengths, length_profile_source=profile_source, leakage_fixtures=leakage,
             seed=args.seed, corpus_version=args.corpus_version, niqqud_threshold=args.niqqud_threshold,
             fit=fit, allow_maqaf=allow_maqaf, fit_provenance=provenance,
+            works=args.works, law_sources=args.law_sources, knesset_laws_v2=args.knesset_laws_v2,
         ),
         progress=lambda message: print(message, file=sys.stderr),
     )
@@ -363,13 +364,16 @@ def main(argv: list[str] | None = None) -> int:
     tanakh_build.add_argument("--no-fit-check", action="store_true")
     tanakh_build.set_defaults(handler=_tanakh_build)
 
-    wikisource = commands.add_parser("wikisource", help="Hebrew Wikisource proofread text")
+    wikisource = commands.add_parser("wikisource", help="Hebrew Wikisource text")
     ws_commands = wikisource.add_subparsers(dest="wikisource_command", required=True)
     ws_build = ws_commands.add_parser("build", help="build from the pinned local Hebrew Wikisource dump")
     ws_build.add_argument("--dump", type=Path, required=True, help="the pinned pages-articles.xml.bz2 file")
     ws_build.add_argument("--output", type=Path, required=True, help="a new output directory")
     ws_build.add_argument("--reserved", type=Path, action="append", required=True, help="eval reservation manifest (repeatable)")
     ws_build.add_argument("--eval-overlap-drop", type=Path, required=True, help="htext_eval_overlap_drop.v1 for corpus 'wikisource'")
+    ws_build.add_argument("--works", type=Path, help="reviewed works.v1.json; selects main-namespace mode")
+    ws_build.add_argument("--law-sources", type=Path, help="reviewed article revisions and Reshumot booklet IDs")
+    ws_build.add_argument("--knesset-laws-v2", type=Path, help="published knesset_laws_lines_plain_v2.txt for deduplication")
     ws_build.add_argument("--leakage", type=Path, default=DEFAULT_LEAKAGE)
     ws_build.add_argument("--length-profile", type=Path, default=None)
     ws_build.add_argument("--seed", type=int, default=15)

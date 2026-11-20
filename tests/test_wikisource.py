@@ -246,3 +246,93 @@ def test_exact_duplicate_lines_are_dropped_across_pages(config, monkeypatch):
     lines = (config.output / "wikisource_plain_v1.txt").read_text().splitlines()
     assert len(lines) == len(set(lines)) and card["counts"]["lines_dropped:duplicate"] == 1
 
+
+def test_main_namespace_cli_enforces_rights_booklets_conversion_and_line_exclusions(config, monkeypatch, capsys):
+    from htext.wikisource import open_law
+
+    def law(body):
+        return ("{{ח:התחלה}}\nפרטי פרסום לדוגמה\n{{ח:סעיף|1|כותרת}}\n" + body
+                + "\n{{ח:חתימות}}\nשמות לדוגמה\n[[קטגוריה:בוט חוקים]]")
+
+    plain_duplicate = "משפט שמופיע בקורפוס חוקים"
+    eval_overlap = "משפט שמופיע ברשימת חסימה"
+    pointed_duplicate = "מִשְׁפָּט שֶׁמּוֹפִיעַ בְּקוֹרְפּוּס חוּקִים"
+    articles = [
+        revision(42, dump.ARTICLE, "ספר בדוי/א", "הנה טקסט ישן לדוגמה"),
+        revision(43, dump.ARTICLE, "ספר בדוי/ב", "{{תבנית:המרת_או.סי.אר}}\nטקסט שהומר"),
+        revision(44, 106, "ספר בדוי/ג", "ביאור שלא ייכנס"),
+        revision(45, dump.ARTICLE, "חוק שמור", law("אסור למסור למפרש")),
+        revision(46, dump.ARTICLE, "חוק לדוגמה", law(f"{pointed_duplicate}\n{eval_overlap}\nהנה סעיף יחיד לדוגמה")),
+        revision(47, dump.ARTICLE, "חוק בלי מקורות", law("אסור למסור למפרש")),
+        revision(48, dump.ARTICLE, "ספר בדוי/ד", "{{שם|{{הוסב אוטומטית מהקלדה}}}}\nטקסט שהומר"),
+        revision(49, dump.ARTICLE, "ספר שמור/ג", "אסור למסור למפרש"),
+    ]
+    raw = bz2.decompress(config.dump.read_bytes()).decode("utf-8")
+    config.dump.write_bytes(bz2.compress(raw.replace("</mediawiki>", "".join(articles) + "</mediawiki>").encode()))
+    pin = DumpPin("20261101", hashlib.sha256(config.dump.read_bytes()).hexdigest(), config.dump.stat().st_size)
+    monkeypatch.setattr(f"{module_name}.DumpPin", lambda: pin)
+
+    work = {"root": "ספר בדוי", "work": "Test work", "authors": ["Anonymous"], "pd_israel_basis": "ancient", "reviewer_note": "Fixture"}
+    works = config.dump.with_name("works.json")
+    works.write_text(json.dumps({"schema": "htext_wikisource_works.v1", "works": [work, {**work, "root": "ספר שמור"}]}))
+    sources = config.dump.with_name("laws.json")
+    sources.write_text(json.dumps({"schema": open_law.SCHEMA, "articles": [
+        {"page_id": 45, "revision_id": 1045, "booklets": ["sefer_hachukim_1", "sefer_hachukim_2"]},
+        {"page_id": 46, "revision_id": 1046, "booklets": ["kovetz_hatakanot_2"]},
+    ]}))
+    reference = config.dump.with_name("knesset_laws_lines_plain_v2.txt")
+    reference.write_text(plain_duplicate + "\n")
+    monkeypatch.setattr(open_law, "REFERENCE_SHA256", hashlib.sha256(reference.read_bytes()).hexdigest())
+    reservations = json.loads(config.reservations[0].read_text())
+    reservations["reservations"][0]["reshumot_booklets"] = {"sefer_hachukim": [2]}
+    config.reservations[0].write_text(json.dumps(reservations))
+    config.eval_overlap_drop.write_text(json.dumps({
+        "schema": "htext_eval_overlap_drop.v1", "corpus": "wikisource", "units": [],
+        "line_sha256": [sha256_text(eval_overlap)],
+    }))
+    profile = config.dump.with_name("profile.txt")
+    profile.write_text("א" * 60 + "\n")
+
+    real_scan = dump.scan
+
+    def check_payload_selection(path, *, select, finish, accept_revision=None):
+        def checked_select(page):
+            consume = select(page)
+            if accept_revision is not None and page.id in {10, 11, 20, 44, 45, 47, 49}:
+                assert consume is None
+            return consume
+
+        real_scan(path, select=checked_select, finish=finish, accept_revision=accept_revision)
+
+    monkeypatch.setattr(dump, "scan", check_payload_selection)
+    assert main([
+        "wikisource", "build", "--dump", str(config.dump), "--output", str(config.output),
+        "--reserved", str(config.reservations[0]), "--eval-overlap-drop", str(config.eval_overlap_drop),
+        "--works", str(works), "--law-sources", str(sources), "--knesset-laws-v2", str(reference),
+        "--no-fit-check", "--length-profile", str(profile), "--leakage", str(config.leakage_fixtures[0]),
+    ]) == 0
+    assert "Total: 2 pages, 2 lines" in capsys.readouterr().out
+    assert (config.output / "wikisource_plain_v1.txt").read_text().splitlines() == [
+        "הנה טקסט ישן לדוגמה", "הנה סעיף יחיד לדוגמה",
+    ]
+    assert not (config.output / "wikisource_niqqud_v1.txt").read_text()
+    with gzip.open(config.output / RIGHTS_INDEX, "rt", encoding="utf-8") as index:
+        work_index, law_index = map(json.loads, index)
+    assert work_index["pd_israel_basis"] == "ancient"
+    assert law_index["pd_israel_basis"] == "s6_official_text"
+    assert law_index["revision_url"].endswith("oldid=1046")
+    card = json.loads((config.output / "corpus_card.json").read_text())
+    assert card["proofread_quality_levels"] == []
+    assert card["counts"]["laws_excluded_by_booklet"] == 1
+    assert card["counts"]["articles_excluded_by_conversion"] == 2
+    assert card["counts"]["lines_dropped:knesset_laws_v2"] == 1
+    assert card["counts"]["lines_dropped:eval_overlap"] == 1
+
+    stale = json.loads(sources.read_text())
+    stale["articles"][1]["revision_id"] = 1
+    sources.write_text(json.dumps(stale))
+    other = config.output.with_name("stale")
+    with pytest.raises(ValueError, match="provenance revision mismatch"):
+        build(replace(config, output=other, works=works, law_sources=sources, knesset_laws_v2=reference))
+    assert not other.exists()
+

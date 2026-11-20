@@ -30,6 +30,39 @@ By default, the build uses the hocrsyngen S10b training length profile and
 no-loss wrap check. `--length-profile` accepts a local file with one sample
 line per row. `--no-fit-check` skips wrapping and is recorded in the card.
 
+## Main-namespace build (option B)
+
+Add these arguments to the same command to build unproofread article
+transcriptions for `htext-by-sa`:
+
+```sh
+--works data/wikisource/works.v1.json \
+  --law-sources data/wikisource/law_sources.v1.json \
+  --knesset-laws-v2 /local/knesset_laws_lines_plain_v2.txt
+```
+
+The builder admits reviewed root titles and their slash subpages. It checks
+the dump's reservation graph before parsing article text. If a reserved scan
+links to a reviewed work through the graph, that work is excluded whole.
+Namespace 106, redirects, OCR conversions and automatically converted
+articles are excluded.
+
+Open Law Book entries are pinned to an article ID and a revision ID. Each
+entry lists the Reshumot series and booklet numbers for the enactment and
+all amendments represented in that revision. Leave articles with incomplete
+provenance out of the list. If any listed booklet is reserved, the builder
+skips the whole article. For admitted entries, it takes statutory clause text
+and omits publication notes and signatures. It compares candidate output lines
+with the published knesset-laws-v2 text after stripping Hebrew marks, using
+the release file's pinned SHA-256. The older ProofreadPage mode below is used
+when the article arguments are absent.
+
+The rights index credits the source article revision and records the reviewed
+work or the law's booklet provenance. Before releasing article text, check 100
+sampled lines against the source editions and run the official evaluation
+overlap check on the exact output files. Rebuild with the resulting drop list
+if it finds any overlap.
+
 ## What enters the corpus
 
 - Page namespace revisions with ProofreadPage quality 3 (proofread) or 4

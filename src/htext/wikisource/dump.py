@@ -29,6 +29,7 @@ def scan(
     *,
     select: Callable[[Page], Callable[[str], None] | None],
     finish: Callable[[Page, int, str, str], None],
+    accept_revision: Callable[[Page, int], bool] | None = None,
 ) -> None:
     """Call select before the first revision text byte is delivered to a consumer.
 
@@ -72,6 +73,10 @@ def scan(
             field_parts.clear()
             parser.CharacterDataHandler = field_parts.append
         elif pair == text_element and "deleted" not in attrs:
+            if consume is not None and accept_revision is not None:
+                assert page is not None
+                if not accept_revision(page, int(fields["revision:id"])):
+                    consume = None
             parser.CharacterDataHandler = consume
 
     def end(_: str) -> None:

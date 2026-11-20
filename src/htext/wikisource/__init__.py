@@ -1,4 +1,4 @@
-"""Build the Hebrew Wikisource proofread corpus from a pinned Wikimedia dump."""
+"""Build Hebrew Wikisource corpora from a pinned Wikimedia dump."""
 
 from __future__ import annotations
 
@@ -21,8 +21,9 @@ from htext.leakage import Protected, sha256_text
 from htext.pby.text import DEFAULT_NIQQUD_THRESHOLD, MAX_LINE_CHARS, LengthSampler, choose_segment, word_spans
 from htext.release import Credit, ReleaseGuard, release_fields
 from htext.reservations import Reservations
-from htext.wikisource import dump
+from htext.wikisource import dump, open_law
 from htext.wikisource.dump import ARTICLE, INDEX, PAGE, Page, index_scan, page_scan, title_key
+from htext.wikisource.works import load_works
 
 CORPUS = "wikisource"
 SOURCE_LICENCE = "CC BY-SA 4.0"
@@ -70,6 +71,9 @@ class BuildConfig:
     allow_maqaf: bool = False
     fit: Callable[[str], str | None] | None = None
     fit_provenance: dict[str, Any] = field(default_factory=dict)
+    works: Path | None = None
+    law_sources: Path | None = None
+    knesset_laws_v2: Path | None = None
 
 
 def _sha256(path: Path) -> str:
@@ -186,23 +190,27 @@ class Exclusions:
         return page_scan(page.title) in self.scans or self.reservations.directly_excludes(page) or self.overlap.directly_excludes(page)
 
 
-def _page_record(page: Page, revision: int, quality: int, basis: list[dict[str, str]], ranges: dict[str, Any], as_of: int) -> dict[str, Any]:
+def _page_record(
+    page: Page, revision: int, quality: int | None, basis: list[dict[str, Any]], ranges: dict[str, Any],
+    as_of: int, pd_basis: str | int = "explicit_marking_on_page",
+) -> dict[str, Any]:
     revision_url = f"{WIKI}/w/index.php?{urlencode({'oldid': revision})}"
     history = f"{WIKI}/w/index.php?{urlencode({'title': page.title, 'action': 'history'})}"
     return {
         "schema": RIGHTS_SCHEMA, "unit_id": f"ws_page_{page.id}", "page_id": page.id, "title": page.title,
         "revision_id": revision, "revision_url": revision_url, "history_url": history,
         "proofread_quality": quality, "underlying_work_rights_basis": basis, "line_ranges": ranges,
-        # The underlying work's status, as htext records it for every corpus. The Page's own explicit marking is the
-        # basis (``underlying_work_rights_basis``); the US is not assessed for Wikisource.
-        "pd_israel": True, "pd_israel_basis": "explicit_marking_on_page", "pd_us": None, "pd_us_basis": "not_assessed", "as_of": as_of,
+        # These rights fields describe the underlying work. The CC BY-SA fields below apply to the transcription.
+        "pd_israel": True, "pd_israel_basis": pd_basis, "pd_us": None, "pd_us_basis": "not_assessed", "as_of": as_of,
         **release_fields(source_licence=SOURCE_LICENCE, credit=Credit(CREDIT.text, history), text_quality="transcription"),
     }
 
 
 def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None) -> dict[str, Any]:
     """Write a local build. Both eval inputs are mandatory and no network is used."""
-    from htext.wikisource.text import proofread_page, rights_basis, text_lines
+    import mwparserfromhell
+
+    from htext.wikisource.text import converted_article, proofread_page, rights_basis, text_lines
 
     drop_lines, drop_units = _drop_list(config.eval_overlap_drop)
     reservations = Reservations.load(config.reservations)
@@ -218,15 +226,30 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
     if config.output.exists() or config.output.is_symlink():
         raise ValueError("Wikisource output must be a new directory")
     pin = DumpPin()
-    pin.verify(config.dump)
     as_of = date.fromisoformat(pin.date).year
     protected = Protected.load(config.leakage_fixtures)
+    main_namespace = config.works is not None
+    works, laws, law_lines, article_inputs = {}, {}, set(), {}
+    if main_namespace:
+        if config.law_sources is None or config.knesset_laws_v2 is None:
+            raise ValueError("--works requires --law-sources and --knesset-laws-v2")
+        if not reservations.units.get("reshumot"):
+            raise ValueError("--reserved must include Reshumot booklet units for the main-namespace build")
+        works = load_works(config.works, as_of=as_of)
+        laws = open_law.load_sources(config.law_sources)
+        law_lines = open_law.reference_lines(config.knesset_laws_v2)
+        article_inputs = {"works_sha256": _sha256(config.works), "law_sources_sha256": _sha256(config.law_sources),
+                          "knesset_laws_v2_sha256": open_law.REFERENCE_SHA256}
+    elif config.law_sources is not None or config.knesset_laws_v2 is not None:
+        raise ValueError("Open Law Book inputs require --works")
+    pin.verify(config.dump)
     exclusions = Exclusions(Units.from_values(reserved_units), Units.from_values(drop_units))
     if progress:
         progress("Wikisource: mapping eval reservations from titles and transclusion references")
     exclusion_counts = exclusions.discover(config.dump)
     if progress:
-        progress("Wikisource: filtering proofread Page revisions and writing corpus lines")
+        progress("Wikisource: filtering main-namespace articles" if main_namespace
+                 else "Wikisource: filtering proofread Page revisions")
     guard = ReleaseGuard("by-sa")
     sampler = LengthSampler(config.length_profile, config.seed)
     stats: Counter[str] = Counter()
@@ -246,38 +269,76 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
             writers = {"plain": plain, "niqqud": niqqud}
             parts: list[str] = []
             seen: set[str] = set()  # exact duplicates are dropped across the corpus, as in every htext builder
+            law_pages_found: set[int] = set()
 
             def select(page: Page) -> Callable[[str], None] | None:
                 if page.namespace == ARTICLE and _work(page.title) in exclusions.works:
                     stats["article_pages_excluded_by_eval"] += 1
-                if page.namespace != PAGE:
+                if page.namespace != (ARTICLE if main_namespace else PAGE):
                     return None
+                if page.id in laws and not page.redirected:
+                    law_pages_found.add(page.id)
                 stats["pages_seen"] += 1
-                if exclusions.excludes(page):
+                if (main_namespace and _work(page.title) in exclusions.works) or exclusions.excludes(page):
                     stats["pages_excluded_by_eval"] += 1
                     return None
                 if page.redirected:
                     stats["pages_redirect"] += 1
                     return None
+                if main_namespace:
+                    if page.id in laws:
+                        if not laws[page.id][1].isdisjoint(reservations.units["reshumot"]):
+                            stats["laws_excluded_by_booklet"] += 1
+                            return None
+                    elif _work(page.title) not in works:
+                        stats["articles_outside_reviewed_inputs"] += 1
+                        return None
                 parts.clear()
                 return parts.append
 
-            def finish(page: Page, revision: int, model: str, fmt: str) -> None:
-                proof = proofread_page("".join(parts), model, fmt)
-                parts.clear()
-                if proof is None:
-                    stats["pages_not_proofread"] += 1
-                    return
-                import mwparserfromhell
+            def accept_revision(page: Page, revision: int) -> bool:
+                if page.id in laws and revision != laws[page.id][0]:
+                    raise ValueError(f"Open Law Book provenance revision mismatch for page ID {page.id}")
+                return True
 
-                body = mwparserfromhell.parse(proof.body)
-                basis = rights_basis(proof, body, as_of=as_of)
-                if not basis:
-                    stats["pages_without_rights_basis"] += 1
-                    return
+            def finish(page: Page, revision: int, model: str, fmt: str) -> None:
+                raw = "".join(parts)
+                parts.clear()
+                is_law = main_namespace and page.id in laws
+                pd_basis: str | int = "explicit_marking_on_page"
+                if main_namespace:
+                    if (model, fmt) != ("wikitext", "text/x-wiki"):
+                        stats["articles_not_wikitext"] += 1
+                        return
+                    body = mwparserfromhell.parse(raw)
+                    if converted_article(body):
+                        stats["articles_excluded_by_conversion"] += 1
+                        return
+                    quality = None
+                    if is_law:
+                        pd_basis = "s6_official_text"
+                        basis = [{"kind": "open_law_book", "booklets": sorted(laws[page.id][1])}]
+                        bodies = open_law.clause_bodies(body)
+                    else:
+                        review = works[_work(page.title)]
+                        pd_basis = review["pd_israel_basis"]
+                        basis = [{"kind": "reviewed_work", **review}]
+                        bodies = (body,)
+                else:
+                    proof = proofread_page(raw, model, fmt)
+                    if proof is None:
+                        stats["pages_not_proofread"] += 1
+                        return
+                    body = mwparserfromhell.parse(proof.body)
+                    basis = rights_basis(proof, body, as_of=as_of)
+                    if not basis:
+                        stats["pages_without_rights_basis"] += 1
+                        return
+                    quality = proof.quality
+                    bodies = (body,)
                 sampler.rng.seed(f"{config.seed}:wikisource:{page.id}")
                 ranges: dict[str, Any] = {}
-                for line in text_lines(body):
+                for line in (line for body in bodies for line in text_lines(body)):
                     words = line.split()
                     plain_words = [strip_marks(word) for word in words]
                     for start, end in word_spans(plain_words, verse=False, targets=sampler):
@@ -289,12 +350,15 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
                         if not segment:
                             stats[f"lines_dropped:{why}"] += 1
                             continue
-                        forms = (pointed, segment.plain_form) if pointed != segment.plain_form else (pointed,)
+                        forms = tuple(dict.fromkeys((pointed, segment.plain_form, segment.text)))
                         if any(sha256_text(form) in drop_lines for form in forms):
                             stats["lines_dropped:eval_overlap"] += 1
                             continue
                         if leak := protected.leak(*forms):
                             stats[f"lines_dropped:leak_{leak}"] += 1
+                            continue
+                        if main_namespace and open_law.line_key(segment.text) in law_lines:
+                            stats["lines_dropped:knesset_laws_v2"] += 1
                             continue
                         if config.fit and (failure := config.fit(segment.text)):
                             stats[f"lines_dropped:fit:{failure}"] += 1
@@ -312,22 +376,32 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
                         info["lines"] += 1
                         info["characters"] += len(segment.text)
                         writers[segment.subset].write(segment.text + "\n")
-                        line_index.write((json.dumps({"file": info["name"], "unit_id": f"ws_page_{page.id}", "scan": page_scan(page.title),
+                        line_index.write((json.dumps({"file": info["name"], "unit_id": f"ws_page_{page.id}",
+                                                      "scan": None if main_namespace else page_scan(page.title),
                                                       "sha256": sha256_text(segment.text)}, ensure_ascii=False, sort_keys=True,
                                                      separators=(",", ":")) + "\n").encode("utf-8"))
                 if ranges:
-                    record = guard.admit(_page_record(page, revision, proof.quality, basis, ranges, as_of))
+                    record = guard.admit(_page_record(page, revision, quality, basis, ranges, as_of, pd_basis))
                     rights.write((json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8"))
+                    if is_law:
+                        stats["laws_admitted"] += 1
                 else:
                     stats["pages_without_lines"] += 1
 
-            dump.scan(config.dump, select=select, finish=finish)
-        card = _write_card(config, output, pin, guard, files, stats, protected, reservations, exclusion_counts, len(drop_units), len(drop_lines))
+            if main_namespace:
+                dump.scan(config.dump, select=select, finish=finish, accept_revision=accept_revision)
+                if missing := laws.keys() - law_pages_found:
+                    raise ValueError(f"{len(missing)} reviewed Open Law Book articles are absent from the pinned dump")
+            else:
+                dump.scan(config.dump, select=select, finish=finish)
+        card = _write_card(config, output, pin, guard, files, stats, protected, reservations, exclusion_counts,
+                           len(drop_units), len(drop_lines), article_inputs)
         output.rename(config.output)
     return card
 
 
-def _write_card(config, output, pin, guard, files, stats, protected, reservations, exclusions, drop_units, drop_lines) -> dict[str, Any]:
+def _write_card(config, output, pin, guard, files, stats, protected, reservations, exclusions, drop_units, drop_lines,
+                article_inputs) -> dict[str, Any]:
     for info in files.values():
         path = output / info["name"]
         info.update(bytes=path.stat().st_size, sha256=_sha256(path))
@@ -359,6 +433,14 @@ def _write_card(config, output, pin, guard, files, stats, protected, reservation
         "line_index": {"name": LINE_INDEX, "schema": LINE_INDEX_SCHEMA, "lines": totals["lines"], "sha256": _sha256(output / LINE_INDEX)},
         "notice": "NOTICE.md",
     }
+    if article_inputs:
+        card.update(name="Hebrew Wikisource main-namespace text", proofread_quality_levels=[],
+                    main_namespace_inputs=article_inputs,
+                    known_limitations=[LIMITATION, "Main-namespace text is an unproofread transcription."])
+        card["eval_reservations"]["sets"] = [
+            {"sha256": digest} for digest in sorted({item["sha256"] for item in reservations.card()})
+        ]
+        card["eval_reservations"]["reshumot_booklets"] = reservations.count("reshumot")
     (output / "corpus_card.json").write_text(json.dumps(card, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (output / "CORPUS_CARD.md").write_text(render_card(card), encoding="utf-8")
     (output / "NOTICE.md").write_text(
@@ -379,12 +461,21 @@ def _write_card(config, output, pin, guard, files, stats, protected, reservation
 def render_card(card: dict[str, Any]) -> str:
     pin, totals, reserved, drop = (card[key] for key in ("source", "totals", "eval_reservations", "eval_overlap_drop"))
     rows = "".join(f"| `{name}` | {info['pages']:,} | {info['lines']:,} | {info['characters']:,} |\n" for name, info in card["files"].items())
+    main_namespace = "main_namespace_inputs" in card
+    selection = ("Reviewed work roots and reviewed Open Law Book revisions contribute unproofread transcriptions."
+                 if main_namespace else "Only quality 3 or 4 Page revisions with explicit underlying-work rights markings contribute.")
+    laws_summary = (
+        f"{card['counts'].get('laws_admitted', 0):,} law articles contributed text. "
+        f"{card['counts'].get('laws_excluded_by_booklet', 0):,} were excluded by booklet reservations. "
+        f"{card['counts'].get('lines_dropped:knesset_laws_v2', 0):,} lines matched knesset-laws-v2.\n\n"
+        if main_namespace else ""
+    )
     return (
-        "# Hebrew Wikisource proofread text\n\n"
+        f"# {card['name']}\n\n"
         f"The {card['corpus_version']} build, in `htext-by-sa`, under [CC BY-SA 4.0]({LICENCE_URL}). "
         f"Credit [{CREDIT.text}]({CREDIT.url}). See [NOTICE](NOTICE.md) and `{RIGHTS_INDEX}` for attribution by revision.\n\n"
         f"Source is the [Wikimedia dump dated {pin['date']}]({pin['url']}) with SHA-256 `{pin['sha256']}`. "
-        "Only quality 3 or 4 Page revisions with explicit underlying-work rights markings contribute.\n\n"
+        f"{selection}\n\n"
         f"{totals['pages']:,} distinct pages contributed {totals['lines']:,} lines and {totals['characters']:,} Unicode characters "
         "(excluding newlines). Pages may appear in both files.\n\n"
         "| File | Pages | Lines | Characters |\n| --- | ---: | ---: | ---: |\n" + rows + "\n"
@@ -392,5 +483,5 @@ def render_card(card: dict[str, Any]) -> str:
         f"({reserved['article_pages_excluded']:,} articles and subpages) and {reserved['pages_excluded']:,} Page revisions. "
         f"The overlap list supplied {drop['units']:,} units and "
         f"{drop['line_sha256s']:,} line hashes. {drop['lines_dropped']:,} candidate lines matched those hashes.\n\n"
-        f"{LIMITATION} {card['release_gate']}\n"
+        f"{laws_summary}{LIMITATION} {card['release_gate']}\n"
     )
