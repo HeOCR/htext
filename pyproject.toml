@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "htext"
 version = "0.1.0"
-description = "Public-domain Hebrew text corpora, with per-entry Israel/US rights, for HeOCR training"
+description = "Hebrew text corpora with per-entry rights records for HeOCR training"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
@@ -18,7 +18,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
 ]
-dependencies = []
+dependencies = ["mwparserfromhell==0.7.2"]
 
 [project.optional-dependencies]
 test = [

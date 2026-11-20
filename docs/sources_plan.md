@@ -170,18 +170,19 @@ used.
 
 | # | Corpus | Source | Rights basis | Size (est.) | Clarity |
 | ---: | --- | --- | --- | --- | --- |
-| 1 | `wikisource` | Hebrew Wikisource `pages-articles` dump from dumps.wikimedia.org, pinned by dump date | CC BY-SA 4.0 transcriptions of works that are themselves public domain in Israel, or §6 | large: the Open Law Book, the Bavli, Mishneh Torah, literature; unmeasured | clear for the licence; the underlying work is checked per page |
+| 1 | `wikisource` | Hebrew Wikisource `pages-articles` dump, pinned by date and SHA-256 | CC BY-SA 4.0 for quality 3 and 4 ProofreadPage transcriptions with explicit underlying-work rights markings | unmeasured | builder documented in [wikisource.md](wikisource.md); release pending |
 | 2 | `sefaria-by-sa` | Sefaria versions labelled exactly `CC-BY-SA`, e.g. the Wikisource Bavli and Mishneh Torah | the version licence | large; overlaps `wikisource` (deduplicated within the release) | clear |
 | 3 | `opensiddur-by-sa` | Open Siddur items under CC BY-SA | per-item licence | small | deferred |
 
-- **Underlying work.** Wikisource also hosts texts that are still in copyright, used with permission, and those
-  are out. A page is taken only when its underlying work passes the same Israeli rule as PBY, or is §6 material.
-  It is not taken on the transcription licence alone.
+- **Underlying work.** A proofread page needs an explicit public-domain or compatible free-licence marking
+  for the underlying work. The rights index records the qualifying template or category.
 - **Credit.** Credit is per page: the page title, its URL and "Hebrew Wikisource contributors". The release NOTICE
   points to the history of each page.
 - **Eval reservations.** HeOCR's evaluation holds Hebrew Wikisource Indexes out whole: the audit2 and release-test
   Indexes in hocrgen's `docs/wikisource_lines.md`, and the pages behind the public Wikisource benchmark. No line from
-  those Indexes or pages, or from their works, may enter `htext-by-sa`.
+  those Indexes or pages, or from their works, may enter `htext-by-sa`. The builder maps Indexes to Page
+  titles and article transclusions. Other editions are outside the v1 mapping and rely on the mandatory
+  official eval overlap check, which must find zero before release.
 
 ## Leakage and eval reservations (all releases)
 

@@ -136,14 +136,14 @@ def test_unknown_release_is_refused():
         ReleaseGuard("by-nc")
 
 
-# --- the registry of published corpora
+# --- the registry of corpora
 
 
 def _registry():
     return json.loads(REGISTRY.read_text(encoding="utf-8"))
 
 
-def test_registry_covers_every_published_card():
+def test_registry_covers_every_card():
     listed = {row["card"] for row in _registry()["corpora"]}
     cards = {str(path.relative_to(ROOT)) for path in (ROOT / "data").glob("*/*/corpus_card.json")}
     assert listed == cards
@@ -158,6 +158,9 @@ def test_registry_rows_agree_with_the_gate_and_the_card(row):
     card = json.loads((ROOT / row["card"]).read_text(encoding="utf-8"))
     assert card.get("htext_release", row["htext_release"]) == row["htext_release"]
     assert card["credit"] == row["credit"]
+    if row.get("status") == "unreleased":
+        assert card["status"] == "unreleased"
+        assert not any(key in row for key in ("release_tag", "huggingface", "zenodo"))
     # Rights indexes that carry release fields must all sit in the card's release.
     for index in (ROOT / row["card"]).parent.glob("*rights_index*.jsonl.gz"):
         for line in gzip.decompress(index.read_bytes()).decode("utf-8").splitlines():

@@ -1,6 +1,6 @@
 {
   "schema": "htext_releases.v1",
-  "note": "Which htext release (decision 0022) each published corpus version belongs to. tests/test_release.py checks it against every card under data/.",
+  "note": "Which htext release (decision 0022) each corpus version belongs to. An unreleased entry has no release tag or assets. tests/test_release.py checks the registry against the cards under data/.",
   "corpora": [
     {
       "corpus": "pby",
@@ -69,6 +69,16 @@
       "source_licence": "Public Domain",
       "text_quality": "transcription",
       "credit": {"text": "Westminster Leningrad Codex (public domain), via the Open Scriptures Hebrew Bible", "url": "https://github.com/openscriptures/morphhb"}
+    },
+    {
+      "corpus": "wikisource",
+      "version": "v1",
+      "status": "unreleased",
+      "card": "data/wikisource/v1/corpus_card.json",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {"text": "Hebrew Wikisource contributors", "url": "https://he.wikisource.org"}
     }
   ]
 }

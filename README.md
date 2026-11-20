@@ -1,8 +1,8 @@
 # htext
 
-Public-domain Hebrew text corpora for HeOCR recognizer training. Each corpus
-entry carries its own rights record: `pd_israel` and `pd_us`, each with the
-basis it was computed from and the `as_of` year.
+Open Hebrew text corpora for HeOCR recognizer training. Each corpus entry
+carries its own rights record. PBY records public-domain status in Israel
+and the US, with the basis and year of the determination.
 
 The corpora feed the HeOCR synthetic page generator,
 [`hocrsyngen`](https://github.com/HeOCR/hocrsyngen), through its
@@ -39,6 +39,9 @@ The Knesset plenary records (K1–8 to 1975, and K13–25) are next: how they ar
 fetched, with eval-reserved sittings never downloaded, and how they are built
 (the privacy gate, OCR and transcription files), is in
 [`docs/knesset_plenary.md`](docs/knesset_plenary.md).
+`htext wikisource build` prepares proofread Hebrew Wikisource text for
+`htext-by-sa`, with attribution by page revision and required eval exclusions.
+The builder is documented in [`docs/wikisource.md`](docs/wikisource.md).
 
 ## Downloads
 
@@ -69,8 +72,8 @@ ND text is in none of them, and no line crosses releases.
 
 ## Rules for this repository
 
-- **No source dumps in git.** Builders read a local checkout of each source at
-  a pinned commit. Only the outputs a corpus card lists are published.
+- **No source dumps in git.** Builders read pinned local inputs. Only the
+  outputs a corpus card lists are published.
 - **No network in tests.** Tests use small synthetic fixtures. Lookups that
   need the network (for example creator death years) run once, offline from
   the build, and their results are committed as pinned, reviewed files.
@@ -82,8 +85,8 @@ ND text is in none of them, and no line crosses releases.
   (`transcription` or `ocr_layer`). `htext.release` holds the label map and
   the guard every corpus writer calls; NC, ND, unknown and unlisted labels are
   refused, and a build admits only entries of its own release.
-  [`data/releases.json`](data/releases.json) lists each published corpus
-  version and its release. Lines with `text_quality: ocr_layer` never feed
+  [`data/releases.json`](data/releases.json) lists corpus versions, their
+  release, and whether they are unreleased. Lines with `text_quality: ocr_layer` never feed
   word lists, lexicons or dawgs.
 - **Rights are per entry.** A corpus variant includes an entry only if its
   rights record passes that variant's rule. The rights fields are the
@@ -96,9 +99,10 @@ This repository has two licence scopes:
 | Scope | What it covers | Licence |
 | --- | --- | --- |
 | Code | `src/`, `tests/`, `scripts/`, `.github/`, and build configuration | MIT, see [`LICENSE`](LICENSE) |
-| Data | everything under `data/`, and every corpus build output: processed text, rights and line indexes, exclusion lists, corpus cards and checksums | CC0-1.0, see [`LICENSE-DATA`](LICENSE-DATA) |
+| Data | `htext-cc0` processed text, rights and line indexes, exclusion lists, corpus cards and checksums | CC0-1.0, see [`LICENSE-DATA`](LICENSE-DATA) |
+| Processed Wikisource text | text for `htext-by-sa`, with NOTICE and per-page attribution in the rights index | CC BY-SA 4.0, see [`docs/wikisource.md`](docs/wikisource.md) |
 
-The source texts are in the public domain. PBY's own dump licence says
+The `htext-cc0` source texts are in the public domain or unprotected by law. PBY's own dump licence says
 "Public domain". HeOCR's processing, selections and indexes are dedicated to
 the public domain under CC0-1.0 too, so the data can be used without
 conditions.

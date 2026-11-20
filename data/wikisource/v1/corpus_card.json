@@ -1,0 +1,17 @@
+{
+  "schema": "htext_wikisource_plan.v1",
+  "name": "Hebrew Wikisource proofread text",
+  "corpus_version": "v1",
+  "status": "unreleased",
+  "htext_release": "by-sa",
+  "source_licence": "CC BY-SA 4.0",
+  "text_quality": "transcription",
+  "credit": {"text": "Hebrew Wikisource contributors", "url": "https://he.wikisource.org"},
+  "source": {
+    "url": "https://dumps.wikimedia.org/hewikisource/20261101/hewikisource-20261101-pages-articles.xml.bz2",
+    "date": "20261101",
+    "bytes": 469082606,
+    "sha256": "15a731d70154941afec2a616d538434573a4e068f94c8ea91b659ac64b833fe1"
+  },
+  "build_instructions": "docs/wikisource.md"
+}
