@@ -220,6 +220,11 @@ changed: same dump pin, creators, parameters, leakage fixtures and length
 profile. The 31 PBY works that v4 reserves are left out whole. Fifteen of them
 had lines in `v2` (see [`data/pby/v2/KNOWN_ISSUES.md`](../data/pby/v2/KNOWN_ISSUES.md)).
 
+**Known issue.** Thirteen works with lines in `v3` were reserved by HeOCR's
+evaluation after `v3` was built (reservations v7): 7,734 lines in all. See
+[`data/pby/v3/KNOWN_ISSUES.md`](../data/pby/v3/KNOWN_ISSUES.md). The Hugging Face
+and Zenodo copies of `v3` leave them out.
+
 | File | Lines | Works |
 | --- | ---: | ---: |
 | `pby_lines_il_plain_v3.txt` | 12,278,848 | 16,409 |
