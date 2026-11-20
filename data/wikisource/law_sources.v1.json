@@ -1,0 +1,12 @@
+{
+  "schema": "htext_wikisource_law_sources.v1",
+  "articles": [
+    {
+      "page_id": 324030,
+      "revision_id": 970574,
+      "booklets": ["sefer_hachukim_2557"],
+      "source": "https://main.knesset.gov.il/Activity/Legislation/Laws/pages/lawbill.aspx?lawitemid=566817",
+      "reviewer_note": "The Open Law Book revision cites only the original enactment in Sefer HaChukim 2557. The Knesset legislative record identifies the same booklet and publication page (934)."
+    }
+  ]
+}

@@ -156,3 +156,11 @@ def text_lines(body: Wikicode) -> Iterator[str]:
     for line in _MAGIC_WORD.sub("", text).splitlines():
         if cleaned := normalise(unescape(line), strip_references=False):
             yield cleaned
+
+
+def converted_article(body: Wikicode) -> bool:
+    """Identify the conversion templates excluded from main-namespace text."""
+    return any(
+        title_key(str(template.name)).removeprefix("תבנית:") in {"המרת או.סי.אר", "הוסב אוטומטית מהקלדה"}
+        for template in body.filter_templates()
+    )
