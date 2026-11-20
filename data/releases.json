@@ -40,6 +40,17 @@
       "htext_release": "cc0",
       "source_licence": "Israel Copyright Act 2007 s.6 (not protected)",
       "text_quality": "ocr_layer",
+      "credit": {"text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)", "url": "https://main.knesset.gov.il"},
+      "superseded_by": "knesset-laws-v2"
+    },
+    {
+      "corpus": "knesset-laws",
+      "version": "v2",
+      "card": "data/knesset_laws/v2/corpus_card.json",
+      "release_tag": "knesset-laws-v2",
+      "htext_release": "cc0",
+      "source_licence": "Israel Copyright Act 2007 s.6 (not protected)",
+      "text_quality": "ocr_layer",
       "credit": {"text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)", "url": "https://main.knesset.gov.il"}
     },
     {

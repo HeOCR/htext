@@ -30,7 +30,7 @@ line rules are in [`docs/pby_corpus.md`](docs/pby_corpus.md). The design is the
 
 The second corpus is the enacted laws of the first eight Knessets, as
 published in Reshumot (section 6 of the Copyright Act, `htext-cc0`). Its text is
-the scans' OCR layer, filtered against a lexicon and checked by eye. How it is
+the scans' OCR layer, filtered against a lexicon and checked by eye. The current version is `v2`, which also leaves out every line that overlaps HeOCR's evaluation text. How it is
 fetched and built, and the published `v1`, are in
 [`docs/knesset_laws.md`](docs/knesset_laws.md). The `htext tanakh build` command
 builds the Hebrew Bible from the public-domain Westminster Leningrad Codex,

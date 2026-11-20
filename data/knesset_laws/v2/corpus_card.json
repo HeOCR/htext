@@ -1,0 +1,914 @@
+{
+  "schema": "knesset_laws_corpus_card.v1",
+  "name": "Knesset laws as published (K1-8), OCR text layer",
+  "builder": {
+    "package": "htext",
+    "version": "0.1.0"
+  },
+  "credit": {
+    "text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)",
+    "url": "https://main.knesset.gov.il"
+  },
+  "licence": {
+    "outputs": "CC0-1.0",
+    "source": "Israel Copyright Act 2007 s.6 (not protected)"
+  },
+  "text_rights": "s6_official_text",
+  "htext_release": "cc0",
+  "release": {
+    "htext_release": "cc0",
+    "release_name": "htext-cc0",
+    "release_licence": "CC0-1.0",
+    "entries_admitted": 1972,
+    "source_licences": {
+      "Israel Copyright Act 2007 s.6 (not protected)": 1972
+    }
+  },
+  "text_quality": "ocr_layer",
+  "lexicon_eligible": false,
+  "schemas": {
+    "rights_index": "knesset_laws_rights_index.v1",
+    "line_index": "knesset_laws_line_index.v1",
+    "excluded": "knesset_laws_excluded.v1",
+    "eye_check_sample": "knesset_laws_eye_check_sample.v1"
+  },
+  "source": {
+    "fetch_manifest": {
+      "file": "sources.v1.json",
+      "sha256": "9e04189f115e7452d86b99040a3491457ebec6b82913e78c198259065d1a45a1",
+      "fetched_at": "2026-11-18T08:45:40Z"
+    },
+    "odata": "https://knesset.gov.il/Odata/ParliamentInfo.svc",
+    "knessets": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "bills": 2146,
+    "extractor": "textutil (macOS 15.7.4)",
+    "texts_sha256": "6e656762b0671f2bdce6f8f2876eb9deedf49180259ca21d5f8695825bc57c35"
+  },
+  "inputs": {
+    "lexicon": {
+      "sources": [
+        {
+          "file": "pby_lines_il_plain_v2.txt",
+          "sha256": "ab69e94eb4f038fc1845d4c79a9d6301df2acddf54557d7661f2bee35ae3bf9a",
+          "lines": 12318857
+        },
+        {
+          "file": "pby_lines_il_niqqud_v2.txt",
+          "sha256": "a149c5e5e8eb14e2862a89f45d678518de5e6ef3c3b23ed8824baf5b81ed1b28",
+          "lines": 1680295
+        }
+      ],
+      "min_count": 2,
+      "words": 584232,
+      "suspect_rule": {
+        "confusions": [
+          "ב/כ",
+          "ב/נ",
+          "ס/מ",
+          "ג/נ",
+          "ד/ר",
+          "ה/ח",
+          "ו/ז",
+          "ו/י",
+          "ם/ס",
+          "ס/פ"
+        ],
+        "ratio": 20,
+        "min_variant_count": 50,
+        "corpus_ratio": 10
+      }
+    },
+    "leakage_fixtures": [
+      {
+        "repository": "HeOCR/heocr-restricted-eval",
+        "path": "dbench/synth/text_pool.json (sentences)",
+        "commit": "e56d79e",
+        "sha256": "8d28491cd29bbffc108ba416777de2113259e487752531a0ce2fea1a501967d0",
+        "lines": 17777,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/heocr-restricted-eval",
+        "path": "preregistration/print_scan_PS-v1_2026-11-18/PS-v1_all_text.txt",
+        "commit": "prereg/print-scan-ps-v1",
+        "sha256": "56ece1442711ed4899505fd1cdbc544659ec1fe9e8baa746e679d20a7b3d9fd0",
+        "lines": 456,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrgen",
+        "path": "docs/evaluation-fixtures/bidi-synthetic-corpus.txt",
+        "commit": "c8fb74eb5d0afedd812a0da69562e4610a0b3394",
+        "sha256": "b325673476bce8c16f0a2731e5de1ec9b226b8274fc1e7dfb723dbccb3edf966",
+        "lines": 100,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "ac7e1dc2c21d2506b93c26ce81cab3327baf217d82fb6620c1ddf6f597235fd6",
+        "lines": 19,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "89e52f8b90cdbb8a276fbdaf96530afff2cc266e13ad6355c215c79e5a58d97f",
+        "lines": 812,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_niqqud_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "974ffa19251bcc1137a3baf908f22d2770d801a38d93456d6109bf6565de5640",
+        "lines": 40,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_mixed_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "45a81fff1105ba347c2e80ebfe5cafa0c4e3763975279709c0b9af7a0eedaa88",
+        "lines": 401,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_typographic_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "3364283592492d8827ae94b8899ce44cecedf1281b4fbeb69f9d76b3e9a09a3c",
+        "lines": 418,
+        "stripped": true
+      }
+    ],
+    "leakage_mode": "line (word 3-grams not used: legal formulas repeat; reserved booklets are left out whole)",
+    "eval_reservations": [
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "print_scan_PS-v1",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "pby": 4,
+          "reshumot": 20
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "midcentury (test, dev, retired dev units; v0-v2 union)",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "plenary": 60,
+          "reshumot": 125
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "P-mod eval and holdout units (v6-v7 union, incl. exposed units)",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "knesset_protocol": 7,
+          "plenary": 138,
+          "reshumot": 157
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "D-bench synthetic text pool (sets A, B, C and the gate's fresh set)",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "reshumot": 83
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "P-hist audit2 (Hebrew Wikisource proofread pages)",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "wikisource": 14
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "line_verify scored lines (units held out whole)",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "benyehuda_nli_aligned": 2,
+          "pby": 10,
+          "wikisource": 23
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "h_eval_v1 (handwriting)",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "hash": 34
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "P-hist eval hold-out v1 (27 P-hist books + 3 Rashi-script stratum; with audit2, 40 P-hist books)",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "ia": 13,
+          "pby": 11,
+          "sefaria": 5,
+          "wikisource": 23
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "P-hist eval hold-out v1 top-up (standard square; 8 books + 2 reserves)",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "ia": 10,
+          "pby": 6
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "niqqud_print_v1",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "pby": 32,
+          "tanakh_range": 4
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v7",
+        "set": "phist_holdout_v1_pby_editions",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34",
+        "units": {
+          "pby": 1
+        }
+      }
+    ],
+    "booklet_series": {
+      "6071": "sefer_hachukim",
+      "6075": "chukei_taktziv"
+    },
+    "length_profile_source": "hocrsyngen texts/hebrew_lines_train_v1.txt",
+    "fit_check": {
+      "ran": true,
+      "hocrsyngen_version": null,
+      "hocrsyngen_commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+      "bodies": [
+        {
+          "template_id": "printed_letter",
+          "font_file": "Alef-Regular.ttf",
+          "size": 42,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "handwritten_note",
+          "font_file": "GveretLevin-Regular.ttf",
+          "size": 46,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "archive_card",
+          "font_file": "Alef-Regular.ttf",
+          "size": 38,
+          "width": 498,
+          "rows_per_line": 2
+        },
+        {
+          "template_id": "ledger",
+          "font_file": "Alef-Regular.ttf",
+          "size": 30,
+          "width": 206,
+          "rows_per_line": 10
+        }
+      ],
+      "maqaf_glyph_check": true
+    },
+    "eval_overlap_drop": {
+      "file": "knesset_laws_lines_plain_v1.drop.json",
+      "sha256": "37ac718ade85a312b6b854594406e49db7cb885c8b05792a2df16a78206eec66",
+      "derived_from": {
+        "file": "knesset_laws_lines_plain_v1.txt",
+        "sha256": "67c7a86bc8c8bb6b591b454900dbd5d6884099f4f2b94da937ead0505e0af01a",
+        "lines": 234821
+      },
+      "reservations": {
+        "file": "eval_reservations_v7.json",
+        "sha256": "91fd1ea5099d9b1cc3cd5cbaf22ab93158c8357dda03d266e17b1ef44c3caf34"
+      },
+      "targets": 12,
+      "run_threshold": 5,
+      "line_sha256s": 1948,
+      "units": 32,
+      "segments_dropped": 2285,
+      "segments_dropped_with_laws": 9256
+    }
+  },
+  "corpus_version": "v2",
+  "parameters": {
+    "as_of": 2026,
+    "seed": 15,
+    "max_line_chars": 55,
+    "maqaf_allowed": true,
+    "lexicon_min_count": 2
+  },
+  "laws": {
+    "total": 2146,
+    "with_lines": 1972,
+    "skipped": {
+      "eval_overlap": 32,
+      "eval_reserved": 59,
+      "no_booklet_number": 1,
+      "no_doc": 82
+    },
+    "per_series": {
+      "6071": 2070,
+      "6075": 76
+    }
+  },
+  "lexicon_filter": {
+    "segments_after_character_rules": 307877,
+    "segments_dropped": 31212,
+    "drop_rate": 0.1014,
+    "segments_dropped_suspect": 3882,
+    "suspect_drop_rate": 0.0126,
+    "suspect_drops_by_pair": {
+      "ב/כ": 1631,
+      "ב/נ": 631,
+      "ג/נ": 152,
+      "ד/ר": 284,
+      "ה/ח": 199,
+      "ו/ז": 41,
+      "ו/י": 439,
+      "ם/ס": 104,
+      "ס/מ": 93,
+      "ס/פ": 430
+    },
+    "segments_rescued": 15143,
+    "rescued_by_pair": {
+      "ב/כ": 1025,
+      "ב/נ": 2092,
+      "ג/נ": 78,
+      "ד/ר": 2866,
+      "ה/ח": 846,
+      "ו/ז": 887,
+      "ו/י": 7280,
+      "ם/ס": 131,
+      "ס/מ": 487,
+      "ס/פ": 345
+    },
+    "rescued_top": [
+      {
+        "word": "ברשומות",
+        "variant": "ברשימות",
+        "lexicon_counts": [
+          8,
+          208
+        ],
+        "corpus_counts": [
+          1198,
+          12
+        ],
+        "lines": 1131
+      },
+      {
+        "word": "ציוד",
+        "variant": "ציור",
+        "lexicon_counts": [
+          83,
+          2308
+        ],
+        "corpus_counts": [
+          902,
+          22
+        ],
+        "lines": 788
+      },
+      {
+        "word": "בפסקה",
+        "variant": "נפסקה",
+        "lexicon_counts": [
+          23,
+          646
+        ],
+        "corpus_counts": [
+          837,
+          11
+        ],
+        "lines": 750
+      },
+      {
+        "word": "מקומית",
+        "variant": "מקומות",
+        "lexicon_counts": [
+          209,
+          5130
+        ],
+        "corpus_counts": [
+          809,
+          106
+        ],
+        "lines": 728
+      },
+      {
+        "word": "שזר",
+        "variant": "שור",
+        "lexicon_counts": [
+          58,
+          2258
+        ],
+        "corpus_counts": [
+          640,
+          1
+        ],
+        "lines": 606
+      },
+      {
+        "word": "ערר",
+        "variant": "עדר",
+        "lexicon_counts": [
+          25,
+          825
+        ],
+        "corpus_counts": [
+          476,
+          1
+        ],
+        "lines": 429
+      },
+      {
+        "word": "סביר",
+        "variant": "סבור",
+        "lexicon_counts": [
+          37,
+          2091
+        ],
+        "corpus_counts": [
+          412,
+          182
+        ],
+        "lines": 366
+      },
+      {
+        "word": "היטל",
+        "variant": "הוטל",
+        "lexicon_counts": [
+          3,
+          1027
+        ],
+        "corpus_counts": [
+          396,
+          81
+        ],
+        "lines": 339
+      },
+      {
+        "word": "הערר",
+        "variant": "העדר",
+        "lexicon_counts": [
+          18,
+          1582
+        ],
+        "corpus_counts": [
+          342,
+          32
+        ],
+        "lines": 299
+      },
+      {
+        "word": "מעביד",
+        "variant": "מעביר",
+        "lexicon_counts": [
+          35,
+          740
+        ],
+        "corpus_counts": [
+          282,
+          2
+        ],
+        "lines": 258
+      },
+      {
+        "word": "חישוב",
+        "variant": "הישוב",
+        "lexicon_counts": [
+          58,
+          11704
+        ],
+        "corpus_counts": [
+          270,
+          21
+        ],
+        "lines": 225
+      },
+      {
+        "word": "תחולת",
+        "variant": "תחילת",
+        "lexicon_counts": [
+          2,
+          431
+        ],
+        "corpus_counts": [
+          232,
+          831
+        ],
+        "lines": 215
+      },
+      {
+        "word": "נעברה",
+        "variant": "בעברה",
+        "lexicon_counts": [
+          18,
+          420
+        ],
+        "corpus_counts": [
+          230,
+          8
+        ],
+        "lines": 205
+      },
+      {
+        "word": "הסעד",
+        "variant": "הסער",
+        "lexicon_counts": [
+          37,
+          1130
+        ],
+        "corpus_counts": [
+          221,
+          0
+        ],
+        "lines": 201
+      },
+      {
+        "word": "הצינור",
+        "variant": "הציבור",
+        "lexicon_counts": [
+          104,
+          2333
+        ],
+        "corpus_counts": [
+          208,
+          443
+        ],
+        "lines": 188
+      },
+      {
+        "word": "ייקרא",
+        "variant": "ויקרא",
+        "lexicon_counts": [
+          182,
+          7700
+        ],
+        "corpus_counts": [
+          194,
+          2
+        ],
+        "lines": 174
+      },
+      {
+        "word": "אגרה",
+        "variant": "אגדה",
+        "lexicon_counts": [
+          34,
+          2330
+        ],
+        "corpus_counts": [
+          194,
+          0
+        ],
+        "lines": 170
+      },
+      {
+        "word": "המדד",
+        "variant": "המרד",
+        "lexicon_counts": [
+          2,
+          1490
+        ],
+        "corpus_counts": [
+          187,
+          2
+        ],
+        "lines": 168
+      },
+      {
+        "word": "סבירה",
+        "variant": "סבורה",
+        "lexicon_counts": [
+          14,
+          481
+        ],
+        "corpus_counts": [
+          180,
+          34
+        ],
+        "lines": 159
+      },
+      {
+        "word": "סדיר",
+        "variant": "סדור",
+        "lexicon_counts": [
+          40,
+          1083
+        ],
+        "corpus_counts": [
+          163,
+          2
+        ],
+        "lines": 154
+      },
+      {
+        "word": "קטין",
+        "variant": "קטון",
+        "lexicon_counts": [
+          7,
+          392
+        ],
+        "corpus_counts": [
+          175,
+          0
+        ],
+        "lines": 152
+      },
+      {
+        "word": "הסיפה",
+        "variant": "הסופה",
+        "lexicon_counts": [
+          4,
+          369
+        ],
+        "corpus_counts": [
+          181,
+          0
+        ],
+        "lines": 141
+      },
+      {
+        "word": "האישום",
+        "variant": "האישים",
+        "lexicon_counts": [
+          2,
+          565
+        ],
+        "corpus_counts": [
+          159,
+          3
+        ],
+        "lines": 138
+      },
+      {
+        "word": "הארצית",
+        "variant": "הארצות",
+        "lexicon_counts": [
+          233,
+          5461
+        ],
+        "corpus_counts": [
+          148,
+          12
+        ],
+        "lines": 131
+      },
+      {
+        "word": "קבלתו",
+        "variant": "קבלתי",
+        "lexicon_counts": [
+          80,
+          2847
+        ],
+        "corpus_counts": [
+          133,
+          0
+        ],
+        "lines": 129
+      },
+      {
+        "word": "מסי",
+        "variant": "מפי",
+        "lexicon_counts": [
+          246,
+          13347
+        ],
+        "corpus_counts": [
+          134,
+          8
+        ],
+        "lines": 124
+      },
+      {
+        "word": "סבירים",
+        "variant": "סבורים",
+        "lexicon_counts": [
+          2,
+          881
+        ],
+        "corpus_counts": [
+          142,
+          7
+        ],
+        "lines": 123
+      },
+      {
+        "word": "מצרך",
+        "variant": "מצדך",
+        "lexicon_counts": [
+          10,
+          206
+        ],
+        "corpus_counts": [
+          132,
+          1
+        ],
+        "lines": 119
+      },
+      {
+        "word": "הליך",
+        "variant": "הלוך",
+        "lexicon_counts": [
+          4,
+          5794
+        ],
+        "corpus_counts": [
+          139,
+          1
+        ],
+        "lines": 118
+      },
+      {
+        "word": "הנכה",
+        "variant": "חנכה",
+        "lexicon_counts": [
+          10,
+          279
+        ],
+        "corpus_counts": [
+          130,
+          0
+        ],
+        "lines": 113
+      }
+    ]
+  },
+  "eye_check": {
+    "ran": true,
+    "inherited": {
+      "sample_file": {
+        "name": "knesset_laws_eye_check_sample.v1.jsonl",
+        "sha256": "ddd2e6177701fb9079430e942671f2833aea48c73b6efd1da08b17b3ed693410",
+        "lines": 100
+      },
+      "lines_still_in_build": 94
+    },
+    "checked_by": "htext[claude/claude-code#shay-macbook-m4]@heocr/opensource",
+    "checked_at": "2026-11-18",
+    "method": "fresh random sample (excludes the build-1 tuning sample); each line located on its PDF page scan by OCR word boxes (full page where the crop was ambiguous) and compared character by character with the corpus line's raw text; dash and quote shapes not counted",
+    "sample_lines": 94,
+    "unverifiable_lines": 0,
+    "lines_checked": 94,
+    "lines_with_error": 9,
+    "line_error_rate": 0.0957,
+    "sample_words": 428,
+    "words_wrong": 9,
+    "word_error_rate": 0.021,
+    "errors_by_kind": {
+      "digit_for_letter": 1,
+      "letter": 1,
+      "look_alike": 1,
+      "margin_note_garbled": 1,
+      "punctuation": 5
+    },
+    "file": {
+      "name": "eye_check_build4.json",
+      "sha256": "33ed8dccb80ea6406dce8e87093d8414e1c6cc0a2e323adc27a52be1ddab99e6"
+    },
+    "sample_file_sha256": "490242831851be5c2f588a06407e6cb5080a42db424b9b0652371972e0db38aa",
+    "excluded_samples": [
+      {
+        "file": "eye_sample_build1.jsonl",
+        "sha256": "b46e3d7a71ce34168673188939294ba5f2528105d8f46deac8289bc98d9c562d",
+        "lines": 100
+      },
+      {
+        "file": "knesset_laws_eye_check_sample.v1.jsonl",
+        "sha256": "ddd2e6177701fb9079430e942671f2833aea48c73b6efd1da08b17b3ed693410",
+        "lines": 100
+      }
+    ]
+  },
+  "files": {
+    "knesset_laws_lines_plain_v2.txt": {
+      "subset": "plain",
+      "lines": 223617,
+      "laws": 1972,
+      "sha256": "790099a2e64c2e391957a2c9f306c6a8c0addd087cfd8431666165f5b4f65de1",
+      "bytes": 9853052,
+      "length_profile": {
+        "lines": 223617,
+        "max_chars": 55,
+        "median": 22,
+        "share_31_55": 0.2024,
+        "share_36_47": 0.1236
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      },
+      "kinds": {
+        "body": 205067,
+        "note": 18550
+      },
+      "per_knesset": {
+        "1": 27574,
+        "2": 37332,
+        "3": 30829,
+        "4": 11978,
+        "5": 32110,
+        "6": 29584,
+        "7": 26153,
+        "8": 28057
+      }
+    }
+  },
+  "pipeline": {
+    "laws:eval_overlap": 32,
+    "laws:eval_reserved": 59,
+    "laws:no_booklet_number": 1,
+    "laws:no_doc": 82,
+    "laws:with_lines": 1972,
+    "rescued_pair:ב/כ": 1025,
+    "rescued_pair:ב/נ": 2092,
+    "rescued_pair:ג/נ": 78,
+    "rescued_pair:ד/ר": 2866,
+    "rescued_pair:ה/ח": 846,
+    "rescued_pair:ו/ז": 887,
+    "rescued_pair:ו/י": 7280,
+    "rescued_pair:ם/ס": 131,
+    "rescued_pair:ס/מ": 487,
+    "rescued_pair:ס/פ": 345,
+    "segments": 310629,
+    "segments_dropped:charset": 1166,
+    "segments_dropped:duplicate": 35937,
+    "segments_dropped:eval_overlap": 2285,
+    "segments_dropped:eval_overlap_law": 9256,
+    "segments_dropped:fit:archive_card:too_many_rows": 543,
+    "segments_dropped:fit:ledger:word_too_wide": 558,
+    "segments_dropped:leak_line": 587,
+    "segments_dropped:lexicon": 31212,
+    "segments_dropped:lexicon_suspect": 3882,
+    "segments_dropped:medial_final_form": 13,
+    "segments_dropped:number_list_order": 257,
+    "segments_dropped:too_few_letters": 633,
+    "segments_dropped:too_long": 2,
+    "segments_dropped:unresolved_line_break": 681,
+    "segments_rescued:lexicon_suspect": 15143,
+    "suspect_pair:ב/כ": 1631,
+    "suspect_pair:ב/נ": 631,
+    "suspect_pair:ג/נ": 152,
+    "suspect_pair:ד/ר": 284,
+    "suspect_pair:ה/ח": 199,
+    "suspect_pair:ו/ז": 41,
+    "suspect_pair:ו/י": 439,
+    "suspect_pair:ם/ס": 104,
+    "suspect_pair:ס/מ": 93,
+    "suspect_pair:ס/פ": 430,
+    "text:line_breaks:mended": 1345,
+    "text:line_breaks:unresolved": 681,
+    "text:lines_dropped:footnote": 8347,
+    "text:lines_dropped:page_header": 5819,
+    "text:lines_dropped:printer": 30,
+    "text:lines_dropped:table_cell": 24676,
+    "text:ocr_fix:apostrophe_comma": 8182,
+    "text:ocr_fix:double_apostrophe": 807,
+    "text:ocr_fix:footnote_reference": 1406,
+    "text:paragraphs:body": 30813,
+    "text:paragraphs:note": 42624,
+    "text:section_labels_removed": 23397
+  },
+  "length_profile_targets": {
+    "max_chars": 55,
+    "share_31_55": [
+      0.18,
+      0.35
+    ],
+    "min_share_36_47": 0.1,
+    "median": [
+      18,
+      30
+    ]
+  }
+}

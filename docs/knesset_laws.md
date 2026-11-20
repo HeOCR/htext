@@ -177,7 +177,32 @@ normalisations, not misreadings.
 | `knesset_laws_eye_check_sample.v1.jsonl` | the eye-check sample |
 | `corpus_card.json`, `CORPUS_CARD.md`, `SHA256SUMS` | card and checksums |
 
-## Published build (`v1`)
+## Published build (`v2`, the default)
+
+The pinned `v2` build is in [`data/knesset_laws/v2/`](../data/knesset_laws/v2/), with the same files as `v1`. The
+corpus file and the gzipped line index are assets of the
+[`knesset-laws-v2` release](https://github.com/HeOCR/htext/releases/tag/knesset-laws-v2). It was built from `e48d0bc`
+with `v1`'s inputs, eval's reservations v7 and the overlap drop list (see below). HeOCR's evaluation then ran its
+official check on the lines file and found 0 overlap.
+
+| File | Lines | Laws |
+| --- | ---: | ---: |
+| `knesset_laws_lines_plain_v2.txt` | 223,617 | 1,972 |
+
+`v2` is `v1` minus two kinds of line: those that share text with HeOCR's evaluation sets, and every line of the
+32 laws (`skipped: eval_overlap`) where a line shares a long run with them. Every other line is the same as in `v1`.
+The file meets every S10b length target.
+
+**Eye check (inherited).** `v2` only removes lines, so its card reuses `v1`'s verdicts for the 94 of `v1`'s 100
+sample lines that are still in `v2` (`--eye-check-inherited`): 9 have an error (9.6%), and 9 of 428 words are
+wrong (2.1%). `v2`'s own seeded sample, `knesset_laws_eye_check_sample.v1.jsonl` in `data/knesset_laws/v2/`, has
+not been checked.
+
+`tests/test_published_knesset_laws_v2.py` checks the committed files.
+
+## Earlier build (`v1`, superseded)
+
+`v1` is superseded by `v2`; see the known issue below.
 
 The pinned `v1` build is in [`data/knesset_laws/v1/`](../data/knesset_laws/v1/): the corpus card, `SHA256SUMS`, the
 exclusion list, the gzipped rights index and the eye-check sample. The corpus file and the gzipped line index are
@@ -214,7 +239,7 @@ and that the card's eye check recomputes from the committed verdict and sample a
 Some `v1` lines overlap HeOCR's evaluation text, which is reserved by page and
 not by booklet, so the booklet check did not catch it. See
 [`data/knesset_laws/v1/KNOWN_ISSUES.md`](../data/knesset_laws/v1/KNOWN_ISSUES.md).
-A decontaminated `v2` is next.
+`v2` fixes it.
 
 ## Overlap with evaluation text (`v2` on)
 
