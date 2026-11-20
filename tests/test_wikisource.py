@@ -8,12 +8,13 @@ from dataclasses import replace
 from pathlib import Path
 from xml.sax.saxutils import escape
 
-import mwparserfromhell
 import pytest
+
+mwparserfromhell = pytest.importorskip("mwparserfromhell")
 
 from htext.cli import main
 from htext.leakage import NORMALIZATION, corpus_hashes, sha256_text
-from htext.wikisource import RIGHTS_INDEX, BuildConfig, DumpPin, build, render_card
+from htext.wikisource import LINE_INDEX, RIGHTS_INDEX, BuildConfig, DumpPin, build, render_card
 from htext.wikisource import dump, text, __name__ as module_name
 
 
@@ -139,6 +140,16 @@ def test_build_skips_reserved_payloads_and_writes_attribution(config, monkeypatc
         {"kind": "category", "marking": "נחלת הכלל"}, {"kind": "template", "marking": "PD-old"},
     ]
     assert page["line_ranges"] == {"plain": {"first_line": 2, "lines": 1}, "niqqud": {"first_line": 1, "lines": 1}}
+    assert (page["pd_israel"], page["pd_us"], page["as_of"]) == (True, None, 2026)
+
+    # One line-index row per line, in file order, pointing back at its Page.
+    with gzip.open(config.output / LINE_INDEX, "rt", encoding="utf-8") as handle:
+        rows = [json.loads(line) for line in handle]
+    assert [(r["file"], r["unit_id"]) for r in rows] == [
+        ("wikisource_plain_v1.txt", "ws_page_34"), ("wikisource_plain_v1.txt", "ws_page_38"), ("wikisource_niqqud_v1.txt", "ws_page_38"),
+    ]
+    assert rows[0]["sha256"] == sha256_text(plain_lines[0]) and rows[0]["scan"] == "Separate.pdf"
+    assert card["line_index"]["lines"] == 3
 
 
 def test_cli_build_is_reproducible_and_card_matches_registry(config, capsys):
@@ -159,10 +170,11 @@ def test_cli_build_is_reproducible_and_card_matches_registry(config, capsys):
         digest, name = line.split("  ")
         assert hashlib.sha256((config.output / name).read_bytes()).hexdigest() == digest
 
-    plan = json.loads((Path(__file__).parents[1] / "data/wikisource/v1/corpus_card.json").read_text())
+    sources = json.loads((Path(__file__).parents[1] / "data/wikisource/sources.v1.json").read_text())["source"]
+    import htext.wikisource as ws
+    assert (ws.DUMP_DATE, ws.DUMP_SHA256, ws.DUMP_BYTES) == (sources["date"], sources["sha256"], sources["bytes"])
     card = json.loads((config.output / "corpus_card.json").read_text())
-    for field in ("credit", "htext_release", "source_licence", "text_quality", "status"):
-        assert card[field] == plan[field]
+    assert (card["htext_release"], card["source_licence"], card["text_quality"]) == ("by-sa", "CC BY-SA 4.0", "transcription")
 
 
 def test_required_inputs_and_identity_fail_closed(config):
@@ -221,3 +233,16 @@ def test_navigation_sections_and_unclosed_references():
         "== פרק ==\nהנה משפט תקין<ref>הערה לא סגורה\nטקסט הערה נמשך"
     )
     assert list(text.text_lines(code)) == ["משפט פתיחה", "הנה משפט תקין"]
+
+
+def test_exact_duplicate_lines_are_dropped_across_pages(config, monkeypatch):
+    raw = bz2.decompress(config.dump.read_bytes()).decode("utf-8")
+    twin = proof(41, "Separate.pdf/9", "יש כאן משפט לעמוד השני", quality=4)
+    raw = raw.replace("</mediawiki>", twin + "</mediawiki>")
+    config.dump.write_bytes(bz2.compress(raw.encode("utf-8")))
+    pin = DumpPin("20261101", hashlib.sha256(config.dump.read_bytes()).hexdigest(), config.dump.stat().st_size)
+    monkeypatch.setattr(f"{module_name}.DumpPin", lambda: pin)
+    card = build(config)
+    lines = (config.output / "wikisource_plain_v1.txt").read_text().splitlines()
+    assert len(lines) == len(set(lines)) and card["counts"]["lines_dropped:duplicate"] == 1
+

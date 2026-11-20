@@ -34,6 +34,8 @@ DUMP_SHA256 = "15a731d70154941afec2a616d538434573a4e068f94c8ea91b659ac64b833fe1"
 DUMP_BYTES = 469_082_606
 RIGHTS_INDEX = "wikisource_rights_index.v1.jsonl.gz"
 RIGHTS_SCHEMA = "wikisource_rights_index.v1"
+LINE_INDEX = "wikisource_line_index.v1.jsonl.gz"
+LINE_INDEX_SCHEMA = "wikisource_line_index.v1"
 DROP_SCHEMA = "htext_eval_overlap_drop.v1"
 LIMITATION = "The exclusion map covers the same ProofreadPage work and its article subpages. Other editions require the official eval overlap check."
 
@@ -184,13 +186,16 @@ class Exclusions:
         return page_scan(page.title) in self.scans or self.reservations.directly_excludes(page) or self.overlap.directly_excludes(page)
 
 
-def _page_record(page: Page, revision: int, quality: int, basis: list[dict[str, str]], ranges: dict[str, Any]) -> dict[str, Any]:
+def _page_record(page: Page, revision: int, quality: int, basis: list[dict[str, str]], ranges: dict[str, Any], as_of: int) -> dict[str, Any]:
     revision_url = f"{WIKI}/w/index.php?{urlencode({'oldid': revision})}"
     history = f"{WIKI}/w/index.php?{urlencode({'title': page.title, 'action': 'history'})}"
     return {
         "schema": RIGHTS_SCHEMA, "unit_id": f"ws_page_{page.id}", "page_id": page.id, "title": page.title,
         "revision_id": revision, "revision_url": revision_url, "history_url": history,
         "proofread_quality": quality, "underlying_work_rights_basis": basis, "line_ranges": ranges,
+        # The underlying work's status, as htext records it for every corpus. The Page's own explicit marking is the
+        # basis (``underlying_work_rights_basis``); the US is not assessed for Wikisource.
+        "pd_israel": True, "pd_israel_basis": "explicit_marking_on_page", "pd_us": None, "pd_us_basis": "not_assessed", "as_of": as_of,
         **release_fields(source_licence=SOURCE_LICENCE, credit=Credit(CREDIT.text, history), text_quality="transcription"),
     }
 
@@ -235,9 +240,12 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
             output / files["niqqud"]["name"]
         ).open("w", encoding="utf-8", newline="\n") as niqqud, (output / RIGHTS_INDEX).open("wb") as index, gzip.GzipFile(
             fileobj=index, mode="wb", filename="", mtime=0
-        ) as rights:
+        ) as rights, (output / LINE_INDEX).open("wb") as line_raw, gzip.GzipFile(
+            fileobj=line_raw, mode="wb", filename="", mtime=0
+        ) as line_index:
             writers = {"plain": plain, "niqqud": niqqud}
             parts: list[str] = []
+            seen: set[str] = set()  # exact duplicates are dropped across the corpus, as in every htext builder
 
             def select(page: Page) -> Callable[[str], None] | None:
                 if page.namespace == ARTICLE and _work(page.title) in exclusions.works:
@@ -291,6 +299,10 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
                         if config.fit and (failure := config.fit(segment.text)):
                             stats[f"lines_dropped:fit:{failure}"] += 1
                             continue
+                        if segment.text in seen:
+                            stats["lines_dropped:duplicate"] += 1
+                            continue
+                        seen.add(segment.text)
                         info = files[segment.subset]
                         span = ranges.get(segment.subset)
                         if span is None:
@@ -300,8 +312,11 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
                         info["lines"] += 1
                         info["characters"] += len(segment.text)
                         writers[segment.subset].write(segment.text + "\n")
+                        line_index.write((json.dumps({"file": info["name"], "unit_id": f"ws_page_{page.id}", "scan": page_scan(page.title),
+                                                      "sha256": sha256_text(segment.text)}, ensure_ascii=False, sort_keys=True,
+                                                     separators=(",", ":")) + "\n").encode("utf-8"))
                 if ranges:
-                    record = guard.admit(_page_record(page, revision, proof.quality, basis, ranges))
+                    record = guard.admit(_page_record(page, revision, proof.quality, basis, ranges, as_of))
                     rights.write((json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8"))
                 else:
                     stats["pages_without_lines"] += 1
@@ -322,7 +337,6 @@ def _write_card(config, output, pin, guard, files, stats, protected, reservation
         "name": "Hebrew Wikisource proofread text",
         "builder": {"package": "htext", "version": __version__},
         "corpus_version": config.corpus_version,
-        "status": "unreleased",
         "source": {"url": pin.url, "date": pin.date, "sha256": pin.sha256, "bytes": pin.bytes},
         "source_licence": SOURCE_LICENCE,
         "licence": {"outputs": "CC-BY-SA-4.0", "source": SOURCE_LICENCE, "url": LICENCE_URL},
@@ -342,6 +356,7 @@ def _write_card(config, output, pin, guard, files, stats, protected, reservation
         "totals": totals, "counts": dict(sorted(stats.items())),
         "files": {info["name"]: {key: value for key, value in info.items() if key != "name"} for info in files.values()},
         "rights_index": {"name": RIGHTS_INDEX, "schema": RIGHTS_SCHEMA, "pages": guard.admitted, "sha256": _sha256(output / RIGHTS_INDEX)},
+        "line_index": {"name": LINE_INDEX, "schema": LINE_INDEX_SCHEMA, "lines": totals["lines"], "sha256": _sha256(output / LINE_INDEX)},
         "notice": "NOTICE.md",
     }
     (output / "corpus_card.json").write_text(json.dumps(card, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -366,7 +381,7 @@ def render_card(card: dict[str, Any]) -> str:
     rows = "".join(f"| `{name}` | {info['pages']:,} | {info['lines']:,} | {info['characters']:,} |\n" for name, info in card["files"].items())
     return (
         "# Hebrew Wikisource proofread text\n\n"
-        f"Local {card['corpus_version']} build for `htext-by-sa`, under [CC BY-SA 4.0]({LICENCE_URL}). "
+        f"The {card['corpus_version']} build, in `htext-by-sa`, under [CC BY-SA 4.0]({LICENCE_URL}). "
         f"Credit [{CREDIT.text}]({CREDIT.url}). See [NOTICE](NOTICE.md) and `{RIGHTS_INDEX}` for attribution by revision.\n\n"
         f"Source is the [Wikimedia dump dated {pin['date']}]({pin['url']}) with SHA-256 `{pin['sha256']}`. "
         "Only quality 3 or 4 Page revisions with explicit underlying-work rights markings contribute.\n\n"

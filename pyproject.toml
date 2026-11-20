@@ -18,7 +18,7 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
 ]
-dependencies = ["mwparserfromhell==0.7.2"]
+dependencies = []
 
 [project.optional-dependencies]
 test = [
@@ -29,6 +29,10 @@ test = [
 fit = [
   "hocrsyngen @ git+https://github.com/HeOCR/hocrsyngen@88c61af4c12cc4a462fc1f57a1c4027b3459366d",
   "Pillow>=10",
+]
+# The Wikisource builder parses ProofreadPage wikitext.
+wikisource = [
+  "mwparserfromhell==0.7.2",
 ]
 # The knesset-plenary builder: hocrgen's plenary paragraph rules and its private-names gate (plenary_private_names_v1).
 plenary = [

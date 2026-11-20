@@ -1,0 +1,13 @@
+{
+  "schema": "htext_wikisource_sources.v1",
+  "source": {
+    "site": "https://he.wikisource.org",
+    "dump": "https://dumps.wikimedia.org/hewikisource/20261101/hewikisource-20261101-pages-articles.xml.bz2",
+    "date": "20261101",
+    "bytes": 469082606,
+    "sha256": "15a731d70154941afec2a616d538434573a4e068f94c8ea91b659ac64b833fe1",
+    "sha1_dumpstatus": "82f0704066e81d69ff9ee53be3a2f00de8d1bdb5",
+    "status_url": "https://dumps.wikimedia.org/hewikisource/20261101/dumpstatus.json"
+  },
+  "note": "The pinned input of the wikisource builder (htext.wikisource.DumpPin). The dump itself is not in git."
+}

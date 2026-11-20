@@ -1,8 +1,9 @@
 # Hebrew Wikisource proofread text
 
 `htext wikisource build` prepares the `wikisource` corpus for `htext-by-sa`.
-The registry entry describes an unreleased corpus. The build writes files to a
-new local directory, and publication requires a separate release decision.
+The build writes files to a new local directory; publication is a separate
+release PR. The pinned dump is recorded in
+[`data/wikisource/sources.v1.json`](../data/wikisource/sources.v1.json).
 
 The source is Wikimedia's [2026-11-01 Hebrew Wikisource dump][dump], the single
 `hewikisource-20261101-pages-articles.xml.bz2` file (469,082,606 bytes).
@@ -12,7 +13,7 @@ opening it. Wikimedia's [dump status][status] gives SHA-1
 `82f0704066e81d69ff9ee53be3a2f00de8d1bdb5`. The builder works offline.
 
 ```sh
-python -m pip install -e '.[fit]'
+python -m pip install -e '.[fit,wikisource]'
 htext wikisource build \
   --dump /local/hewikisource-20261101-pages-articles.xml.bz2 \
   --reserved /local/eval_reservations_v7.json \
@@ -64,15 +65,20 @@ before corpus parsing. Line hashes are compared in pointed and plain forms,
 and the repository's standard leakage fixtures also run. The card reports
 counts without the overlap IDs or line hashes. Other editions of the same
 work are outside the title mapping in v1. Before any release, the official
-HeOCR eval check must find zero remaining overlaps.
+HeOCR eval check must find zero remaining overlaps. The drop list is made from
+a build's own lines, so the first build takes an empty one
+(`"line_sha256": [], "units": []`); the release build takes the real list.
 
 ## Outputs and credit
 
 The builder produces plain and niqqud UTF-8 text files, `corpus_card.json`,
-`CORPUS_CARD.md`, `SHA256SUMS`, `NOTICE.md`, and
-`wikisource_rights_index.v1.jsonl.gz`. Each index row credits **Hebrew Wikisource
+`CORPUS_CARD.md`, `SHA256SUMS`, `NOTICE.md`,
+`wikisource_rights_index.v1.jsonl.gz` and `wikisource_line_index.v1.jsonl.gz`
+(one row per line, in file order: its file, page unit `ws_page_<id>`, scan and
+sha256). Exact duplicate lines are dropped across the corpus. Each index row credits **Hebrew Wikisource
 contributors** and gives the page title, permanent revision URL, page history,
-quality level and rights basis. Its `line_ranges` locate each page's lines by
+quality level and rights basis, with `pd_israel` (from the Page's explicit
+marking), `pd_us` (not assessed) and `as_of`. Its `line_ranges` locate each page's lines by
 file, with 1-based `first_line` and a `lines` count. The output is adapted text
 under [CC BY-SA 4.0][licence]. Redistributors must keep attribution and indicate
 changes, following [Wikimedia's terms][terms]. Character counts are Unicode

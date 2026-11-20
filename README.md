@@ -1,8 +1,8 @@
 # htext
 
 Open Hebrew text corpora for HeOCR recognizer training. Each corpus entry
-carries its own rights record. PBY records public-domain status in Israel
-and the US, with the basis and year of the determination.
+carries its own rights record: `pd_israel` and `pd_us`, each with the
+basis it was computed from and the `as_of` year.
 
 The corpora feed the HeOCR synthetic page generator,
 [`hocrsyngen`](https://github.com/HeOCR/hocrsyngen), through its
@@ -85,8 +85,8 @@ ND text is in none of them, and no line crosses releases.
   (`transcription` or `ocr_layer`). `htext.release` holds the label map and
   the guard every corpus writer calls; NC, ND, unknown and unlisted labels are
   refused, and a build admits only entries of its own release.
-  [`data/releases.json`](data/releases.json) lists corpus versions, their
-  release, and whether they are unreleased. Lines with `text_quality: ocr_layer` never feed
+  [`data/releases.json`](data/releases.json) lists each published corpus
+  version and its release. Lines with `text_quality: ocr_layer` never feed
   word lists, lexicons or dawgs.
 - **Rights are per entry.** A corpus variant includes an entry only if its
   rights record passes that variant's rule. The rights fields are the
