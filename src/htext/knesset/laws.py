@@ -66,6 +66,7 @@ EXCLUSION_FILE = "knesset_laws_excluded.v1.json"
 EYE_SAMPLE_FILE = "knesset_laws_eye_check_sample.v1.jsonl"
 DEFAULT_CORPUS_VERSION = "v1"
 DEFAULT_EYE_SAMPLE = 100
+DROP_SCHEMA = "htext_eval_overlap_drop.v1"
 
 # Reshumot series (KNS_Bill.PublicationSeriesID) to eval's booklet id prefix.
 BOOKLET_SERIES = {6071: "sefer_hachukim", 6075: "chukei_taktziv"}
@@ -117,6 +118,9 @@ class LawsConfig:
     eye_exclude: Sequence[Path] = ()
     # Prebuilt lexicon (tests); None builds it from lexicon_corpora.
     lexicon: Lexicon | None = None
+    # An htext_eval_overlap_drop.v1 file (decontam against HeOCR's evaluation text, run outside the build because the
+    # targets are restricted): its line sha256s are dropped, and its units (bill ids) are left out whole.
+    eval_overlap_drop: Path | None = None
 
 
 @dataclass
@@ -186,6 +190,7 @@ def _law_lines(
     prepared: dict[str, tuple[list, dict[str, int]]],
     local: dict[str, int],
     rescued_words: Counter,
+    drop_lines: frozenset[str] = frozenset(),
 ) -> list[LawLine]:
     out: list[LawLine] = []
     sampler = LengthSampler(config.length_profile, f"{config.seed}:law:{bill['bill_id']}")
@@ -225,6 +230,9 @@ def _law_lines(
                         rescued_words[(word, variant)] += 1
                 if sha256_text(segment.text) in protected.lines:
                     stats["segments_dropped:leak_line"] += 1
+                    continue
+                if sha256_text(segment.text) in drop_lines:
+                    stats["segments_dropped:eval_overlap"] += 1
                     continue
                 if segment.text in seen:
                     stats["segments_dropped:duplicate"] += 1
@@ -328,6 +336,9 @@ def build(config: LawsConfig, *, progress: Callable[[str], None] | None = None) 
     protected = Protected.load(config.leakage_fixtures)
     reservations = Reservations.load(config.reservations)
     lexicon = config.lexicon or Lexicon.from_files(config.lexicon_corpora, min_count=config.lexicon_min_count)
+    drop = load_overlap_drop(config.eval_overlap_drop)
+    drop_lines = frozenset(drop["line_sha256"]) if drop else frozenset()
+    drop_bills = {int(unit) for unit in drop["units"]} if drop else set()
     stats: Counter = Counter()
     seen: set[str] = set()
     corpus: list[LawLine] = []
@@ -374,7 +385,13 @@ def build(config: LawsConfig, *, progress: Callable[[str], None] | None = None) 
     rescued_words: Counter = Counter()
     for number, (bill, unit, docs) in enumerate(eligible, 1):
         record = records[bill["bill_id"]]
-        lines = _law_lines(bill, unit, docs, texts, config, lexicon, protected, seen, stats, prepared, local, rescued_words)
+        lines = _law_lines(bill, unit, docs, texts, config, lexicon, protected, seen, stats, prepared, local, rescued_words, drop_lines)
+        if bill["bill_id"] in drop_bills:
+            # Its lines are made and then discarded, so they still count in the first pass and in deduplication:
+            # every other law's lines stay exactly as they were.
+            stats["segments_dropped:eval_overlap_law"] += len(lines)
+            record["skipped"] = "eval_overlap"
+            continue
         if not lines:
             record["skipped"] = "no_line_kept"
         corpus.extend(lines)
@@ -448,12 +465,39 @@ def build(config: LawsConfig, *, progress: Callable[[str], None] | None = None) 
         for (word, variant), lines_kept in rescued_words.most_common(30)
     ]
     card = _card(config, manifest, texts_header, lexicon, protected, reservations, records, files, stats, guard, eye)
+    card["inputs"]["eval_overlap_drop"] = (
+        {
+            "file": config.eval_overlap_drop.name,
+            "sha256": _sha256_file(config.eval_overlap_drop),
+            "derived_from": drop.get("derived_from"),
+            "reservations": drop.get("reservations"),
+            "targets": sorted(drop.get("targets", {})),
+            "run_threshold": drop.get("run_threshold"),
+            "line_sha256s": len(drop_lines),
+            "units": len(drop_bills),
+            "segments_dropped": stats.get("segments_dropped:eval_overlap", 0),
+            "segments_dropped_with_laws": stats.get("segments_dropped:eval_overlap_law", 0),
+        }
+        if drop
+        else {"ran": False}
+    )
     card["lexicon_filter"]["rescued_top"] = rescued_top
     (output / "corpus_card.json").write_text(json.dumps(card, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (output / "CORPUS_CARD.md").write_text(render_card(card), encoding="utf-8")
     names = sorted(path.name for path in output.iterdir() if path.is_file() and path.name != "SHA256SUMS")
     (output / "SHA256SUMS").write_text("".join(f"{_sha256_file(output / n)}  {n}\n" for n in names), encoding="utf-8")
     return card
+
+
+def load_overlap_drop(path: Path | None) -> dict[str, Any] | None:
+    if path is None:
+        return None
+    drop = json.loads(path.read_text(encoding="utf-8"))
+    if drop.get("schema") != DROP_SCHEMA or drop.get("corpus") != "laws":
+        raise ValueError(f"{path}: expected a {DROP_SCHEMA} file for corpus 'laws'")
+    if not isinstance(drop.get("line_sha256"), list) or not isinstance(drop.get("units"), list):
+        raise ValueError(f"{path}: line_sha256 and units must be lists")
+    return drop
 
 
 def _card(config, manifest, texts_header, lexicon, protected, reservations, records, files, stats, guard, eye) -> dict[str, Any]:
@@ -585,6 +629,15 @@ def render_card(card: dict[str, Any]) -> str:
     lines += ["", "## Leakage and reservations", "", f"- **Mode:** {card['inputs']['leakage_mode']}."]
     lines += [f"- Fixture: `{source.get('repository')}` `{source.get('path')}` at `{str(source.get('commit'))[:12]}`" for source in card["inputs"]["leakage_fixtures"]]
     lines += [f"- Reservations: set `{row['set']}`, file sha256 `{row['sha256']}`, units {row['units']}" for row in card["inputs"]["eval_reservations"]]
+    drop = card["inputs"].get("eval_overlap_drop") or {"ran": False}
+    if drop.get("ran") is False:
+        lines.append("- **Overlap with evaluation text:** not checked in this build.")
+    else:
+        lines.append(
+            f"- **Overlap with evaluation text:** drop list `{drop['file']}` (sha256 `{drop['sha256']}`), from HeOCR's word 6-gram check against "
+            f"its evaluation targets, run on the `{drop['derived_from']['file']}` lines. {drop['segments_dropped']:,} lines dropped, "
+            f"and {drop['units']:,} laws ({drop['segments_dropped_with_laws']:,} lines) left out whole (a run of {drop['run_threshold']} or more shared 6-grams)."
+        )
     lines += ["", "## Pipeline", "", "| Step | Count |", "| --- | ---: |"]
     lines += [f"| `{key}` | {value:,} |" for key, value in card["pipeline"].items()]
     lines.append("")
