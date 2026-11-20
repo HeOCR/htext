@@ -1,5 +1,11 @@
 # Known issues in `knesset-laws-v1`
 
+**Withdrawn 2026-11-20.** The corpus file and the line index were removed from the
+[`knesset-laws-v1` release](https://github.com/HeOCR/htext/releases/tag/knesset-laws-v1)
+because of the overlap below. HeOCR keeps a private backup, verified against
+[`SHA256SUMS`](SHA256SUMS). Use
+[`knesset-laws-v2`](https://github.com/HeOCR/htext/releases/tag/knesset-laws-v2).
+
 The `v1` files are frozen as published: their sha256s in
 [`SHA256SUMS`](SHA256SUMS) still check. Issues found later are listed here
 and fixed in later builds.
