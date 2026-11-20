@@ -36,7 +36,8 @@ fetched and built, and the published `v1`, are in
 builds the Hebrew Bible from the public-domain Westminster Leningrad Codex,
 pointed and plain; see [`docs/tanakh.md`](docs/tanakh.md).
 The Knesset plenary records (K1–8 to 1975, and K13–25) are next: how they are
-fetched, with eval-reserved sittings never downloaded, is in
+fetched, with eval-reserved sittings never downloaded, and how they are built
+(the privacy gate, OCR and transcription files), is in
 [`docs/knesset_plenary.md`](docs/knesset_plenary.md).
 
 ## Downloads

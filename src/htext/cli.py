@@ -1,4 +1,4 @@
-"""Command-line entry point: ``htext pby build``, ``htext knesset-laws extract|build`` and ``htext tanakh build``."""
+"""Command-line entry point: ``htext pby build``, ``htext knesset-laws extract|build``, ``htext knesset-plenary extract|candidates|build`` and ``htext tanakh build``."""
 
 from __future__ import annotations
 
@@ -156,6 +156,45 @@ def _laws_build(args: argparse.Namespace) -> int:
     return 0
 
 
+def _plenary_candidates(args: argparse.Namespace) -> int:
+    import json
+
+    from htext.knesset.plenary import CandidatesConfig, candidates
+
+    lengths, profile_source = _length_profile(args.length_profile)
+    result = candidates(
+        CandidatesConfig(
+            manifest=args.manifest, texts=args.texts, output=args.work, length_profile=lengths, length_profile_source=profile_source,
+            lexicon_corpora=args.lexicon_corpus, seed=args.seed,
+        ),
+        progress=lambda message: print(message, file=sys.stderr),
+    )
+    print(json.dumps(result, ensure_ascii=False))
+    return 0
+
+
+def _plenary_build(args: argparse.Namespace) -> int:
+    from htext.knesset.plenary import PlenaryConfig, build as build_plenary
+
+    if not args.reserved:
+        raise SystemExit("pass eval's reservations with --reserved; the plenary build has no experiment mode")
+    fit, _allow_maqaf, provenance = _fit(args)
+    leakage = sorted(args.leakage.glob("*.hashes.json")) if args.leakage.is_dir() else [args.leakage]
+    card = build_plenary(
+        PlenaryConfig(
+            manifest=args.manifest, candidates=args.work / "candidates.jsonl.gz", spans=args.spans, output=args.output,
+            reservations=args.reserved, lexicon_corpora=args.lexicon_corpus, leakage_fixtures=leakage, seed=args.seed,
+            corpus_version=args.corpus_version, eye_sample_size=args.eye_sample, eye_check=args.eye_check,
+            eval_overlap_drop=args.eval_overlap_drop, fit=fit, fit_provenance=provenance,
+        ),
+        progress=lambda message: print(message, file=sys.stderr),
+    )
+    for name, info in card["files"].items():
+        print(f"{name}: {info['lines']} lines from {info['sittings']} sittings ({info['text_quality']})")
+    print(f"privacy gate drops: {card['privacy']['lines_dropped_by_reason']}")
+    return 0
+
+
 def _tanakh_build(args: argparse.Namespace) -> int:
     from htext.tanakh import WLC_COMMIT, TanakhConfig, build as build_tanakh
 
@@ -255,6 +294,38 @@ def main(argv: list[str] | None = None) -> int:
     laws_build.add_argument("--hocrsyngen-commit", default=None)
     laws_build.add_argument("--no-fit-check", action="store_true")
     laws_build.set_defaults(handler=_laws_build)
+
+    plenary = commands.add_parser("knesset-plenary", help="Knesset plenary records (K1-8 to 1975, K13-25)")
+    plenary_commands = plenary.add_subparsers(dest="plenary_command", required=True)
+    p_extract = plenary_commands.add_parser("extract", help="extract the text of every pinned DOC/DOCX file")
+    p_extract.add_argument("--manifest", type=Path, required=True, help="the fetch manifest (htext_knesset_plenary_sources.v1)")
+    p_extract.add_argument("--inputs", type=Path, required=True, help="the fetch's download directory")
+    p_extract.add_argument("--output", type=Path, required=True, help="texts file to write (.jsonl.gz)")
+    p_extract.set_defaults(handler=_laws_extract)
+    p_cand = plenary_commands.add_parser("candidates", help="candidate lines and tagger streams (private work files)")
+    p_cand.add_argument("--manifest", type=Path, required=True)
+    p_cand.add_argument("--texts", type=Path, required=True, help="the extract step's output")
+    p_cand.add_argument("--work", type=Path, required=True, help="private work dir (never published or committed)")
+    p_cand.add_argument("--lexicon-corpus", type=Path, action="append", default=[], help="a transcription corpus file, for line-end hyphens (repeatable)")
+    p_cand.add_argument("--seed", type=int, default=15)
+    p_cand.add_argument("--length-profile", type=Path, default=None)
+    p_cand.set_defaults(handler=_plenary_candidates)
+    p_build = plenary_commands.add_parser("build", help="gate, filter and write the corpus")
+    p_build.add_argument("--manifest", type=Path, required=True)
+    p_build.add_argument("--work", type=Path, required=True, help="the candidates step's work dir")
+    p_build.add_argument("--spans", type=Path, required=True, help="hocrgen ner_stream.py output over WORK/ner_input.jsonl")
+    p_build.add_argument("--output", type=Path, required=True)
+    p_build.add_argument("--reserved", type=Path, action="append", default=[])
+    p_build.add_argument("--lexicon-corpus", type=Path, action="append", default=[], help="a transcription corpus file (repeatable)")
+    p_build.add_argument("--leakage", type=Path, default=DEFAULT_LEAKAGE)
+    p_build.add_argument("--seed", type=int, default=15)
+    p_build.add_argument("--corpus-version", default="v1")
+    p_build.add_argument("--eye-sample", type=int, default=100)
+    p_build.add_argument("--eye-check", type=Path, default=None)
+    p_build.add_argument("--eval-overlap-drop", type=Path, default=None)
+    p_build.add_argument("--hocrsyngen-commit", default=None)
+    p_build.add_argument("--no-fit-check", action="store_true")
+    p_build.set_defaults(handler=_plenary_build)
 
     tanakh = commands.add_parser("tanakh", help="the Westminster Leningrad Codex, pointed and plain")
     tanakh_commands = tanakh.add_subparsers(dest="tanakh_command", required=True)
