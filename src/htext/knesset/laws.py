@@ -504,7 +504,8 @@ def build(config: LawsConfig, *, progress: Callable[[str], None] | None = None) 
             "sha256": _sha256_file(config.eval_overlap_drop),
             "derived_from": drop.get("derived_from"),
             "reservations": drop.get("reservations"),
-            "targets": sorted(drop.get("targets", {})),
+            # A count only: the target names describe private evaluation material (eval, 2026-11-20).
+            "targets": len(drop.get("targets", {})),
             "run_threshold": drop.get("run_threshold"),
             "line_sha256s": len(drop_lines),
             "units": len(drop_bills),
@@ -679,8 +680,9 @@ def render_card(card: dict[str, Any]) -> str:
         lines.append("- **Overlap with evaluation text:** not checked in this build.")
     else:
         lines.append(
-            f"- **Overlap with evaluation text:** drop list `{drop['file']}` (sha256 `{drop['sha256']}`), from HeOCR's word 6-gram check against "
-            f"its evaluation targets, run on the `{drop['derived_from']['file']}` lines. {drop['segments_dropped']:,} lines dropped, "
+            f"- **Overlap with evaluation text:** lines sharing any 6-word sequence with HeOCR's evaluation sets "
+            f"({drop['targets']} private development, test and held-out targets), checked on the `{drop['derived_from']['file']}` lines, were removed, "
+            f"as were laws with long shared runs. Drop list `{drop['file']}` (sha256 `{drop['sha256']}`): {drop['segments_dropped']:,} lines dropped, "
             f"and {drop['units']:,} laws ({drop['segments_dropped_with_laws']:,} lines) left out whole (a run of {drop['run_threshold']} or more shared 6-grams)."
         )
     lines += ["", "## Pipeline", "", "| Step | Count |", "| --- | ---: |"]
