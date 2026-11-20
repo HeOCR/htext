@@ -44,16 +44,20 @@ fetched, with eval-reserved sittings never downloaded, is in
 Every corpus is a GitHub release of this repository, and also a Hugging Face
 dataset under [HeOCR](https://huggingface.co/HeOCR), where each version is a tag:
 
-| Corpus | Hugging Face | Versions |
-| --- | --- | --- |
-| Project Ben-Yehuda | [`HeOCR/htext-pby`](https://huggingface.co/datasets/HeOCR/htext-pby) | `pby-v1`, `pby-v2`, `pby-v3` |
-| Knesset laws | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | `knesset-laws-v2` |
-| Tanakh | [`HeOCR/htext-tanakh`](https://huggingface.co/datasets/HeOCR/htext-tanakh) | `tanakh-v1` |
+| Corpus | Hugging Face | Versions | Zenodo |
+| --- | --- | --- | --- |
+| Project Ben-Yehuda | [`HeOCR/htext-pby`](https://huggingface.co/datasets/HeOCR/htext-pby) | `pby-v1`, `pby-v2`, `pby-v3` | `pby-v3`: [10.5281/zenodo.24384745](https://doi.org/10.5281/zenodo.24384745) |
+| Knesset laws | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | `knesset-laws-v2` | [10.5281/zenodo.24384730](https://doi.org/10.5281/zenodo.24384730) |
+| Tanakh | [`HeOCR/htext-tanakh`](https://huggingface.co/datasets/HeOCR/htext-tanakh) | `tanakh-v1` | [10.5281/zenodo.24384726](https://doi.org/10.5281/zenodo.24384726) |
 
 The Hugging Face files leave out every line that overlaps HeOCR's evaluation
 text, so for pby and Tanakh they are not byte-identical to the GitHub release:
 each dataset card says what was removed and gives its own sha256s. Knesset laws
 `v2` already leaves those lines out, so its files are the same on both.
+
+Each Zenodo record (in the [HeOCR community](https://zenodo.org/communities/heocr)) holds the same files as its Hugging
+Face tag, plus the GitHub card files. Each record's concept DOI resolves to its latest version: pby
+`10.5281/zenodo.24384744`, Knesset laws `10.5281/zenodo.24384729`, Tanakh `10.5281/zenodo.24384725`.
 
 ## Plan
 
