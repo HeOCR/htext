@@ -38,7 +38,8 @@ A model trained on these lines has seen text that HeOCR uses to evaluate
 pointed print, so its scores on that set are not clean. The
 [Hugging Face](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v3) and
 [Zenodo](https://doi.org/10.5281/zenodo.24384745) copies of `pby-v3` already
-leave these works out, along with every other line that overlaps HeOCR's
-evaluation text; the next GitHub build will too. To filter these `v3` files
+leave these works out; the next GitHub build will too. Those copies were also
+filtered against HeOCR's evaluation text, but a corrected check (2026-11-20)
+found that some overlap remains in them. A decontaminated version is coming. To filter these `v3` files
 yourself, use `pby_line_index.v1.jsonl.gz` (one row per line, with its
 `pby_work_id`) to drop the lines of the works above.

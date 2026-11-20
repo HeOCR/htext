@@ -54,10 +54,25 @@ dataset under [HeOCR](https://huggingface.co/HeOCR), where each version is a tag
 | Knesset laws | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | `knesset-laws-v2` | [10.5281/zenodo.24384730](https://doi.org/10.5281/zenodo.24384730) |
 | Tanakh | [`HeOCR/htext-tanakh`](https://huggingface.co/datasets/HeOCR/htext-tanakh) | `tanakh-v1` | [10.5281/zenodo.24384726](https://doi.org/10.5281/zenodo.24384726) |
 
-The Hugging Face files leave out every line that overlaps HeOCR's evaluation
-text, so for pby and Tanakh they are not byte-identical to the GitHub release:
-each dataset card says what was removed and gives its own sha256s. Knesset laws
-`v2` already leaves those lines out, so its files are the same on both.
+For pby and Tanakh, the Hugging Face files were filtered against HeOCR's
+evaluation text, so they are not byte-identical to the GitHub release; each
+dataset card says what was removed and gives its own sha256s. Knesset laws `v2`
+already leaves those lines out, so its files are the same on both.
+
+**Correction (2026-11-20).** HeOCR's evaluation first reported that the filtered
+pby-v3 and Tanakh files share no text with its evaluation sets. That check was
+faulty: it did not normalise pointed target text. The corrected check found
+remaining overlap, counted as distinct shared 6-word sequences:
+
+| Files | Pointed | Plain |
+| --- | ---: | ---: |
+| Tanakh (`tanakh-v1` on HF and Zenodo) | 248 | 28 |
+| pby `il` (`pby-v3`) | 93 | 25 |
+| pby `il_us` (`pby-v3`) | 2 | 2 |
+
+Do not train a model on them if it is scored on HeOCR's evaluation sets.
+Decontaminated versions are coming. Knesset laws `v2` passed the corrected
+check.
 
 Each Zenodo record (in the [HeOCR community](https://zenodo.org/communities/heocr)) holds the same files as its Hugging
 Face tag, plus the GitHub card files. Each record's concept DOI resolves to its latest version: pby
