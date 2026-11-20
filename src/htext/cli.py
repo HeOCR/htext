@@ -147,6 +147,7 @@ def _laws_build(args: argparse.Namespace) -> int:
         eye_exclude=args.eye_exclude,
         eye_check=args.eye_check,
         eval_overlap_drop=args.eval_overlap_drop,
+        eye_check_inherited=tuple(args.eye_check_inherited) if args.eye_check_inherited else None,
     )
     card = build_laws(config, progress=lambda message: print(message, file=sys.stderr))
     for name, info in card["files"].items():
@@ -239,6 +240,14 @@ def main(argv: list[str] | None = None) -> int:
         help="an earlier eye-check sample file whose lines are not drawn again (repeatable)",
     )
     laws_build.add_argument("--eye-check", type=Path, default=None, help="a completed htext_eye_check.v1 file for this build's sample")
+    laws_build.add_argument(
+        "--eye-check-inherited",
+        nargs=2,
+        type=Path,
+        metavar=("SAMPLE", "CHECK"),
+        default=None,
+        help="an earlier build's eye-check sample and its htext_eye_check.v1 file: their verdicts on lines still in this build stand in",
+    )
     laws_build.add_argument(
         "--eval-overlap-drop", type=Path, default=None, help="an htext_eval_overlap_drop.v1 file: lines and laws that overlap HeOCR's evaluation text"
     )
