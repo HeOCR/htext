@@ -202,7 +202,8 @@ not been checked.
 
 ## Earlier build (`v1`, superseded)
 
-`v1` is superseded by `v2`; see the known issue below.
+`v1` is superseded by `v2` and withdrawn (2026-11-20): its corpus file and line index are no longer release assets.
+The card, rights index and checksums below stay in git as the record of what was published. See the known issue below.
 
 The pinned `v1` build is in [`data/knesset_laws/v1/`](../data/knesset_laws/v1/): the corpus card, `SHA256SUMS`, the
 exclusion list, the gzipped rights index and the eye-check sample. The corpus file and the gzipped line index are

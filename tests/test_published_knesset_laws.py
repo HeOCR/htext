@@ -1,7 +1,9 @@
 """Consistency checks on the committed knesset-laws v1 build in data/knesset_laws/v1/.
 
-The corpus file and the line index are assets of the ``knesset-laws-v1``
-release, not in git; SHA256SUMS and the card pin their sha256s. The eye-check
+The corpus file and the line index were assets of the ``knesset-laws-v1``
+release, never in git; SHA256SUMS and the card pin their sha256s. They were
+withdrawn on 2026-11-20 (overlap with HeOCR evaluation text) and HeOCR keeps a
+private backup; these files stay as the record of what was published. The eye-check
 verdicts (the fresh sample the card reports, and the build-1 tuning sample the
 rules were tuned on) are in ``eye_check/``.
 """
@@ -110,3 +112,11 @@ def test_the_fresh_sample_excludes_the_tuning_sample():
     assert tuning_verdict["sample_file_sha256"] == _sha(tuning)
     fresh = {row["sha256"] for row in _sample_rows(V1 / "knesset_laws_eye_check_sample.v1.jsonl")}
     assert not fresh & {row["sha256"] for row in _sample_rows(tuning)}
+
+
+def test_v1_is_marked_withdrawn_in_the_registry():
+    registry = json.loads((DATA.parent / "releases.json").read_text(encoding="utf-8"))
+    row = next(r for r in registry["corpora"] if r["corpus"] == "knesset-laws" and r["version"] == "v1")
+    assert row["superseded_by"] == "knesset-laws-v2" and row["withdrawn"]["date"] == "2026-11-20"
+    assert "Withdrawn 2026-11-20" in (V1 / "KNOWN_ISSUES.md").read_text(encoding="utf-8")
+

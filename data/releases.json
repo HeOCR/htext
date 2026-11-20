@@ -43,7 +43,8 @@
       "source_licence": "Israel Copyright Act 2007 s.6 (not protected)",
       "text_quality": "ocr_layer",
       "credit": {"text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)", "url": "https://main.knesset.gov.il"},
-      "superseded_by": "knesset-laws-v2"
+      "superseded_by": "knesset-laws-v2",
+      "withdrawn": {"date": "2026-11-20", "reason": "lines overlapped HeOCR evaluation text", "assets": "removed from the GitHub release; private backup kept by HeOCR"}
     },
     {
       "corpus": "knesset-laws",
