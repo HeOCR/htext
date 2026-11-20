@@ -1,5 +1,10 @@
 # Hebrew Wikisource proofread text
 
+**Status: parked (heocr-lead, 2026-11-20).** A measuring build of the pinned dump gave no lines. Most proofread Pages
+are eval-reserved, and none of the rest carries an explicit rights marking on the Page. The next design, for
+main-namespace works, is in [`wikisource_main_namespace_design.md`](wikisource_main_namespace_design.md). Nothing has
+been published.
+
 `htext wikisource build` prepares the `wikisource` corpus for `htext-by-sa`.
 The build writes files to a new local directory; publication is a separate
 release PR. The pinned dump is recorded in
