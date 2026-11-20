@@ -48,7 +48,7 @@ def _rights() -> list[dict]:
 def test_sha256sums_cover_git_files_and_release_assets():
     sums = _sums()
     assert set(sums) == IN_GIT | RELEASE_ASSETS
-    assert {path.name for path in V3.iterdir()} == IN_GIT | {"SHA256SUMS"}
+    assert {path.name for path in V3.iterdir()} == IN_GIT | {"SHA256SUMS", "KNOWN_ISSUES.md"}
     for name in IN_GIT:
         assert hashlib.sha256((V3 / name).read_bytes()).hexdigest() == sums[name], name
 
