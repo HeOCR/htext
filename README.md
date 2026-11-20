@@ -62,8 +62,10 @@ decision, the files were taken down:
   indexes and checksums stay as the record of what was published;
 - the Hugging Face datasets `HeOCR/htext-pby` and `HeOCR/htext-tanakh` are
   private;
-- the Zenodo records are being deleted (their DOIs then resolve to a tombstone
-  with the citation).
+- the Zenodo records were deleted: `10.5281/zenodo.24384745` (pby-v3) and
+  `10.5281/zenodo.24384726` (tanakh-v1) now resolve to tombstones that keep the
+  citation. The decontaminated versions will get new Zenodo records with new
+  concept DOIs.
 
 HeOCR keeps a private, checksum-verified backup. Decontaminated versions, which
 must pass the corrected check with zero overlap, will be published as new
