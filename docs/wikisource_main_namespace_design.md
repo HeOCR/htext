@@ -5,11 +5,12 @@ Author: `htext[claude/claude-code#shay-macbook-m4]@heocr/opensource`, 2026-11-20
 
 **2026-11-20 decision and implementation status.** The lead approved option B and
 Shay approved including Open Law Book laws. Namespace 106 and OCR-converted
-articles remain excluded. The initial `works.v1.json` is empty: its loader
-validates reviewed roots, but it does not implement a corpus builder or confer
-rights approval. Each proposed work needs a documented, reviewed basis before
-it can be admitted. The later builder must exclude reserved booklets and
-deduplicate laws against knesset-laws-v2, in addition to line decontamination.
+articles remain excluded. The initial [works list](../data/wikisource/works.v1.json)
+records exact root titles and the source revision for each rights review. The
+initial roots did not occur in the live Wikisource backlink and transclusion
+metadata for the reserved Indexes. The builder must still apply the pinned
+dump's whole-work reservation mapping. It must also exclude reserved booklets
+and deduplicate laws against knesset-laws-v2, in addition to line decontamination.
 
 ## Why this note
 
