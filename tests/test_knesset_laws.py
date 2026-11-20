@@ -507,3 +507,31 @@ def test_overlap_drop_file_is_checked(law_inputs: Path, overrides):
     drop.write_text(json.dumps({**json.loads(drop.read_text()), **overrides}), encoding="utf-8")
     with pytest.raises(ValueError):
         laws.build(_config(law_inputs, eval_overlap_drop=drop))
+
+
+def test_inherited_eye_check_keeps_only_lines_still_in_the_build(law_inputs: Path):
+    laws.build(_config(law_inputs))
+    check = _eye_check(law_inputs, errors_for=2)
+    sample = law_inputs / "eye_sample_v1.jsonl"
+    sample.write_bytes((law_inputs / "out" / laws.EYE_SAMPLE_FILE).read_bytes())
+    rows = [json.loads(line) for line in sample.read_text(encoding="utf-8").splitlines()[1:]]
+    # Drop the first sampled line (one that has an error) from the next build.
+    drop = _write_drop(law_inputs, [rows[0]["sha256"]], [])
+    card = laws.build(_config(law_inputs, output=law_inputs / "out2", eval_overlap_drop=drop, eye_check_inherited=(sample, check)))
+    eye = card["eye_check"]
+    assert eye["ran"] and eye["inherited"]["lines_still_in_build"] == len(rows) - 1
+    assert eye["inherited"]["sample_file"]["lines"] == len(rows)
+    assert eye["lines_checked"] == len(rows) - 1 and eye["lines_with_error"] == 1
+    text = (law_inputs / "out2" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+    assert f"Eye check (inherited):** {len(rows) - 1} of the {len(rows)} lines" in text
+
+
+def test_inherited_eye_check_must_match_its_sample(law_inputs: Path):
+    laws.build(_config(law_inputs))
+    check = _eye_check(law_inputs, sample_sha="0" * 64)
+    sample = law_inputs / "eye_sample_v1.jsonl"
+    sample.write_bytes((law_inputs / "out" / laws.EYE_SAMPLE_FILE).read_bytes())
+    with pytest.raises(ValueError):
+        laws.build(_config(law_inputs, output=law_inputs / "out2", eye_check_inherited=(sample, check)))
+    with pytest.raises(ValueError):
+        laws.build(_config(law_inputs, output=law_inputs / "out3", eye_check=check, eye_check_inherited=(sample, check)))

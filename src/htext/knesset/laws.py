@@ -121,6 +121,9 @@ class LawsConfig:
     # An htext_eval_overlap_drop.v1 file (decontam against HeOCR's evaluation text, run outside the build because the
     # targets are restricted): its line sha256s are dropped, and its units (bill ids) are left out whole.
     eval_overlap_drop: Path | None = None
+    # (sample file, htext_eye_check.v1 file) of an earlier build: its verdicts on the sample lines still in this build
+    # stand in for a new check (lead, 2026-11-20: a build that only removes lines from an earlier one).
+    eye_check_inherited: tuple[Path, Path] | None = None
 
 
 @dataclass
@@ -289,6 +292,33 @@ def eye_check_summary(path: Path | None, sample_sha256: str, sample: list[dict[s
     verdicts = {row["sha256"]: row for row in document["lines"]}
     if set(verdicts) != {row["sha256"] for row in sample}:
         raise ValueError(f"{path}: the eye check does not cover exactly the sample lines")
+    return {"ran": True, "sample_file_sha256": sample_sha256, **_eye_rates(document, verdicts, sample), "file": {"name": path.name, "sha256": _sha256_file(path)}}
+
+
+def inherited_eye_check(sample_path: Path, check_path: Path, corpus_shas: set[str]) -> dict[str, Any]:
+    """An earlier build's eye check, restricted to its sample lines that are still in this build."""
+    rows = [json.loads(line) for line in sample_path.read_text(encoding="utf-8").splitlines()[1:]]
+    document = json.loads(check_path.read_text(encoding="utf-8"))
+    if document.get("schema") != EYE_CHECK_SCHEMA:
+        raise ValueError(f"{check_path}: expected schema {EYE_CHECK_SCHEMA!r}")
+    if document.get("sample_file_sha256") != _sha256_file(sample_path):
+        raise ValueError(f"{check_path}: the eye check was not made on {sample_path.name}")
+    verdicts = {row["sha256"]: row for row in document["lines"]}
+    if set(verdicts) != {row["sha256"] for row in rows}:
+        raise ValueError(f"{check_path}: the eye check does not cover exactly the sample lines")
+    kept = [row for row in rows if row["sha256"] in corpus_shas]
+    return {
+        "ran": True,
+        "inherited": {
+            "sample_file": {"name": sample_path.name, "sha256": _sha256_file(sample_path), "lines": len(rows)},
+            "lines_still_in_build": len(kept),
+        },
+        **_eye_rates(document, verdicts, kept),
+        "file": {"name": check_path.name, "sha256": _sha256_file(check_path)},
+    }
+
+
+def _eye_rates(document: dict[str, Any], verdicts: dict[str, dict], sample: list[dict[str, Any]]) -> dict[str, Any]:
     errors = Counter()
     lines_with_error = 0
     words_wrong = 0
@@ -308,8 +338,6 @@ def eye_check_summary(path: Path | None, sample_sha256: str, sample: list[dict[s
             words_wrong += int(error.get("words", 1))
     checked = len(sample) - unverifiable
     return {
-        "ran": True,
-        "sample_file_sha256": sample_sha256,
         "checked_by": document["checked_by"],
         "checked_at": document["checked_at"],
         "method": document["method"],
@@ -322,7 +350,6 @@ def eye_check_summary(path: Path | None, sample_sha256: str, sample: list[dict[s
         "words_wrong": words_wrong,
         "word_error_rate": round(words_wrong / words, 4) if words else None,
         "errors_by_kind": dict(sorted(errors.items())),
-        "file": {"name": path.name, "sha256": _sha256_file(path)},
     }
 
 
@@ -451,7 +478,13 @@ def build(config: LawsConfig, *, progress: Callable[[str], None] | None = None) 
         handle.write(json.dumps(header, ensure_ascii=False) + "\n")
         for row in sample:
             handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
-    eye = eye_check_summary(config.eye_check, _sha256_file(output / EYE_SAMPLE_FILE), sample)
+    if config.eye_check_inherited is not None:
+        if config.eye_check is not None:
+            raise ValueError("pass an eye check for this build's sample or an inherited one, not both")
+        eye = inherited_eye_check(*config.eye_check_inherited, {sha256_text(line.text) for line in corpus})
+        eye["sample_file_sha256"] = _sha256_file(output / EYE_SAMPLE_FILE)
+    else:
+        eye = eye_check_summary(config.eye_check, _sha256_file(output / EYE_SAMPLE_FILE), sample)
     eye["excluded_samples"] = excluded_sources
 
     rescued_top = [
@@ -613,7 +646,19 @@ def render_card(card: dict[str, Any]) -> str:
             + ", ".join(f"`{row['file']}` (sha256 `{row['sha256']}`, {row['lines']} lines)" for row in eye["excluded_samples"])
             + "."
         )
-    if eye["ran"]:
+    if eye.get("inherited"):
+        inherited = eye["inherited"]
+        lines += [
+            f"- **Eye check (inherited):** {inherited['lines_still_in_build']} of the {inherited['sample_file']['lines']} lines of an earlier build's seeded sample "
+            f"(`{inherited['sample_file']['name']}`, sha256 `{inherited['sample_file']['sha256']}`) are in this build. Their verdicts, from the check "
+            f"by {eye['checked_by']} on {eye['checked_at']} ({eye['method']}), are used here; this build's lines were not checked again.",
+            f"  - Lines checked: {eye['lines_checked']} ({eye['unverifiable_lines']} could not be verified on a damaged scan and are left out of the rates).",
+            f"  - Lines with at least one error: {eye['lines_with_error']} ({eye['line_error_rate']:.1%}).",
+            f"  - Words wrong: {eye['words_wrong']} of {eye['sample_words']} ({eye['word_error_rate']:.2%}).",
+        ]
+        lines += [f"  - `{kind}`: {count}" for kind, count in eye["errors_by_kind"].items()]
+        lines.append(f"  - This build's own seeded sample, not yet checked, is `{EYE_SAMPLE_FILE}` (sha256 `{eye['sample_file_sha256']}`).")
+    elif eye["ran"]:
         lines += [
             f"- **Eye check:** {eye['sample_lines']} lines sampled at random, checked against the scans by {eye['checked_by']} on {eye['checked_at']} ({eye['method']}).",
             f"  - Lines checked: {eye['lines_checked']} ({eye['unverifiable_lines']} could not be verified on a damaged scan and are left out of the rates).",
