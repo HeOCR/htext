@@ -30,6 +30,10 @@ fit = [
   "hocrsyngen @ git+https://github.com/HeOCR/hocrsyngen@88c61af4c12cc4a462fc1f57a1c4027b3459366d",
   "Pillow>=10",
 ]
+# The knesset-plenary builder: hocrgen's plenary paragraph rules and its private-names gate (plenary_private_names_v1).
+plenary = [
+  "hocrgen @ git+https://github.com/HeOCR/hocrgen@f44a9aa6640a7a29ae8b9cdbcb20e0bcdeed54ce",
+]
 
 [project.scripts]
 htext = "htext.cli:main"

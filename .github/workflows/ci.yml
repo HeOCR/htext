@@ -102,3 +102,28 @@ jobs:
         env:
           HOCRSYNGEN_SOURCE: .hocrsyngen
         run: python -m pytest -rs
+
+  plenary:
+    name: Plenary builder (hocrgen f44a9aa)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install -e ".[test,plenary]"
+
+      - name: Run the plenary tests (no skips allowed)
+        run: |
+          python -m pytest -rs tests/test_knesset_plenary.py | tee pytest.log
+          if grep -q "SKIPPED" pytest.log; then echo "the plenary tests must not skip here" >&2; exit 1; fi

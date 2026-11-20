@@ -1,4 +1,4 @@
-"""Extract the text of each pinned law file, once, into one gzipped JSON-lines file.
+"""Extract the text of each pinned Knesset Word file (laws or plenary records), once, into one gzipped JSON-lines file.
 
 The Word files are Word 97-2003 documents (cp1255). ``textutil`` (macOS) reads
 them and writes UTF-8; LibreOffice (``soffice --headless --convert-to``) is the
@@ -24,6 +24,8 @@ from pathlib import Path
 from typing import Any, Callable, Iterable
 
 TEXTS_SCHEMA = "htext_knesset_laws_texts.v1"
+# The same rows for the plenary records (htext_knesset_plenary_sources.v1 manifests).
+PLENARY_TEXTS_SCHEMA = "htext_knesset_plenary_texts.v1"
 
 
 def _sha256_file(path: Path) -> str:
@@ -61,10 +63,15 @@ def default_extractor() -> tuple[str, Callable[[Path], str]]:
 
 
 def doc_files(manifest: dict[str, Any]) -> Iterable[dict[str, Any]]:
-    for bill in manifest["bills"]:
-        for document in bill["documents"]:
+    """Every pinned DOC (or DOCX) of a laws manifest (``bills``) or a plenary manifest (``sessions``)."""
+    for entry in manifest.get("bills", manifest.get("sessions", [])):
+        for document in entry["documents"]:
             if document["format"] == "DOC" and document.get("sha256"):
                 yield document
+
+
+def texts_schema(manifest: dict[str, Any]) -> str:
+    return PLENARY_TEXTS_SCHEMA if "sessions" in manifest else TEXTS_SCHEMA
 
 
 def extract_all(
@@ -79,7 +86,7 @@ def extract_all(
     counts = {"extracted": 0, "failed": 0}
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("wb") as raw, gzip.GzipFile(filename="", mode="wb", fileobj=raw, compresslevel=9, mtime=0) as handle:
-        header = {"schema": TEXTS_SCHEMA, "extractor": name}
+        header = {"schema": texts_schema(manifest), "extractor": name}
         handle.write((json.dumps(header, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8"))
         for number, document in enumerate(doc_files(manifest), 1):
             path = inputs / document["file"]
@@ -100,13 +107,13 @@ def extract_all(
     return counts
 
 
-def read_texts(path: Path) -> tuple[dict[str, Any], dict[str, dict[str, Any]]]:
+def read_texts(path: Path, schema: str = TEXTS_SCHEMA) -> tuple[dict[str, Any], dict[str, dict[str, Any]]]:
     """The header and ``{file: row}`` of a texts file."""
 
     with gzip.open(path, "rt", encoding="utf-8") as handle:
         header = json.loads(next(handle))
-        if header.get("schema") != TEXTS_SCHEMA:
-            raise ValueError(f"{path}: expected schema {TEXTS_SCHEMA!r}, found {header.get('schema')!r}")
+        if header.get("schema") != schema:
+            raise ValueError(f"{path}: expected schema {schema!r}, found {header.get('schema')!r}")
         rows = {}
         for line in handle:
             row = json.loads(line)
