@@ -17,6 +17,7 @@ from htext.knesset import laws
 from htext.knesset.extract import TEXTS_SCHEMA, extract_all, read_texts
 from htext.knesset.fetch import MANIFEST_SCHEMA
 from htext.knesset.lexicon import Lexicon, is_hebrew_numeral, word_keys
+from htext.leakage import sha256_text
 from htext.knesset.text import paragraphs
 from htext.leakage import corpus_hashes
 from htext.release import S6_LABEL
@@ -448,3 +449,61 @@ def test_samekh_pe_is_a_confusion():
     local = {"לסי": 263, "לפי": 12664, "למי": 423}
     assert ("לסי", "לפי") in lexicon.suspects("לסי החוק", local)
     assert laws.confusion_pair("לסי", "לפי") == "ס/פ"
+
+
+def _write_drop(root: Path, shas, units, **overrides) -> Path:
+    drop = {
+        "schema": laws.DROP_SCHEMA,
+        "corpus": "laws",
+        "derived_from": {"file": "knesset_laws_lines_plain_v1.txt", "sha256": "0" * 64, "lines": 1},
+        "reservations": {"file": "eval_reservations_v7.json", "sha256": "1" * 64},
+        "targets": {"target_a": 1},
+        "run_threshold": 5,
+        "line_sha256": list(shas),
+        "units": list(units),
+        **overrides,
+    }
+    path = root / "drop.json"
+    path.write_text(json.dumps(drop), encoding="utf-8")
+    return path
+
+
+def test_overlap_drop_removes_lines_and_whole_laws(law_inputs: Path):
+    laws.build(_config(law_inputs))
+    before = (law_inputs / "out" / laws.corpus_file_name()).read_text(encoding="utf-8").splitlines()
+    with gzip.open(law_inputs / "out" / laws.LINE_INDEX_FILE, "rt", encoding="utf-8") as handle:
+        index = [json.loads(line) for line in handle]
+    by_law = {}
+    for line, row in zip(before, index):
+        by_law.setdefault(row["bill_id"], []).append(line)
+    assert len(by_law) >= 2
+    first_law, other_law = sorted(by_law)[:2]
+    dropped_line = by_law[other_law][0]
+    drop = _write_drop(law_inputs, [sha256_text(dropped_line)], [first_law])
+    card = laws.build(_config(law_inputs, output=law_inputs / "out2", eval_overlap_drop=drop))
+    after = (law_inputs / "out2" / laws.corpus_file_name()).read_text(encoding="utf-8").splitlines()
+    # Exactly the listed line and the listed law's lines go; every other line stays, in order.
+    expected = [line for line in before if line != dropped_line and line not in by_law[first_law]]
+    assert after == expected
+    with gzip.open(law_inputs / "out2" / laws.RIGHTS_INDEX_FILE, "rt", encoding="utf-8") as handle:
+        rights = {row["bill_id"]: row for row in map(json.loads, handle)}
+    assert rights[first_law]["skipped"] == "eval_overlap" and rights[first_law]["htext_release"] is None
+    info = card["inputs"]["eval_overlap_drop"]
+    assert info["line_sha256s"] == 1 and info["units"] == 1 and info["segments_dropped"] == 1
+    assert info["segments_dropped_with_laws"] == len(by_law[first_law])
+    assert info["sha256"] == hashlib.sha256(drop.read_bytes()).hexdigest()
+    assert "Overlap with evaluation text:** drop list" in (law_inputs / "out2" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+
+
+def test_build_without_overlap_drop_says_so(law_inputs: Path):
+    card = laws.build(_config(law_inputs))
+    assert card["inputs"]["eval_overlap_drop"] == {"ran": False}
+    assert "Overlap with evaluation text:** not checked" in (law_inputs / "out" / "CORPUS_CARD.md").read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("overrides", [{"schema": "other"}, {"corpus": "pby"}, {"line_sha256": "x"}])
+def test_overlap_drop_file_is_checked(law_inputs: Path, overrides):
+    drop = _write_drop(law_inputs, [], [])
+    drop.write_text(json.dumps({**json.loads(drop.read_text()), **overrides}), encoding="utf-8")
+    with pytest.raises(ValueError):
+        laws.build(_config(law_inputs, eval_overlap_drop=drop))

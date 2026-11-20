@@ -215,3 +215,23 @@ Some `v1` lines overlap HeOCR's evaluation text, which is reserved by page and
 not by booklet, so the booklet check did not catch it. See
 [`data/knesset_laws/v1/KNOWN_ISSUES.md`](../data/knesset_laws/v1/KNOWN_ISSUES.md).
 A decontaminated `v2` is next.
+
+## Overlap with evaluation text (`v2` on)
+
+HeOCR's evaluation targets are restricted, so the overlap check runs outside the
+build, on the lines of the previous build. It writes a drop list
+(`htext_eval_overlap_drop.v1`) that holds only sha256s and law ids, never text:
+
+- every line that shares a word 6-gram with any evaluation target;
+- every law in which a line shares a run of 5 or more consecutive 6-grams.
+
+```bash
+htext knesset-laws build ... --corpus-version v2 --eval-overlap-drop drop.json
+```
+
+The build drops the listed lines and leaves the listed laws out
+(`skipped: eval_overlap`). Their lines are still made and then discarded, so
+they count in deduplication and in the corpus word counts as before. Every
+other line comes out exactly as in the previous build. The card records the
+drop list's sha256 and counts. A build is published only after HeOCR's
+evaluation reruns its official check on the new lines file and finds 0 hits.
