@@ -170,7 +170,7 @@ used.
 
 | # | Corpus | Source | Rights basis | Size (est.) | Clarity |
 | ---: | --- | --- | --- | --- | --- |
-| 1 | `wikisource` | Hebrew Wikisource `pages-articles` dump, pinned by date and SHA-256 | CC BY-SA 4.0 for quality 3 and 4 ProofreadPage transcriptions with explicit underlying-work rights markings | unmeasured | builder documented in [wikisource.md](wikisource.md); release pending |
+| 1 | `wikisource` | Hebrew Wikisource `pages-articles` dump, pinned by date and SHA-256 | CC BY-SA 4.0 for quality 3 and 4 ProofreadPage transcriptions with explicit underlying-work rights markings | unmeasured | builder documented in [wikisource.md](wikisource.md); v1 parked (0 lines), next: [main-namespace design](wikisource_main_namespace_design.md) |
 | 2 | `sefaria-by-sa` | Sefaria versions labelled exactly `CC-BY-SA`, e.g. the Wikisource Bavli and Mishneh Torah | the version licence | large; overlaps `wikisource` (deduplicated within the release) | clear |
 | 3 | `opensiddur-by-sa` | Open Siddur items under CC BY-SA | per-item licence | small | deferred |
 
