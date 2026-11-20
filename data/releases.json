@@ -73,6 +73,72 @@
       "source_licence": "Public Domain",
       "text_quality": "transcription",
       "credit": {"text": "Westminster Leningrad Codex (public domain), via the Open Scriptures Hebrew Bible", "url": "https://github.com/openscriptures/morphhb"}
+    },
+    {
+      "corpus": "tanakh",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Westminster Leningrad Codex (public domain), via the Open Scriptures Hebrew Bible",
+        "url": "https://github.com/openscriptures/morphhb"
+      },
+      "version": "v1.1",
+      "card": "data/tanakh/v1.1/corpus_card.json",
+      "release_tag": "tanakh-v1.1",
+      "supersedes": "tanakh-v1",
+      "huggingface": "HeOCR/htext-tanakh",
+      "huggingface_revision": "tanakh-v1.1",
+      "zenodo": {"doi": "10.5281/zenodo.24398530"}
+    },
+    {
+      "corpus": "pby",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Project Ben-Yehuda volunteers",
+        "url": "https://benyehuda.org"
+      },
+      "version": "v1.1",
+      "card": "data/pby/v1.1/corpus_card.json",
+      "release_tag": "pby-v1.1",
+      "supersedes": "pby-v1",
+      "huggingface": "HeOCR/htext-pby",
+      "huggingface_revision": "pby-v1.1"
+    },
+    {
+      "corpus": "pby",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Project Ben-Yehuda volunteers",
+        "url": "https://benyehuda.org"
+      },
+      "version": "v2.1",
+      "card": "data/pby/v2.1/corpus_card.json",
+      "release_tag": "pby-v2.1",
+      "supersedes": "pby-v2",
+      "huggingface": "HeOCR/htext-pby",
+      "huggingface_revision": "pby-v2.1"
+    },
+    {
+      "corpus": "pby",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Project Ben-Yehuda volunteers",
+        "url": "https://benyehuda.org"
+      },
+      "version": "v3.1",
+      "card": "data/pby/v3.1/corpus_card.json",
+      "release_tag": "pby-v3.1",
+      "supersedes": "pby-v3",
+      "huggingface": "HeOCR/htext-pby",
+      "huggingface_revision": "pby-v3.1",
+      "zenodo": {"doi": "10.5281/zenodo.24398596"}
     }
   ]
 }

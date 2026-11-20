@@ -1,0 +1,57 @@
+{
+  "schema": "htext_filtered_republication.v1",
+  "corpus": "pby",
+  "version": "v1.1",
+  "title": "htext pby-v1.1",
+  "source_card": "data/pby/v1/corpus_card.json",
+  "htext_release": "cc0",
+  "source_licence": "Public Domain",
+  "text_quality": "transcription",
+  "credit": {
+    "text": "Project Ben-Yehuda volunteers",
+    "url": "https://benyehuda.org"
+  },
+  "huggingface": "https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v1.1",
+  "eval_overlap": {
+    "target_pools": 16,
+    "shared_6grams": 0
+  },
+  "files": {
+    "pby_lines_il_plain_v1.txt": {
+      "bytes": 74004102,
+      "lines": 1619558,
+      "sha256": "9c10bdf9663fb671f5509d59686cbcf8e39862881ee23d38413b6db11f4441b6",
+      "variant": "il",
+      "subset": "plain",
+      "line_index": "pby_lines_il_plain_v1.index.jsonl.gz",
+      "index_sha256": "670dc959a5337b81079a3ce89a4f8598cccb3a56ac6af7cb60e9ab0284feb1cf"
+    },
+    "pby_lines_il_niqqud_v1.txt": {
+      "bytes": 30725433,
+      "lines": 400665,
+      "sha256": "ae553d87c6b6ba5587288eb66239706029a0e0d12434585e042b0fabe5f3a0af",
+      "variant": "il",
+      "subset": "niqqud",
+      "line_index": "pby_lines_il_niqqud_v1.index.jsonl.gz",
+      "index_sha256": "c2163ef5c1a65f1303c5157898e1db43a2c6d56f91ef91a79c96e8c423cf23b2"
+    },
+    "pby_lines_il_us_plain_v1.txt": {
+      "bytes": 3167355,
+      "lines": 68086,
+      "sha256": "8f31f41b4b94567f609a8277436816f0087dc40147d02b7f80b5687222c9e309",
+      "variant": "il_us",
+      "subset": "plain",
+      "line_index": "pby_lines_il_us_plain_v1.index.jsonl.gz",
+      "index_sha256": "5b424186763828227dc8b15f73da6756e5634f4f15eca429b2efb3ece78a29e1"
+    },
+    "pby_lines_il_us_niqqud_v1.txt": {
+      "bytes": 735651,
+      "lines": 9991,
+      "sha256": "9ed8232bc217384b1af76f3024c756bb27ef08f80147d7168bf89e127cb118ab",
+      "variant": "il_us",
+      "subset": "niqqud",
+      "line_index": "pby_lines_il_us_niqqud_v1.index.jsonl.gz",
+      "index_sha256": "057522b3225531c11cd9ab65d3c048fd8dd76993dda51da3c34e8cd405a268af"
+    }
+  }
+}
