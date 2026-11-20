@@ -4,7 +4,7 @@ The `v1` files are frozen as published: their sha256s in
 [`SHA256SUMS`](SHA256SUMS) still check. Issues found later are listed here
 and fixed in later builds.
 
-## Lines that overlap HeOCR's evaluation text (to be fixed in `v2`)
+## Lines that overlap HeOCR's evaluation text (fixed in `v2`)
 
 `v1` left out every law from a Reshumot booklet that HeOCR's evaluation
 reserves. Some evaluation sets, though, are reserved by page, not by booklet,
@@ -19,8 +19,7 @@ check (shared 6-word sequences against the evaluation targets), run on
   holds.
 
 A model trained on `v1` has seen text that HeOCR uses for evaluation, so its
-scores on those sets are not clean. `knesset-laws-v2`, not yet built, will
-drop every line with any overlap and every law with a long overlap. It will
-be published only once the same check finds 0 hits, and it will then replace
-`v1` as the default. Until then, do not train on `v1` if you score on HeOCR's
-evaluation sets.
+scores on those sets are not clean. [`knesset-laws-v2`](https://github.com/HeOCR/htext/releases/tag/knesset-laws-v2)
+drops every line with any overlap and every law with a long overlap; the
+same check found 0 overlap in it. `v2` is now the default. Do not train on
+`v1` if you score on HeOCR's evaluation sets.
