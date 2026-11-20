@@ -1,8 +1,4 @@
-"""Load a manually reviewed allowlist for main-namespace works.
-
-This does not grant permission to build a corpus: the main-namespace builder
-and its reservation, quality and overlap checks are still to be implemented.
-"""
+"""Load the manually reviewed allowlist used by the main-namespace builder."""
 
 from __future__ import annotations
 

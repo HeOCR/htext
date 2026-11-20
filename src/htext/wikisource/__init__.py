@@ -200,8 +200,7 @@ def _page_record(
         "schema": RIGHTS_SCHEMA, "unit_id": f"ws_page_{page.id}", "page_id": page.id, "title": page.title,
         "revision_id": revision, "revision_url": revision_url, "history_url": history,
         "proofread_quality": quality, "underlying_work_rights_basis": basis, "line_ranges": ranges,
-        # The underlying work's status, as htext records it for every corpus. The Page's own explicit marking is the
-        # basis (``underlying_work_rights_basis``); the US is not assessed for Wikisource.
+        # These rights fields describe the underlying work. The CC BY-SA fields below apply to the transcription.
         "pd_israel": True, "pd_israel_basis": pd_basis, "pd_us": None, "pd_us_basis": "not_assessed", "as_of": as_of,
         **release_fields(source_licence=SOURCE_LICENCE, credit=Credit(CREDIT.text, history), text_quality="transcription"),
     }
