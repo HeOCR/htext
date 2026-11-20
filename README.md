@@ -49,8 +49,8 @@ The builder is documented in [`docs/wikisource.md`](docs/wikisource.md).
 | Corpus | GitHub release | Hugging Face | Zenodo |
 | --- | --- | --- | --- |
 | Knesset laws | `knesset-laws-v2` | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | [10.5281/zenodo.24384730](https://doi.org/10.5281/zenodo.24384730) |
-| Project Ben-Yehuda | historical builds withdrawn | [v3.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v3.1), [v2.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v2.1), [v1.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v1.1) | See the corpus card |
-| Tanakh | historical build withdrawn | [v1.1](https://huggingface.co/datasets/HeOCR/htext-tanakh/tree/tanakh-v1.1) | See the corpus card |
+| Project Ben-Yehuda | historical builds withdrawn | [v3.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v3.1), [v2.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v2.1), [v1.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v1.1) | [10.5281/zenodo.24398596](https://doi.org/10.5281/zenodo.24398596) |
+| Tanakh | historical build withdrawn | [v1.1](https://huggingface.co/datasets/HeOCR/htext-tanakh/tree/tanakh-v1.1) | [10.5281/zenodo.24398530](https://doi.org/10.5281/zenodo.24398530) |
 
 The new PBY and Tanakh revisions are filtered derivatives. The corrected
 independent overlap check found zero shared 6-grams across 16 evaluation pools
