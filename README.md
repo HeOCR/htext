@@ -35,9 +35,8 @@ fetched and built, and the published `v1`, are in
 [`docs/knesset_laws.md`](docs/knesset_laws.md). The `htext tanakh build` command
 builds the Hebrew Bible from the public-domain Westminster Leningrad Codex,
 pointed and plain; see [`docs/tanakh.md`](docs/tanakh.md).
-The Knesset plenary records (K1–8 to 1975, and K13–25) are next: how they are
-fetched, with eval-reserved sittings never downloaded, and how they are built
-(the privacy gate, OCR and transcription files), is in
+The [Knesset plenary v1 card](data/knesset_plenary/v1/CORPUS_CARD.md) covers
+K1–8 through 1975 and K13–25. The fetch, privacy gate and build are described in
 [`docs/knesset_plenary.md`](docs/knesset_plenary.md).
 `htext wikisource build` prepares Hebrew Wikisource text for `htext-by-sa`,
 with reviewed main-namespace works and laws or proofread Pages, attribution by
@@ -49,6 +48,7 @@ The builder is documented in [`docs/wikisource.md`](docs/wikisource.md).
 | Corpus | GitHub release | Hugging Face | Zenodo |
 | --- | --- | --- | --- |
 | Knesset laws | `knesset-laws-v2` | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | [10.5281/zenodo.24384730](https://doi.org/10.5281/zenodo.24384730) |
+| Knesset plenary | [`knesset-plenary-v1`](https://github.com/HeOCR/htext/releases/tag/knesset-plenary-v1) | — | — |
 | Project Ben-Yehuda | historical builds withdrawn | [v3.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v3.1), [v2.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v2.1), [v1.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v1.1) | [10.5281/zenodo.24398596](https://doi.org/10.5281/zenodo.24398596) |
 | Tanakh | historical build withdrawn | [v1.1](https://huggingface.co/datasets/HeOCR/htext-tanakh/tree/tanakh-v1.1) | [10.5281/zenodo.24398530](https://doi.org/10.5281/zenodo.24398530) |
 

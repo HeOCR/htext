@@ -1,0 +1,434 @@
+{
+  "schema": "knesset_plenary_corpus_card.v1",
+  "name": "Knesset plenary records (K1-8 to 1975, K13-25)",
+  "builder": {
+    "package": "htext",
+    "version": "0.1.0",
+    "mode": "line_only_release_rebuild_of_pinned_build2",
+    "inherited_checks": [
+      "reservations",
+      "privacy",
+      "lexicon",
+      "fit"
+    ]
+  },
+  "credit": {
+    "text": "The Knesset of Israel (Knesset database, plenary records, Divrei ha-Knesset)",
+    "url": "https://main.knesset.gov.il"
+  },
+  "licence": {
+    "outputs": "CC0-1.0",
+    "source": "Israel Copyright Act 2007 s.6 (not protected)"
+  },
+  "text_rights": "s6_official_text",
+  "htext_release": "cc0",
+  "release": {
+    "htext_release": "cc0",
+    "release_name": "htext-cc0",
+    "release_licence": "CC0-1.0",
+    "entries_admitted": 6844,
+    "source_licences": {
+      "Israel Copyright Act 2007 s.6 (not protected)": 6844
+    }
+  },
+  "text_quality": {
+    "knesset_plenary_lines_ocr_v1.txt": "ocr_layer",
+    "knesset_plenary_lines_transcription_v1.txt": "transcription"
+  },
+  "schemas": {
+    "rights_index": "knesset_plenary_rights_index.v1",
+    "line_index": "knesset_plenary_line_index.v1"
+  },
+  "source": {
+    "fetch_manifest": {
+      "file": "sources.v1.json",
+      "sha256": "fa8524f5297ffa0765b37705c112b638451353460435b4db7dc234d352806ee4",
+      "fetched_at": "2026-11-19T11:59:10Z"
+    },
+    "selection": {
+      "listed": 7115,
+      "out_of_scope": 158,
+      "no_unit_id": 2,
+      "reserved_sittings": 109,
+      "reserved_unit_ids": 109,
+      "in_scope": 6957,
+      "kept": 6846,
+      "eye_check_sittings": 100
+    },
+    "extractor": "textutil (macOS 15.7.4)"
+  },
+  "privacy": {
+    "gate": "plenary_private_names_v1",
+    "tagger": "dicta-il/dictabert-ner (hocrgen ner_stream.py) + hocrgen's cue heuristic; a filter only",
+    "roster": {
+      "source": "public_roster_v1.json",
+      "sha256": "49b84739905e8857c2cb74555100885a04e0dc82dc29d56fbafca40ee4d2ead8"
+    },
+    "structural_headings": {
+      "K1-8": false,
+      "K13-25": true
+    },
+    "lines_dropped_by_reason": {
+      "empty_mention": 2068,
+      "not_public": 745240,
+      "surname_namesake": 134660
+    },
+    "per_knesset": {
+      "1": {
+        "lines_in": 1018107,
+        "kept": 995943,
+        "dropped": 22164
+      },
+      "2": {
+        "lines_in": 1751439,
+        "kept": 1718072,
+        "dropped": 33367
+      },
+      "3": {
+        "lines_in": 1793494,
+        "kept": 1760922,
+        "dropped": 32572
+      },
+      "4": {
+        "lines_in": 720662,
+        "kept": 708182,
+        "dropped": 12480
+      },
+      "5": {
+        "lines_in": 1898840,
+        "kept": 1864391,
+        "dropped": 34449
+      },
+      "6": {
+        "lines_in": 2063460,
+        "kept": 2022325,
+        "dropped": 41135
+      },
+      "7": {
+        "lines_in": 2429445,
+        "kept": 2375046,
+        "dropped": 54399
+      },
+      "8": {
+        "lines_in": 1219438,
+        "kept": 1192795,
+        "dropped": 26643
+      },
+      "13": {
+        "lines_in": 4333651,
+        "kept": 4261823,
+        "dropped": 71828
+      },
+      "14": {
+        "lines_in": 2642652,
+        "kept": 2591567,
+        "dropped": 51085
+      },
+      "15": {
+        "lines_in": 3046473,
+        "kept": 2988748,
+        "dropped": 57725
+      },
+      "16": {
+        "lines_in": 2530615,
+        "kept": 2485476,
+        "dropped": 45139
+      },
+      "17": {
+        "lines_in": 1794670,
+        "kept": 1767213,
+        "dropped": 27457
+      },
+      "18": {
+        "lines_in": 3045524,
+        "kept": 2990761,
+        "dropped": 54763
+      },
+      "19": {
+        "lines_in": 1380533,
+        "kept": 1350228,
+        "dropped": 30305
+      },
+      "20": {
+        "lines_in": 3333167,
+        "kept": 3254197,
+        "dropped": 78970
+      },
+      "21": {
+        "lines_in": 81846,
+        "kept": 78648,
+        "dropped": 3198
+      },
+      "22": {
+        "lines_in": 89788,
+        "kept": 87370,
+        "dropped": 2418
+      },
+      "23": {
+        "lines_in": 820340,
+        "kept": 799806,
+        "dropped": 20534
+      },
+      "24": {
+        "lines_in": 1475237,
+        "kept": 1434465,
+        "dropped": 40772
+      },
+      "25": {
+        "lines_in": 3640639,
+        "kept": 3533739,
+        "dropped": 106900
+      }
+    },
+    "lines_dropped": 848303,
+    "reason_counts_can_overlap": true
+  },
+  "inputs": {
+    "lexicon": {
+      "sources": [
+        {
+          "file": "pby_lines_il_plain_v2.txt",
+          "sha256": "ab69e94eb4f038fc1845d4c79a9d6301df2acddf54557d7661f2bee35ae3bf9a",
+          "lines": 12318857
+        },
+        {
+          "file": "pby_lines_il_niqqud_v2.txt",
+          "sha256": "a149c5e5e8eb14e2862a89f45d678518de5e6ef3c3b23ed8824baf5b81ed1b28",
+          "lines": 1680295
+        },
+        {
+          "source": "gated K13-25 lines of this build",
+          "lines": 27624041
+        }
+      ],
+      "min_count": 2,
+      "words": 709248,
+      "suspect_rule": {
+        "confusions": [
+          "ב/כ",
+          "ב/נ",
+          "ס/מ",
+          "ג/נ",
+          "ד/ר",
+          "ה/ח",
+          "ו/ז",
+          "ו/י",
+          "ם/ס",
+          "ס/פ"
+        ],
+        "ratio": 20,
+        "min_variant_count": 50,
+        "corpus_ratio": 10
+      },
+      "built_from": "transcription only: pby_lines_il_plain_v2.txt, pby_lines_il_niqqud_v2.txt + the gated K13-25 lines"
+    },
+    "reserved_sittings_in_corpus": 0,
+    "eval_overlap_drop": {
+      "targets": 16,
+      "lines_dropped": 42,
+      "units": 0
+    },
+    "length_profile_source": "hocrsyngen training length profile",
+    "fit_check": {
+      "ran": true,
+      "hocrsyngen_version": null,
+      "hocrsyngen_commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+      "bodies": [
+        {
+          "template_id": "printed_letter",
+          "font_file": "Alef-Regular.ttf",
+          "size": 42,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "handwritten_note",
+          "font_file": "GveretLevin-Regular.ttf",
+          "size": 46,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "archive_card",
+          "font_file": "Alef-Regular.ttf",
+          "size": 38,
+          "width": 498,
+          "rows_per_line": 2
+        },
+        {
+          "template_id": "ledger",
+          "font_file": "Alef-Regular.ttf",
+          "size": 30,
+          "width": 206,
+          "rows_per_line": 10
+        }
+      ],
+      "maqaf_glyph_check": true
+    },
+    "build2_eval_overlap_drop": {
+      "targets": 13,
+      "lines_dropped": 170279,
+      "units": 0
+    },
+    "leakage_fixtures_checked": 8,
+    "reservation_sets_checked": 11
+  },
+  "corpus_version": "v1",
+  "parameters": {
+    "as_of": 2026,
+    "seed": 15,
+    "max_line_chars": 55,
+    "lexicon_min_count": 2
+  },
+  "sittings": {
+    "in_manifest": 6846,
+    "with_lines": 6844,
+    "skipped": {
+      "no_candidate_lines": 2
+    }
+  },
+  "eye_check": {
+    "ran": true,
+    "sample_file_sha256": "abece1adea8605da98b5ededda03bd5efbab5df066c10b111d7b01b81b53f8a3",
+    "checked_by": "htext[openai/codex#shay-macbook-m4]@heocr/opensource",
+    "checked_at": "2026-11-21",
+    "method": "Visual word-level collation against rendered pinned K1–8 PDF pages. Used the PDF text layer only to locate passages. Ignored punctuation-only differences and joined line breaks.",
+    "sample_lines": 100,
+    "unverifiable_lines": 0,
+    "lines_checked": 100,
+    "lines_with_error": 4,
+    "line_error_rate": 0.04,
+    "sample_words": 471,
+    "words_wrong": 4,
+    "word_error_rate": 0.0085,
+    "errors_by_kind": {
+      "substitution": 4
+    }
+  },
+  "files": {
+    "knesset_plenary_lines_ocr_v1.txt": {
+      "text_quality": "ocr_layer",
+      "lines": 10521382,
+      "sittings": 3513,
+      "sha256": "04671359681dd633d05fe5aae3aeb3b8e474719b2c23b33a7ece856e81bd33c9",
+      "bytes": 494392084,
+      "length_profile": {
+        "lines": 10521382,
+        "max_chars": 55,
+        "median": 23.0,
+        "share_31_55": 0.2255,
+        "share_36_47": 0.1417
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      },
+      "per_knesset": {
+        "1": 870701,
+        "2": 1446284,
+        "3": 1479649,
+        "4": 592295,
+        "5": 1553059,
+        "6": 1666682,
+        "7": 1948901,
+        "8": 963811
+      }
+    },
+    "knesset_plenary_lines_transcription_v1.txt": {
+      "text_quality": "transcription",
+      "lines": 20796832,
+      "sittings": 3331,
+      "sha256": "85d24964ef03a22db8c2971ddf07069bc12f30190fdca86296c20ce94fbebeda",
+      "bytes": 992225164,
+      "length_profile": {
+        "lines": 20796832,
+        "max_chars": 55,
+        "median": 23.0,
+        "share_31_55": 0.2399,
+        "share_36_47": 0.147
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      },
+      "per_knesset": {
+        "13": 3368996,
+        "14": 1992270,
+        "15": 2249146,
+        "16": 1890267,
+        "17": 1339709,
+        "18": 2259917,
+        "19": 1019412,
+        "20": 2377674,
+        "21": 61829,
+        "22": 66275,
+        "23": 598122,
+        "24": 1015171,
+        "25": 2558044
+      }
+    }
+  },
+  "pipeline": {
+    "lines_dropped:duplicate": 7736566,
+    "lines_dropped:fit:archive_card:too_many_rows": 112150,
+    "lines_dropped:fit:archive_card:word_too_wide": 191,
+    "lines_dropped:fit:ledger:word_too_wide": 86132,
+    "lines_dropped:fit:printed_letter:word_too_wide": 2,
+    "lines_dropped:leak_line": 777,
+    "lines_dropped:lexicon": 545778,
+    "lines_dropped:lexicon_suspect": 291586,
+    "sittings:no_candidate_lines": 2,
+    "sittings:with_lines": 6844,
+    "suspect_pair:ב/כ": 59011,
+    "suspect_pair:ב/נ": 16668,
+    "suspect_pair:ג/נ": 35081,
+    "suspect_pair:ד/ר": 76488,
+    "suspect_pair:ה/ח": 15893,
+    "suspect_pair:ו/ז": 7007,
+    "suspect_pair:ו/י": 63199,
+    "suspect_pair:ם/ס": 9837,
+    "suspect_pair:ס/מ": 12647,
+    "suspect_pair:ס/פ": 5638,
+    "lines_dropped:eval_overlap": 170321
+  },
+  "length_profile_targets": {
+    "max_chars": 55,
+    "share_31_55": [
+      0.18,
+      0.35
+    ],
+    "min_share_36_47": 0.1,
+    "median": [
+      18,
+      30
+    ]
+  },
+  "release_check": {
+    "status": "pass",
+    "checked_at": "2026-11-21",
+    "scope": "line_only",
+    "method": "shared six-word sequences",
+    "evaluation_pools_checked": 16,
+    "shared_sequences": 0,
+    "text_sha256": {
+      "knesset_plenary_lines_ocr_v1.txt": "04671359681dd633d05fe5aae3aeb3b8e474719b2c23b33a7ece856e81bd33c9",
+      "knesset_plenary_lines_transcription_v1.txt": "85d24964ef03a22db8c2971ddf07069bc12f30190fdca86296c20ce94fbebeda"
+    },
+    "lines_removed_for_this_check": {
+      "knesset_plenary_lines_ocr_v1.txt": 24,
+      "knesset_plenary_lines_transcription_v1.txt": 18
+    }
+  },
+  "line_index": {
+    "name": "knesset_plenary_line_index.v1.jsonl.gz",
+    "sha256": "5ac2095429e6955e6db7f525f6fbd9a0f6e31c68180fea6297ae713fd4614d4c"
+  },
+  "rights_index": {
+    "name": "knesset_plenary_rights_index.v1.jsonl.gz",
+    "sha256": "b0d84f60e0576cb747fad6a4ddca0ca027ecd95de651112099c20de4454cce43"
+  }
+}
