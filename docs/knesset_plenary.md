@@ -2,8 +2,8 @@
 
 The plenary protocols of the Knesset ("דברי הכנסת") are official texts that the
 Israeli Copyright Act does not protect (section 6), so they go into
-`htext-cc0`. This page covers the fetch and the builder. The published build
-comes in a later PR.
+`htext-cc0`. The [v1 corpus card](../data/knesset_plenary/v1/CORPUS_CARD.md)
+records the release files, private-name filtering counts and zero-hit check.
 
 ## Scope
 
@@ -97,6 +97,11 @@ own `text_quality`:
 | --- | --- | --- |
 | `knesset_plenary_lines_ocr_v1.txt` | K1–8 | `ocr_layer`: the Knesset's OCR of the printed record. Its lines never feed word lists, lexicons or dawgs |
 | `knesset_plenary_lines_transcription_v1.txt` | K13–25 | `transcription`: the born-digital protocols |
+
+The release candidate applies the outcome of the independent line-only check
+to the previous build's emitted lines. It retains the privacy-gated source
+population and the separate OCR and transcription labels. The release card
+binds the exact files and indexes to their SHA-256 sums.
 
 The builder needs the `plenary` extra (`pip install -e ".[plenary]"`), which pins hocrgen. hocrgen supplies two
 things: the K13–25 paragraph rules and the private-names gate. The tagger runs in its own venv.

@@ -152,10 +152,16 @@ def test_registry_covers_every_published_card():
 @pytest.mark.parametrize("row", _registry()["corpora"], ids=lambda row: f"{row['corpus']}-{row['version']}")
 def test_registry_rows_agree_with_the_gate_and_the_card(row):
     assert release_for_licence(row["source_licence"]) == row["htext_release"]
-    assert row["text_quality"] in ("transcription", "ocr_layer")
     if row["htext_release"] in ("by", "by-sa"):
         assert row["credit"] and row["credit"]["text"]
     card = json.loads((ROOT / row["card"]).read_text(encoding="utf-8"))
+    quality = row["text_quality"]
+    if isinstance(quality, dict):
+        assert quality == card["text_quality"]
+        assert quality == {name: info["text_quality"] for name, info in card["files"].items()}
+        assert quality and set(quality.values()) <= {"transcription", "ocr_layer"}
+    else:
+        assert quality in ("transcription", "ocr_layer")
     assert card.get("htext_release", row["htext_release"]) == row["htext_release"]
     assert card["credit"] == row["credit"]
     # Rights indexes that carry release fields must all sit in the card's release.

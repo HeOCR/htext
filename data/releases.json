@@ -62,6 +62,22 @@
       "credit": {"text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)", "url": "https://main.knesset.gov.il"}
     },
     {
+      "corpus": "knesset-plenary",
+      "version": "v1",
+      "card": "data/knesset_plenary/v1/corpus_card.json",
+      "release_tag": "knesset-plenary-v1",
+      "htext_release": "cc0",
+      "source_licence": "Israel Copyright Act 2007 s.6 (not protected)",
+      "text_quality": {
+        "knesset_plenary_lines_ocr_v1.txt": "ocr_layer",
+        "knesset_plenary_lines_transcription_v1.txt": "transcription"
+      },
+      "credit": {
+        "text": "The Knesset of Israel (Knesset database, plenary records, Divrei ha-Knesset)",
+        "url": "https://main.knesset.gov.il"
+      }
+    },
+    {
       "corpus": "tanakh",
       "version": "v1",
       "card": "data/tanakh/v1/corpus_card.json",
