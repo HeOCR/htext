@@ -139,6 +139,19 @@
       "huggingface": "HeOCR/htext-pby",
       "huggingface_revision": "pby-v3.1",
       "zenodo": {"doi": "10.5281/zenodo.24398596"}
+    },
+    {
+      "corpus": "wikisource",
+      "version": "v1",
+      "card": "data/wikisource/v1/corpus_card.json",
+      "release_tag": "wikisource-v1",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Hebrew Wikisource contributors",
+        "url": "https://he.wikisource.org"
+      }
     }
   ]
 }

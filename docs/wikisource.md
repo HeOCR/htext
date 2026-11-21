@@ -1,9 +1,10 @@
-# Hebrew Wikisource proofread text
+# Hebrew Wikisource text
 
-**Status: parked (heocr-lead, 2026-11-20).** A measuring build of the pinned dump gave no lines. Most proofread Pages
-are eval-reserved, and none of the rest carries an explicit rights marking on the Page. The next design, for
-main-namespace works, is in [`wikisource_main_namespace_design.md`](wikisource_main_namespace_design.md). Nothing has
-been published.
+Wikisource v1 uses reviewed historical main-namespace works. See the
+[v1 corpus card](../data/wikisource/v1/CORPUS_CARD.md) and
+[attribution notice](../data/wikisource/v1/NOTICE.md). The initial ProofreadPage
+build yielded no lines because most Pages were reserved and the remaining Pages
+lacked an explicit rights marking.
 
 `htext wikisource build` prepares the `wikisource` corpus for `htext-by-sa`.
 The build writes files to a new local directory; publication is a separate
@@ -32,21 +33,23 @@ line per row. `--no-fit-check` skips wrapping and is recorded in the card.
 
 ## Main-namespace build (option B)
 
-Add these arguments to the same command to build unproofread article
+Add this argument to the same command to build unproofread article
 transcriptions for `htext-by-sa`:
 
 ```sh
---works data/wikisource/works.v1.json \
-  --law-sources data/wikisource/law_sources.v1.json \
-  --knesset-laws-v2 /local/knesset_laws_lines_plain_v2.txt
+--works data/wikisource/works.v1.json
 ```
 
 The builder admits reviewed root titles and their slash subpages. It checks
 the dump's reservation graph before parsing article text. If a reserved scan
 links to a reviewed work through the graph, that work is excluded whole.
 Namespace 106, redirects, OCR conversions and automatically converted
-articles are excluded.
+articles are excluded. Option B v1 uses the three historical works in the
+reviewed list. The works list records `ancient` or a qualifying author death
+year for each root.
 
+The optional Open Law Book mode is outside option B v1. It takes
+`--law-sources` and `--knesset-laws-v2` together with `--works`.
 Open Law Book entries are pinned to an article ID and a revision ID. Each
 entry lists the Reshumot series and booklet numbers for the enactment and
 all amendments represented in that revision. Leave articles with incomplete
@@ -55,13 +58,13 @@ skips the whole article. For admitted entries, it takes statutory clause text
 and omits publication notes and signatures. It compares candidate output lines
 with the published knesset-laws-v2 text after stripping Hebrew marks, using
 the release file's pinned SHA-256. The older ProofreadPage mode below is used
-when the article arguments are absent.
+when `--works` is absent.
 
 The rights index credits the source article revision and records the reviewed
-work or the law's booklet provenance. Before releasing article text, check 100
-sampled lines against the source editions and run the official evaluation
-overlap check on the exact output files. Rebuild with the resulting drop list
-if it finds any overlap.
+work or the law's booklet provenance. For v1, 100 sampled lines were checked
+against their pinned Wikisource revisions. The v1 release pass removed 30
+identified lines from the historical baseline and kept the remaining lines in
+order. The official line-only check passed on the two exact release text files.
 
 ## What enters the corpus
 

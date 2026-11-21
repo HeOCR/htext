@@ -1,0 +1,182 @@
+{
+  "schema": "htext_wikisource_corpus_card.v1",
+  "name": "Hebrew Wikisource historical works",
+  "builder": {
+    "package": "htext",
+    "version": "0.1.0"
+  },
+  "corpus_version": "v1",
+  "source": {
+    "url": "https://dumps.wikimedia.org/hewikisource/20261101/hewikisource-20261101-pages-articles.xml.bz2",
+    "date": "20261101",
+    "sha256": "15a731d70154941afec2a616d538434573a4e068f94c8ea91b659ac64b833fe1",
+    "bytes": 469082606
+  },
+  "source_licence": "CC BY-SA 4.0",
+  "licence": {
+    "outputs": "CC-BY-SA-4.0",
+    "source": "CC BY-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "credit": {
+    "text": "Hebrew Wikisource contributors",
+    "url": "https://he.wikisource.org"
+  },
+  "htext_release": "by-sa",
+  "release": {
+    "htext_release": "by-sa",
+    "release_name": "htext-by-sa",
+    "release_licence": "CC-BY-SA-4.0",
+    "entries_admitted": 685,
+    "source_licences": {
+      "CC BY-SA 4.0": 685
+    }
+  },
+  "text_quality": "transcription",
+  "proofread_quality_levels": [],
+  "parameters": {
+    "seed": 15,
+    "niqqud_threshold": 0.5,
+    "max_line_chars": 55,
+    "maqaf_allowed": true,
+    "length_profile_source": "hocrsyngen texts/hebrew_lines_train_v1.txt",
+    "length_profile_sha256": "155073071cc39a5fcfd2fe3d70878f2e4d89208721d0ecf14447f608895dcdff",
+    "fit_check": {
+      "ran": true,
+      "hocrsyngen_version": null,
+      "hocrsyngen_commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+      "bodies": [
+        {
+          "template_id": "printed_letter",
+          "font_file": "Alef-Regular.ttf",
+          "size": 42,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "handwritten_note",
+          "font_file": "GveretLevin-Regular.ttf",
+          "size": 46,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "archive_card",
+          "font_file": "Alef-Regular.ttf",
+          "size": 38,
+          "width": 498,
+          "rows_per_line": 2
+        },
+        {
+          "template_id": "ledger",
+          "font_file": "Alef-Regular.ttf",
+          "size": 30,
+          "width": 206,
+          "rows_per_line": 10
+        }
+      ],
+      "maqaf_glyph_check": true
+    }
+  },
+  "eval_reservations": {
+    "units": 51,
+    "reserved_indexes": 51,
+    "works_excluded": 37,
+    "scan_families_excluded": 55,
+    "pages_excluded": 2883,
+    "article_pages_excluded": 2883,
+    "sets_checked": 1
+  },
+  "eval_overlap_drop": {
+    "units": 0,
+    "line_sha256s": 30,
+    "lines_dropped": 30,
+    "scope": "line_only"
+  },
+  "release_gate": "Passed the 2026-11-21 line-only zero-hit check on both release texts.",
+  "known_limitations": [
+    "Main-namespace text is an unproofread transcription of the pinned Wikisource revisions.",
+    "The page and work exclusion graph covers the mapped Wikisource sources and linked scans."
+  ],
+  "totals": {
+    "pages": 685,
+    "lines": 72219,
+    "characters": 1841293
+  },
+  "counts": {
+    "article_pages_excluded_by_eval": 2883,
+    "articles_outside_reviewed_inputs": 240134,
+    "lines_dropped:charset": 362,
+    "lines_dropped:duplicate": 1407,
+    "lines_dropped:fit:archive_card:too_many_rows": 117,
+    "lines_dropped:fit:ledger:word_too_wide": 4,
+    "lines_dropped:leak_line": 1,
+    "lines_dropped:leak_word3": 4,
+    "lines_dropped:too_few_letters": 13,
+    "pages_excluded_by_eval": 2883,
+    "pages_redirect": 1296658,
+    "pages_seen": 1540365,
+    "pages_without_lines": 5,
+    "lines_dropped:eval_overlap": 30
+  },
+  "files": {
+    "wikisource_plain_v1.txt": {
+      "pages": 685,
+      "lines": 71452,
+      "characters": 1809269,
+      "bytes": 3328490,
+      "sha256": "f734f6484d767ff6c2f43d049923794756545f4c97349b18338df22ad3069769"
+    },
+    "wikisource_niqqud_v1.txt": {
+      "pages": 1,
+      "lines": 767,
+      "characters": 32024,
+      "bytes": 60993,
+      "sha256": "057ca4d684ed874d29efded4f9a384ff01465edba8217f9497b4f5c6227d6075"
+    }
+  },
+  "rights_index": {
+    "name": "wikisource_rights_index.v1.jsonl.gz",
+    "schema": "wikisource_rights_index.v1",
+    "pages": 685,
+    "sha256": "9dba67f5cf7767fd74aff51748d33c655f669766976743720246715df8203a4b"
+  },
+  "line_index": {
+    "name": "wikisource_line_index.v1.jsonl.gz",
+    "schema": "wikisource_line_index.v1",
+    "lines": 72219,
+    "sha256": "830cb19dc0846e969fd0ff4d4722d7c12a04c705ab617482e7f35922817e4904"
+  },
+  "notice": "NOTICE.md",
+  "main_namespace_inputs": {
+    "works_sha256": "0d5c5cfb4502c980c133aba16d4023b6085fd4d05df89c7c009d32cf99358552"
+  },
+  "source_fidelity": {
+    "statement": "Text as in Wikisource revision X; print edition not collated.",
+    "revision_ids_in": "wikisource_rights_index.v1.jsonl.gz",
+    "sample_lines": 100,
+    "matching_lines": 100,
+    "sample_by_subset": {
+      "niqqud": 4,
+      "plain": 96
+    },
+    "method": "Prior pinned-revision checks rebound by subset, exact text digest and revision ID."
+  },
+  "release_check": {
+    "status": "pass",
+    "checked_at": "2026-11-21",
+    "scope": "line_only",
+    "method": "shared six-word sequences",
+    "evaluation_pools_checked": 16,
+    "shared_sequences": 0,
+    "text_sha256": {
+      "wikisource_plain_v1.txt": "f734f6484d767ff6c2f43d049923794756545f4c97349b18338df22ad3069769",
+      "wikisource_niqqud_v1.txt": "057ca4d684ed874d29efded4f9a384ff01465edba8217f9497b4f5c6227d6075"
+    },
+    "lines_removed_for_this_check": {
+      "wikisource_plain_v1.txt": 30,
+      "wikisource_niqqud_v1.txt": 0
+    }
+  },
+  "leakage_fixtures_checked": 6
+}
