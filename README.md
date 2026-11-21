@@ -39,10 +39,10 @@ The Knesset plenary records (K1–8 to 1975, and K13–25) are next: how they ar
 fetched, with eval-reserved sittings never downloaded, and how they are built
 (the privacy gate, OCR and transcription files), is in
 [`docs/knesset_plenary.md`](docs/knesset_plenary.md).
-`htext wikisource build` prepares Hebrew Wikisource text for `htext-by-sa`,
-with reviewed main-namespace works and laws or proofread Pages, attribution by
-page revision and required eval exclusions.
-The builder is documented in [`docs/wikisource.md`](docs/wikisource.md).
+`htext wikisource build` prepares Hebrew Wikisource text for `htext-by-sa`.
+Wikisource v1 contains unproofread transcriptions of three reviewed historical
+works, with attribution by page revision. See the [corpus card](data/wikisource/v1/CORPUS_CARD.md),
+[attribution notice](data/wikisource/v1/NOTICE.md) and [builder documentation](docs/wikisource.md).
 
 ## Downloads
 
@@ -51,6 +51,7 @@ The builder is documented in [`docs/wikisource.md`](docs/wikisource.md).
 | Knesset laws | `knesset-laws-v2` | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | [10.5281/zenodo.24384730](https://doi.org/10.5281/zenodo.24384730) |
 | Project Ben-Yehuda | historical builds withdrawn | [v3.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v3.1), [v2.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v2.1), [v1.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v1.1) | [10.5281/zenodo.24398596](https://doi.org/10.5281/zenodo.24398596) |
 | Tanakh | historical build withdrawn | [v1.1](https://huggingface.co/datasets/HeOCR/htext-tanakh/tree/tanakh-v1.1) | [10.5281/zenodo.24398530](https://doi.org/10.5281/zenodo.24398530) |
+| Hebrew Wikisource | [`wikisource-v1`](https://github.com/HeOCR/htext/releases/tag/wikisource-v1) | — | — |
 
 The new PBY and Tanakh revisions are filtered derivatives. The corrected
 independent overlap check found zero shared 6-grams across 16 evaluation pools

@@ -230,18 +230,18 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
     protected = Protected.load(config.leakage_fixtures)
     main_namespace = config.works is not None
     works, laws, law_lines, article_inputs = {}, {}, set(), {}
-    if main_namespace:
-        if config.law_sources is None or config.knesset_laws_v2 is None:
-            raise ValueError("--works requires --law-sources and --knesset-laws-v2")
-        if not reservations.units.get("reshumot"):
-            raise ValueError("--reserved must include Reshumot booklet units for the main-namespace build")
+    if config.works is not None:
         works = load_works(config.works, as_of=as_of)
+        article_inputs = {"works_sha256": _sha256(config.works)}
+    if config.law_sources is not None or config.knesset_laws_v2 is not None:
+        if not main_namespace or config.law_sources is None or config.knesset_laws_v2 is None:
+            raise ValueError("Open Law Book inputs require --works, --law-sources and --knesset-laws-v2 together")
+        if not reservations.units.get("reshumot"):
+            raise ValueError("--reserved must include Reshumot booklet units for Open Law Book input")
         laws = open_law.load_sources(config.law_sources)
         law_lines = open_law.reference_lines(config.knesset_laws_v2)
-        article_inputs = {"works_sha256": _sha256(config.works), "law_sources_sha256": _sha256(config.law_sources),
-                          "knesset_laws_v2_sha256": open_law.REFERENCE_SHA256}
-    elif config.law_sources is not None or config.knesset_laws_v2 is not None:
-        raise ValueError("Open Law Book inputs require --works")
+        article_inputs.update(law_sources_sha256=_sha256(config.law_sources),
+                              knesset_laws_v2_sha256=open_law.REFERENCE_SHA256)
     pin.verify(config.dump)
     exclusions = Exclusions(Units.from_values(reserved_units), Units.from_values(drop_units))
     if progress:
@@ -357,7 +357,7 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
                         if leak := protected.leak(*forms):
                             stats[f"lines_dropped:leak_{leak}"] += 1
                             continue
-                        if main_namespace and open_law.line_key(segment.text) in law_lines:
+                        if law_lines and open_law.line_key(segment.text) in law_lines:
                             stats["lines_dropped:knesset_laws_v2"] += 1
                             continue
                         if config.fit and (failure := config.fit(segment.text)):
@@ -440,7 +440,8 @@ def _write_card(config, output, pin, guard, files, stats, protected, reservation
         card["eval_reservations"]["sets"] = [
             {"sha256": digest} for digest in sorted({item["sha256"] for item in reservations.card()})
         ]
-        card["eval_reservations"]["reshumot_booklets"] = reservations.count("reshumot")
+        if "law_sources_sha256" in article_inputs:
+            card["eval_reservations"]["reshumot_booklets"] = reservations.count("reshumot")
     (output / "corpus_card.json").write_text(json.dumps(card, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (output / "CORPUS_CARD.md").write_text(render_card(card), encoding="utf-8")
     (output / "NOTICE.md").write_text(
@@ -462,13 +463,18 @@ def render_card(card: dict[str, Any]) -> str:
     pin, totals, reserved, drop = (card[key] for key in ("source", "totals", "eval_reservations", "eval_overlap_drop"))
     rows = "".join(f"| `{name}` | {info['pages']:,} | {info['lines']:,} | {info['characters']:,} |\n" for name, info in card["files"].items())
     main_namespace = "main_namespace_inputs" in card
-    selection = ("Reviewed work roots and reviewed Open Law Book revisions contribute unproofread transcriptions."
-                 if main_namespace else "Only quality 3 or 4 Page revisions with explicit underlying-work rights markings contribute.")
+    includes_laws = "law_sources_sha256" in card.get("main_namespace_inputs", {})
+    if includes_laws:
+        selection = "Reviewed work roots and reviewed Open Law Book revisions contribute unproofread transcriptions."
+    elif main_namespace:
+        selection = "Reviewed historical work roots contribute unproofread transcriptions."
+    else:
+        selection = "Only quality 3 or 4 Page revisions with explicit underlying-work rights markings contribute."
     laws_summary = (
         f"{card['counts'].get('laws_admitted', 0):,} law articles contributed text. "
         f"{card['counts'].get('laws_excluded_by_booklet', 0):,} were excluded by booklet reservations. "
         f"{card['counts'].get('lines_dropped:knesset_laws_v2', 0):,} lines matched knesset-laws-v2.\n\n"
-        if main_namespace else ""
+        if includes_laws else ""
     )
     return (
         f"# {card['name']}\n\n"

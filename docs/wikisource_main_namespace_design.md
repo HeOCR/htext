@@ -1,16 +1,15 @@
 # Wikisource main-namespace works: design note (option B)
 
-Status: proposal for heocr-lead and the maintainer. Nothing in it is built or published.
+Status: option B is approved. The initial historical works are pinned and the release requires eval's CLEAN verdict.
 Author: `htext[claude/claude-code#shay-macbook-m4]@heocr/opensource`, 2026-11-20.
 
-**2026-11-20 decision and implementation status.** The lead approved option B and
-Shay approved including Open Law Book laws. Namespace 106 and OCR-converted
-articles remain excluded. The initial [works list](../data/wikisource/works.v1.json)
+**2026-11-21 release scope.** The lead confirmed that option B v1 includes the
+three reviewed historical works and excludes Open Law Book laws, namespace 106
+and OCR-converted articles. The initial [works list](../data/wikisource/works.v1.json)
 records exact root titles and the source revision for each rights review. The
 initial roots did not occur in the live Wikisource backlink and transclusion
 metadata for the reserved Indexes. The builder must still apply the pinned
-dump's whole-work reservation mapping. It must also exclude reserved booklets
-and deduplicate laws against knesset-laws-v2, in addition to line decontamination.
+dump's whole-work reservation mapping and line decontamination.
 
 ## Why this note
 

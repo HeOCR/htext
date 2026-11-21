@@ -328,6 +328,19 @@ def test_main_namespace_cli_enforces_rights_booklets_conversion_and_line_exclusi
     assert card["counts"]["lines_dropped:knesset_laws_v2"] == 1
     assert card["counts"]["lines_dropped:eval_overlap"] == 1
 
+    historical = config.output.with_name("historical")
+    reservations["reservations"][0].pop("reshumot_booklets")
+    config.reservations[0].write_text(json.dumps(reservations))
+    card = build(replace(config, output=historical, works=works))
+    assert (historical / "wikisource_plain_v1.txt").read_text().splitlines() == ["הנה טקסט ישן לדוגמה"]
+    assert card["main_namespace_inputs"] == {"works_sha256": hashlib.sha256(works.read_bytes()).hexdigest()}
+    assert "reshumot_booklets" not in card["eval_reservations"]
+    assert "Open Law Book" not in (historical / "CORPUS_CARD.md").read_text()
+    with gzip.open(historical / RIGHTS_INDEX, "rt", encoding="utf-8") as index:
+        assert [json.loads(row)["pd_israel_basis"] for row in index] == ["ancient"]
+    reservations["reservations"][0]["reshumot_booklets"] = {"sefer_hachukim": [2]}
+    config.reservations[0].write_text(json.dumps(reservations))
+
     stale = json.loads(sources.read_text())
     stale["articles"][1]["revision_id"] = 1
     sources.write_text(json.dumps(stale))
