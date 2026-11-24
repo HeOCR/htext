@@ -168,6 +168,45 @@
         "text": "Hebrew Wikisource contributors",
         "url": "https://he.wikisource.org"
       }
+    },
+    {
+      "corpus": "wikisource",
+      "version": "v2",
+      "card": "data/wikisource/v2/corpus_card.json",
+      "release_tag": "wikisource-v2",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Hebrew Wikisource contributors",
+        "url": "https://he.wikisource.org"
+      },
+      "huggingface": "HeOCR/htext-wikisource",
+      "huggingface_revision": "efcf3e55bedd7a17e6eef7db02afd4c5f6447144",
+      "zenodo": {
+        "doi": "10.5281/zenodo.24516892",
+        "concept_doi": "10.5281/zenodo.24516891"
+      },
+      "huggingface_path": "releases/wikisource-v2"
+    },
+    {
+      "corpus": "sefaria",
+      "version": "v1",
+      "card": "data/sefaria/v1/corpus_card.json",
+      "release_tag": "sefaria-v1",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Sefaria, exact historical Hebrew editions",
+        "url": "https://www.sefaria.org"
+      },
+      "huggingface": "HeOCR/htext-sefaria",
+      "huggingface_revision": "2572e399c910cbfe6410830cc93360b192c14728",
+      "zenodo": {
+        "doi": "10.5281/zenodo.24516961",
+        "concept_doi": "10.5281/zenodo.24516960"
+      }
     }
   ]
 }

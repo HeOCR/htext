@@ -1,0 +1,24 @@
+{
+  "chapters": 47,
+  "corpus": "sefaria",
+  "corpus_version": "v1",
+  "credit": {
+    "text": "Sefaria, exact historical Hebrew editions",
+    "url": "https://www.sefaria.org"
+  },
+  "files": {
+    "niqqud.txt": {
+      "lines": 1,
+      "sha256": "da52f415ee46c6653fce2c2ee95d96cb44e0fa1aaf2572289358d2a2cb74b89f"
+    },
+    "plain.txt": {
+      "lines": 6340,
+      "sha256": "a39ccb9e6363d79baf059fa7851f4732ed36b674415d68b45c9fa7fa4f2275c6"
+    }
+  },
+  "htext_release": "cc0",
+  "schema": "htext_sefaria_corpus_card.v1",
+  "source_editions": "source_editions.json",
+  "source_licence": "Public Domain",
+  "text_quality": "transcription"
+}

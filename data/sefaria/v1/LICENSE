@@ -1,0 +1,14 @@
+Public Domain source text
+
+The Hebrew texts in this dataset use the following Sefaria versions.
+
+- Avot DeRabbi Natan: Schechter edition, Recension A, Vienna, 1887.
+- Sefer Yetzirah: Sefer Yetzirah, Warsaw 1884.
+
+Both versions carry Sefaria's Public Domain source label. The edition and
+chapter provenance is in source_editions.json.
+
+Source policy: https://developers.sefaria.org/docs/usage-of-our-name-and-logo
+
+HeOCR's own packaging and documentation are dedicated under CC0 1.0
+Universal: https://creativecommons.org/publicdomain/zero/1.0/

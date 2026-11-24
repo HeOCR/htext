@@ -161,6 +161,8 @@ def text_lines(body: Wikicode) -> Iterator[str]:
 def converted_article(body: Wikicode) -> bool:
     """Identify the conversion templates excluded from main-namespace text."""
     return any(
-        title_key(str(template.name)).removeprefix("תבנית:") in {"המרת או.סי.אר", "הוסב אוטומטית מהקלדה"}
+        title_key(str(template.name)).removeprefix("תבנית:") in {
+            "המרת או.סי.אר", "המרת או.סי.אר2", "הוסב אוטומטית מהקלדה"
+        }
         for template in body.filter_templates()
     )

@@ -52,6 +52,8 @@ works, with attribution by page revision. See the [corpus card](data/wikisource/
 | Project Ben-Yehuda | historical builds withdrawn | [v3.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v3.1), [v2.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v2.1), [v1.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v1.1) | [10.5281/zenodo.24398596](https://doi.org/10.5281/zenodo.24398596) |
 | Tanakh | historical build withdrawn | [v1.1](https://huggingface.co/datasets/HeOCR/htext-tanakh/tree/tanakh-v1.1) | [10.5281/zenodo.24398530](https://doi.org/10.5281/zenodo.24398530) |
 | Hebrew Wikisource | [`wikisource-v1`](https://github.com/HeOCR/htext/releases/tag/wikisource-v1) | — | — |
+| Hebrew Wikisource B v2 | — | [v2, CC BY-SA 4.0](https://huggingface.co/datasets/HeOCR/htext-wikisource/tree/efcf3e55bedd7a17e6eef7db02afd4c5f6447144/releases/wikisource-v2) | [10.5281/zenodo.24516892](https://doi.org/10.5281/zenodo.24516892) |
+| Sefaria historical texts | — | [v1, Public Domain](https://huggingface.co/datasets/HeOCR/htext-sefaria/tree/2572e399c910cbfe6410830cc93360b192c14728) | [10.5281/zenodo.24516961](https://doi.org/10.5281/zenodo.24516961) |
 
 The new PBY and Tanakh revisions are filtered derivatives. The corrected
 independent overlap check found zero shared 6-grams across 16 evaluation pools
