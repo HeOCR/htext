@@ -48,10 +48,10 @@ works, with attribution by page revision. See the [corpus card](data/wikisource/
 | Corpus | GitHub release | Hugging Face | Zenodo |
 | --- | --- | --- | --- |
 | Knesset laws | `knesset-laws-v2` | [`HeOCR/htext-knesset-laws`](https://huggingface.co/datasets/HeOCR/htext-knesset-laws) | [10.5281/zenodo.24384730](https://doi.org/10.5281/zenodo.24384730) |
-| Knesset plenary | [`knesset-plenary-v1`](https://github.com/HeOCR/htext/releases/tag/knesset-plenary-v1) | — | — |
+| Knesset plenary | — | [v1](https://huggingface.co/datasets/HeOCR/htext-knesset-plenary/tree/daf44afc2737942acd57f77ea3299a6bc1b5e2e1) | [10.5281/zenodo.24415187](https://doi.org/10.5281/zenodo.24415187) |
 | Project Ben-Yehuda | historical builds withdrawn | [v3.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v3.1), [v2.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v2.1), [v1.1](https://huggingface.co/datasets/HeOCR/htext-pby/tree/pby-v1.1) | [10.5281/zenodo.24398596](https://doi.org/10.5281/zenodo.24398596) |
 | Tanakh | historical build withdrawn | [v1.1](https://huggingface.co/datasets/HeOCR/htext-tanakh/tree/tanakh-v1.1) | [10.5281/zenodo.24398530](https://doi.org/10.5281/zenodo.24398530) |
-| Hebrew Wikisource | [`wikisource-v1`](https://github.com/HeOCR/htext/releases/tag/wikisource-v1) | — | — |
+| Hebrew Wikisource | — | [v1](https://huggingface.co/datasets/HeOCR/htext-wikisource/tree/c2f4310c16d194224458fc9efb17cf9342c875ed) | [10.5281/zenodo.24415189](https://doi.org/10.5281/zenodo.24415189) |
 
 The new PBY and Tanakh revisions are filtered derivatives. The corrected
 independent overlap check found zero shared 6-grams across 16 evaluation pools
