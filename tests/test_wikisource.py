@@ -266,6 +266,9 @@ def test_main_namespace_cli_enforces_rights_booklets_conversion_and_line_exclusi
         revision(47, dump.ARTICLE, "חוק בלי מקורות", law("אסור למסור למפרש")),
         revision(48, dump.ARTICLE, "ספר בדוי/ד", "{{שם|{{הוסב אוטומטית מהקלדה}}}}\nטקסט שהומר"),
         revision(49, dump.ARTICLE, "ספר שמור/ג", "אסור למסור למפרש"),
+        revision(50, dump.ARTICLE, "ספר תחום/א", "פרק ישן לדוגמה"),
+        revision(51, dump.ARTICLE, "ספר תחום/ב", "אסור למסור למפרש"),
+        revision(52, dump.ARTICLE, "ספר תחום/ג", "{{המרת או.סי.אר2}}\nטקסט שהומר"),
     ]
     raw = bz2.decompress(config.dump.read_bytes()).decode("utf-8")
     config.dump.write_bytes(bz2.compress(raw.replace("</mediawiki>", "".join(articles) + "</mediawiki>").encode()))
@@ -298,7 +301,7 @@ def test_main_namespace_cli_enforces_rights_booklets_conversion_and_line_exclusi
     def check_payload_selection(path, *, select, finish, accept_revision=None):
         def checked_select(page):
             consume = select(page)
-            if accept_revision is not None and page.id in {10, 11, 20, 44, 45, 47, 49}:
+            if accept_revision is not None and page.id in {10, 11, 20, 44, 45, 47, 49, 51}:
                 assert consume is None
             return consume
 
@@ -338,8 +341,20 @@ def test_main_namespace_cli_enforces_rights_booklets_conversion_and_line_exclusi
     assert "Open Law Book" not in (historical / "CORPUS_CARD.md").read_text()
     with gzip.open(historical / RIGHTS_INDEX, "rt", encoding="utf-8") as index:
         assert [json.loads(row)["pd_israel_basis"] for row in index] == ["ancient"]
+    scoped_work = {**work, "root": "ספר תחום", "page_revisions": {"50": 1050, "52": 1052}}
+    works.write_text(json.dumps({"schema": "htext_wikisource_works.v1", "works": [scoped_work]}))
+    scoped = config.output.with_name("scoped")
+    card = build(replace(config, output=scoped, works=works))
+    assert card["counts"]["articles_outside_reviewed_work_scope"] == 1
+    assert card["counts"]["articles_excluded_by_conversion"] == 1
+    assert (scoped / "wikisource_plain_v1.txt").read_text().splitlines() == ["פרק ישן לדוגמה"]
+    scoped_work["page_revisions"]["50"] = 1049
+    works.write_text(json.dumps({"schema": "htext_wikisource_works.v1", "works": [scoped_work]}))
+    with pytest.raises(ValueError, match="reviewed work provenance revision mismatch"):
+        build(replace(config, output=config.output.with_name("revision-mismatch"), works=works))
     reservations["reservations"][0]["reshumot_booklets"] = {"sefer_hachukim": [2]}
     config.reservations[0].write_text(json.dumps(reservations))
+    works.write_text(json.dumps({"schema": "htext_wikisource_works.v1", "works": [work, {**work, "root": "ספר שמור"}]}))
 
     stale = json.loads(sources.read_text())
     stale["articles"][1]["revision_id"] = 1

@@ -28,6 +28,13 @@ def load_works(path: Path, *, as_of: int) -> dict[str, dict]:
             raise ValueError("each work must name its authors or describe their era")
         if basis != "ancient" and (type(basis) is not int or basis < 1800 or basis > as_of - 71):
             raise ValueError("rights basis must be ancient or a qualifying death year")
+        if "page_revisions" in row:
+            pins = row["page_revisions"]
+            if not isinstance(pins, dict) or not pins or any(
+                not page.isascii() or not page.isdecimal() or page.startswith("0")
+                or type(revision) is not int or revision < 1 for page, revision in pins.items()
+            ):
+                raise ValueError("page_revisions must pin positive page IDs to positive revision IDs")
         key = title_key(root)
         if key in result:
             raise ValueError("duplicate normalized work root")

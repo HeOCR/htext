@@ -290,15 +290,26 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
                         if not laws[page.id][1].isdisjoint(reservations.units["reshumot"]):
                             stats["laws_excluded_by_booklet"] += 1
                             return None
-                    elif _work(page.title) not in works:
-                        stats["articles_outside_reviewed_inputs"] += 1
-                        return None
+                    else:
+                        work = works.get(_work(page.title))
+                        if work is None:
+                            stats["articles_outside_reviewed_inputs"] += 1
+                            return None
+                        pins = work.get("page_revisions")
+                        if pins is not None and str(page.id) not in pins:
+                            stats["articles_outside_reviewed_work_scope"] += 1
+                            return None
                 parts.clear()
                 return parts.append
 
             def accept_revision(page: Page, revision: int) -> bool:
-                if page.id in laws and revision != laws[page.id][0]:
-                    raise ValueError(f"Open Law Book provenance revision mismatch for page ID {page.id}")
+                if page.id in laws:
+                    if revision != laws[page.id][0]:
+                        raise ValueError(f"Open Law Book provenance revision mismatch for page ID {page.id}")
+                elif main_namespace:
+                    pins = works[_work(page.title)].get("page_revisions")
+                    if pins is not None and pins[str(page.id)] != revision:
+                        raise ValueError(f"reviewed work provenance revision mismatch for page ID {page.id}")
                 return True
 
             def finish(page: Page, revision: int, model: str, fmt: str) -> None:
@@ -322,7 +333,8 @@ def build(config: BuildConfig, *, progress: Callable[[str], None] | None = None)
                     else:
                         review = works[_work(page.title)]
                         pd_basis = review["pd_israel_basis"]
-                        basis = [{"kind": "reviewed_work", **review}]
+                        basis = [{"kind": "reviewed_work", **{key: value for key, value in review.items()
+                                                             if key != "page_revisions"}}]
                         bodies = (body,)
                 else:
                     proof = proofread_page(raw, model, fmt)

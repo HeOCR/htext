@@ -1,0 +1,434 @@
+{
+  "schema": "htext_wikisource_works.v1",
+  "works": [
+    {
+      "authors": [
+        "Moses Cordovero (1522–1570)"
+      ],
+      "page_revisions": {
+        "221580": 2899357,
+        "221593": 2846228,
+        "221651": 2846229,
+        "221653": 2846230,
+        "221655": 2846233,
+        "221659": 2846235,
+        "221662": 2846236,
+        "221666": 2846237,
+        "221702": 2846238,
+        "221703": 2846239
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use only the ten original chapters. Exclude the separately posted pointed edition, introductions and supplemental material.",
+      "rights_evidence_url": "https://www.nli.org.il/en/a-topic/987007260133105171",
+      "root": "תומר דבורה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1012178",
+      "work": "Tomer Devorah"
+    },
+    {
+      "authors": [
+        "Yonah ben Abraham Gerondi (d. 1263)"
+      ],
+      "page_revisions": {
+        "228609": 2952920
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use the exact Hebrew transcription of the medieval treatise. Revision fidelity and absence of editorial additions require QA.",
+      "rights_evidence_url": "https://www.nli.org.il/he/a-topic/987007270157305171",
+      "root": "ספר היראה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2952920",
+      "work": "Sefer HaYirah"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208691": 2936636
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער האהבה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2936636",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208854": 1178487
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער האכזריות",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1178487",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208901": 1178502
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער האמת",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1178502",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208851": 1178482
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הבושה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1178482",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208848": 2937118
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הגאוה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2937118",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208858": 2879881
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הדאגה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2879881",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208869": 2880294
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הזכירה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2880294",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208865": 3098669
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הזריזות",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=3098669",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208902": 2917011
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער החניפות",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2917011",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208861": 2936334
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער החרטה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2936334",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208862": 2916147
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הכעס",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2916147",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208867": 1178496
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הנדיבות",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1178496",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208677": 1178483
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער העזות",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1178483",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208850": 1343849
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הענוה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1343849",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208866": 2912521
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער העצלות",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2912521",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208868": 3092705
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הציקנות",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=3092705",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208864": 3081083
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הקנאה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=3081083",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208853": 3007803
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הרחמים",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=3007803",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208863": 1178492
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער הרצון",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1178492",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208870": 1178499
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער השכחה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1178499",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208855": 3003561
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער השמחה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=3003561",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208852": 1178485
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער השנאה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1178485",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208900": 1441877
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער השקר",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1441877",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208899": 2757071
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער השתיקה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2757071",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208908": 1178509
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער התורה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1178509",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208907": 1408783
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער התשובה",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1408783",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208922": 2898787
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער יראת שמים",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=2898787",
+      "work": "Orchot Tzadikim"
+    },
+    {
+      "authors": [
+        "Anonymous medieval author"
+      ],
+      "page_revisions": {
+        "208781": 1178506
+      },
+      "pd_israel_basis": "ancient",
+      "reviewer_note": "Use independently titled gates of the historical Hebrew treatise only. Exclude the introduction, download wrapper, contents and disambiguation.",
+      "rights_evidence_url": "https://www.nli.org.il/he/books/NNL_ALEPH990018320710205171/NLI",
+      "root": "אורחות צדיקים שער לשון הרע",
+      "source_revision": "https://he.wikisource.org/w/index.php?oldid=1178506",
+      "work": "Orchot Tzadikim"
+    }
+  ]
+}

@@ -66,7 +66,9 @@ page. The proposal reuses PBY's offline, reviewed-pin approach:
      before the build year;
    - a reviewer note.
 
-   Only roots on the list enter, and every subpage of a root inherits its row. The list starts with the large rabbinic
+   Each subpage of a reviewed root inherits its row. To limit a root to reviewed chapters, give the row a
+   `page_revisions` map from page IDs to exact revision IDs. The builder skips unlisted pages and stops if a
+   listed page appears with a different revision. The list starts with the large rabbinic
    corpora, about 364M characters across their roots. It is built offline and reviewed by hand. No rights are inferred
    at build time.
 2. **Out of v1:**
