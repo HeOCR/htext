@@ -54,6 +54,10 @@ works, with attribution by page revision. See the [corpus card](data/wikisource/
 | Hebrew Wikisource | [`wikisource-v1`](https://github.com/HeOCR/htext/releases/tag/wikisource-v1) | — | — |
 | Hebrew Wikisource B v2 | — | [v2, CC BY-SA 4.0](https://huggingface.co/datasets/HeOCR/htext-wikisource/tree/efcf3e55bedd7a17e6eef7db02afd4c5f6447144/releases/wikisource-v2) | [10.5281/zenodo.24516892](https://doi.org/10.5281/zenodo.24516892) |
 | Sefaria historical texts | — | [v1, Public Domain](https://huggingface.co/datasets/HeOCR/htext-sefaria/tree/2572e399c910cbfe6410830cc93360b192c14728) | [10.5281/zenodo.24516961](https://doi.org/10.5281/zenodo.24516961) |
+| Hebrew Wikisource B v3 | — | [CC BY-SA 4.0](https://huggingface.co/datasets/HeOCR/htext-wikisource/tree/b7766502d9d297176925da620b01e357ad0f4ec6/releases/wikisource-v3) | [10.5281/zenodo.24521419](https://doi.org/10.5281/zenodo.24521419) |
+| Sefaria v2 PD/CC0 | — | [Public Domain or CC0 per edition](https://huggingface.co/datasets/HeOCR/htext-sefaria/tree/a92766c9fb4955b1f9fcb3766430cd5522af7614/releases/sefaria-v2-cc0) | [10.5281/zenodo.24521423](https://doi.org/10.5281/zenodo.24521423) |
+| Sefaria v2 CC BY | — | [CC BY 4.0](https://huggingface.co/datasets/HeOCR/htext-sefaria-by/tree/e28fae17d635f72ad6c9a628734252c1ea219e24) | [10.5281/zenodo.24521430](https://doi.org/10.5281/zenodo.24521430) |
+| Tsel HaOlam v1 | — | [Public Domain](https://huggingface.co/datasets/HeOCR/htext-tsel-haolam/tree/c95c9a349a1f9a9d1972489c1b1d25b23fc24dbb) | [10.5281/zenodo.24521432](https://doi.org/10.5281/zenodo.24521432) |
 
 The new PBY and Tanakh revisions are filtered derivatives. The corrected
 independent overlap check found zero shared 6-grams across 16 evaluation pools
@@ -111,6 +115,7 @@ This repository has two licence scopes:
 | Code | `src/`, `tests/`, `scripts/`, `.github/`, and build configuration | MIT, see [`LICENSE`](LICENSE) |
 | Data | `htext-cc0` processed text, rights and line indexes, exclusion lists, corpus cards and checksums | CC0-1.0, see [`LICENSE-DATA`](LICENSE-DATA) |
 | Processed Wikisource text | text for `htext-by-sa`, with NOTICE and per-page attribution in the rights index | CC BY-SA 4.0, see [`docs/wikisource.md`](docs/wikisource.md) |
+| Sefaria CC BY text | text for `htext-by`, with source attribution in NOTICE and the edition record | CC BY 4.0 |
 
 The `htext-cc0` source texts are in the public domain or unprotected by law. PBY's own dump licence says
 "Public domain". HeOCR's processing, selections and indexes are dedicated to

@@ -1,0 +1,73 @@
+{
+  "changes": "Normalized, segmented and filtered to construct OCR training lines.",
+  "corpus_version": "wikisource-v3",
+  "credit": {
+    "text": "Hebrew Wikisource contributors by revision",
+    "url": "https://huggingface.co/datasets/HeOCR/htext-wikisource/blob/b7766502d9d297176925da620b01e357ad0f4ec6/releases/wikisource-v3/NOTICE.md"
+  },
+  "files": {
+    "wikisource_niqqud_v3.txt": {
+      "bytes": 3378747,
+      "lines": 42944,
+      "sha256": "5d9ca2c472c355ac94b71118250a17baa04b2e20904287f50b579ab6358493ca"
+    },
+    "wikisource_plain_v3.txt": {
+      "bytes": 1695911,
+      "lines": 36485,
+      "sha256": "32de6167757afd0b1744abefa83d04412f055ef24cd1dcc3c3abe5041afb7814"
+    }
+  },
+  "htext_release": "by-sa",
+  "known_limitations": [
+    "No paired scans are included.",
+    "Unproofread against print. Preserve revision-level attribution and NOTICE."
+  ],
+  "line_indexes": {
+    "wikisource_line_index.v1.jsonl.gz": "750996fbf6b874009ebd1c0a80bbe3b26a509491b4d952b4018cab9d762c3d84",
+    "wikisource_rights_index.v1.jsonl.gz": "ef888106f9766ecb1467b394bda65a3371870076c599befafc77677646d299df"
+  },
+  "name": "htext Wikisource B v3: historical Hebrew training lines",
+  "notice": "NOTICE.md",
+  "release_licence": "cc-by-sa-4.0",
+  "schema": "heocr.htext.release.v1",
+  "source_licence": "CC BY-SA 4.0",
+  "sources": [
+    {
+      "credit": "Hebrew Wikisource contributors",
+      "dump": {
+        "bytes": 469082606,
+        "date": "20261101",
+        "sha256": "15a731d70154941afec2a616d538434573a4e068f94c8ea91b659ac64b833fe1",
+        "url": "https://dumps.wikimedia.org/hewikisource/20261101/hewikisource-20261101-pages-articles.xml.bz2"
+      },
+      "edition_url": "https://he.wikisource.org/",
+      "source_index": {
+        "name": "wikisource_rights_index.v1.jsonl.gz",
+        "pages": 137,
+        "schema": "wikisource_rights_index.v1",
+        "sha256": "60bffec010cbb679d6f200a4c7bdfd39aaa1b78b10cbebc1f4b0c9c20201f080"
+      },
+      "source_licence": "CC BY-SA 4.0",
+      "work": "Hebrew Wikisource historical works",
+      "works": [
+        "Kad HaKemach",
+        "Or Hashem",
+        "Travels of Benjamin of Tudela, Adler",
+        "Menorat HaMaor (Isaac Aboab)"
+      ]
+    }
+  ],
+  "text_quality": "transcription",
+  "totals": {
+    "lines": 79429,
+    "niqqud": 42944,
+    "plain": 36485
+  },
+  "published_card": {
+    "url": "https://huggingface.co/datasets/HeOCR/htext-wikisource/blob/b7766502d9d297176925da620b01e357ad0f4ec6/releases/wikisource-v3/corpus_card.json",
+    "sha256": "a5a100d10cb2e642d75e89f475649f54558d237a63c730ec4ab6621bf6596efb"
+  },
+  "source_credits": [
+    "Hebrew Wikisource contributors"
+  ]
+}

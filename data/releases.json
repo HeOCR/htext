@@ -207,6 +207,88 @@
         "doi": "10.5281/zenodo.24516961",
         "concept_doi": "10.5281/zenodo.24516960"
       }
+    },
+    {
+      "corpus": "wikisource",
+      "version": "v3",
+      "card": "data/wikisource/v3/corpus_card.json",
+      "release_tag": "wikisource-v3",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Hebrew Wikisource contributors by revision",
+        "url": "https://huggingface.co/datasets/HeOCR/htext-wikisource/blob/b7766502d9d297176925da620b01e357ad0f4ec6/releases/wikisource-v3/NOTICE.md"
+      },
+      "huggingface": "HeOCR/htext-wikisource",
+      "huggingface_revision": "b7766502d9d297176925da620b01e357ad0f4ec6",
+      "zenodo": {
+        "doi": "10.5281/zenodo.24521419",
+        "concept_doi": "10.5281/zenodo.24521418"
+      },
+      "huggingface_path": "releases/wikisource-v3"
+    },
+    {
+      "corpus": "sefaria",
+      "version": "v2-cc0",
+      "card": "data/sefaria/v2-cc0/corpus_card.json",
+      "release_tag": "sefaria-v2-cc0",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain or CC0, per edition",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Sefaria and the credited editions",
+        "url": "https://huggingface.co/datasets/HeOCR/htext-sefaria/blob/a92766c9fb4955b1f9fcb3766430cd5522af7614/releases/sefaria-v2-cc0/source_editions.json"
+      },
+      "huggingface": "HeOCR/htext-sefaria",
+      "huggingface_revision": "a92766c9fb4955b1f9fcb3766430cd5522af7614",
+      "zenodo": {
+        "doi": "10.5281/zenodo.24521423",
+        "concept_doi": "10.5281/zenodo.24521422"
+      },
+      "huggingface_path": "releases/sefaria-v2-cc0",
+      "source_licences": [
+        "CC0",
+        "Public Domain"
+      ]
+    },
+    {
+      "corpus": "sefaria",
+      "version": "v2-by",
+      "card": "data/sefaria/v2-by/corpus_card.json",
+      "release_tag": "sefaria-v2-by",
+      "htext_release": "by",
+      "source_licence": "CC BY 4.0",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Joseph Albo, Isaac Husik, JPS and Sefaria",
+        "url": "https://huggingface.co/datasets/HeOCR/htext-sefaria-by/blob/e28fae17d635f72ad6c9a628734252c1ea219e24/source_editions.json"
+      },
+      "huggingface": "HeOCR/htext-sefaria-by",
+      "huggingface_revision": "e28fae17d635f72ad6c9a628734252c1ea219e24",
+      "zenodo": {
+        "doi": "10.5281/zenodo.24521430",
+        "concept_doi": "10.5281/zenodo.24521429"
+      }
+    },
+    {
+      "corpus": "tsel-haolam",
+      "version": "v1",
+      "card": "data/tsel-haolam/v1/corpus_card.json",
+      "release_tag": "tsel-haolam-v1",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Project Gutenberg transcription team",
+        "url": "https://huggingface.co/datasets/HeOCR/htext-tsel-haolam/blob/c95c9a349a1f9a9d1972489c1b1d25b23fc24dbb/NOTICE.md"
+      },
+      "huggingface": "HeOCR/htext-tsel-haolam",
+      "huggingface_revision": "c95c9a349a1f9a9d1972489c1b1d25b23fc24dbb",
+      "zenodo": {
+        "doi": "10.5281/zenodo.24521432",
+        "concept_doi": "10.5281/zenodo.24521431"
+      }
     }
   ]
 }

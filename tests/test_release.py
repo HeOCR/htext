@@ -151,10 +151,14 @@ def test_registry_covers_every_published_card():
 
 @pytest.mark.parametrize("row", _registry()["corpora"], ids=lambda row: f"{row['corpus']}-{row['version']}")
 def test_registry_rows_agree_with_the_gate_and_the_card(row):
-    assert release_for_licence(row["source_licence"]) == row["htext_release"]
+    card = json.loads((ROOT / row["card"]).read_text(encoding="utf-8"))
+    source_licences = row.get("source_licences", [row["source_licence"]])
+    if "source_licences" in row:
+        assert sorted({source["source_licence"] for source in card["sources"]}) == source_licences
+        assert card["source_licences"] == source_licences
+    assert {release_for_licence(label) for label in source_licences} == {row["htext_release"]}
     if row["htext_release"] in ("by", "by-sa"):
         assert row["credit"] and row["credit"]["text"]
-    card = json.loads((ROOT / row["card"]).read_text(encoding="utf-8"))
     quality = row["text_quality"]
     if isinstance(quality, dict):
         assert quality == card["text_quality"]
