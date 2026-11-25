@@ -7,60 +7,35 @@
       "version": "v1",
       "card": "data/pby/v1/corpus_card.json",
       "release_tag": "pby-v1",
-      "withdrawn": {
-        "date": "2026-11-20",
-        "reason": "lines overlap HeOCR evaluation text (corrected check)",
-        "assets": "removed from the GitHub release; private backup kept by HeOCR"
-      },
+      "withdrawn": {"date": "2026-11-20", "reason": "lines overlap HeOCR evaluation text (corrected check)", "assets": "removed from the GitHub release; private backup kept by HeOCR"},
       "htext_release": "cc0",
       "source_licence": "Public Domain",
       "text_quality": "transcription",
-      "credit": {
-        "text": "Project Ben-Yehuda volunteers",
-        "url": "https://benyehuda.org"
-      }
+      "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
     },
     {
       "corpus": "pby",
       "version": "v2",
       "card": "data/pby/v2/corpus_card.json",
       "release_tag": "pby-v2",
-      "withdrawn": {
-        "date": "2026-11-20",
-        "reason": "lines overlap HeOCR evaluation text (corrected check)",
-        "assets": "removed from the GitHub release; private backup kept by HeOCR"
-      },
+      "withdrawn": {"date": "2026-11-20", "reason": "lines overlap HeOCR evaluation text (corrected check)", "assets": "removed from the GitHub release; private backup kept by HeOCR"},
       "htext_release": "cc0",
       "source_licence": "Public Domain",
       "text_quality": "transcription",
-      "credit": {
-        "text": "Project Ben-Yehuda volunteers",
-        "url": "https://benyehuda.org"
-      }
+      "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
     },
     {
       "corpus": "pby",
       "version": "v3",
       "card": "data/pby/v3/corpus_card.json",
       "release_tag": "pby-v3",
-      "withdrawn": {
-        "date": "2026-11-20",
-        "reason": "lines overlap HeOCR evaluation text (corrected check)",
-        "assets": "removed from the GitHub release; private backup kept by HeOCR"
-      },
-      "zenodo": {
-        "doi": "10.5281/zenodo.24384745",
-        "concept_doi": "10.5281/zenodo.24384744",
-        "deleted": "2026-11-20 (tombstone)"
-      },
+      "withdrawn": {"date": "2026-11-20", "reason": "lines overlap HeOCR evaluation text (corrected check)", "assets": "removed from the GitHub release; private backup kept by HeOCR"},
+      "zenodo": {"doi": "10.5281/zenodo.24384745", "concept_doi": "10.5281/zenodo.24384744", "deleted": "2026-11-20 (tombstone)"},
       "huggingface": "HeOCR/htext-pby",
       "htext_release": "cc0",
       "source_licence": "Public Domain",
       "text_quality": "transcription",
-      "credit": {
-        "text": "Project Ben-Yehuda volunteers",
-        "url": "https://benyehuda.org"
-      }
+      "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
     },
     {
       "corpus": "knesset-laws",
@@ -70,34 +45,21 @@
       "htext_release": "cc0",
       "source_licence": "Israel Copyright Act 2007 s.6 (not protected)",
       "text_quality": "ocr_layer",
-      "credit": {
-        "text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)",
-        "url": "https://main.knesset.gov.il"
-      },
+      "credit": {"text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)", "url": "https://main.knesset.gov.il"},
       "superseded_by": "knesset-laws-v2",
-      "withdrawn": {
-        "date": "2026-11-20",
-        "reason": "lines overlapped HeOCR evaluation text",
-        "assets": "removed from the GitHub release; private backup kept by HeOCR"
-      }
+      "withdrawn": {"date": "2026-11-20", "reason": "lines overlapped HeOCR evaluation text", "assets": "removed from the GitHub release; private backup kept by HeOCR"}
     },
     {
       "corpus": "knesset-laws",
       "version": "v2",
       "card": "data/knesset_laws/v2/corpus_card.json",
       "release_tag": "knesset-laws-v2",
-      "zenodo": {
-        "doi": "10.5281/zenodo.24384730",
-        "concept_doi": "10.5281/zenodo.24384729"
-      },
+      "zenodo": {"doi": "10.5281/zenodo.24384730", "concept_doi": "10.5281/zenodo.24384729"},
       "huggingface": "HeOCR/htext-knesset-laws",
       "htext_release": "cc0",
       "source_licence": "Israel Copyright Act 2007 s.6 (not protected)",
       "text_quality": "ocr_layer",
-      "credit": {
-        "text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)",
-        "url": "https://main.knesset.gov.il"
-      }
+      "credit": {"text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)", "url": "https://main.knesset.gov.il"}
     },
     {
       "corpus": "knesset-plenary",
@@ -120,24 +82,13 @@
       "version": "v1",
       "card": "data/tanakh/v1/corpus_card.json",
       "release_tag": "tanakh-v1",
-      "withdrawn": {
-        "date": "2026-11-20",
-        "reason": "lines overlap HeOCR evaluation text (corrected check)",
-        "assets": "removed from the GitHub release; private backup kept by HeOCR"
-      },
-      "zenodo": {
-        "doi": "10.5281/zenodo.24384726",
-        "concept_doi": "10.5281/zenodo.24384725",
-        "deleted": "2026-11-20 (tombstone)"
-      },
+      "withdrawn": {"date": "2026-11-20", "reason": "lines overlap HeOCR evaluation text (corrected check)", "assets": "removed from the GitHub release; private backup kept by HeOCR"},
+      "zenodo": {"doi": "10.5281/zenodo.24384726", "concept_doi": "10.5281/zenodo.24384725", "deleted": "2026-11-20 (tombstone)"},
       "huggingface": "HeOCR/htext-tanakh",
       "htext_release": "cc0",
       "source_licence": "Public Domain",
       "text_quality": "transcription",
-      "credit": {
-        "text": "Westminster Leningrad Codex (public domain), via the Open Scriptures Hebrew Bible",
-        "url": "https://github.com/openscriptures/morphhb"
-      }
+      "credit": {"text": "Westminster Leningrad Codex (public domain), via the Open Scriptures Hebrew Bible", "url": "https://github.com/openscriptures/morphhb"}
     },
     {
       "corpus": "tanakh",
@@ -154,9 +105,7 @@
       "supersedes": "tanakh-v1",
       "huggingface": "HeOCR/htext-tanakh",
       "huggingface_revision": "tanakh-v1.1",
-      "zenodo": {
-        "doi": "10.5281/zenodo.24398530"
-      }
+      "zenodo": {"doi": "10.5281/zenodo.24398530"}
     },
     {
       "corpus": "pby",
@@ -205,9 +154,7 @@
       "supersedes": "pby-v3",
       "huggingface": "HeOCR/htext-pby",
       "huggingface_revision": "pby-v3.1",
-      "zenodo": {
-        "doi": "10.5281/zenodo.24398596"
-      }
+      "zenodo": {"doi": "10.5281/zenodo.24398596"}
     },
     {
       "corpus": "wikisource",
