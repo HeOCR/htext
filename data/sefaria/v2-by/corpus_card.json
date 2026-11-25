@@ -1,0 +1,78 @@
+{
+  "changes": "Normalized, segmented and filtered to construct OCR training lines.",
+  "corpus_version": "sefaria-v2-by",
+  "credit": {
+    "text": "Joseph Albo, Isaac Husik, JPS and Sefaria",
+    "url": "https://huggingface.co/datasets/HeOCR/htext-sefaria-by/blob/e28fae17d635f72ad6c9a628734252c1ea219e24/source_editions.json"
+  },
+  "files": {
+    "niqqud.txt": {
+      "bytes": 0,
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "plain.txt": {
+      "bytes": 1527679,
+      "lines": 32296,
+      "sha256": "148d2e342b6a276f1e9913ca92cfa4294c464a718762256fbce0ef08aac5bbee"
+    }
+  },
+  "htext_release": "by",
+  "known_limitations": [
+    "No paired scans are included."
+  ],
+  "line_indexes": {
+    "niqqud.index.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plain.index.jsonl": "2a27fec97902cab86cd7acf3655b90e0dc8860f9d953f612ac62b9073e59524a"
+  },
+  "name": "htext Sefaria v2: Sefer Ha-'ikkarim Hebrew training lines",
+  "notice": "NOTICE.md",
+  "release_licence": "cc-by-4.0",
+  "schema": "heocr.htext.release.v1",
+  "source_licence": "CC BY 4.0",
+  "sources": [
+    {
+      "branches": [
+        {
+          "sha256": "245044b2675ac8e2fc627e47320227b74143570a89d81a89b50c48c5dc74888f",
+          "url": "https://www.sefaria.org/api/v3/texts/Sefer_HaIkkarim%2C_Maamar_1?version=hebrew%7CSefer+Ha-%27ikkarim&fill_in_missing_segments=0&return_format=text_only"
+        },
+        {
+          "sha256": "a129bda5d0256e668d565ce0b7b1cd8c8299edad3f7bb981a35be9129780033c",
+          "url": "https://www.sefaria.org/api/v3/texts/Sefer_HaIkkarim%2C_Maamar_2?version=hebrew%7CSefer+Ha-%27ikkarim&fill_in_missing_segments=0&return_format=text_only"
+        },
+        {
+          "sha256": "2d0e7c69f335efa567e3ddd8eea5a74f6b50d57c094bdf4b189b4e445ae3b2ca",
+          "url": "https://www.sefaria.org/api/v3/texts/Sefer_HaIkkarim%2C_Maamar_3?version=hebrew%7CSefer+Ha-%27ikkarim&fill_in_missing_segments=0&return_format=text_only"
+        },
+        {
+          "sha256": "5f26488ed5b543ed6ba224abbe854809e000a5d603a80f367ed2dd6cfdb4fc35",
+          "url": "https://www.sefaria.org/api/v3/texts/Sefer_HaIkkarim%2C_Maamar_4?version=hebrew%7CSefer+Ha-%27ikkarim&fill_in_missing_segments=0&return_format=text_only"
+        }
+      ],
+      "credit": "Joseph Albo, edited by Isaac Husik, Jewish Publication Society of America, Hebrew text digitized by Sefaria",
+      "edition": "Sefer Ha-'ikkarim",
+      "edition_url": "https://www.nli.org.il/he/books/NNL_ALEPH001187491",
+      "lane": "cc-by-4.0",
+      "licence_mapping_url": "https://github.com/Sefaria/Sefaria-Project/wiki/Copyright-FAQ/77968314a6edec7d7e1e55f402201f384b6152ad",
+      "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+      "rights_basis": "Joseph Albo, historical Hebrew body. Exact Sefaria CC-BY version with attribution and independent rights QA.",
+      "source_licence": "CC-BY",
+      "version_metadata_url": "https://www.sefaria.org/api/texts/versions/Sefer_HaIkkarim",
+      "work": "Sefer HaIkkarim"
+    }
+  ],
+  "text_quality": "transcription",
+  "totals": {
+    "lines": 32296,
+    "niqqud": 0,
+    "plain": 32296
+  },
+  "published_card": {
+    "url": "https://huggingface.co/datasets/HeOCR/htext-sefaria-by/blob/e28fae17d635f72ad6c9a628734252c1ea219e24/corpus_card.json",
+    "sha256": "846d7ef9c4745efed6569441ed865674ea9878e153288c3ab948e59fb5a0f67b"
+  },
+  "source_credits": [
+    "Joseph Albo, edited by Isaac Husik, Jewish Publication Society of America, Hebrew text digitized by Sefaria"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "changes": "Normalized, segmented and filtered to construct OCR training lines.",
+  "corpus_version": "tsel-haolam-v1",
+  "credit": {
+    "text": "Project Gutenberg transcription team",
+    "url": "https://huggingface.co/datasets/HeOCR/htext-tsel-haolam/blob/c95c9a349a1f9a9d1972489c1b1d25b23fc24dbb/NOTICE.md"
+  },
+  "files": {
+    "niqqud.txt": {
+      "bytes": 0,
+      "lines": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "plain.txt": {
+      "bytes": 114908,
+      "lines": 2408,
+      "sha256": "2466941c5be91ec12813726f678daf0fe5eaf2a3378fdd6ea40405741f8fbdb6"
+    }
+  },
+  "htext_release": "cc0",
+  "known_limitations": [
+    "No paired scans are included."
+  ],
+  "line_indexes": {
+    "niqqud.index.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plain.index.jsonl": "e36215038389b3ec7ee8fb19253066a482c3d185b131f837f5203f9f387a6c65"
+  },
+  "name": "htext Tsel HaOlam: Amsterdam 1733 Hebrew training lines",
+  "notice": "NOTICE.md",
+  "release_licence": "cc0-1.0",
+  "schema": "heocr.htext.release.v1",
+  "source_licence": "Public Domain",
+  "sources": [
+    {
+      "carrier_sha256": "7223955f62a72fbb7cf074b946d52be24b8d2e9f08e30a5d1a4e5d035ad6858d",
+      "credit": "Gautier of Metz, Hebrew adaptation attributed to Matityahu ben Shlomo Delacrut",
+      "digitization_catalogue": "https://www.gutenberg.org/ebooks/61024",
+      "digitization_credit": "Enrico Segre and Distributed Proofreaders Italia",
+      "edition": "Amsterdam 1733 (Hebrew imprint תצ״ג)",
+      "edition_url": "https://exhibits.judaicadhpenn.org/nature-between-science-and-religion/",
+      "rights_basis": "Amsterdam 1733 historical Hebrew edition. Item 61024 is marked US Public Domain; the original and sixteenth-century adaptation are outside Israel’s term.",
+      "rights_sources": [
+        "https://www.gutenberg.org/ebooks/61024",
+        "https://www.gutenberg.org/policy/permission",
+        "https://exhibits.judaicadhpenn.org/nature-between-science-and-religion/",
+        "https://www.wipo.int/wipolex/en/legislation/details/5016"
+      ],
+      "scope": "Historical Hebrew body only. Provider wrappers, modern editorial notes and additions excluded.",
+      "source_licence": "Public Domain",
+      "work": "Tsel HaOlam"
+    }
+  ],
+  "text_quality": "transcription",
+  "totals": {
+    "lines": 2408,
+    "niqqud": 0,
+    "plain": 2408
+  },
+  "published_card": {
+    "url": "https://huggingface.co/datasets/HeOCR/htext-tsel-haolam/blob/c95c9a349a1f9a9d1972489c1b1d25b23fc24dbb/corpus_card.json",
+    "sha256": "4d7243cf73e5bf52b957e606175761528c53bbd8949eb745d3819eb0a6d73121"
+  },
+  "source_credits": [
+    "Gautier of Metz, Hebrew adaptation attributed to Matityahu ben Shlomo Delacrut"
+  ]
+}

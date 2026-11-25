@@ -7,35 +7,60 @@
       "version": "v1",
       "card": "data/pby/v1/corpus_card.json",
       "release_tag": "pby-v1",
-      "withdrawn": {"date": "2026-11-20", "reason": "lines overlap HeOCR evaluation text (corrected check)", "assets": "removed from the GitHub release; private backup kept by HeOCR"},
+      "withdrawn": {
+        "date": "2026-11-20",
+        "reason": "lines overlap HeOCR evaluation text (corrected check)",
+        "assets": "removed from the GitHub release; private backup kept by HeOCR"
+      },
       "htext_release": "cc0",
       "source_licence": "Public Domain",
       "text_quality": "transcription",
-      "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
+      "credit": {
+        "text": "Project Ben-Yehuda volunteers",
+        "url": "https://benyehuda.org"
+      }
     },
     {
       "corpus": "pby",
       "version": "v2",
       "card": "data/pby/v2/corpus_card.json",
       "release_tag": "pby-v2",
-      "withdrawn": {"date": "2026-11-20", "reason": "lines overlap HeOCR evaluation text (corrected check)", "assets": "removed from the GitHub release; private backup kept by HeOCR"},
+      "withdrawn": {
+        "date": "2026-11-20",
+        "reason": "lines overlap HeOCR evaluation text (corrected check)",
+        "assets": "removed from the GitHub release; private backup kept by HeOCR"
+      },
       "htext_release": "cc0",
       "source_licence": "Public Domain",
       "text_quality": "transcription",
-      "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
+      "credit": {
+        "text": "Project Ben-Yehuda volunteers",
+        "url": "https://benyehuda.org"
+      }
     },
     {
       "corpus": "pby",
       "version": "v3",
       "card": "data/pby/v3/corpus_card.json",
       "release_tag": "pby-v3",
-      "withdrawn": {"date": "2026-11-20", "reason": "lines overlap HeOCR evaluation text (corrected check)", "assets": "removed from the GitHub release; private backup kept by HeOCR"},
-      "zenodo": {"doi": "10.5281/zenodo.24384745", "concept_doi": "10.5281/zenodo.24384744", "deleted": "2026-11-20 (tombstone)"},
+      "withdrawn": {
+        "date": "2026-11-20",
+        "reason": "lines overlap HeOCR evaluation text (corrected check)",
+        "assets": "removed from the GitHub release; private backup kept by HeOCR"
+      },
+      "zenodo": {
+        "doi": "10.5281/zenodo.24384745",
+        "concept_doi": "10.5281/zenodo.24384744",
+        "deleted": "2026-11-20 (tombstone)"
+      },
       "huggingface": "HeOCR/htext-pby",
       "htext_release": "cc0",
       "source_licence": "Public Domain",
       "text_quality": "transcription",
-      "credit": {"text": "Project Ben-Yehuda volunteers", "url": "https://benyehuda.org"}
+      "credit": {
+        "text": "Project Ben-Yehuda volunteers",
+        "url": "https://benyehuda.org"
+      }
     },
     {
       "corpus": "knesset-laws",
@@ -45,21 +70,34 @@
       "htext_release": "cc0",
       "source_licence": "Israel Copyright Act 2007 s.6 (not protected)",
       "text_quality": "ocr_layer",
-      "credit": {"text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)", "url": "https://main.knesset.gov.il"},
+      "credit": {
+        "text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)",
+        "url": "https://main.knesset.gov.il"
+      },
       "superseded_by": "knesset-laws-v2",
-      "withdrawn": {"date": "2026-11-20", "reason": "lines overlapped HeOCR evaluation text", "assets": "removed from the GitHub release; private backup kept by HeOCR"}
+      "withdrawn": {
+        "date": "2026-11-20",
+        "reason": "lines overlapped HeOCR evaluation text",
+        "assets": "removed from the GitHub release; private backup kept by HeOCR"
+      }
     },
     {
       "corpus": "knesset-laws",
       "version": "v2",
       "card": "data/knesset_laws/v2/corpus_card.json",
       "release_tag": "knesset-laws-v2",
-      "zenodo": {"doi": "10.5281/zenodo.24384730", "concept_doi": "10.5281/zenodo.24384729"},
+      "zenodo": {
+        "doi": "10.5281/zenodo.24384730",
+        "concept_doi": "10.5281/zenodo.24384729"
+      },
       "huggingface": "HeOCR/htext-knesset-laws",
       "htext_release": "cc0",
       "source_licence": "Israel Copyright Act 2007 s.6 (not protected)",
       "text_quality": "ocr_layer",
-      "credit": {"text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)", "url": "https://main.knesset.gov.il"}
+      "credit": {
+        "text": "The Knesset of Israel (Knesset database, laws as published in Reshumot)",
+        "url": "https://main.knesset.gov.il"
+      }
     },
     {
       "corpus": "knesset-plenary",
@@ -82,13 +120,24 @@
       "version": "v1",
       "card": "data/tanakh/v1/corpus_card.json",
       "release_tag": "tanakh-v1",
-      "withdrawn": {"date": "2026-11-20", "reason": "lines overlap HeOCR evaluation text (corrected check)", "assets": "removed from the GitHub release; private backup kept by HeOCR"},
-      "zenodo": {"doi": "10.5281/zenodo.24384726", "concept_doi": "10.5281/zenodo.24384725", "deleted": "2026-11-20 (tombstone)"},
+      "withdrawn": {
+        "date": "2026-11-20",
+        "reason": "lines overlap HeOCR evaluation text (corrected check)",
+        "assets": "removed from the GitHub release; private backup kept by HeOCR"
+      },
+      "zenodo": {
+        "doi": "10.5281/zenodo.24384726",
+        "concept_doi": "10.5281/zenodo.24384725",
+        "deleted": "2026-11-20 (tombstone)"
+      },
       "huggingface": "HeOCR/htext-tanakh",
       "htext_release": "cc0",
       "source_licence": "Public Domain",
       "text_quality": "transcription",
-      "credit": {"text": "Westminster Leningrad Codex (public domain), via the Open Scriptures Hebrew Bible", "url": "https://github.com/openscriptures/morphhb"}
+      "credit": {
+        "text": "Westminster Leningrad Codex (public domain), via the Open Scriptures Hebrew Bible",
+        "url": "https://github.com/openscriptures/morphhb"
+      }
     },
     {
       "corpus": "tanakh",
@@ -105,7 +154,9 @@
       "supersedes": "tanakh-v1",
       "huggingface": "HeOCR/htext-tanakh",
       "huggingface_revision": "tanakh-v1.1",
-      "zenodo": {"doi": "10.5281/zenodo.24398530"}
+      "zenodo": {
+        "doi": "10.5281/zenodo.24398530"
+      }
     },
     {
       "corpus": "pby",
@@ -154,7 +205,9 @@
       "supersedes": "pby-v3",
       "huggingface": "HeOCR/htext-pby",
       "huggingface_revision": "pby-v3.1",
-      "zenodo": {"doi": "10.5281/zenodo.24398596"}
+      "zenodo": {
+        "doi": "10.5281/zenodo.24398596"
+      }
     },
     {
       "corpus": "wikisource",
@@ -206,6 +259,88 @@
       "zenodo": {
         "doi": "10.5281/zenodo.24516961",
         "concept_doi": "10.5281/zenodo.24516960"
+      }
+    },
+    {
+      "corpus": "wikisource",
+      "version": "v3",
+      "card": "data/wikisource/v3/corpus_card.json",
+      "release_tag": "wikisource-v3",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Hebrew Wikisource contributors by revision",
+        "url": "https://huggingface.co/datasets/HeOCR/htext-wikisource/blob/b7766502d9d297176925da620b01e357ad0f4ec6/releases/wikisource-v3/NOTICE.md"
+      },
+      "huggingface": "HeOCR/htext-wikisource",
+      "huggingface_revision": "b7766502d9d297176925da620b01e357ad0f4ec6",
+      "zenodo": {
+        "doi": "10.5281/zenodo.24521419",
+        "concept_doi": "10.5281/zenodo.24521418"
+      },
+      "huggingface_path": "releases/wikisource-v3"
+    },
+    {
+      "corpus": "sefaria",
+      "version": "v2-cc0",
+      "card": "data/sefaria/v2-cc0/corpus_card.json",
+      "release_tag": "sefaria-v2-cc0",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain or CC0, per edition",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Sefaria and the credited editions",
+        "url": "https://huggingface.co/datasets/HeOCR/htext-sefaria/blob/a92766c9fb4955b1f9fcb3766430cd5522af7614/releases/sefaria-v2-cc0/source_editions.json"
+      },
+      "huggingface": "HeOCR/htext-sefaria",
+      "huggingface_revision": "a92766c9fb4955b1f9fcb3766430cd5522af7614",
+      "zenodo": {
+        "doi": "10.5281/zenodo.24521423",
+        "concept_doi": "10.5281/zenodo.24521422"
+      },
+      "huggingface_path": "releases/sefaria-v2-cc0",
+      "source_licences": [
+        "CC0",
+        "Public Domain"
+      ]
+    },
+    {
+      "corpus": "sefaria",
+      "version": "v2-by",
+      "card": "data/sefaria/v2-by/corpus_card.json",
+      "release_tag": "sefaria-v2-by",
+      "htext_release": "by",
+      "source_licence": "CC BY 4.0",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Joseph Albo, Isaac Husik, JPS and Sefaria",
+        "url": "https://huggingface.co/datasets/HeOCR/htext-sefaria-by/blob/e28fae17d635f72ad6c9a628734252c1ea219e24/source_editions.json"
+      },
+      "huggingface": "HeOCR/htext-sefaria-by",
+      "huggingface_revision": "e28fae17d635f72ad6c9a628734252c1ea219e24",
+      "zenodo": {
+        "doi": "10.5281/zenodo.24521430",
+        "concept_doi": "10.5281/zenodo.24521429"
+      }
+    },
+    {
+      "corpus": "tsel-haolam",
+      "version": "v1",
+      "card": "data/tsel-haolam/v1/corpus_card.json",
+      "release_tag": "tsel-haolam-v1",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {
+        "text": "Project Gutenberg transcription team",
+        "url": "https://huggingface.co/datasets/HeOCR/htext-tsel-haolam/blob/c95c9a349a1f9a9d1972489c1b1d25b23fc24dbb/NOTICE.md"
+      },
+      "huggingface": "HeOCR/htext-tsel-haolam",
+      "huggingface_revision": "c95c9a349a1f9a9d1972489c1b1d25b23fc24dbb",
+      "zenodo": {
+        "doi": "10.5281/zenodo.24521432",
+        "concept_doi": "10.5281/zenodo.24521431"
       }
     }
   ]

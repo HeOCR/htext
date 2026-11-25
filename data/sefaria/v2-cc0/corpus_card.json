@@ -1,0 +1,123 @@
+{
+  "changes": "Normalized, segmented and filtered to construct OCR training lines.",
+  "corpus_version": "sefaria-v2-cc0",
+  "credit": {
+    "text": "Sefaria and the credited editions",
+    "url": "https://huggingface.co/datasets/HeOCR/htext-sefaria/blob/a92766c9fb4955b1f9fcb3766430cd5522af7614/releases/sefaria-v2-cc0/source_editions.json"
+  },
+  "files": {
+    "niqqud.txt": {
+      "bytes": 3553783,
+      "lines": 43067,
+      "sha256": "9f3b868948f97224ec3a291bc60b563285ac46c9c93a0082947ac3d4dd44fa4b"
+    },
+    "plain.txt": {
+      "bytes": 688336,
+      "lines": 15076,
+      "sha256": "c5ab6dfa9a2bcb127b6efb1b5ef56f7b2daff1c036afd773765037212b97d610"
+    }
+  },
+  "htext_release": "cc0",
+  "known_limitations": [
+    "No paired scans are included."
+  ],
+  "line_indexes": {
+    "niqqud.index.jsonl": "4ce835c64657cc208723e94dd8af4a1e7101f10a1b6c359d15a280c712213344",
+    "plain.index.jsonl": "7f1d102bf37d9509b2686751d89de362fa991b04249eba9c5d82860d1e8b6e29"
+  },
+  "name": "htext Sefaria v2: public-domain and CC0 Hebrew training lines",
+  "notice": "NOTICE.md",
+  "release_licence": "cc0-1.0",
+  "schema": "heocr.htext.release.v1",
+  "source_licence": "Public Domain or CC0, per edition",
+  "sources": [
+    {
+      "branches": [
+        {
+          "sha256": "a2a45996fa075e71a41f72840f096e2b0c45c256611fc43e719f9edf4065a5c9",
+          "url": "https://www.sefaria.org/api/v3/texts/Seder_Olam_Rabbah?version=hebrew%7CSeder+Olam%2C+Warsaw+1904&fill_in_missing_segments=0&return_format=text_only"
+        }
+      ],
+      "credit": "Seder Olam, Warsaw 1904, as digitized in Sefaria",
+      "edition": "Seder Olam, Warsaw 1904",
+      "edition_url": "https://www.nli.org.il/he/books/NNL_ALEPH001364770",
+      "lane": "cc0",
+      "rights_basis": "Early rabbinic chronology. Historical Warsaw 1904 digital source.",
+      "source_licence": "Public Domain",
+      "version_metadata_url": "https://www.sefaria.org/api/texts/versions/Seder_Olam_Rabbah",
+      "work": "Seder Olam Rabbah"
+    },
+    {
+      "branches": [
+        {
+          "sha256": "94ad1e574b0c86acb42c1abfda35b8cf267c3a9faea5cd59e3ec8342ea94a23d",
+          "url": "https://www.sefaria.org/api/v3/texts/Shivchei_HaBesht?version=hebrew%7CShivchei+HaBesht%2C+Kopyst+1815&fill_in_missing_segments=0&return_format=text_only"
+        }
+      ],
+      "credit": "Shivchei HaBesht, Kopyst 1815, as digitized in Sefaria",
+      "edition": "Shivchei HaBesht, Kopyst 1815",
+      "edition_url": "https://www.nli.org.il/he/books/NNL_ALEPH002074799",
+      "lane": "cc0",
+      "rights_basis": "Kopyst 1815 Hebrew historical tales. Catalogue per exact base.",
+      "source_licence": "Public Domain",
+      "version_metadata_url": "https://www.sefaria.org/api/texts/versions/Shivchei_HaBesht",
+      "work": "Shivchei HaBesht"
+    },
+    {
+      "branches": [
+        {
+          "sha256": "a6dc362d48790d0568abaafe6efd7ed66637e20b33859c64be326fa3a124cc12",
+          "url": "https://www.sefaria.org/api/v3/texts/Sefer_HaChinukh?version=hebrew%7CSefaria+Vocalized+Edition&fill_in_missing_segments=0&return_format=text_only"
+        }
+      ],
+      "credit": "Sefaria, Sefaria Vocalized Edition",
+      "edition": "Sefaria Vocalized Edition",
+      "edition_url": "https://www.sefaria.org/",
+      "lane": "cc0",
+      "rights_basis": "Medieval Hebrew work and CC0 Sefaria vocalization only. Exclude commentaries.",
+      "source_licence": "CC0",
+      "version_metadata_url": "https://www.sefaria.org/api/texts/versions/Sefer_HaChinukh",
+      "work": "Sefer HaChinukh"
+    },
+    {
+      "branches": [
+        {
+          "sha256": "5f0a4e3f67d6c4b3d13a7228cf904df98c88f6518b91a1ed0f05e295d79559c3",
+          "url": "https://www.sefaria.org/api/v3/texts/Duties_of_the_Heart%2C_Introduction_of_the_Author?version=hebrew%7CSefaria+Vocalized+Edition&fill_in_missing_segments=0&return_format=text_only"
+        },
+        {
+          "sha256": "01bc3530fec6d74911d35fc49520805d8f5a2515c1ebc0f84b70708b232dd309",
+          "url": "https://www.sefaria.org/api/v3/texts/Duties_of_the_Heart%2C_Fourth_Treatise_on_Trust?version=hebrew%7CSefaria+Vocalized+Edition&fill_in_missing_segments=0&return_format=text_only"
+        }
+      ],
+      "credit": "Bahya ibn Paquda, Hebrew translation by Judah ibn Tibbon, and Sefaria for the vocalized edition",
+      "edition": "Sefaria Vocalized Edition",
+      "edition_url": "https://www.sefaria.org/",
+      "lane": "cc0",
+      "rights_basis": "Bahya ibn Paquda, medieval Hebrew translation by Judah ibn Tibbon, Sefaria vocalization CC0.",
+      "source_licence": "CC0",
+      "version_metadata_url": "https://www.sefaria.org/api/texts/versions/Duties_of_the_Heart",
+      "work": "Duties of the Heart"
+    }
+  ],
+  "text_quality": "transcription",
+  "totals": {
+    "lines": 58143,
+    "niqqud": 43067,
+    "plain": 15076
+  },
+  "published_card": {
+    "url": "https://huggingface.co/datasets/HeOCR/htext-sefaria/blob/a92766c9fb4955b1f9fcb3766430cd5522af7614/releases/sefaria-v2-cc0/corpus_card.json",
+    "sha256": "48f54ed59b00b1e7d1f9a04b2b4433f006ec1e46cc7cad48cf9e3d08e8a45b6c"
+  },
+  "source_credits": [
+    "Seder Olam, Warsaw 1904, as digitized in Sefaria",
+    "Shivchei HaBesht, Kopyst 1815, as digitized in Sefaria",
+    "Sefaria, Sefaria Vocalized Edition",
+    "Bahya ibn Paquda, Hebrew translation by Judah ibn Tibbon, and Sefaria for the vocalized edition"
+  ],
+  "source_licences": [
+    "CC0",
+    "Public Domain"
+  ]
+}
