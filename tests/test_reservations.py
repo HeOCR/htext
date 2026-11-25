@@ -211,3 +211,22 @@ def test_verse_reserved(tmp_path, ref, reserved):
 def test_verse_reserved_refuses_a_bad_ref(tmp_path):
     with pytest.raises(ValueError):
         Reservations().verse_reserved("Ruth 2:3")
+
+
+def test_v8_documents_reserve_each_source_document(tmp_path):
+    sets = [{"set": "ph1", "rule": "r", "documents": [
+        {"canonical_document_id": "hewikinews:2094", "document_id": "hewikinews:2094", "page_id": "P-1", "unit_id": "u"},
+        {"canonical_document_id": "doi:10.3389/abc", "document_id": "doi:10.3389/abc-he", "edition": "1"},
+    ]}]
+    path = _eval_file(tmp_path / "r.json", sets, schema="heocr_eval_reservations.v8")
+    reservations = Reservations.load([path])
+    assert reservations.reserved("hewikinews", "2094")
+    assert reservations.reserved("doi", "10.3389/abc") and reservations.reserved("doi", "10.3389/abc-he")
+    assert not reservations.reserved("hewikinews", "2095")
+
+
+@pytest.mark.parametrize("document", [{"page_id": "P-1"}, {"canonical_document_id": "no-colon"}, {"document_id": ":x"}])
+def test_v8_documents_fail_closed(tmp_path, document):
+    path = _eval_file(tmp_path / "r.json", [{"set": "ph1", "documents": [document]}], schema="heocr_eval_reservations.v8")
+    with pytest.raises(ValueError):
+        Reservations.load([path])

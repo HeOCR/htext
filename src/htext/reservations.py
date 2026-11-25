@@ -34,6 +34,7 @@ Every reserved id is normalised to a ``(source, id)`` pair:
 | ``maps`` ``{pby id: note}`` (v7) | ``pby`` | each key; the note names the reserved book it is an edition of |
 | ``tanakh_ranges`` (v5) | ``tanakh_range`` | ``Book.c.v-Book.c.v``, OSIS refs |
 | ``tanakh_parallels_reserved`` ``{range: "range (note)"}`` (v5) | ``tanakh_range`` | each value's range |
+| ``documents`` ``[{canonical_document_id, document_id, ...}]`` (v8) | the id's ``prefix`` | ``rest`` of each id, whole document |
 
 ``wikisource_he_proofread:<index>`` and ``wikisource_indexes`` name the same
 Hebrew Wikisource Indexes, so both are read as ``wikisource``. Schema
@@ -73,7 +74,7 @@ from typing import Any, Iterable
 
 SCHEMA = "htext_reservations.v1"
 EVAL_SCHEMA = "heocr_eval_reservations.v1"
-EVAL_SCHEMAS = frozenset({EVAL_SCHEMA, *(f"heocr_eval_reservations.v{n}" for n in (3, 4, 5, 6, 7))})
+EVAL_SCHEMAS = frozenset({EVAL_SCHEMA, *(f"heocr_eval_reservations.v{n}" for n in (3, 4, 5, 6, 7, 8))})
 
 # Fields of an eval set that carry no ids.
 _EVAL_METADATA = {
@@ -161,6 +162,17 @@ def _eval_set_ids(row: dict[str, Any], where: str) -> list[tuple[str, str]]:
             ids += [("hash", str(unit)) for unit in value]
         elif key in ("unit_ids", "item_ids"):
             ids += [_prefixed(item, where) for item in value]
+        elif key == "documents":
+            # v8 (PH1, 2026-11-25): source documents of test units are out of every corpus, matched on either id.
+            for document in value:
+                found = [document.get(name) for name in ("canonical_document_id", "document_id") if document.get(name)]
+                if not found:
+                    raise ValueError(f"{where}: a reserved document needs canonical_document_id or document_id: {document!r}")
+                for doc_id in found:
+                    source, sep, rest = str(doc_id).partition(":")
+                    if not sep or not source or not rest:
+                        raise ValueError(f"{where}: expected 'source:id', found {doc_id!r}")
+                    ids.append((_SAME_DOCUMENTS.get(source, source), rest))
         elif key == "wikisource_indexes":
             for index in value:
                 if not _WIKISOURCE_INDEX.match(str(index)):
