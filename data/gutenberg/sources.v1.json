@@ -1,0 +1,104 @@
+{
+  "schema": "htext_gutenberg_sources.v1",
+  "catalogue": {
+    "file": "pg_catalog.csv.gz",
+    "url": "https://gutenberg.pglaf.org/cache/epub/feeds/pg_catalog.csv.gz",
+    "sha256": "66847ed72335833379699bd2c3d0ae1c1180521c43d405a7ab9b28e28e1afd8e",
+    "rows": 79769,
+    "fetched_at": "2026-11-25",
+    "hebrew_rows": 7
+  },
+  "fetch": {
+    "mirror": "gutenberg.pglaf.org (no robots restrictions: robots.txt 404); one request at a time, a few seconds apart; generic UA htext-fetch/0.1",
+    "gutenberg_org_pages": "not scraped"
+  },
+  "works": [
+    {
+      "pg": 43740,
+      "title": "בית נכות ההלכות או תורתן של ראשונים, חלק ראשון",
+      "contributors": [
+        {
+          "name": "Horowitz, Chaim M.",
+          "role": "compiler",
+          "birth_year": 1855,
+          "death_year": 1905,
+          "source": "PG catalogue: 1855?-1905"
+        }
+      ],
+      "mirror_url": "https://gutenberg.pglaf.org/4/3/7/4/43740/43740-0.txt",
+      "sha256": "0f313cd5db51ae967e4fdd794c434cdb85f1fcc563f9f34e9cfd13bb96b8189e"
+    },
+    {
+      "pg": 45252,
+      "title": "הצופה לבית ישראל תשליך",
+      "contributors": [
+        {
+          "name": "Erter, Isaac",
+          "role": "author",
+          "birth_year": 1792,
+          "death_year": 1851,
+          "source": "PG catalogue: 1792-1851"
+        }
+      ],
+      "mirror_url": "https://gutenberg.pglaf.org/4/5/2/5/45252/45252-0.txt",
+      "sha256": "2e361da4547434097d4edbf55ba5a324396d62b453a50fe05fc045a7ac42c7e8"
+    },
+    {
+      "pg": 5139,
+      "title": "Tales (Hebrew translation)",
+      "contributors": [
+        {
+          "name": "Ewald, Carl",
+          "role": "author",
+          "death_year": 1908
+        },
+        {
+          "name": "Wiskott, Dawid",
+          "role": "translator",
+          "death_year": null
+        }
+      ]
+    },
+    {
+      "pg": 18291,
+      "title": "Hunger: Book One (Hebrew translation)",
+      "contributors": [
+        {
+          "name": "Hamsun, Knut",
+          "role": "author",
+          "death_year": 1952
+        },
+        {
+          "name": "Segal, Elhanan",
+          "role": "translator",
+          "death_year": null
+        }
+      ]
+    },
+    {
+      "pg": 4778,
+      "title": "Sipurim (Stories)",
+      "contributors": [
+        {
+          "name": "Vaknin, Samuel",
+          "role": "author",
+          "birth_year": 1961,
+          "death_year": null
+        }
+      ],
+      "exclude": "living_author"
+    },
+    {
+      "pg": 20676,
+      "title": "Genesis",
+      "contributors": [],
+      "exclude": "audio_only (PG Type Sound)"
+    },
+    {
+      "pg": 61024,
+      "title": "צל העולם",
+      "contributors": [],
+      "exclude": "released_in_tsel-haolam-v1"
+    }
+  ]
+}
