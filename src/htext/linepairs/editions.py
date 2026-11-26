@@ -89,7 +89,9 @@ def pair_pages(pair: dict[str, Any], work: Path, out: Path, local: dict[str, Any
     algo, digest = ("sha256", s["sha256"]) if s.get("sha256") else ("sha1", s["sha1"])
     loc = local.get(pair["id"], {})
     scan = fetch(s["url"], work / "scans" / f"{sid}.pdf", digest, Path(loc["scan"]) if loc.get("scan") else None, algo)
-    if scope.get("pdf_ordinal_ranges_inclusive"):
+    if scope.get("pdf_ordinals"):
+        order = list(scope["pdf_ordinals"])
+    elif scope.get("pdf_ordinal_ranges_inclusive"):
         order = [n for a_, b_ in scope["pdf_ordinal_ranges_inclusive"] for n in range(a_, b_ + 1)]
     else:
         order = list(pair.get("pilot_pdf_ordinals_in_reading_order") or scope.get("pilot_pdf_ordinals_in_reading_order") or [])
@@ -100,6 +102,10 @@ def pair_pages(pair: dict[str, Any], work: Path, out: Path, local: dict[str, Any
 
 
 def transcription_text(path: Path, fmt: str) -> str:
+    if path.suffix == ".doc" or "Word" in fmt:
+        # Word 97 binary (the Knesset's official protocols): macOS textutil, as the source manifest measured it.
+        return subprocess.run(["textutil", "-convert", "txt", "-encoding", "UTF-8", "-stdout", str(path)],
+                              capture_output=True, check=True).stdout.decode("utf-8")
     raw = path.read_bytes().decode("utf-8-sig")
     if "JSON" in fmt or path.suffix == ".json":
         from htext.sefaria import clean_segment, segments
@@ -138,7 +144,7 @@ def main() -> int:
         sid, t = safe_id(pid), pair["transcription"]
         loc = local.get(pid, {})
         fmt = t.get("format") or ("JSON" if t.get("source") == "Sefaria" else "text")
-        suffix = ".json" if "JSON" in fmt else ".html" if "HTML" in fmt else ".txt"
+        suffix = ".json" if "JSON" in fmt else ".html" if "HTML" in fmt else ".doc" if "Word" in fmt else ".txt"
         tpath = fetch(t["url"], a.work / "texts" / f"{sid}{suffix}", t["sha256"], Path(loc["text"]) if loc.get("text") else None)
         text_words = A.tidy_ocr_words(transcription_text(tpath, fmt).split())
         pages, pngs, scan_sha1 = pair_pages(pair, a.work, out, local)
@@ -146,6 +152,8 @@ def main() -> int:
         with ProcessPoolExecutor(a.jobs) as ex:
             list(ex.map(_ocr, [(str(pngs[n]), str(out / "hocr" / sid / f"p{n:04d}.hocr"), str(a.tessdata), a.lang) for n in pages]))
         hocr = {n: [ln for ln in A.read_hocr(out / "hocr" / sid / f"p{n:04d}.hocr") if W._hebrew_share(" ".join(ln[1])) >= 0.5] for n in pages}
+        if pair.get("columns") == "rtl2":
+            hocr = {n: W.order_columns(v) for n, v in hocr.items()}
         # pass 2: anchors and slices
         ocr_words, page_of = [], []
         for n in pages:
@@ -163,7 +171,7 @@ def main() -> int:
                              "quality": None, "tags": ["book_level"], "scan": str(pngs[n]),
                              "wikitext": " ".join(text_words[sl.start:sl.end]),
                              "tessdata": str(a.tessdata), "lang": a.lang, "ok_chars": ok_chars,
-                             "scan_sha1": scan_sha1, "model_sha256": model_sha256})
+                             "scan_sha1": scan_sha1, "model_sha256": model_sha256, "columns": pair.get("columns")})
     totals: collections.Counter = collections.Counter()
     per_pair: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
     with ProcessPoolExecutor(a.jobs) as ex:

@@ -51,7 +51,7 @@ def atomic_write(path: Path, data: str) -> None:
 
 def input_key(job: dict[str, Any]) -> str:
     h = hashlib.sha256()
-    for k in ("index", "n", "rev", "quality", "scan_sha1", "model_sha256", "lang", "wikitext", "print_forms"):
+    for k in ("index", "n", "rev", "quality", "scan_sha1", "model_sha256", "lang", "wikitext", "print_forms", "columns"):
         h.update(f"{k}={job.get(k)}\n".encode("utf-8"))
     h.update(CODE_VERSION.encode())  # HeOCR: tags are not in the key; they are applied when the pool is written
     h.update(json.dumps(job.get("ok_chars")).encode())
@@ -101,6 +101,32 @@ _RESIDUE = re.compile(r"[#=/<>\\*{}|]|[A-Za-z]{2,}|-{3,}")
 def _pre_clean(wikitext: str) -> str:
     """HeOCR: he.wikisource markup Rivok's cleaner does not know: Hebrew section tags and in-text heading markers."""
     return _HRULE.sub(" ", _HEADING.sub(" ", _HE_SECTION.sub(" ", wikitext)))
+
+
+def order_columns(lines: list, full_width: float = 0.6) -> list:
+    """Reading order for two-column Hebrew pages: full-width lines (headings, rules) split the page into bands; in each
+    band the right column is read top to bottom, then the left. Single-column pages come back in their own order."""
+    if not lines:
+        return lines
+    x0 = min(b[0] for b, _ in lines)
+    x1 = max(b[2] for b, _ in lines)
+    width, mid = max(1, x1 - x0), (x0 + x1) / 2
+    out, band = [], []
+
+    def flush():
+        right = sorted((ln for ln in band if (ln[0][0] + ln[0][2]) / 2 >= mid), key=lambda ln: ln[0][1])
+        left = sorted((ln for ln in band if (ln[0][0] + ln[0][2]) / 2 < mid), key=lambda ln: ln[0][1])
+        out.extend(right + left)
+        band.clear()
+
+    for ln in sorted(lines, key=lambda ln: ln[0][1]):
+        if (ln[0][2] - ln[0][0]) >= full_width * width:
+            flush()
+            out.append(ln)
+        else:
+            band.append(ln)
+    flush()
+    return out
 
 
 def _hebrew_share(s: str) -> float:
@@ -233,6 +259,8 @@ def _compute_page(job: dict[str, Any], out: Path, book: str, n: int) -> dict[str
         # HeOCR: bilingual pages (Hebrew with an English translation): Latin-script OCR lines have no Hebrew text to
         # align with and break the anchors of the Hebrew lines around them, so they stay out of the alignment.
         heb = [ln for ln in lines if _hebrew_share(" ".join(ln[1])) >= 0.5]
+        if job.get("columns") == "rtl2":
+            heb = order_columns(heb)
         non_hebrew = len(lines) - len(heb)
         rows = A.align_page(heb, (body + " " + notes).strip(), "wiki")
     except Exception as e:  # noqa: BLE001 - a page failure is a counted drop, never a crash
