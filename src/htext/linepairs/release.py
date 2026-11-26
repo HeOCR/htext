@@ -181,7 +181,8 @@ def main() -> int:
         m = meta[(index, pg["n"])]
         L = lic.get(index, {})
         basis = public_decided.get(index) or overrides.get(index) or licence_basis(L)
-        tags = list(pg["tags"]) + (["transclusion_resolved"] if m.get("transclusion_resolved") else [])
+        tags = list(pg["tags"]) + (["transclusion_resolved"] if m.get("transclusion_resolved") else []) \
+            + (["pinned_sections"] if m.get("pinned_sections") else [])
         for k in receipt["kept"]:
             crop = a.pilot / "lines" / pg["book"] / f"p{pg['n']:04d}" / f"p{pg['n']:04d}_l{k['line']:03d}.png"
             img = crop.read_bytes()
