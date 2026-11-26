@@ -34,7 +34,7 @@ from htext.linepairs import rivok_align as A
 from htext.linepairs import rivok_labels as L
 
 MAX_CER = 0.25
-CODE_VERSION = "linepairs-wikisource-5"
+CODE_VERSION = "linepairs-wikisource-6"
 
 
 def atomic_write(path: Path, data: str) -> None:
@@ -94,12 +94,13 @@ def page_image(scan: Path, n: int, out: Path) -> Path:
 
 _HE_SECTION = re.compile(r"<\s*קטע\b[^>]*>")
 _HEADING = re.compile(r"={2,}")
-_RESIDUE = re.compile(r"[#=/<>\\*{}|]|[A-Za-z]{2,}")
+_HRULE = re.compile(r"-{4,}")  # wikitext horizontal rule
+_RESIDUE = re.compile(r"[#=/<>\\*{}|]|[A-Za-z]{2,}|-{3,}")
 
 
 def _pre_clean(wikitext: str) -> str:
     """HeOCR: he.wikisource markup Rivok's cleaner does not know: Hebrew section tags and in-text heading markers."""
-    return _HEADING.sub(" ", _HE_SECTION.sub(" ", wikitext))
+    return _HRULE.sub(" ", _HEADING.sub(" ", _HE_SECTION.sub(" ", wikitext)))
 
 
 def _hebrew_share(s: str) -> float:
