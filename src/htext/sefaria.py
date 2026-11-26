@@ -226,7 +226,7 @@ def build(config: SefariaConfig) -> dict[str, Any]:
                             tags.append(f"protected_text:{leak}")
                             stats[f"lines_tagged:protected_text:{leak}"] += 1
                         outs[(segment.subset, lang)].write(segment.text + "\n")
-                        lengths[(segment.subset, lang)].append(len(segment.text))
+                        lengths[(segment.subset, lang)].append(len(segment.plain_form))  # as PBY: pointed lines by their plain length
                         counts[f"{segment.subset}_{lang}"] += 1
                         index.write(f"{segment.subset}\t{lang}\t{work['title']}\t{version['versionTitle']}\t{seg_path}\t{','.join(tags)}\n")
                 record = {
