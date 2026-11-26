@@ -51,7 +51,7 @@ def atomic_write(path: Path, data: str) -> None:
 
 def input_key(job: dict[str, Any]) -> str:
     h = hashlib.sha256()
-    for k in ("index", "n", "rev", "quality", "scan_sha1", "model_sha256", "lang", "wikitext"):
+    for k in ("index", "n", "rev", "quality", "scan_sha1", "model_sha256", "lang", "wikitext", "print_forms"):
         h.update(f"{k}={job.get(k)}\n".encode("utf-8"))
     h.update(CODE_VERSION.encode())  # HeOCR: tags are not in the key; they are applied when the pool is written
     h.update(json.dumps(job.get("ok_chars")).encode())
@@ -110,7 +110,23 @@ def _hebrew_share(s: str) -> float:
 
 
 # ---------------------------------------------------------------- labels (Rivok's build_lines.label_of, HeOCR changes)
-def label_of(r: dict[str, Any], ok_chars: set[str] | None) -> tuple[str | None, str | None]:
+PRINT_FORM_MAP = {"\u05c7": "\u05b8", "\u05ba": "\u05b9"}  # qamats qatan -> qamats; holam haser for vav -> holam
+_TETRAGRAM = re.compile(r"י[\u0591-\u05c7]*ה[\u0591-\u05c7]*ו[\u0591-\u05c7]*ה")
+
+
+def print_form(label: str, ocr: str) -> tuple[str | None, str | None]:
+    """Birnbaum 1949 (lead item 3): undo Wikisource's pointing normalisations where the print form is unambiguous,
+    else drop the line. Measured on 3,916 lines: qamats qatan 766, holam haser 128, הללו־יה 21, other extra maqafs 41,
+    יְיָ against a spelled-out Name 2."""
+    label = "".join(PRINT_FORM_MAP.get(ch, ch) for ch in label).replace("הַלְלוּ־יָהּ", "הַלְלוּיָהּ")
+    if label.count("\u05be") > ocr.count("\u05be"):
+        return None, "print_form_maqaf"
+    if "יְיָ" in label and _TETRAGRAM.search(ocr):
+        return None, "print_form_name"
+    return label, None
+
+
+def label_of(r: dict[str, Any], ok_chars: set[str] | None, print_forms: bool = False) -> tuple[str | None, str | None]:
     if not r["gt"]:
         return None, "no_text"
     if not r["anchored"]:
@@ -118,6 +134,10 @@ def label_of(r: dict[str, Any], ok_chars: set[str] | None) -> tuple[str | None, 
     if r["cer_nomarks"] > MAX_CER:
         return None, "cer_over_0.25"
     label = r["gt"]
+    if print_forms:
+        label, why = print_form(label, r["ocr"])
+        if why:
+            return None, why
     if prob := L.label_problem(label, r["ocr"]):
         return None, prob
     letters = len(re.findall(r"[א-ת]", label)) or 1
@@ -224,7 +244,7 @@ def _compute_page(job: dict[str, Any], out: Path, book: str, n: int) -> dict[str
     ok_chars = set(job["ok_chars"]) if job.get("ok_chars") else None
     keep = []
     for r in rows:
-        label, why = label_of(r, ok_chars)
+        label, why = label_of(r, ok_chars, bool(job.get("print_forms")))
         if why:
             res["dropped"][why] += 1
         else:
@@ -266,6 +286,7 @@ def main() -> int:
     ap.add_argument("--books", nargs="*", default=None)
     ap.add_argument("--scan-ledger", type=Path, required=True, help="jsonl: index, file, sha1 of each downloaded scan")
     ap.add_argument("--exclude-dev", type=Path, action="append", default=[], help="eval DEV page lists: excluded for DEV hygiene")
+    ap.add_argument("--print-form-index", action="append", default=[], help="an Index whose labels get the print-form rule (Birnbaum 1949)")
     ap.add_argument("--tag-index", action="append", default=[], help="INDEX=TAG: a reporting tag for every page of that Index (never an exclusion)")
     a = ap.parse_args()
     scan_sha1 = {}
@@ -310,7 +331,8 @@ def main() -> int:
         jobs.append({"out": str(a.out), "book": book_key(p["index"]), "index": p["index"], "n": p["n"], "page_id": p["page_id"],
                      "rev": p["rev"], "quality": p["quality"], "tags": tags, "scan": str(scan), "wikitext": p["wikitext"],
                      "tessdata": str(a.tessdata), "lang": a.lang, "ok_chars": ok_chars,
-                     "scan_sha1": scan_sha1[p["index"]], "model_sha256": model_sha256})
+                     "scan_sha1": scan_sha1[p["index"]], "model_sha256": model_sha256,
+                     "print_forms": p["index"] in a.print_form_index})
     print(f"{len(jobs)} pages; skipped {dict(skipped)}", flush=True)
     a.out.mkdir(parents=True, exist_ok=True)
     pages_out = (a.out / ".pages.jsonl.tmp").open("w", encoding="utf-8")
