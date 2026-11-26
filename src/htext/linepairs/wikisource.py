@@ -34,7 +34,7 @@ from htext.linepairs import rivok_align as A
 from htext.linepairs import rivok_labels as L
 
 MAX_CER = 0.25
-CODE_VERSION = "linepairs-wikisource-2"
+CODE_VERSION = "linepairs-wikisource-3"
 
 
 def atomic_write(path: Path, data: str) -> None:
@@ -90,6 +90,12 @@ def page_image(scan: Path, n: int, out: Path) -> Path:
         out.parent.mkdir(parents=True, exist_ok=True)
         (_djvu_page if scan.suffix.lower() == ".djvu" else _pdf_page)(scan, n, out)
     return out
+
+
+def _hebrew_share(s: str) -> float:
+    heb = len(re.findall(r"[א-ת]", s))
+    lat = len(re.findall(r"[A-Za-z]", s))
+    return heb / (heb + lat) if heb + lat else 0.0
 
 
 # ---------------------------------------------------------------- labels (Rivok's build_lines.label_of, HeOCR changes)
@@ -159,11 +165,18 @@ def _compute_page(job: dict[str, Any], out: Path, book: str, n: int) -> dict[str
             A.run_tesseract(png, tmpbase, 3, lang=job["lang"])
             os.replace(tmpbase.with_suffix(".hocr"), hocr)  # a partial hOCR is never reused
         body, notes, seen = A.clean_wikitext(job["wikitext"])
-        rows = A.align_page(A.read_hocr(hocr), (body + " " + notes).strip(), "wiki")
+        lines = A.read_hocr(hocr)
+        # HeOCR: bilingual pages (Hebrew with an English translation): Latin-script OCR lines have no Hebrew text to
+        # align with and break the anchors of the Hebrew lines around them, so they stay out of the alignment.
+        heb = [ln for ln in lines if _hebrew_share(" ".join(ln[1])) >= 0.5]
+        non_hebrew = len(lines) - len(heb)
+        rows = A.align_page(heb, (body + " " + notes).strip(), "wiki")
     except Exception as e:  # noqa: BLE001 - a page failure is a counted drop, never a crash
         res["error"] = f"{type(e).__name__}: {e}"[:200]
         return res
-    res["ocr_lines"] = len(rows)
+    res["ocr_lines"] = len(rows) + non_hebrew
+    if non_hebrew:
+        res["dropped"]["non_hebrew_line"] += non_hebrew
     ok_chars = set(job["ok_chars"]) if job.get("ok_chars") else None
     keep = []
     for r in rows:
