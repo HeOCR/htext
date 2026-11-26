@@ -168,7 +168,7 @@ def main() -> int:
     per_pair: dict[str, collections.Counter] = collections.defaultdict(collections.Counter)
     with ProcessPoolExecutor(a.jobs) as ex:
         for job, r in zip(jobs_all, ex.map(W.do_page, jobs_all, chunksize=1)):
-            c = per_pair[job["book"]]
+            c = per_pair[job["index"]]
             c["ocr_lines"] += r["ocr_lines"]
             c["kept"] += len(r["kept"])
             for why, k in r["dropped"].items():
