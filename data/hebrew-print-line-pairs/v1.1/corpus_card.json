@@ -1,0 +1,59 @@
+{
+  "schema": "hebrew_print_line_pairs_card.v1",
+  "name": "Hebrew print line pairs",
+  "corpus": "hebrew-print-line-pairs",
+  "corpus_version": "v1.1",
+  "htext_release": "by-sa",
+  "source_licence": "CC BY-SA 4.0",
+  "credit": {
+    "text": "Hebrew Wikisource contributors (text, per-page history); Wikimedia Commons scans; line-pairing method by Rivok Labs",
+    "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/e0b0d2d5b975cc5fc27416b39bbc78fbb787f5ae/README.md"
+  },
+  "text_quality": "transcription",
+  "kind": "image_text_line_pairs",
+  "rows": 47997,
+  "image_licence_basis": {
+    "pd_il": 43899,
+    "pd_us_not_renewed": 4098
+  },
+  "files": {
+    "data/train-00000.parquet": {
+      "rows": 20000,
+      "sha256": "4a01aacbbd1e7e34ace3d2f72b9393af0538331bff3a925e157ef9d7bafcc723"
+    },
+    "data/train-00001.parquet": {
+      "rows": 20000,
+      "sha256": "eff7926de894d1ec89ef8eb842bc1425767e52c64f1fd82aacf49dc34aeb0933"
+    },
+    "data/train-00002.parquet": {
+      "rows": 7997,
+      "sha256": "181d7bd87defdba0239769493c1615af40ac74fe0072521c19483d3b20e74ea2"
+    }
+  },
+  "huggingface": "HeOCR/hebrew-print-line-pairs",
+  "huggingface_revision": "e0b0d2d5b975cc5fc27416b39bbc78fbb787f5ae",
+  "huggingface_tag": "v1.1",
+  "zenodo": {
+    "doi": "10.5281/zenodo.24572438",
+    "concept_doi": "10.5281/zenodo.24571579"
+  },
+  "clean": "signed by heocr-clean (record in the private restricted-eval repository); all rows keep",
+  "builder": {
+    "package": "htext",
+    "module": "htext.linepairs",
+    "prs": [
+      "HeOCR/htext#58",
+      "HeOCR/htext#61"
+    ]
+  },
+  "birnbaum": {
+    "pin_table": "birnbaum_pin_table.json.gz",
+    "pin_table_sha256": "9f6cf8d45c1ba35bcf1227d48ca7aa9de1c49878d92d2f30b1730c38281569f8",
+    "pages_in": 438,
+    "pages_dropped_unresolved_pin": 20,
+    "renewal_check": "no renewal found (CCE 1975–78, Project Gutenberg transcriptions)",
+    "edition": "1949 Hebrew Publishing Co. printing (copyright page; intro at IX)"
+  },
+  "eval_tags": "kept out of public rows; private sidecar stored in the CLEAN record",
+  "label_noise_estimate": "about 3% (manual checks of 120 random lines in v1 and 30 Birnbaum lines in v1.1)"
+}
