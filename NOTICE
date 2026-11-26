@@ -1,0 +1,11 @@
+htext
+Copyright (c) 2026 HeOCR maintainers (MIT, see LICENSE)
+
+This product includes software from RivoksLab/tesseract-heb-rivok
+(https://github.com/RivoksLab/tesseract-heb-rivok, commit e5694b7c62efe996bd22575d3136e30157ce654e),
+Copyright Rivok, licensed under the Apache License, Version 2.0
+(https://www.apache.org/licenses/LICENSE-2.0):
+  - src/htext/linepairs/rivok_align.py   (from training/v2/lines/align.py)
+  - src/htext/linepairs/rivok_labels.py  (from training/v2/lines/labels.py)
+These files remain under the Apache License 2.0; HeOCR's changes are marked "HeOCR:".
+The line-pairing method in src/htext/linepairs/wikisource.py follows Rivok's training/v2/lines/build_lines.py.
