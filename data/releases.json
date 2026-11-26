@@ -300,7 +300,8 @@
       "text_quality": "transcription",
       "credit": {"text": "Hebrew Wikisource contributors (text, per-page history); Wikimedia Commons scans; line-pairing method by Rivok Labs", "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/caed0cab2a2c3b13f63394a7a82cbd246cafa1dc/README.md"},
       "huggingface": "HeOCR/hebrew-print-line-pairs",
-      "huggingface_revision": "caed0cab2a2c3b13f63394a7a82cbd246cafa1dc"
+      "huggingface_revision": "caed0cab2a2c3b13f63394a7a82cbd246cafa1dc",
+      "zenodo": {"doi": "10.5281/zenodo.24571580", "concept_doi": "10.5281/zenodo.24571579"}
     }
   ]
 }
