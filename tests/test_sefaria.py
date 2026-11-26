@@ -47,6 +47,8 @@ def _setup(tmp_path: Path, lane: str = "cc0", bad_sha: bool = False) -> s.Sefari
             {"versionTitle": "Invented CC-BY", "license": "CC-BY", "file": f"{b}.json", "sha256": b, "rights": {"pass": True, "basis": "licence_grant:CC-BY"}}]},
         {"title": "Invented Tractate", "categories": ["Talmud", "Bavli"], "aramaic_heavy": True, "tags": ["family_shared_with_wikisource"],
          "versions": [{"versionTitle": "Invented Edition", "license": "CC0", "file": f"{c}.json", "sha256": c, "rights": {"pass": True, "basis": "licence_grant:CC0"}}]},
+        {"title": "Invented Unlisted", "categories": ["Halakhah"], "tags": [], "versions": [
+            {"versionTitle": "Unlisted", "license": "Invented-Label", "file": "missing.json", "sha256": "2" * 64, "rights": {"pass": True, "basis": "x"}}]},
         {"title": "Invented Modern", "categories": ["Halakhah"], "tags": [], "versions": [
             {"versionTitle": "Modern", "license": "Public Domain", "file": "missing.json", "sha256": "1" * 64, "rights": {"pass": False, "basis": "author_death_unknown:x"}}]},
     ]
@@ -74,7 +76,7 @@ def test_cc0_build_keeps_lane_routes_aramaic_and_tags_reserved_work(tmp_path):
     assert {r[2] for r in rows} == {"Invented Work", "Invented Tractate"}  # the CC-BY work is not in the cc0 lane
     assert all("eval_reserved_work" in r[5] for r in rows if r[2] == "Invented Work")  # a tag, not a drop
     assert all(r[1] == "arc" and "family_shared_with_wikisource" in r[5] for r in rows if r[2] == "Invented Tractate")
-    assert [o["reason"] for o in card["out"]] == ["author_death_unknown:x"]
+    assert [o["reason"] for o in card["out"]] == ["licence_refused:unlisted_label:Invented-Label", "author_death_unknown:x"]
     assert card["htext_release"] == "cc0"
 
 

@@ -40,7 +40,7 @@ from htext.hebrew import strip_marks
 from htext.leakage import Protected
 from htext.pby.build import PROFILE_TARGETS, length_profile, profile_passes
 from htext.pby.text import DEFAULT_NIQQUD_THRESHOLD, MAX_LINE_CHARS, LengthSampler, choose_segment, normalise, word_spans
-from htext.release import RELEASE_LICENCES, RELEASES, Credit, ReleaseGuard, release_fields, release_for_licence
+from htext.release import RELEASE_LICENCES, RELEASES, Credit, LicenceRefused, ReleaseGuard, release_fields, release_for_licence
 from htext.reservations import Reservations
 
 SOURCE = "sefaria"
@@ -171,7 +171,14 @@ def build(config: SefariaConfig) -> dict[str, Any]:
     try:
         for work in sources["works"]:
             for version in work["versions"]:
-                if release_for_licence(version["license"]) != config.lane:
+                try:
+                    lane = release_for_licence(version["license"])
+                except LicenceRefused as refused:
+                    # Fail closed: a label the release gate does not list is out until a decision admits it.
+                    if config.lane == "cc0":
+                        out_list.append({"title": work["title"], "version": version["versionTitle"], "reason": f"licence_refused:{refused.reason}:{version['license']}"})
+                    continue
+                if lane != config.lane:
                     continue
                 if not version["rights"]["pass"]:
                     out_list.append({"title": work["title"], "version": version["versionTitle"], "reason": version["rights"]["basis"]})
