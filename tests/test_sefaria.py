@@ -101,3 +101,34 @@ def test_duplicates_and_other_release_lines_are_removed(tmp_path):
     second = s.build(config)
     assert second["files"][name]["lines"] == first["files"][name]["lines"] - 1
     assert second["pipeline"]["segments_dropped:in_other_htext_release"] >= 1
+
+
+def _all_bytes(out: Path) -> dict[str, bytes]:
+    return {p.name: p.read_bytes() for p in sorted(out.iterdir()) if p.is_file()}
+
+
+def test_interrupted_build_resumes_to_byte_identical_output(tmp_path, monkeypatch):
+    clean = _setup(tmp_path)
+    s.build(clean)
+    (tmp_path / "second").mkdir()
+    config = _setup(tmp_path / "second")
+    real = s.build_shard
+    calls = {"n": 0}
+
+    def crash_on_third(job, fit=None):
+        calls["n"] += 1
+        if calls["n"] == 2:
+            # power cut after writing this shard's lines but before its receipt
+            s.atomic_write(Path(job["shard_dir"]) / "lines.tsv", b"partial\n")
+            raise KeyboardInterrupt
+        return real(job, fit=fit)
+
+    monkeypatch.setattr(s, "build_shard", crash_on_third)
+    with pytest.raises(KeyboardInterrupt):
+        s.build(config)
+    assert not (config.output / "corpus_card.json").exists()  # nothing final until every shard is done
+    rebuilt = []
+    monkeypatch.setattr(s, "build_shard", lambda job, fit=None: rebuilt.append(job["title"]) or real(job, fit=fit))
+    s.build(config)
+    assert rebuilt == ["Invented Tractate"]  # the first shard came from its receipt, the interrupted one is redone
+    assert _all_bytes(config.output) == _all_bytes(clean.output)
