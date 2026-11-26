@@ -36,5 +36,10 @@
     "module": "htext.linepairs",
     "pr": "HeOCR/htext#58"
   },
-  "label_noise_estimate": "about 3% (manual check of 120 random lines)"
+  "label_noise_estimate": "about 3% (manual check of 120 random lines)",
+  "eval_tags_sidecar": {
+    "where": "private: HeOCR/heocr-restricted-eval records/hebrew_print_line_pairs_v1/eval-tags.v1.jsonl.gz (PR #1778)",
+    "sha256": "d2b90cfe0fca3c68b93b6a7331dce4f0b73552ac73b78075a17ef8e74fa94a26",
+    "note": "eval-derived tags are kept out of the public rows"
+  }
 }
