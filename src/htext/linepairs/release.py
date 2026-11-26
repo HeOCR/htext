@@ -26,6 +26,9 @@ from pathlib import Path
 from typing import Any
 
 PUBLIC_DEFAULT = ("pd_il", "cc0", "cc_by", "cc_by_sa")
+# Tags that may appear in public rows; eval-derived tags would name private eval sources, so they go to a private
+# sidecar (private-tags.jsonl.gz, never published) instead (lead decision 2026-11-26).
+PUBLIC_TAGS = frozenset({"validated_page", "transclusion_resolved", "book_level", "pinned_sections", "print_form_rule"})
 SHARD_ROWS = 20000
 
 
@@ -125,13 +128,15 @@ They are built by HeOCR from Hebrew Wikisource's proofread pages and their scans
 - **Credit:** Rivok Labs (the line-pairing method and code), Hebrew Wikisource and its proofreaders, Wikimedia Commons
   and the scans' sources.
 - **Dataset licence:** CC BY-SA 4.0.
+{extra_notes}
 
 Built by HeOCR (https://github.com/HeOCR). Code: https://github.com/HeOCR/htext (`htext.linepairs`).
 """
 
 
 def write_card(out: Path, manifest: dict) -> None:
-    text = CARD.format(version=manifest["version"], public=manifest["rows"]["public"], books=len(manifest["books"]["public"]))
+    text = CARD.format(version=manifest["version"], public=manifest["rows"]["public"], books=len(manifest["books"]["public"]),
+                       extra_notes=manifest.get("card_notes", ""))
     _atomic(out / "README.md", text.encode("utf-8"))
 
 
@@ -149,6 +154,9 @@ def main() -> int:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--public-bases", nargs="*", default=list(PUBLIC_DEFAULT))
     ap.add_argument("--hold-index", action="append", default=[], help="an Index held from the public shards (rights question)")
+    ap.add_argument("--licence-override", action="append", default=[], help="INDEX=BASIS from a reviewed file-page reading")
+    ap.add_argument("--card-notes", type=Path, default=None, help="extra card paragraphs (markdown)")
+    ap.add_argument("--public-index", action="append", default=[], help="INDEX=BASIS: public by an explicit owner decision (e.g. pd_us_not_renewed)")
     a = ap.parse_args()
     excluded = set()
     for p in a.exclude:
@@ -158,6 +166,8 @@ def main() -> int:
     lic = {r["index"]: r for r in json.loads(a.licences.read_text(encoding="utf-8"))}
     from htext.linepairs.wikisource import book_key
     index_of_book = {book_key(i): i for i in scans}
+    overrides = dict(x.split("=", 1) for x in a.licence_override)
+    public_decided = dict(x.split("=", 1) for x in a.public_index)
     rows: list[dict[str, Any]] = []
     for line in (a.pilot / "pages.jsonl").read_text(encoding="utf-8").splitlines():
         pg = json.loads(line)
@@ -170,7 +180,7 @@ def main() -> int:
         receipt = json.loads((a.pilot / "receipts" / pg["book"] / f"p{pg['n']:04d}.json").read_text(encoding="utf-8"))
         m = meta[(index, pg["n"])]
         L = lic.get(index, {})
-        basis = licence_basis(L)
+        basis = public_decided.get(index) or overrides.get(index) or licence_basis(L)
         tags = list(pg["tags"]) + (["transclusion_resolved"] if m.get("transclusion_resolved") else [])
         for k in receipt["kept"]:
             crop = a.pilot / "lines" / pg["book"] / f"p{pg['n']:04d}" / f"p{pg['n']:04d}_l{k['line']:03d}.png"
@@ -185,9 +195,15 @@ def main() -> int:
                 "wikisource_url": f"https://he.wikisource.org/w/index.php?oldid={m['rev']}", "quality": m["quality"],
                 "tags": tags, "image_licence_basis": basis, "image_licence": "; ".join(L.get("licence_short", [])),
                 "image_licence_page": L.get("page_url"), "text_licence": "CC-BY-SA-4.0",
-                "public": basis in a.public_bases and index not in a.hold_index,
+                "public": (basis in a.public_bases or index in public_decided) and index not in a.hold_index,
             })
     rows.sort(key=lambda r: r["id"])
+    side = "".join(json.dumps({"id": r["id"], "tags": r["tags"]}, ensure_ascii=False) + "\n" for r in rows)
+    import gzip as _gz
+    _atomic(a.out / "private-tags.jsonl.gz", _gz.compress(side.encode("utf-8"), mtime=0))
+    for r in rows:
+        if r["public"]:
+            r["tags"] = [x for x in r["tags"] if x in PUBLIC_TAGS]
     counts: Counter = Counter()
     manifest: dict[str, Any] = {"version": a.version, "shards": {}, "rows": {}}
     for part in ("public", "internal"):
@@ -204,6 +220,7 @@ def main() -> int:
         for r in sel:
             counts[f"{part}:{r['image_licence_basis']}"] += 1
     manifest["by_licence_basis"] = dict(sorted(counts.items()))
+    manifest["card_notes"] = a.card_notes.read_text(encoding="utf-8") if a.card_notes else ""
     manifest["books"] = {part: sorted({r["scan_file"] for r in rows if r["public"] == (part == "public")}) for part in ("public", "internal")}
     _atomic(a.out / "manifest.json", (json.dumps(manifest, ensure_ascii=False, indent=1) + "\n").encode("utf-8"))
     write_card(a.out, manifest)
