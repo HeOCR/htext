@@ -224,8 +224,9 @@ def _sefaria_build(args: argparse.Namespace) -> int:
         sources=args.sources, inputs=args.inputs, output=args.output, lane=args.lane, length_profile=lengths,
         length_profile_source=profile_source, reservations=args.reserved, leakage_fixtures=leakage,
         dedup_against=args.dedup_against, seed=args.seed, corpus_version=args.corpus_version, allow_maqaf=allow_maqaf,
-        fit=fit, fit_provenance=provenance,
-    ))
+        fit=fit if args.jobs == 1 else None, fit_factory="htext.fit:FitChecker" if fit is not None and args.jobs > 1 else None,
+        fit_provenance=provenance, work_dir=args.work_dir, jobs=args.jobs,
+    ), progress=lambda message: print(message, file=sys.stderr, flush=True))
     for name, info in card["files"].items():
         print(f"{name}: {info['lines']} lines")
     print(f"works: {card['works']}, versions: {card['versions']}, out: {len(card['out'])}")
@@ -416,6 +417,8 @@ def main(argv: list[str] | None = None) -> int:
     s_build.add_argument("--length-profile", type=Path, default=None)
     s_build.add_argument("--hocrsyngen-commit", default=None)
     s_build.add_argument("--no-fit-check", action="store_true")
+    s_build.add_argument("--jobs", type=int, default=1, help="parallel shard workers")
+    s_build.add_argument("--work-dir", type=Path, default=None, help="shards and receipts (default <output>.shards); a rerun resumes from them")
     s_build.set_defaults(handler=_sefaria_build)
 
     tanakh = commands.add_parser("tanakh", help="the Westminster Leningrad Codex, pointed and plain")

@@ -28,6 +28,7 @@ import gzip
 import hashlib
 import html
 import json
+import os
 import re
 from collections import Counter
 from dataclasses import dataclass, field
@@ -116,6 +117,9 @@ def segments(text: Any, path: tuple[str, ...] = ()) -> Iterator[tuple[str, str]]
             yield from segments(x, path + (k or "_",))
 
 
+CODE_VERSION = "sefaria-v3-shards-1"
+
+
 @dataclass
 class SefariaConfig:
     sources: Path  # data/sefaria/v3/sources.v3.json
@@ -131,25 +135,142 @@ class SefariaConfig:
     corpus_version: str = DEFAULT_CORPUS_VERSION
     niqqud_threshold: float = DEFAULT_NIQQUD_THRESHOLD
     allow_maqaf: bool = False
-    fit: Callable[[str], str | None] | None = None
+    fit: Callable[[str], str | None] | None = None  # serial runs (tests); workers use fit_factory
     fit_provenance: dict[str, Any] = field(default_factory=dict)
+    fit_factory: str | None = None  # "module:Class": each worker builds one; its .failure is the fit check
+    work_dir: Path | None = None  # shards and receipts; default <output>.shards next to the output
+    jobs: int = 1
 
 
 def _key(text: str) -> bytes:
     return hashlib.blake2b(text.encode("utf-8"), digest_size=12).digest()
 
 
-def _dedup_set(paths: Iterable[Path]) -> set[bytes]:
+def atomic_write(path: Path, data: bytes) -> None:
+    """Temp file in the same dir, fsync, rename: a crash leaves the old file or none, never a half-written one."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f".{path.name}.tmp{os.getpid()}")
+    with tmp.open("wb") as f:
+        f.write(data)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
+
+
+def dedup_hash_file(paths: Sequence[Path], work_dir: Path) -> Path | None:
+    """Hashes of the plain forms of every line in other htext releases, computed once into a pinned file."""
+    if not paths:
+        return None
+    pin = hashlib.sha256("".join(f"{p.name}:{_sha256(p)}\n" for p in paths).encode()).hexdigest()[:16]
+    out = work_dir / f"dedup_against_{pin}.bin"
+    if out.exists():
+        return out
     seen: set[bytes] = set()
     for p in paths:
         with (gzip.open(p, "rt", encoding="utf-8") if p.suffix == ".gz" else p.open(encoding="utf-8")) as f:
             for line in f:
                 if line.strip():
                     seen.add(_key(strip_marks(line.rstrip("\n"))))
-    return seen
+    atomic_write(out, b"".join(sorted(seen)))
+    return out
 
 
-def build(config: SefariaConfig) -> dict[str, Any]:
+def _load_hashes(path: Path | None) -> frozenset[bytes]:
+    if path is None:
+        return frozenset()
+    raw = path.read_bytes()
+    return frozenset(raw[i:i + 12] for i in range(0, len(raw), 12))
+
+
+def shard_id(title: str, version_title: str) -> str:
+    return hashlib.sha1(f"{title}|{version_title}".encode("utf-8")).hexdigest()[:16]
+
+
+_WORKER: dict[str, Any] = {}
+
+
+def _init_worker(fit_factory: str | None) -> None:
+    if fit_factory:
+        import importlib
+        mod, cls = fit_factory.split(":")
+        _WORKER["fit"] = getattr(importlib.import_module(mod), cls)().failure
+
+
+def _cached(kind: str, arg: Any, load: Callable[[Any], Any]) -> Any:
+    k = (kind, arg)
+    if k not in _WORKER:
+        _WORKER[k] = load(arg)
+    return _WORKER[k]
+
+
+def build_shard(job: dict[str, Any], fit: Callable[[str], str | None] | None = None) -> dict[str, Any]:
+    """One version: cut, filter and tag its lines; commit lines.tsv, then the receipt. Returns the receipt."""
+    sdir = Path(job["shard_dir"])
+    path = Path(job["path"])
+    raw = path.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != job["sha256"]:
+        raise ValueError(f"{path}: sha256 does not match the pinned sources")
+    doc = json.loads(raw.decode("utf-8"))
+    if doc.get("versionTitle") != job["versionTitle"] or doc.get("license") != job["license"]:
+        raise ValueError(f"{path}: version title or licence differs from the pinned sources")
+    fit = fit if fit is not None else _WORKER.get("fit")
+    protected = _cached("protected", tuple(job["leakage_fixtures"]), lambda a: Protected.load([Path(x) for x in a]))
+    against = _cached("against", job["dedup_hashes"], lambda a: _load_hashes(Path(a) if a else None))
+    sampler = LengthSampler(job["length_profile"], f"{job['seed']}:sefaria:{job['title']}|{job['versionTitle']}")
+    stats: Counter = Counter()
+    seen: set[bytes] = set()
+    rows: list[str] = []
+    for seg_path, raw_seg in segments(doc.get("text")):
+        para = clean_segment(raw_seg)
+        if not para or not _HEBREW.search(para):
+            stats["segments_dropped:no_hebrew"] += 1
+            continue
+        words = para.split()
+        plain_words = [strip_marks(w) for w in words]
+        for start, end in word_spans(plain_words, verse=False, targets=sampler):
+            stats["segments"] += 1
+            segment, why = choose_segment(" ".join(words[start:end]), " ".join(plain_words[start:end]),
+                                          threshold=job["niqqud_threshold"], allow_maqaf=job["allow_maqaf"])
+            if segment is None:
+                stats[f"segments_dropped:{why}"] += 1
+                continue
+            if _key(segment.plain_form) in against:
+                stats["segments_dropped:in_other_htext_release"] += 1
+                continue
+            tk = _key(segment.subset + "\0" + segment.text)
+            if tk in seen:
+                stats["segments_dropped:duplicate"] += 1
+                continue
+            if fit is not None and (failure := fit(segment.text)):
+                stats[f"segments_dropped:fit:{failure}"] += 1
+                continue
+            seen.add(tk)
+            tags = list(job["work_tags"])
+            if leak := protected.leak(segment.text, segment.plain_form):
+                tags.append(f"protected_text:{leak}")
+                stats[f"lines_tagged:protected_text:{leak}"] += 1
+            if "\t" in segment.text or "\n" in segment.text:
+                raise ValueError("a line holds a tab or newline")
+            rows.append(f"{segment.subset}\t{len(segment.plain_form)}\t{seg_path}\t{','.join(tags)}\t{segment.text}\n")
+    data = "".join(rows).encode("utf-8")
+    atomic_write(sdir / "lines.tsv", data)
+    receipt = {"input_key": job["input_key"], "lines": len(rows), "lines_sha256": hashlib.sha256(data).hexdigest(),
+               "stats": dict(sorted(stats.items()))}
+    atomic_write(sdir / "receipt.json", json.dumps(receipt, sort_keys=True).encode("utf-8"))
+    return receipt
+
+
+def _done(job: dict[str, Any]) -> bool:
+    r = Path(job["shard_dir"]) / "receipt.json"
+    if not r.exists():
+        return False
+    rec = json.loads(r.read_text(encoding="utf-8"))
+    lines = Path(job["shard_dir"]) / "lines.tsv"
+    return rec.get("input_key") == job["input_key"] and lines.exists() and _sha256(lines) == rec["lines_sha256"]
+
+
+def build(config: SefariaConfig, progress: Callable[[str], None] | None = None) -> dict[str, Any]:
+    """Incremental build: shards per version (skipped when their receipt matches), then a deterministic merge."""
     if config.lane not in RELEASES:
         raise ValueError(f"lane must be one of {RELEASES}")
     sources = json.loads(config.sources.read_text(encoding="utf-8"))
@@ -157,121 +278,148 @@ def build(config: SefariaConfig) -> dict[str, Any]:
         raise ValueError(f"{config.sources}: expected schema {SOURCES_SCHEMA!r}")
     reservations = Reservations.load(config.reservations) if config.reservations else None
     protected = Protected.load(config.leakage_fixtures)
-    against = _dedup_set(config.dedup_against)
+    work_dir = config.work_dir or config.output.with_name(config.output.name + ".shards")
+    work_dir.mkdir(parents=True, exist_ok=True)
+    dedup = dedup_hash_file(list(config.dedup_against), work_dir)
+    fit_on = config.fit is not None or config.fit_factory is not None
+    common = {
+        "lane": config.lane, "seed": config.seed, "niqqud_threshold": config.niqqud_threshold, "allow_maqaf": config.allow_maqaf,
+        "length_profile": list(config.length_profile), "leakage_fixtures": [str(p) for p in config.leakage_fixtures],
+        "dedup_hashes": str(dedup) if dedup else None,
+    }
+    pin = json.dumps({"code": CODE_VERSION, "lane": config.lane, "seed": config.seed, "niqqud": config.niqqud_threshold,
+                      "maqaf": config.allow_maqaf, "profile": hashlib.sha256(json.dumps(list(config.length_profile)).encode()).hexdigest(),
+                      "protected": protected.sources, "dedup": dedup.name if dedup else None,
+                      "fit": config.fit_provenance if fit_on else {"ran": False}}, sort_keys=True, default=str)
+    jobs, out_list, meta = [], [], []
+    for work in sources["works"]:
+        for version in work["versions"]:
+            try:
+                lane = release_for_licence(version["license"])
+            except LicenceRefused as refused:
+                # Fail closed: a label the release gate does not list is out until a decision admits it.
+                if config.lane == "cc0":
+                    out_list.append({"title": work["title"], "version": version["versionTitle"], "reason": f"licence_refused:{refused.reason}:{version['license']}"})
+                continue
+            if lane != config.lane:
+                continue
+            if not version["rights"]["pass"]:
+                out_list.append({"title": work["title"], "version": version["versionTitle"], "reason": version["rights"]["basis"]})
+                continue
+            work_tags = list(work.get("tags", []))
+            if reservations is not None and reservations.reserved("sefaria", work["title"]):
+                work_tags.append("eval_reserved_work")
+            sid = shard_id(work["title"], version["versionTitle"])
+            job = dict(common, title=work["title"], versionTitle=version["versionTitle"], license=version["license"],
+                       sha256=version["sha256"], path=str(config.inputs / version["file"]), work_tags=work_tags,
+                       shard_dir=str(work_dir / config.lane / sid))
+            job["input_key"] = hashlib.sha256(json.dumps([pin, version["sha256"], work["title"], version["versionTitle"], work_tags,
+                                                          bool(work.get("aramaic_heavy"))], sort_keys=True).encode()).hexdigest()
+            jobs.append(job)
+            meta.append((work, version, work_tags))
+    pending = [j for j in jobs if not _done(j)]
+    if progress:
+        progress(f"{config.lane}: {len(jobs)} shards, {len(jobs) - len(pending)} done, {len(pending)} to build")
+    if config.jobs > 1 and pending:
+        from concurrent.futures import ProcessPoolExecutor
+        with ProcessPoolExecutor(config.jobs, initializer=_init_worker, initargs=(config.fit_factory,)) as ex:
+            for k, _ in enumerate(ex.map(build_shard, pending, chunksize=1), 1):
+                if progress and k % 100 == 0:
+                    progress(f"{config.lane}: {k}/{len(pending)} shards built")
+    else:
+        if config.fit_factory and config.fit is None:
+            _init_worker(config.fit_factory)
+        for k, job in enumerate(pending, 1):
+            build_shard(job, fit=config.fit)
+            if progress and k % 100 == 0:
+                progress(f"{config.lane}: {k}/{len(pending)} shards built")
+    return _merge(config, sources, jobs, meta, out_list, reservations, protected, dedup, fit_on)
+
+
+def _merge(config: SefariaConfig, sources: dict[str, Any], jobs: list[dict[str, Any]], meta: list[tuple], out_list: list[dict[str, Any]],
+           reservations: Reservations | None, protected: Protected, dedup: Path | None, fit_on: bool) -> dict[str, Any]:
+    """Concatenate the shards in sources order, drop in-corpus duplicates (first occurrence wins), write the outputs."""
     stats: Counter = Counter()
     seen: set[bytes] = set()
-    config.output.mkdir(parents=True, exist_ok=True)
-    outs = {(s, g): (config.output / corpus_file_name(s, g, config.lane, config.corpus_version)).open("w", encoding="utf-8")
-            for s in SUBSETS for g in LANGS}
-    lengths: dict[tuple[str, str], list[int]] = {k: [] for k in outs}
-    index = gzip.open(config.output / LINE_INDEX_FILE, "wt", encoding="utf-8")
+    out = config.output
+    out.mkdir(parents=True, exist_ok=True)
+    names = {(s, g): corpus_file_name(s, g, config.lane, config.corpus_version) for s in SUBSETS for g in LANGS}
+    tmp = {k: out / f".{n}.tmp" for k, n in names.items()}
+    fhs = {k: p.open("w", encoding="utf-8") for k, p in tmp.items()}
+    lengths: dict[tuple[str, str], list[int]] = {k: [] for k in names}
+    index_tmp = out / f".{LINE_INDEX_FILE}.tmp"
+    import io
+    index_raw = index_tmp.open("wb")
+    index = io.TextIOWrapper(gzip.GzipFile(filename="", mode="wb", fileobj=index_raw, mtime=0), encoding="utf-8")  # mtime 0: same bytes every run
     index.write("subset\tlang\twork\tversion\tsegment\ttags\n")
-    records, out_list = [], []
+    records = []
     guard = ReleaseGuard(config.lane)
     try:
-        for work in sources["works"]:
-            for version in work["versions"]:
-                try:
-                    lane = release_for_licence(version["license"])
-                except LicenceRefused as refused:
-                    # Fail closed: a label the release gate does not list is out until a decision admits it.
-                    if config.lane == "cc0":
-                        out_list.append({"title": work["title"], "version": version["versionTitle"], "reason": f"licence_refused:{refused.reason}:{version['license']}"})
-                    continue
-                if lane != config.lane:
-                    continue
-                if not version["rights"]["pass"]:
-                    out_list.append({"title": work["title"], "version": version["versionTitle"], "reason": version["rights"]["basis"]})
-                    continue
-                path = config.inputs / version["file"]
-                if _sha256(path) != version["sha256"]:
-                    raise ValueError(f"{path}: sha256 does not match the pinned sources")
-                doc = json.loads(path.read_text(encoding="utf-8"))
-                if doc.get("versionTitle") != version["versionTitle"] or doc.get("license") != version["license"]:
-                    raise ValueError(f"{path}: version title or licence differs from the pinned sources")
-                lang = "arc" if work.get("aramaic_heavy") else "he"
-                work_tags = list(work.get("tags", []))
-                if reservations is not None and reservations.reserved("sefaria", work["title"]):
-                    work_tags.append("eval_reserved_work")
-                sampler = LengthSampler(config.length_profile, f"{config.seed}:sefaria:{work['title']}|{version['versionTitle']}")
-                counts = Counter()
-                for seg_path, raw in segments(doc.get("text")):
-                    para = clean_segment(raw)
-                    if not para or not _HEBREW.search(para):
-                        stats["segments_dropped:no_hebrew"] += 1
+        for job, (work, version, work_tags) in zip(jobs, meta):
+            if not _done(job):
+                raise RuntimeError(f"shard {job['shard_dir']} is not complete")
+            receipt = json.loads((Path(job["shard_dir"]) / "receipt.json").read_text(encoding="utf-8"))
+            stats.update(receipt["stats"])
+            lang = "arc" if work.get("aramaic_heavy") else "he"
+            counts: Counter = Counter()
+            with (Path(job["shard_dir"]) / "lines.tsv").open(encoding="utf-8") as f:
+                for row in f:
+                    subset, plen, seg_path, tags, text = row.rstrip("\n").split("\t", 4)
+                    tk = _key(subset + "\0" + text)
+                    if tk in seen:
+                        stats["segments_dropped:duplicate"] += 1
                         continue
-                    words = para.split()
-                    plain_words = [strip_marks(w) for w in words]
-                    for start, end in word_spans(plain_words, verse=False, targets=sampler):
-                        stats["segments"] += 1
-                        segment, why = choose_segment(" ".join(words[start:end]), " ".join(plain_words[start:end]),
-                                                      threshold=config.niqqud_threshold, allow_maqaf=config.allow_maqaf)
-                        if segment is None:
-                            stats[f"segments_dropped:{why}"] += 1
-                            continue
-                        k = _key(segment.plain_form)
-                        if k in against:
-                            stats["segments_dropped:in_other_htext_release"] += 1
-                            continue
-                        tk = _key(segment.subset + "\0" + segment.text)
-                        if tk in seen:
-                            stats["segments_dropped:duplicate"] += 1
-                            continue
-                        if config.fit is not None and (failure := config.fit(segment.text)):
-                            stats[f"segments_dropped:fit:{failure}"] += 1
-                            continue
-                        seen.add(tk)
-                        tags = list(work_tags)
-                        if leak := protected.leak(segment.text, segment.plain_form):
-                            tags.append(f"protected_text:{leak}")
-                            stats[f"lines_tagged:protected_text:{leak}"] += 1
-                        outs[(segment.subset, lang)].write(segment.text + "\n")
-                        lengths[(segment.subset, lang)].append(len(segment.plain_form))  # as PBY: pointed lines by their plain length
-                        counts[f"{segment.subset}_{lang}"] += 1
-                        index.write(f"{segment.subset}\t{lang}\t{work['title']}\t{version['versionTitle']}\t{seg_path}\t{','.join(tags)}\n")
-                record = {
-                    "entry_id": f"sefaria:{work['title']}|{version['versionTitle']}", "title": work["title"],
-                    "heTitle": work.get("heTitle"), "categories": work.get("categories", []),
-                    "versionTitle": version["versionTitle"], "versionSource": version.get("versionSource"),
-                    "sha256": version["sha256"], "fetched_from": version.get("url"), "lines": dict(counts),
-                    "rights_basis": version["rights"]["basis"], "lang": lang, "tags": work_tags, "source": SOURCE,
-                    **release_fields(source_licence=version["license"], credit=Credit(f"{version['versionTitle']}, via Sefaria", CREDIT.url)),
-                }
-                guard.admit(record)
-                records.append(record)
+                    seen.add(tk)
+                    fhs[(subset, lang)].write(text + "\n")
+                    lengths[(subset, lang)].append(int(plen))  # as PBY: pointed lines by their plain length
+                    counts[f"{subset}_{lang}"] += 1
+                    index.write(f"{subset}\t{lang}\t{work['title']}\t{version['versionTitle']}\t{seg_path}\t{tags}\n")
+            record = {
+                "entry_id": f"sefaria:{work['title']}|{version['versionTitle']}", "title": work["title"],
+                "heTitle": work.get("heTitle"), "categories": work.get("categories", []),
+                "versionTitle": version["versionTitle"], "versionSource": version.get("versionSource"),
+                "sha256": version["sha256"], "fetched_from": version.get("url"), "lines": dict(counts),
+                "rights_basis": version["rights"]["basis"], "lang": lang, "tags": work_tags, "source": SOURCE,
+                **release_fields(source_licence=version["license"], credit=Credit(f"{version['versionTitle']}, via Sefaria", CREDIT.url)),
+            }
+            guard.admit(record)
+            records.append(record)
     finally:
-        for f in outs.values():
+        for f in fhs.values():
             f.close()
         index.close()
-    with gzip.open(config.output / RIGHTS_INDEX_FILE, "wt", encoding="utf-8") as f:
-        for r in records:
-            f.write(json.dumps(r, ensure_ascii=False, sort_keys=True) + "\n")
+        index_raw.close()
+    for k, p in tmp.items():
+        os.replace(p, out / names[k])
+    os.replace(index_tmp, out / LINE_INDEX_FILE)
+    rights = "".join(json.dumps(r, ensure_ascii=False, sort_keys=True) + "\n" for r in records).encode("utf-8")
+    atomic_write(out / RIGHTS_INDEX_FILE, gzip.compress(rights, mtime=0))
     files = {}
-    for (s, g), fh in outs.items():
-        p = Path(fh.name)
-        prof = length_profile(lengths[(s, g)]) if lengths[(s, g)] else {}
-        files[p.name] = {"subset": s, "lang": g, "lines": len(lengths[(s, g)]), "sha256": _sha256(p), "bytes": p.stat().st_size,
-                         "length_profile": prof, "length_profile_passes": profile_passes(prof) if prof else {}}
+    for k, n in names.items():
+        prof = length_profile(lengths[k]) if lengths[k] else {}
+        files[n] = {"subset": k[0], "lang": k[1], "lines": len(lengths[k]), "sha256": _sha256(out / n), "bytes": (out / n).stat().st_size,
+                    "length_profile": prof, "length_profile_passes": profile_passes(prof) if prof else {}}
     card = {
         "schema": CARD_SCHEMA, "name": f"Sefaria open-licence Hebrew texts ({config.lane})",
-        "builder": {"package": "htext", "version": __version__}, "credit": CREDIT.as_dict(),
+        "builder": {"package": "htext", "version": __version__, "code": CODE_VERSION}, "credit": CREDIT.as_dict(),
         "licence": {"outputs": RELEASE_LICENCES[config.lane]}, "htext_release": guard.release, "release": guard.summary(),
         "text_quality": "transcription", "source_tag": SOURCE,
         "source": {k: sources[k] for k in ("export", "rights_rule") if k in sources} | {"sources_sha256": _sha256(config.sources)},
         "works": len({r["title"] for r in records}), "versions": len(records), "out": out_list,
         "inputs": {"eval_reservations": reservations.card() if reservations else [], "leakage_fixtures": protected.sources,
                    "dedup_against": [{"file": p.name, "sha256": _sha256(p)} for p in config.dedup_against],
+                   "dedup_hashes": {"file": dedup.name, "sha256": _sha256(dedup)} if dedup else None,
                    "length_profile_source": config.length_profile_source,
-                   "fit_check": config.fit_provenance if config.fit is not None else {"ran": False}},
+                   "fit_check": config.fit_provenance if fit_on else {"ran": False}},
         "corpus_version": config.corpus_version, "contamination_policy": "v2 amendment 1: matches are tags (line index), not drops",
         "parameters": {"seed": config.seed, "niqqud_threshold": config.niqqud_threshold, "max_line_chars": MAX_LINE_CHARS},
         "files": files, "pipeline": dict(sorted(stats.items())),
         "length_profile_targets": {k: list(v) if isinstance(v, tuple) else v for k, v in PROFILE_TARGETS.items()},
     }
-    (config.output / "corpus_card.json").write_text(json.dumps(card, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (config.output / "CORPUS_CARD.md").write_text(render_card(card), encoding="utf-8")
-    names = sorted(p.name for p in config.output.iterdir() if p.is_file() and p.name != "SHA256SUMS")
-    (config.output / "SHA256SUMS").write_text("".join(f"{_sha256(config.output / n)}  {n}\n" for n in names), encoding="utf-8")
+    atomic_write(out / "corpus_card.json", (json.dumps(card, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+    atomic_write(out / "CORPUS_CARD.md", render_card(card).encode("utf-8"))
+    sums = sorted(p.name for p in out.iterdir() if p.is_file() and p.name != "SHA256SUMS" and not p.name.startswith("."))
+    atomic_write(out / "SHA256SUMS", "".join(f"{_sha256(out / n)}  {n}\n" for n in sums).encode("utf-8"))
     return card
 
 

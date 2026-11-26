@@ -47,3 +47,17 @@ licence and passes the rights rule, in the three htext releases (decision 0022).
 htext sefaria build --sources data/sefaria/v3/sources.v3.json --inputs <export dir> --output out/sefaria-v3-cc0 \
   --lane cc0 --reserved <eval_reservations.json> --dedup-against <other htext lines> --length-profile <S10b lines>
 ```
+
+## Incremental builds (power cuts, sleep)
+- **Shards:** the build is cut into one shard per version. Each writes its `lines.tsv`, then a `receipt.json` (input key,
+  line count, sha256), both atomically: temp file, fsync, rename.
+- **Resume:** a rerun skips every shard whose receipt matches its input key and whose lines file matches its sha256,
+  and resumes at the first missing shard. The input key covers the version sha256, the work's tags, the lane and the
+  build parameters.
+- **Dedup-against:** the other releases' lines become one pinned hash file (`dedup_against_<pin>.bin`), computed once.
+- **Merge:** a deterministic pass concatenates the shards in sources order, removes in-corpus duplicates (first
+  occurrence wins), and writes every output and the card atomically. Nothing final is written until all shards exist.
+- **Defaults:** shards live in `<output>.shards` unless `--work-dir` is given; `--jobs N` runs shards in parallel, and
+  each worker builds its own fit checker.
+- **Tests:** `tests/test_sefaria.py` interrupts a build mid-shard, resumes it, and checks the output is byte-identical to
+  an uninterrupted run.
