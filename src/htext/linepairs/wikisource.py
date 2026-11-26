@@ -34,6 +34,29 @@ from htext.linepairs import rivok_align as A
 from htext.linepairs import rivok_labels as L
 
 MAX_CER = 0.25
+CODE_VERSION = "linepairs-wikisource-1"
+
+
+def atomic_write(path: Path, data: str) -> None:
+    """Write via a temp file in the same dir, fsync, rename: a crash leaves the old file or none, never half."""
+    import os
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f".{path.name}.tmp{os.getpid()}")
+    with tmp.open("w", encoding="utf-8") as f:
+        f.write(data)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
+
+
+def input_key(job: dict[str, Any]) -> str:
+    h = hashlib.sha256()
+    for k in ("index", "n", "rev", "quality", "scan_sha1", "model_sha256", "lang", "wikitext"):
+        h.update(f"{k}={job.get(k)}\n".encode("utf-8"))
+    h.update(CODE_VERSION.encode())
+    h.update(json.dumps(job["tags"]).encode())
+    h.update(json.dumps(job.get("ok_chars")).encode())
+    return h.hexdigest()
 
 
 # ---------------------------------------------------------------- page images
@@ -108,6 +131,21 @@ def label_of(r: dict[str, Any], ok_chars: set[str] | None) -> tuple[str | None, 
 def do_page(job: dict[str, Any]) -> dict[str, Any]:
     out = Path(job["out"])
     book, n = job["book"], job["n"]
+    receipt = out / "receipts" / book / f"p{n:04d}.json"
+    key_ = input_key(job)
+    if receipt.exists():
+        done = json.loads(receipt.read_text(encoding="utf-8"))
+        if done.get("input_key") == key_:
+            done["resumed"] = True
+            return done
+    res = _compute_page(job, out, book, n)
+    res["input_key"] = key_
+    if "error" not in res:  # a failed page is retried on the next run
+        atomic_write(receipt, json.dumps(res, ensure_ascii=False, sort_keys=True))
+    return res
+
+
+def _compute_page(job: dict[str, Any], out: Path, book: str, n: int) -> dict[str, Any]:
     res: dict[str, Any] = {"book": book, "n": n, "page_id": job["page_id"], "rev": job["rev"], "quality": job["quality"],
                            "tags": job["tags"], "kept": [], "dropped": collections.Counter(), "ocr_lines": 0}
     try:
@@ -117,7 +155,10 @@ def do_page(job: dict[str, Any]) -> dict[str, Any]:
         hdir.mkdir(parents=True, exist_ok=True)
         hocr = hdir / f"p{n:04d}.hocr"
         if not hocr.exists():
-            A.run_tesseract(png, hdir / f"p{n:04d}", 3, lang=job["lang"])
+            import os
+            tmpbase = hdir / f".tmp{os.getpid()}_p{n:04d}"
+            A.run_tesseract(png, tmpbase, 3, lang=job["lang"])
+            os.replace(tmpbase.with_suffix(".hocr"), hocr)  # a partial hOCR is never reused
         body, notes, seen = A.clean_wikitext(job["wikitext"])
         rows = A.align_page(A.read_hocr(hocr), (body + " " + notes).strip(), "wiki")
     except Exception as e:  # noqa: BLE001 - a page failure is a counted drop, never a crash
@@ -156,7 +197,14 @@ def main() -> int:
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--jobs", type=int, default=6)
     ap.add_argument("--books", nargs="*", default=None)
+    ap.add_argument("--scan-ledger", type=Path, required=True, help="jsonl: index, file, sha1 of each downloaded scan")
     a = ap.parse_args()
+    scan_sha1 = {}
+    for line in a.scan_ledger.read_text(encoding="utf-8").splitlines():
+        r = json.loads(line)
+        if r.get("ok"):
+            scan_sha1[r["index"]] = r["sha1"]
+    model_sha256 = hashlib.sha256((a.tessdata / f"{a.lang}.traineddata").read_bytes()).hexdigest()
     excluded: set[str] = set()
     for p in a.exclude:
         d = json.loads(p.read_text(encoding="utf-8"))
@@ -173,7 +221,7 @@ def main() -> int:
         if title in excluded:
             skipped["eval_test_or_dev_page"] += 1
             continue
-        if p["index"] not in scans:
+        if p["index"] not in scans or p["index"] not in scan_sha1:
             skipped["no_scan"] += 1
             continue
         tags = ["validated_page"] if p["quality"] == 4 else []
@@ -182,17 +230,19 @@ def main() -> int:
         scan = a.scan_dir / (book_key(p["index"]) + Path(p["index"]).suffix.lower())
         jobs.append({"out": str(a.out), "book": book_key(p["index"]), "index": p["index"], "n": p["n"], "page_id": p["page_id"],
                      "rev": p["rev"], "quality": p["quality"], "tags": tags, "scan": str(scan), "wikitext": p["wikitext"],
-                     "tessdata": str(a.tessdata), "lang": a.lang, "ok_chars": ok_chars})
+                     "tessdata": str(a.tessdata), "lang": a.lang, "ok_chars": ok_chars,
+                     "scan_sha1": scan_sha1[p["index"]], "model_sha256": model_sha256})
     print(f"{len(jobs)} pages; skipped {dict(skipped)}", flush=True)
     a.out.mkdir(parents=True, exist_ok=True)
-    pages_out = (a.out / "pages.jsonl").open("w", encoding="utf-8")
-    pool = (a.out / "pool.tsv").open("w", encoding="utf-8")
+    pages_out = (a.out / ".pages.jsonl.tmp").open("w", encoding="utf-8")
+    pool = (a.out / ".pool.tsv.tmp").open("w", encoding="utf-8")
     pool.write("book\tindex\tpage\tline\tquality\ttags\tcer_nomarks\tlabel\n")
     totals = collections.Counter()
     index_of = {j["book"]: j["index"] for j in jobs}
     with ProcessPoolExecutor(a.jobs) as ex:
         for k, r in enumerate(ex.map(do_page, jobs, chunksize=1), 1):
             totals["pages"] += 1
+            totals["pages_resumed"] += bool(r.get("resumed"))
             totals["ocr_lines"] += r["ocr_lines"]
             totals["kept"] += len(r["kept"])
             if "error" in r:
@@ -201,11 +251,15 @@ def main() -> int:
                 totals[f"dropped:{why}"] += c
             for x in r["kept"]:
                 pool.write(f"{r['book']}\t{index_of[r['book']]}\t{r['n']}\t{x['line']}\t{r['quality']}\t{','.join(r['tags'])}\t{x['cer_nomarks']}\t{x['label']}\n")
-            pages_out.write(json.dumps({k2: v for k2, v in r.items() if k2 != "kept"} | {"kept": len(r["kept"])}, ensure_ascii=False) + "\n")
+            pages_out.write(json.dumps({k2: v for k2, v in r.items() if k2 not in ("kept", "resumed")} | {"kept": len(r["kept"])}, ensure_ascii=False, sort_keys=True) + "\n")
             if k % 50 == 0:
                 print(f"{k}/{len(jobs)} pages, kept {totals['kept']}", flush=True)
-    pages_out.close()
-    pool.close()
+    import os
+    for f, name in ((pages_out, "pages.jsonl"), (pool, "pool.tsv")):
+        f.flush()
+        os.fsync(f.fileno())
+        f.close()
+        os.replace(a.out / f".{name}.tmp", a.out / name)
     (a.out / "summary.json").write_text(json.dumps({"skipped": skipped, "totals": totals}, indent=1) + "\n", encoding="utf-8")
     print("DONE", dict(totals))
     return 0
