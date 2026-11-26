@@ -34,7 +34,7 @@ from htext.linepairs import rivok_align as A
 from htext.linepairs import rivok_labels as L
 
 MAX_CER = 0.25
-CODE_VERSION = "linepairs-wikisource-6"
+CODE_VERSION = "linepairs-wikisource-7"
 
 
 def atomic_write(path: Path, data: str) -> None:
@@ -159,7 +159,10 @@ def text_bands(crop) -> int:
     import numpy as np
     a = np.asarray(crop.convert("L"), dtype=np.float32)
     ink = (a < 128).mean(axis=1)
-    on = ink > max(0.02, 0.15 * ink.max())
+    # Threshold tuned on the book-level pilot (2026-11-26): at 0.15 thin typefaces split one line into a top-stroke band
+    # and a baseline band (13.5% false positives); at 0.03, single-line false positives are at most 3.3% and stacked
+    # two-line crops are caught 99% of the time.
+    on = ink > max(0.003, 0.03 * ink.max())
     bands, run = [], 0
     for v in list(on) + [False]:
         if v:
