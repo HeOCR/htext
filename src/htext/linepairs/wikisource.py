@@ -34,7 +34,7 @@ from htext.linepairs import rivok_align as A
 from htext.linepairs import rivok_labels as L
 
 MAX_CER = 0.25
-CODE_VERSION = "linepairs-wikisource-1"
+CODE_VERSION = "linepairs-wikisource-2"
 
 
 def atomic_write(path: Path, data: str) -> None:
@@ -53,8 +53,7 @@ def input_key(job: dict[str, Any]) -> str:
     h = hashlib.sha256()
     for k in ("index", "n", "rev", "quality", "scan_sha1", "model_sha256", "lang", "wikitext"):
         h.update(f"{k}={job.get(k)}\n".encode("utf-8"))
-    h.update(CODE_VERSION.encode())
-    h.update(json.dumps(job["tags"]).encode())
+    h.update(CODE_VERSION.encode())  # HeOCR: tags are not in the key; they are applied when the pool is written
     h.update(json.dumps(job.get("ok_chars")).encode())
     return h.hexdigest()
 
@@ -198,6 +197,7 @@ def main() -> int:
     ap.add_argument("--jobs", type=int, default=6)
     ap.add_argument("--books", nargs="*", default=None)
     ap.add_argument("--scan-ledger", type=Path, required=True, help="jsonl: index, file, sha1 of each downloaded scan")
+    ap.add_argument("--exclude-dev", type=Path, action="append", default=[], help="eval DEV page lists: excluded for DEV hygiene")
     ap.add_argument("--tag-index", action="append", default=[], help="INDEX=TAG: a reporting tag for every page of that Index (never an exclusion)")
     a = ap.parse_args()
     scan_sha1 = {}
@@ -206,11 +206,15 @@ def main() -> int:
         if r.get("ok"):
             scan_sha1[r["index"]] = r["sha1"]
     model_sha256 = hashlib.sha256((a.tessdata / f"{a.lang}.traineddata").read_bytes()).hexdigest()
-    excluded: set[str] = set()
-    for p in a.exclude:
-        d = json.loads(p.read_text(encoding="utf-8"))
-        excluded |= {r["wikisource_page"].split(":", 1)[-1] for r in d["pages"]}
-    excluded_books = {t.rsplit("/", 1)[0] for t in excluded}
+    def titles(paths: list[Path]) -> set[str]:
+        out: set[str] = set()
+        for path in paths:
+            out |= {r["wikisource_page"].split(":", 1)[-1] for r in json.loads(path.read_text(encoding="utf-8"))["pages"]}
+        return out
+    test_pages, dev_pages = titles(a.exclude), titles(a.exclude_dev)
+    excluded = test_pages | dev_pages  # exact pages only; books are never excluded
+    test_books = {t.rsplit("/", 1)[0] for t in test_pages}
+    dev_books = {t.rsplit("/", 1)[0] for t in dev_pages}
     scans = {s["index"]: s for s in json.loads(a.scans.read_text(encoding="utf-8")) if not s.get("error")}
     ok_chars = sorted(L.allowed_chars(a.unicharset)) if a.unicharset else None
     jobs, skipped = [], collections.Counter()
@@ -219,16 +223,21 @@ def main() -> int:
         title = f"{p['index']}/{p['n']}"
         if a.books and p["index"] not in a.books:
             continue
-        if title in excluded:
-            skipped["eval_test_or_dev_page"] += 1
+        if title in test_pages:
+            skipped["eval_test_page"] += 1
+            continue
+        if title in dev_pages:
+            skipped["eval_dev_page"] += 1
             continue
         if p["index"] not in scans or p["index"] not in scan_sha1:
             skipped["no_scan"] += 1
             continue
         tags = ["validated_page"] if p["quality"] == 4 else []
         tags += [tg for ix, tg in (x.split("=", 1) for x in a.tag_index) if ix == p["index"]]
-        if p["eval_reserved_book"] or p["index"] in excluded_books:
-            tags.append("same_source_as_eval")
+        if p["eval_reserved_book"] or p["index"] in test_books:
+            tags.append("same_source_as_eval_test")
+        if p["index"] in dev_books:
+            tags.append("same_source_as_eval_dev")
         scan = a.scan_dir / (book_key(p["index"]) + Path(p["index"]).suffix.lower())
         jobs.append({"out": str(a.out), "book": book_key(p["index"]), "index": p["index"], "n": p["n"], "page_id": p["page_id"],
                      "rev": p["rev"], "quality": p["quality"], "tags": tags, "scan": str(scan), "wikitext": p["wikitext"],
@@ -242,7 +251,8 @@ def main() -> int:
     totals = collections.Counter()
     index_of = {j["book"]: j["index"] for j in jobs}
     with ProcessPoolExecutor(a.jobs) as ex:
-        for k, r in enumerate(ex.map(do_page, jobs, chunksize=1), 1):
+        for k, (job, r) in enumerate(zip(jobs, ex.map(do_page, jobs, chunksize=1)), 1):
+            r["tags"] = job["tags"]
             totals["pages"] += 1
             totals["pages_resumed"] += bool(r.get("resumed"))
             totals["ocr_lines"] += r["ocr_lines"]
