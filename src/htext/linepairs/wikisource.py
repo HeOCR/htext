@@ -34,7 +34,7 @@ from htext.linepairs import rivok_align as A
 from htext.linepairs import rivok_labels as L
 
 MAX_CER = 0.25
-CODE_VERSION = "linepairs-wikisource-3"
+CODE_VERSION = "linepairs-wikisource-4"
 
 
 def atomic_write(path: Path, data: str) -> None:
@@ -92,6 +92,16 @@ def page_image(scan: Path, n: int, out: Path) -> Path:
     return out
 
 
+_HE_SECTION = re.compile(r"<\s*קטע\b[^>]*>")
+_HEADING = re.compile(r"={2,}")
+_RESIDUE = re.compile(r"[#=/<>\\*{}|]|[A-Za-z]{2,}")
+
+
+def _pre_clean(wikitext: str) -> str:
+    """HeOCR: he.wikisource markup Rivok's cleaner does not know: Hebrew section tags and in-text heading markers."""
+    return _HEADING.sub(" ", _HE_SECTION.sub(" ", wikitext))
+
+
 def _hebrew_share(s: str) -> float:
     heb = len(re.findall(r"[א-ת]", s))
     lat = len(re.findall(r"[A-Za-z]", s))
@@ -129,6 +139,8 @@ def label_of(r: dict[str, Any], ok_chars: set[str] | None) -> tuple[str | None, 
         return None, "abbreviation"
     if (L.NOTE.search(label) and not L.NOTE.search(ocr)) or ("[" in label and "[" not in ocr):
         return None, "editor_note"
+    if _RESIDUE.search(label) and not _RESIDUE.search(ocr):
+        return None, "markup_residue"  # HeOCR: wikitext the cleaner missed; never let it into a label
     return label, None
 
 
@@ -164,7 +176,7 @@ def _compute_page(job: dict[str, Any], out: Path, book: str, n: int) -> dict[str
             tmpbase = hdir / f".tmp{os.getpid()}_p{n:04d}"
             A.run_tesseract(png, tmpbase, 3, lang=job["lang"])
             os.replace(tmpbase.with_suffix(".hocr"), hocr)  # a partial hOCR is never reused
-        body, notes, seen = A.clean_wikitext(job["wikitext"])
+        body, notes, seen = A.clean_wikitext(_pre_clean(job["wikitext"]))
         lines = A.read_hocr(hocr)
         # HeOCR: bilingual pages (Hebrew with an English translation): Latin-script OCR lines have no Hebrew text to
         # align with and break the anchors of the Hebrew lines around them, so they stay out of the alignment.
