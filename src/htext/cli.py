@@ -214,6 +214,24 @@ def _gutenberg_build(args: argparse.Namespace) -> int:
     return 0
 
 
+def _sefaria_build(args: argparse.Namespace) -> int:
+    from htext.sefaria import SefariaConfig, build as build_sefaria
+
+    lengths, profile_source = _length_profile(args.length_profile)
+    fit, allow_maqaf, provenance = _fit(args)
+    leakage = sorted(args.leakage.glob("*.hashes.json")) if args.leakage.is_dir() else [args.leakage]
+    card = build_sefaria(SefariaConfig(
+        sources=args.sources, inputs=args.inputs, output=args.output, lane=args.lane, length_profile=lengths,
+        length_profile_source=profile_source, reservations=args.reserved, leakage_fixtures=leakage,
+        dedup_against=args.dedup_against, seed=args.seed, corpus_version=args.corpus_version, allow_maqaf=allow_maqaf,
+        fit=fit, fit_provenance=provenance,
+    ))
+    for name, info in card["files"].items():
+        print(f"{name}: {info['lines']} lines")
+    print(f"works: {card['works']}, versions: {card['versions']}, out: {len(card['out'])}")
+    return 0
+
+
 def _tanakh_build(args: argparse.Namespace) -> int:
     from htext.tanakh import WLC_COMMIT, TanakhConfig, build as build_tanakh
 
@@ -382,6 +400,23 @@ def main(argv: list[str] | None = None) -> int:
     g_build.add_argument("--hocrsyngen-commit", default=None)
     g_build.add_argument("--no-fit-check", action="store_true")
     g_build.set_defaults(handler=_gutenberg_build)
+
+    sefaria = commands.add_parser("sefaria", help="Sefaria open-licence Hebrew texts (v3, one build per release lane)")
+    sefaria_commands = sefaria.add_subparsers(dest="sefaria_command", required=True)
+    s_build = sefaria_commands.add_parser("build", help="build one lane from the pinned sources and the fetched version files")
+    s_build.add_argument("--sources", type=Path, default=Path("data/sefaria/v3/sources.v3.json"))
+    s_build.add_argument("--inputs", type=Path, required=True, help="dir with the version files named in the sources")
+    s_build.add_argument("--output", type=Path, required=True)
+    s_build.add_argument("--lane", choices=("cc0", "by", "by-sa"), required=True)
+    s_build.add_argument("--reserved", type=Path, action="append", default=[], help="eval reservations: reserved works are tagged, not dropped")
+    s_build.add_argument("--leakage", type=Path, default=DEFAULT_LEAKAGE)
+    s_build.add_argument("--dedup-against", type=Path, action="append", default=[], help="another htext release's lines file: its lines are removed (repeatable)")
+    s_build.add_argument("--seed", type=int, default=15)
+    s_build.add_argument("--corpus-version", default="v3")
+    s_build.add_argument("--length-profile", type=Path, default=None)
+    s_build.add_argument("--hocrsyngen-commit", default=None)
+    s_build.add_argument("--no-fit-check", action="store_true")
+    s_build.set_defaults(handler=_sefaria_build)
 
     tanakh = commands.add_parser("tanakh", help="the Westminster Leningrad Codex, pointed and plain")
     tanakh_commands = tanakh.add_subparsers(dest="tanakh_command", required=True)
