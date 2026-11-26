@@ -56,7 +56,6 @@ def test_public_domain_cc0_and_section_6_are_cc0():
         ("CC BY-ND 4.0", "no_derivatives"),
         ("unknown", "unlisted_label"),
         ("GFDL", "unlisted_label"),
-        ("PD", "unlisted_label"),  # Sefaria's variant label needs a per-version check first
         ("public domain", "unlisted_label"),  # exact match only
         ("", "unknown"),
         (None, "unknown"),
@@ -176,3 +175,8 @@ def test_registry_rows_agree_with_the_gate_and_the_card(row):
                 assert release_for_licence(entry["source_licence"]) == row["htext_release"]
                 # A work with no lines in the build is in no release.
                 assert entry["htext_release"] in (row["htext_release"], None)
+
+
+def test_sefaria_pd_label_is_an_alias_of_public_domain():
+    # Lead decision 2026-11-26: the per-version rights rule (all authors dead by 1955) runs before the gate.
+    assert release_for_licence("PD") == release_for_licence("Public Domain") == "cc0"

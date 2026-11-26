@@ -34,6 +34,7 @@ S6_LABEL = "Israel Copyright Act 2007 s.6 (not protected)"
 LICENCE_RELEASE: dict[str, str] = {
     # Public domain and public-domain dedications.
     "Public Domain": "cc0",  # PBY dump LICENSE; Sefaria's label
+    "PD": "cc0",  # Sefaria's label, an alias of Public Domain; lead decision 2026-11-26
     "CC0": "cc0",  # Sefaria's label (hocrgen decision 2026-11-11, on #183)
     "CC0-1.0": "cc0",
     S6_LABEL: "cc0",
