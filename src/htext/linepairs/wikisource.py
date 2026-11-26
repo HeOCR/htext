@@ -198,6 +198,7 @@ def main() -> int:
     ap.add_argument("--jobs", type=int, default=6)
     ap.add_argument("--books", nargs="*", default=None)
     ap.add_argument("--scan-ledger", type=Path, required=True, help="jsonl: index, file, sha1 of each downloaded scan")
+    ap.add_argument("--tag-index", action="append", default=[], help="INDEX=TAG: a reporting tag for every page of that Index (never an exclusion)")
     a = ap.parse_args()
     scan_sha1 = {}
     for line in a.scan_ledger.read_text(encoding="utf-8").splitlines():
@@ -225,6 +226,7 @@ def main() -> int:
             skipped["no_scan"] += 1
             continue
         tags = ["validated_page"] if p["quality"] == 4 else []
+        tags += [tg for ix, tg in (x.split("=", 1) for x in a.tag_index) if ix == p["index"]]
         if p["eval_reserved_book"] or p["index"] in excluded_books:
             tags.append("same_source_as_eval")
         scan = a.scan_dir / (book_key(p["index"]) + Path(p["index"]).suffix.lower())
