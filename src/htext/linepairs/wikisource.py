@@ -34,7 +34,7 @@ from htext.linepairs import rivok_align as A
 from htext.linepairs import rivok_labels as L
 
 MAX_CER = 0.25
-CODE_VERSION = "linepairs-wikisource-4"
+CODE_VERSION = "linepairs-wikisource-5"
 
 
 def atomic_write(path: Path, data: str) -> None:
@@ -141,7 +141,35 @@ def label_of(r: dict[str, Any], ok_chars: set[str] | None) -> tuple[str | None, 
         return None, "editor_note"
     if _RESIDUE.search(label) and not _RESIDUE.search(ocr):
         return None, "markup_residue"  # HeOCR: wikitext the cleaner missed; never let it into a label
+    # HeOCR (QA v1): a pointed print whose label is only partly pointed teaches a model to drop niqqud.
+    o_letters = len(re.findall(r"[א-ת]", ocr)) or 1
+    o_niq = len(L.NIQ.findall(ocr)) / o_letters
+    if o_niq >= 0.25 and len(L.NIQ.findall(label)) / letters < 0.5 * o_niq:
+        return None, "printed_vowels_partial"
+    # HeOCR (QA v1): printed digits (verse or note numbers) that the label renders otherwise or leaves out.
+    if re.search(r"[0-9]", ocr) and not re.search(r"[0-9]", label):
+        return None, "digits_missing"
     return label, None
+
+
+def text_bands(crop) -> int:
+    """Number of text lines in a crop, from its row ink profile: bands at least 40% as tall as the tallest.
+    Niqqud and dots make thin bands, so they do not count; two printed lines make two comparable bands."""
+    import numpy as np
+    a = np.asarray(crop.convert("L"), dtype=np.float32)
+    ink = (a < 128).mean(axis=1)
+    on = ink > max(0.02, 0.15 * ink.max())
+    bands, run = [], 0
+    for v in list(on) + [False]:
+        if v:
+            run += 1
+        elif run:
+            bands.append(run)
+            run = 0
+    if not bands:
+        return 0
+    tall = max(bands)
+    return sum(b >= 0.4 * tall for b in bands)
 
 
 # ---------------------------------------------------------------- one page
@@ -197,6 +225,17 @@ def _compute_page(job: dict[str, Any], out: Path, book: str, n: int) -> dict[str
             res["dropped"][why] += 1
         else:
             keep.append(dict(r, gt=label))
+    if keep:
+        from PIL import Image
+        page_im = Image.open(png).convert("L")
+        single = []
+        for r in keep:
+            x0, y0, x1, y1 = r["bbox"]
+            if text_bands(page_im.crop((x0, y0, x1, y1))) > 1:
+                res["dropped"]["multi_line_box"] += 1  # HeOCR (QA v1): the box holds two printed lines, the label one
+            else:
+                single.append(r)
+        keep = single
     if keep:
         A.crop_lines(png, keep, out / "lines" / book / f"p{n:04d}", f"p{n:04d}")
     res["kept"] = [{"line": r["line"], "label": r["gt"], "ocr": r["ocr"], "cer_nomarks": r["cer_nomarks"], "bbox": r["bbox"]} for r in keep]
