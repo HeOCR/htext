@@ -107,9 +107,10 @@ They are built by HeOCR from Hebrew Wikisource's proofread pages and their scans
 `text_licence`.
 
 ## Evaluation hygiene
-- **Exclusion:** HeOCR's exact evaluation test pages and development pages are excluded, page by page. Other pages of
-  the same books are included and tagged (`same_source_as_eval_test`, `same_source_as_eval_dev`), so results can be
-  reported both ways.
+- **Exclusion:** HeOCR's exact evaluation test pages and development pages are excluded, page by page; no crop comes
+  from them (checked by HeOCR's independent CLEAN). Other pages of the same books may be included.
+- **Tags kept private:** which rows share a book with an evaluation set is kept in a private sidecar, so evaluations
+  can report results both ways without naming the private sets here.
 
 ## Quality
 - **Label noise:** a manual check of 120 random lines after the final rules found about 3% label defects. Most are

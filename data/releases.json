@@ -289,6 +289,18 @@
         "doi": "10.5281/zenodo.24521432",
         "concept_doi": "10.5281/zenodo.24521431"
       }
+    },
+    {
+      "corpus": "hebrew-print-line-pairs",
+      "version": "v1",
+      "card": "data/hebrew-print-line-pairs/v1/corpus_card.json",
+      "release_tag": "hebrew-print-line-pairs-v1",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {"text": "Hebrew Wikisource contributors (text, per-page history); Wikimedia Commons scans; line-pairing method by Rivok Labs", "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/caed0cab2a2c3b13f63394a7a82cbd246cafa1dc/README.md"},
+      "huggingface": "HeOCR/hebrew-print-line-pairs",
+      "huggingface_revision": "caed0cab2a2c3b13f63394a7a82cbd246cafa1dc"
     }
   ]
 }

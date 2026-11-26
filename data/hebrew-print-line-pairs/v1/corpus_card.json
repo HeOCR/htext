@@ -1,0 +1,40 @@
+{
+  "schema": "hebrew_print_line_pairs_card.v1",
+  "name": "Hebrew print line pairs",
+  "corpus": "hebrew-print-line-pairs",
+  "corpus_version": "v1",
+  "htext_release": "by-sa",
+  "source_licence": "CC BY-SA 4.0",
+  "credit": {
+    "text": "Hebrew Wikisource contributors (text, per-page history); Wikimedia Commons scans; line-pairing method by Rivok Labs",
+    "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/caed0cab2a2c3b13f63394a7a82cbd246cafa1dc/README.md"
+  },
+  "text_quality": "transcription",
+  "kind": "image_text_line_pairs",
+  "rows": 43435,
+  "image_licence_basis": "pd_il (public domain in Israel) for every public row",
+  "files": {
+    "data/train-00000.parquet": {
+      "rows": 20000,
+      "sha256": "8279648af9d06400aa94c72a370f1fde80a56c5f1d35aa575d98c5733c38ed69"
+    },
+    "data/train-00001.parquet": {
+      "rows": 20000,
+      "sha256": "abcb7111406fa225786a2fb666f23b15a05e548ad3771958e0a215d1cfd703d1"
+    },
+    "data/train-00002.parquet": {
+      "rows": 3435,
+      "sha256": "764fa3518297cbd513f5af5c321ec34c8a72b13bf238186268b33843e43e490f"
+    }
+  },
+  "huggingface": "HeOCR/hebrew-print-line-pairs",
+  "huggingface_revision": "caed0cab2a2c3b13f63394a7a82cbd246cafa1dc",
+  "huggingface_tag": "v1",
+  "clean": "signed by heocr-clean (record in the private restricted-eval repository); all rows keep",
+  "builder": {
+    "package": "htext",
+    "module": "htext.linepairs",
+    "pr": "HeOCR/htext#58"
+  },
+  "label_noise_estimate": "about 3% (manual check of 120 random lines)"
+}
