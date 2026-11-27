@@ -1,0 +1,305 @@
+{
+ "schema": "htext_unified_card.v1",
+ "name": "htext-cc0",
+ "corpus_version": "v1",
+ "htext_release": "cc0",
+ "credit": {
+  "text": "the htext component releases listed in NOTICE.md (Sefaria and its editions, Project Ben-Yehuda, Hebrew Wikisource contributors, the Knesset, Project Gutenberg, OSHB/WLC)",
+  "url": "https://huggingface.co/datasets/HeOCR/htext-cc0/blob/f74bcfcb2eca39194c3962ec5e82a0c45f11ed69/NOTICE.md"
+ },
+ "source_licences": [
+  "Israel Copyright Act 2007 s.6 (not protected)",
+  "Public Domain"
+ ],
+ "sources": [
+  {
+   "source_licence": "Israel Copyright Act 2007 s.6 (not protected)"
+  },
+  {
+   "source_licence": "Public Domain"
+  }
+ ],
+ "text_quality": {
+  "variant:niqqud": "transcription",
+  "variant:ocr": "ocr_layer",
+  "variant:plain": "transcription",
+  "variant:transcription": "transcription"
+ },
+ "files": {
+  "variant:niqqud": {
+   "rows": 2787245,
+   "text_quality": "transcription"
+  },
+  "variant:ocr": {
+   "rows": 10521382,
+   "text_quality": "ocr_layer"
+  },
+  "variant:plain": {
+   "rows": 40241565,
+   "text_quality": "transcription"
+  },
+  "variant:transcription": {
+   "rows": 20796832,
+   "text_quality": "transcription"
+  }
+ },
+ "shards": {
+  "data/train-00000.parquet": {
+   "rows": 2000000,
+   "sha256": "231c9b9c69f49cc9438d0776e6efa52a6f59694e4c25f096f9c9fdc205f97ff0",
+   "bytes": 39169144
+  },
+  "data/train-00001.parquet": {
+   "rows": 2000000,
+   "sha256": "c1dbaec49602fa2a0729c1d3c48be4b9d4053ba53d3b8ce7fba4a90961c31aea",
+   "bytes": 33186808
+  },
+  "data/train-00002.parquet": {
+   "rows": 2000000,
+   "sha256": "17c054e4693b2474a68015fa5edd387c6d696adc5aa9def7fd3d106b227b7536",
+   "bytes": 32542952
+  },
+  "data/train-00003.parquet": {
+   "rows": 2000000,
+   "sha256": "0a3d59dba588798cfd596abf440fa8b60cd45f5de18c5a9f16e2cfd8bec9255e",
+   "bytes": 31800036
+  },
+  "data/train-00004.parquet": {
+   "rows": 2000000,
+   "sha256": "7bb45ee2a17ae5282668c3191bab607335e91dcb42abdc2a0f4351d90a84cc43",
+   "bytes": 32099684
+  },
+  "data/train-00005.parquet": {
+   "rows": 2000000,
+   "sha256": "b95d5fdfe89f8634666405b65dc8886fea67cc31a830d498ce9e9e1cbe0102dd",
+   "bytes": 31373722
+  },
+  "data/train-00006.parquet": {
+   "rows": 2000000,
+   "sha256": "c25f70c67fb44af4f1bade852e7dcc7c6c25396018d312559411ad2bdf634d08",
+   "bytes": 31836252
+  },
+  "data/train-00007.parquet": {
+   "rows": 2000000,
+   "sha256": "5cb356cc19e88150c36e1686e385eeedd091e5c3fa6309e84da6a7b8dd2f92d1",
+   "bytes": 31546849
+  },
+  "data/train-00008.parquet": {
+   "rows": 2000000,
+   "sha256": "316aad6ac641857c8f23bd86270a2e4635f7d87a22d76dc548c502e3b0dbf02f",
+   "bytes": 32063009
+  },
+  "data/train-00009.parquet": {
+   "rows": 2000000,
+   "sha256": "3c3bf0a2ab4331fcb071ae9a383b3b84bc7f6fb16c796f61d5a0f50e57aa6adc",
+   "bytes": 32388720
+  },
+  "data/train-00010.parquet": {
+   "rows": 2000000,
+   "sha256": "d42a02e627153a8c6f8d40ed881dcffbe15bb238c819fe9b3a84f99e74fa2a9d",
+   "bytes": 32398534
+  },
+  "data/train-00011.parquet": {
+   "rows": 2000000,
+   "sha256": "99cd45d90fc6c9e952b17297d4ba72b72fb126fa7de1ad18e381711a60ced3f7",
+   "bytes": 32452532
+  },
+  "data/train-00012.parquet": {
+   "rows": 2000000,
+   "sha256": "aff385758c2c23ee64a953ddf48f6d2d22224d87f8b247f6e00c28016c45fa8f",
+   "bytes": 33160862
+  },
+  "data/train-00013.parquet": {
+   "rows": 2000000,
+   "sha256": "f95451bcfee93627b9e453f3fb8f273bf2e5feb8a4a84b7aaba41eeba48d3dde",
+   "bytes": 32984838
+  },
+  "data/train-00014.parquet": {
+   "rows": 2000000,
+   "sha256": "53815bef459cfdaf2943a46f27692aa5c180c86666eba96a8683c63fa2da68c2",
+   "bytes": 39368253
+  },
+  "data/train-00015.parquet": {
+   "rows": 2000000,
+   "sha256": "1fa5aa4d94c750940318d71f286e98d03a303c5215b187dc5b83d6f376886d42",
+   "bytes": 39944514
+  },
+  "data/train-00016.parquet": {
+   "rows": 2000000,
+   "sha256": "4e2593e2b24e88f424e85bd6b775357381e4a44708648a0c30ca19018eb65030",
+   "bytes": 35682450
+  },
+  "data/train-00017.parquet": {
+   "rows": 2000000,
+   "sha256": "05e8f4df44fa07d87ec0fd8ae3fb7b3878e6754876a4b06b7decdceef176ec49",
+   "bytes": 34435996
+  },
+  "data/train-00018.parquet": {
+   "rows": 2000000,
+   "sha256": "48acdfc358006097ef828ac99980ae698eb0d37b99a5dc5f84ba6bccac5e9c5c",
+   "bytes": 34249375
+  },
+  "data/train-00019.parquet": {
+   "rows": 2000000,
+   "sha256": "c42f4969d228a406250e9c968678544df27f9a4ba29d136bdef840ff181740c2",
+   "bytes": 34220135
+  },
+  "data/train-00020.parquet": {
+   "rows": 2000000,
+   "sha256": "01b4b2242f18a8c99b077e811c1550c86c0600da4166f840f3022cf7c4448fc2",
+   "bytes": 34169791
+  },
+  "data/train-00021.parquet": {
+   "rows": 2000000,
+   "sha256": "d95b51b8ee1c95f0a5943da58ba81a07a4e69797f543a0ca55a09ebaf04f0e0b",
+   "bytes": 33935427
+  },
+  "data/train-00022.parquet": {
+   "rows": 2000000,
+   "sha256": "0ddaa6232ac05d394c819a1a1bcf903e7c4adc147d3f1fa733cfeab5fa59f881",
+   "bytes": 33306173
+  },
+  "data/train-00023.parquet": {
+   "rows": 2000000,
+   "sha256": "56c3f8f1b1793ab84d18a209a242449b4589dfd4daab90827791e69bc92ee7ed",
+   "bytes": 33520354
+  },
+  "data/train-00024.parquet": {
+   "rows": 2000000,
+   "sha256": "76a21b072282cd785fb851fb8a3b67c38a556ec04961837384c99e62e282b8d7",
+   "bytes": 33673958
+  },
+  "data/train-00025.parquet": {
+   "rows": 2000000,
+   "sha256": "737b3a9488d1901003220307235da21b71f53fe59c0dac36a3014befdb4fd89c",
+   "bytes": 33723329
+  },
+  "data/train-00026.parquet": {
+   "rows": 2000000,
+   "sha256": "c06c722e43a8aec7b05ed0067f978d4ae9f4ca4849d52eacd60a81f6e72d15c2",
+   "bytes": 33598915
+  },
+  "data/train-00027.parquet": {
+   "rows": 2000000,
+   "sha256": "e4b14a51fe4d5cb76a2893aaede8b997b892d4e38d756e8adc2a60a7841589ed",
+   "bytes": 33305148
+  },
+  "data/train-00028.parquet": {
+   "rows": 2000000,
+   "sha256": "0f22e661fee42c86a8466c919f44f1154546b40c756f6e0c9f708641a2622004",
+   "bytes": 33415514
+  },
+  "data/train-00029.parquet": {
+   "rows": 2000000,
+   "sha256": "ae8657d52ca8eb9863bf533e30247c0a1615113852e4a9361919648df84d6c50",
+   "bytes": 33289866
+  },
+  "data/train-00030.parquet": {
+   "rows": 2000000,
+   "sha256": "3191772cbd23df15c4ee9462cd56aa447fc30ac4d46fdb4ba749780794cc7c24",
+   "bytes": 33526722
+  },
+  "data/train-00031.parquet": {
+   "rows": 2000000,
+   "sha256": "0bde208b6dcb45fcc3cce303906039ec68e3b0e7e6c60cbebd07489e2311352e",
+   "bytes": 33693612
+  },
+  "data/train-00032.parquet": {
+   "rows": 2000000,
+   "sha256": "4589a0445eaec8d441c0bb9a8a9e2a43aa9dcc4f5d4234c9593692fe35a7e799",
+   "bytes": 33618100
+  },
+  "data/train-00033.parquet": {
+   "rows": 2000000,
+   "sha256": "717e012f41267c92c28d2edae07c17a15943e271ec25a124e4df6ff974633d10",
+   "bytes": 33656024
+  },
+  "data/train-00034.parquet": {
+   "rows": 2000000,
+   "sha256": "7f4ccb2019d20725bfbd149098772c435fce829d5d78ab6d6941b5eedea9ac34",
+   "bytes": 33604504
+  },
+  "data/train-00035.parquet": {
+   "rows": 2000000,
+   "sha256": "3ff1eb7d972d1c596df6429e3383df33f518bfd4f45183c946e5ea0078fa3742",
+   "bytes": 33716204
+  },
+  "data/train-00036.parquet": {
+   "rows": 2000000,
+   "sha256": "4df3fb857d0200d4a3f5f28f25ab53084f30caa25a0294d84d66db0ba5c435c6",
+   "bytes": 33820069
+  },
+  "data/train-00037.parquet": {
+   "rows": 347024,
+   "sha256": "27fd71ad6d693a779c98fe4925413ada0e0b04f1539a8e0a872f2b8175e5bd4b",
+   "bytes": 5878335
+  }
+ },
+ "rows_in": 90431834,
+ "rows_out": 74347024,
+ "by_source": {
+  "tanakh-v1.1": 115320,
+  "sefaria-v3.1-cc0": 28994342,
+  "sefaria-v2-cc0": 58093,
+  "sefaria-v1": 6328,
+  "pby-v3.1": 13528270,
+  "pby-v1.1": 98878,
+  "tsel-haolam-v1": 2383,
+  "gutenberg-v1": 5292,
+  "knesset-laws-v2": 219904,
+  "knesset-plenary-v1": 31318214
+ },
+ "components": {
+  "tanakh-v1.1": {
+   "repo": "HeOCR/htext-tanakh",
+   "commit": "082a6bc4640922cce77d640aaa4613b43a76e664"
+  },
+  "sefaria-v3.1-cc0": {
+   "repo": "HeOCR/htext-sefaria",
+   "commit": "afcf93c24cda1ccbc80f3fe8fa49599b0ea5708b"
+  },
+  "sefaria-v2-cc0": {
+   "repo": "HeOCR/htext-sefaria",
+   "commit": "a92766c9fb4955b1f9fcb3766430cd5522af7614"
+  },
+  "sefaria-v1": {
+   "repo": "HeOCR/htext-sefaria",
+   "commit": "2572e399c910cbfe6410830cc93360b192c14728"
+  },
+  "pby-v3.1": {
+   "repo": "HeOCR/htext-pby",
+   "commit": "e9743322cffe783f7bad4e65236256baf111b990"
+  },
+  "pby-v2.1": {
+   "repo": "HeOCR/htext-pby",
+   "commit": "2768cf84240a4b9677924f42d6c21da68ebc1c43"
+  },
+  "pby-v1.1": {
+   "repo": "HeOCR/htext-pby",
+   "commit": "6ec05e10a8d3d2a49bf20680a7cc665c6d57170c"
+  },
+  "tsel-haolam-v1": {
+   "repo": "HeOCR/htext-tsel-haolam",
+   "commit": "c95c9a349a1f9a9d1972489c1b1d25b23fc24dbb"
+  },
+  "gutenberg-v1": {
+   "repo": "HeOCR/htext-gutenberg",
+   "commit": "1f7432ee0240c0a23b44347cb1612c454fe78eed"
+  },
+  "knesset-laws-v2": {
+   "repo": "HeOCR/htext-knesset-laws",
+   "commit": "0701927460813ee6935c0e5811a65b731c3b248d"
+  },
+  "knesset-plenary-v1": {
+   "repo": "HeOCR/htext-knesset-plenary",
+   "commit": "daf44afc2737942acd57f77ea3299a6bc1b5e2e1"
+  }
+ },
+ "dedupe": "exact (variant, text); blake2b-64 + length; first row in component order kept, others listed in `sources`",
+ "clean": "no new CLEAN: every component passed CLEAN (records in README); work-level screen vs reservations v14: restricted-eval #1893",
+ "huggingface": "HeOCR/htext-cc0",
+ "huggingface_revision": "f74bcfcb2eca39194c3962ec5e82a0c45f11ed69",
+ "zenodo": {
+  "doi": "10.5281/zenodo.24583809"
+ }
+}
