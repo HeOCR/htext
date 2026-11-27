@@ -409,7 +409,7 @@ def main(argv: list[str] | None = None) -> int:
     s_build.add_argument("--inputs", type=Path, required=True, help="dir with the version files named in the sources")
     s_build.add_argument("--output", type=Path, required=True)
     s_build.add_argument("--lane", choices=("cc0", "by", "by-sa"), required=True)
-    s_build.add_argument("--reserved", type=Path, action="append", default=[], help="eval reservations: reserved works are tagged, not dropped")
+    s_build.add_argument("--reserved", type=Path, action="append", default=[], help="eval reservations: works listed in sefaria_works (by title, edition part or notes on them) are dropped from every lane")
     s_build.add_argument("--leakage", type=Path, default=DEFAULT_LEAKAGE)
     s_build.add_argument("--dedup-against", type=Path, action="append", default=[], help="another htext release's lines file: its lines are removed (repeatable)")
     s_build.add_argument("--seed", type=int, default=15)
