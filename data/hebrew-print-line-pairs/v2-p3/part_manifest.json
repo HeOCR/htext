@@ -1,0 +1,80 @@
+{
+ "version": "v2",
+ "part": "p3-ops711-714",
+ "rows": {
+  "public": 9492,
+  "internal": 0
+ },
+ "shard_part": "public",
+ "basis": "pd_il",
+ "stats": {
+  "lines_in": 9492,
+  "normalised_gershayim": 0
+ },
+ "shards": {
+  "public/train-00000.parquet": {
+   "rows": 9492,
+   "sha256": "6c824e9f2506e319d9badf2b506cc21feb44acc1f4ccd229edcd643a65d54b1a"
+  }
+ },
+ "inputs": {
+  "manifest": "batch.json",
+  "manifest_sha256": "93d13a0d916450a47ee95c178b6de34b7b82675de42bb00ce2f8792f105f55aa"
+ },
+ "by_licence_basis": {
+  "public:pd_il": 9492
+ },
+ "by_text_licence": {
+  "PD": 9492
+ },
+ "builder": {
+  "htext_commit": "7064f715cdd342ec10e3184a2eeb323703aa386e",
+  "driver": "htext.linepairs.editions, columns rtlN (HeOCR/htext#63, #68)",
+  "packager": "htext.linepairs.release_editions (HeOCR/htext#65)",
+  "ocr_model": {
+   "heb_rivok": "09ef1830f3393c590791abf9c18deca14450c8e5d3b556249d63b0183cf7a426"
+  }
+ },
+ "sources": {
+  "pairs": 53,
+  "pages": 352,
+  "transcriptions": 48,
+  "scans": [
+   "melitseadminiale00zedeuoft (Ha-Melitz 1884, issue 1,000 literary supplement; source pages rotated 180 degrees)",
+   "hashiloahyarhonl6189unse (Ha-Shiloah VI)",
+   "hashiloahyarhonl2019unse (Ha-Shiloah XX)",
+   "32882015991568-hashiloayaronle (Ha-Shiloah XXV)"
+  ],
+  "texts": "Project Ben-Yehuda public_domain_dump @5e4277fead7b565f32cc4b352abd3565023a77d8"
+ },
+ "report": {
+  "ocr_lines": 14582,
+  "kept": 9492,
+  "dropped": {
+   "no_text": 526,
+   "unanchored": 2424,
+   "plene": 564,
+   "non_hebrew_line": 107,
+   "cer_over_0.25": 314,
+   "digits_extra": 50,
+   "markup_residue": 15,
+   "digits_missing": 24,
+   "multi_line_box": 66,
+   "charset": 929,
+   "printed_vowels_partial": 8,
+   "printed_vowels_missing": 10,
+   "abbreviation": 49,
+   "abbreviation_expanded": 4
+  },
+  "qa": {
+   "rows": 12,
+   "defects": 0,
+   "witness_normalisation": 2
+  }
+ },
+ "clean": {
+  "result": "9492/9492 keep, 0 exclusions",
+  "train_clean": "9112b9f4",
+  "text_tags": 44
+ }
+}
