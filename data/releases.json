@@ -341,6 +341,16 @@
       "huggingface": "HeOCR/hebrew-print-line-pairs",
       "huggingface_revision": "96edb570944dcbebc54cbf70f94476e0b2384cb8",
       "zenodo": {"doi": "10.5281/zenodo.24575597", "concept_doi": "10.5281/zenodo.24571579"}
+    },
+    {
+      "corpus": "wikisource",
+      "version": "v4",
+      "card": "data/wikisource/v4/corpus_card.json",
+      "release_tag": "wikisource-v4",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {"text": "Hebrew Wikisource contributors", "url": "https://he.wikisource.org"}
     }
   ]
 }
