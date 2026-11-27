@@ -154,6 +154,8 @@ def main() -> int:
         hocr = {n: [ln for ln in A.read_hocr(out / "hocr" / sid / f"p{n:04d}.hocr") if W._hebrew_share(" ".join(ln[1])) >= 0.5] for n in pages}
         if pair.get("columns") == "rtl2":
             hocr = {n: W.order_columns(v) for n, v in hocr.items()}
+        elif pair.get("columns") == "rtlN":
+            hocr = {n: W.order_columns_n(v) for n, v in hocr.items()}
         # pass 2: anchors and slices
         ocr_words, page_of = [], []
         for n in pages:
