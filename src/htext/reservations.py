@@ -48,6 +48,9 @@ reserved range. Their rule holds out every other edition, scan or text of a
 reserved work too. A builder matches its own ids; other editions are listed
 in a reviewed ``htext_reservations.v1`` file.
 
+A set with ``"status": "retired_<date>"`` (v14 file, 2026-11-27) reserves nothing: eval retired it and its units
+are TRAIN-eligible with tags. The card lists it as retired. Any other status value is refused.
+
 A Reshumot booklet is one document whether eval uses its scan or its born-digital
 PDF, so ``reshumot_scanned:<booklet>`` is read as ``reshumot``.
 
@@ -81,7 +84,12 @@ _EVAL_METADATA = {
     "set", "registration", "fixture", "splits", "labels", "note", "source_pages", "pby_work_ids_basis", "rule",
     # v5-v7: scope and binding notes, pointers into other teams' files, and the per-page htext status.
     "scope", "binds", "s16c_sampling_corpus_files", "fonts", "htext_status", "pby_all_editions",
+    # v8 (v14 file, 2026-11-27): a retired set's status and note; see Reservations.load.
+    "status", "retired_note",
 }
+# A retired eval set (``"status": "retired_<date>"``) no longer holds anything out: eval retired it and its units are
+# TRAIN-eligible (with tags). Any other status value is unknown and refused.
+_RETIRED = re.compile(r"^retired_\d{4}-\d{2}-\d{2}$")
 # Item ids are cut to their unit: a Wikisource page to its Index, an aligned line to its record.
 _UNIT_OF_ITEM = (
     re.compile(r"^(ws_index_\d+)__p\d+(?:#L\d+)?$"),
@@ -198,6 +206,7 @@ def _eval_set_ids(row: dict[str, Any], where: str) -> list[tuple[str, str]]:
 class Reservations:
     files: list[dict[str, Any]] = field(default_factory=list)
     units: dict[str, set[str]] = field(default_factory=dict)
+    retired: list[dict[str, Any]] = field(default_factory=list)
 
     @classmethod
     def load(cls, paths: Iterable[Path]) -> "Reservations":
@@ -214,7 +223,14 @@ class Reservations:
                 for number, row in enumerate(sets):
                     if not row.get("set"):
                         raise ValueError(f"{path}: reservation {number} has no set name")
-                    parsed.append((row["set"], _eval_set_ids(row, f"{path}: {row['set']}")))
+                    ids = _eval_set_ids(row, f"{path}: {row['set']}")
+                    status = row.get("status")
+                    if status is not None:
+                        if not _RETIRED.match(str(status)):
+                            raise ValueError(f"{path}: {row['set']}: unknown status {status!r}; teach htext.reservations to read it")
+                        reservations.retired.append({"set": row["set"], "status": status, "units": len(set(ids))})
+                        continue
+                    parsed.append((row["set"], ids))
             elif schema == SCHEMA:
                 for key in ("set", "registry", "works"):
                     if not document.get(key):
@@ -263,5 +279,5 @@ class Reservations:
         return len(self.units.get(source, ()))
 
     def card(self) -> list[dict[str, Any]]:
-        """What a corpus card records: each set's name, the file sha256 and counts, not the ids."""
-        return list(self.files)
+        """What a corpus card records: each set's name, the file sha256 and counts, not the ids; retired sets by name."""
+        return list(self.files) + [{"set": r["set"], "status": r["status"], "reserves": "nothing (retired)"} for r in self.retired]

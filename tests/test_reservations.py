@@ -230,3 +230,20 @@ def test_v8_documents_fail_closed(tmp_path, document):
     path = _eval_file(tmp_path / "r.json", [{"set": "ph1", "documents": [document]}], schema="heocr_eval_reservations.v8")
     with pytest.raises(ValueError):
         Reservations.load([path])
+
+
+def test_a_retired_set_reserves_nothing_and_is_listed(tmp_path):
+    sets = [{"set": "held", "pby_work_ids": [7], "sefaria_works": ["Invented Held Work"]},
+            {"set": "retired one", "item_ids": ["wikisource_he_proofread:ws_index_9__p0001"], "pby_work_ids": [8],
+             "status": "retired_2026-11-26", "retired_note": "units are TRAIN-eligible with tags"}]
+    reservations = Reservations.load([_eval_file(tmp_path / "r.json", sets, schema="heocr_eval_reservations.v8")])
+    assert reservations.reserved("pby", "7") and reservations.reserved("sefaria", "Invented Held Work")
+    assert not reservations.reserved("pby", "8") and not reservations.reserved("wikisource", "ws_index_9")
+    assert {"set": "retired one", "status": "retired_2026-11-26", "reserves": "nothing (retired)"} in reservations.card()
+
+
+@pytest.mark.parametrize("status", ["retired", "active", "retired_soon", ""])
+def test_an_unknown_status_is_refused(tmp_path, status):
+    path = _eval_file(tmp_path / "r.json", [{"set": "s", "pby_work_ids": [1], "status": status}], schema="heocr_eval_reservations.v8")
+    with pytest.raises(ValueError, match="status"):
+        Reservations.load([path])
