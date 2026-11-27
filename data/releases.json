@@ -350,7 +350,11 @@
       "htext_release": "by-sa",
       "source_licence": "CC BY-SA 4.0",
       "text_quality": "transcription",
-      "credit": {"text": "Hebrew Wikisource contributors", "url": "https://he.wikisource.org"}
+      "credit": {"text": "Hebrew Wikisource contributors", "url": "https://he.wikisource.org"},
+      "huggingface": "HeOCR/htext-wikisource",
+      "huggingface_revision": "a5ee2ac15051447d571e027c87c9512317cce919",
+      "huggingface_path": "releases/wikisource-v4",
+      "zenodo": {"doi": "10.5281/zenodo.24580528", "concept_doi": "10.5281/zenodo.24521418"}
     },
     {
       "corpus": "hebrew-print-line-pairs",
