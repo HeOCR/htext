@@ -1,0 +1,350 @@
+{
+ "version": "v2",
+ "part": "p1-ops707",
+ "rows": {
+  "public": 15248
+ },
+ "shard_part": "public",
+ "basis": "pd_il",
+ "stats": {
+  "lines_in": 15955,
+  "normalised_gershayim": 0,
+  "dropped:digits_extra": 707
+ },
+ "shards": {
+  "public/train-00000.parquet": {
+   "rows": 15248,
+   "sha256": "56547cc6bf497c28ad18288ac37b4ed85d8b7b8b399b36b2dc242317802ab421"
+  }
+ },
+ "inputs": {
+  "manifest": "b01_verified-pairs.json",
+  "manifest_sha256": "f4bc34bd93af153b770200b67b89f1e895099b8447690de0125cfd0c5f0df807",
+  "source": "heocr-ops#707 @cf4fb989 records/real-line-pairs-scale-batch-01-20261126/verified-pairs.json"
+ },
+ "builder": {
+  "htext_commit": "42569b3a2d4c8d6b40fe39d1c4f6f9393e7d3226",
+  "driver": "htext.linepairs.editions (HeOCR/htext#63)",
+  "packager": "htext.linepairs.release_editions (HeOCR/htext#65)"
+ },
+ "report": {
+  "talmudbavliimkol11unse:Rashi on Berakhot|Vilna Edition": {
+   "skipped": "skip_prefix"
+  },
+  "ldpd_15772050_000:pby:6383": {
+   "pages": 142,
+   "pages_sliced": 142,
+   "anchors": 47306,
+   "text_words": 58058,
+   "ocr_lines": 5071,
+   "kept": 4476,
+   "dropped:non_hebrew_line": 88,
+   "dropped:unanchored": 342,
+   "dropped:plene": 31,
+   "dropped:cer_over_0.25": 84,
+   "dropped:multi_line_box": 36,
+   "dropped:no_text": 3,
+   "dropped:charset": 3,
+   "dropped:markup_residue": 1,
+   "dropped:digits_missing": 6,
+   "dropped:abbreviation": 1
+  },
+  "agadothatanaimme111bach:pby:64894": {
+   "pages": 190,
+   "pages_sliced": 174,
+   "anchors": 21752,
+   "text_words": 74244,
+   "ocr_lines": 6127,
+   "kept": 2589,
+   "dropped:non_hebrew_line": 107,
+   "dropped:cer_over_0.25": 17,
+   "dropped:unanchored": 1608,
+   "dropped:no_text": 1689,
+   "dropped:multi_line_box": 10,
+   "dropped:plene": 38,
+   "dropped:digits_missing": 7,
+   "dropped:charset": 36,
+   "dropped:editor_note": 21,
+   "dropped:abbreviation": 3,
+   "dropped:markup_residue": 2
+  },
+  "talmudbavliimkol11unse:Tosafot on Berakhot|Vilna Edition": {
+   "skipped": "skip_prefix"
+  },
+  "ademataidibruivr00beny_0:pby:1198": {
+   "pages": 124,
+   "pages_sliced": 123,
+   "anchors": 20622,
+   "text_words": 26922,
+   "ocr_lines": 3272,
+   "kept": 2874,
+   "dropped:non_hebrew_line": 29,
+   "dropped:unanchored": 314,
+   "dropped:no_text": 42,
+   "dropped:charset": 5,
+   "dropped:cer_over_0.25": 4,
+   "dropped:digits_missing": 3,
+   "dropped:plene": 1
+  },
+  "manoahhamelamedo008800:pby:60351": {
+   "pages": 110,
+   "pages_sliced": 110,
+   "anchors": 21145,
+   "text_words": 25912,
+   "ocr_lines": 3295,
+   "kept": 2780,
+   "dropped:non_hebrew_line": 76,
+   "dropped:unanchored": 333,
+   "dropped:multi_line_box": 14,
+   "dropped:plene": 20,
+   "dropped:digits_missing": 7,
+   "dropped:cer_over_0.25": 17,
+   "dropped:charset": 41,
+   "dropped:no_text": 3,
+   "dropped:printed_vowels_partial": 4
+  },
+  "igrothaasirmeiha00drey:pby:32993": {
+   "pages": 31,
+   "pages_sliced": 31,
+   "anchors": 6113,
+   "text_words": 24461,
+   "ocr_lines": 871,
+   "kept": 737,
+   "dropped:unanchored": 97,
+   "dropped:abbreviation": 1,
+   "dropped:plene": 9,
+   "dropped:non_hebrew_line": 10,
+   "dropped:cer_over_0.25": 5,
+   "dropped:no_text": 3,
+   "dropped:digits_missing": 3,
+   "dropped:printed_vowels_partial": 2,
+   "dropped:charset": 4
+  },
+  "yediothateva06bernuoft:pby:37315": {
+   "pages": 19,
+   "pages_sliced": 19,
+   "anchors": 6723,
+   "text_words": 25904,
+   "ocr_lines": 696,
+   "kept": 628,
+   "dropped:non_hebrew_line": 12,
+   "dropped:cer_over_0.25": 14,
+   "dropped:unanchored": 30,
+   "dropped:multi_line_box": 5,
+   "dropped:plene": 2,
+   "dropped:no_text": 2,
+   "dropped:digits_missing": 3
+  },
+  "yediothateva06bernuoft:pby:36941": {
+   "pages": 18,
+   "pages_sliced": 18,
+   "anchors": 6515,
+   "text_words": 24822,
+   "ocr_lines": 674,
+   "kept": 589,
+   "dropped:non_hebrew_line": 19,
+   "dropped:cer_over_0.25": 12,
+   "dropped:unanchored": 47,
+   "dropped:digits_missing": 1,
+   "dropped:multi_line_box": 4,
+   "dropped:no_text": 1,
+   "dropped:plene": 1
+  },
+  "yediothateva06bernuoft:pby:36943": {
+   "pages": 9,
+   "pages_sliced": 9,
+   "anchors": 3169,
+   "text_words": 19901,
+   "ocr_lines": 338,
+   "kept": 300,
+   "dropped:non_hebrew_line": 13,
+   "dropped:cer_over_0.25": 7,
+   "dropped:unanchored": 12,
+   "dropped:plene": 1,
+   "dropped:multi_line_box": 5
+  },
+  "yediothateva06bernuoft:pby:36942": {
+   "pages": 6,
+   "pages_sliced": 6,
+   "anchors": 2328,
+   "text_words": 28465,
+   "ocr_lines": 224,
+   "kept": 209,
+   "dropped:unanchored": 12,
+   "dropped:no_text": 1,
+   "dropped:non_hebrew_line": 1,
+   "dropped:cer_over_0.25": 1
+  },
+  "miyarketetevel008800:pby:56747": {
+   "pages": 6,
+   "pages_sliced": 5,
+   "anchors": 931,
+   "text_words": 57780,
+   "ocr_lines": 168,
+   "kept": 107,
+   "dropped:non_hebrew_line": 1,
+   "dropped:unanchored": 27,
+   "dropped:charset": 22,
+   "dropped:cer_over_0.25": 2,
+   "dropped:no_text": 2,
+   "dropped:abbreviation": 2,
+   "dropped:digits_missing": 1,
+   "dropped:multi_line_box": 3,
+   "dropped:plene": 1
+  },
+  "biyehudahhahadas00poch:pby:2550": {
+   "pages": 5,
+   "pages_sliced": 5,
+   "anchors": 884,
+   "text_words": 2125,
+   "ocr_lines": 138,
+   "kept": 110,
+   "dropped:cer_over_0.25": 6,
+   "dropped:plene": 2,
+   "dropped:unanchored": 9,
+   "dropped:charset": 9,
+   "dropped:no_text": 1,
+   "dropped:non_hebrew_line": 1
+  },
+  "yediothateva06bernuoft:pby:36137": {
+   "pages": 3,
+   "pages_sliced": 3,
+   "anchors": 998,
+   "text_words": 24610,
+   "ocr_lines": 110,
+   "kept": 97,
+   "dropped:non_hebrew_line": 2,
+   "dropped:cer_over_0.25": 3,
+   "dropped:unanchored": 5,
+   "dropped:multi_line_box": 1,
+   "dropped:plene": 1,
+   "dropped:no_text": 1
+  },
+  "reshimotyaaovsha01stei:pby:10245": {
+   "pages": 3,
+   "pages_sliced": 3,
+   "anchors": 684,
+   "text_words": 1414,
+   "ocr_lines": 87,
+   "kept": 57,
+   "dropped:unanchored": 8,
+   "dropped:plene": 14,
+   "dropped:charset": 8
+  },
+  "reshimotyaaovsha01stei:pby:10252": {
+   "pages": 3,
+   "pages_sliced": 3,
+   "anchors": 581,
+   "text_words": 6645,
+   "ocr_lines": 87,
+   "kept": 54,
+   "dropped:unanchored": 4,
+   "dropped:charset": 7,
+   "dropped:plene": 22
+  },
+  "reshimotyaaovsha01stei:pby:10479": {
+   "pages": 3,
+   "pages_sliced": 3,
+   "anchors": 644,
+   "text_words": 8233,
+   "ocr_lines": 87,
+   "kept": 55,
+   "dropped:unanchored": 4,
+   "dropped:plene": 26,
+   "dropped:cer_over_0.25": 2
+  },
+  "reshimotyaaovsha01stei:pby:10481": {
+   "pages": 3,
+   "pages_sliced": 3,
+   "anchors": 629,
+   "text_words": 4030,
+   "ocr_lines": 86,
+   "kept": 60,
+   "dropped:unanchored": 5,
+   "dropped:plene": 21
+  },
+  "doresofrareshimo00rawn_0:pby:26169": {
+   "pages": 2,
+   "pages_sliced": 2,
+   "anchors": 560,
+   "text_words": 7076,
+   "ocr_lines": 63,
+   "kept": 55,
+   "dropped:cer_over_0.25": 2,
+   "dropped:plene": 1,
+   "dropped:charset": 2,
+   "dropped:unanchored": 3
+  },
+  "doresofrareshimo00rawn_0:pby:26269": {
+   "pages": 2,
+   "pages_sliced": 2,
+   "anchors": 432,
+   "text_words": 1438,
+   "ocr_lines": 49,
+   "kept": 37,
+   "dropped:cer_over_0.25": 2,
+   "dropped:charset": 4,
+   "dropped:plene": 2,
+   "dropped:unanchored": 4
+  },
+  "mabeothayehudims00raff:pby:49273": {
+   "pages": 2,
+   "pages_sliced": 2,
+   "anchors": 310,
+   "text_words": 35564,
+   "ocr_lines": 62,
+   "kept": 52,
+   "dropped:unanchored": 6,
+   "dropped:no_text": 2,
+   "dropped:cer_over_0.25": 1,
+   "dropped:multi_line_box": 1
+  },
+  "motsaegolahzikhr00rabbuoft:pby:28955": {
+   "pages": 2,
+   "pages_sliced": 2,
+   "anchors": 511,
+   "text_words": 104910,
+   "ocr_lines": 68,
+   "kept": 56,
+   "dropped:non_hebrew_line": 2,
+   "dropped:unanchored": 6,
+   "dropped:plene": 1,
+   "dropped:charset": 3
+  },
+  "bioretletoldotha01gott:pby:40683": {
+   "pages": 1,
+   "pages_sliced": 1,
+   "anchors": 344,
+   "text_words": 115063,
+   "ocr_lines": 47,
+   "kept": 33,
+   "dropped:non_hebrew_line": 4,
+   "dropped:cer_over_0.25": 2,
+   "dropped:unanchored": 7,
+   "dropped:charset": 1
+  },
+  "_totals": {
+   "ocr_lines": 21620,
+   "kept": 15955,
+   "dropped:non_hebrew_line": 365,
+   "dropped:unanchored": 2883,
+   "dropped:plene": 194,
+   "dropped:cer_over_0.25": 181,
+   "dropped:multi_line_box": 79,
+   "dropped:no_text": 1750,
+   "dropped:charset": 145,
+   "dropped:markup_residue": 3,
+   "dropped:digits_missing": 31,
+   "dropped:abbreviation": 7,
+   "dropped:editor_note": 21,
+   "dropped:printed_vowels_partial": 6
+  }
+ },
+ "by_licence_basis": {
+  "pd_il": 15248
+ },
+ "clean": {
+  "record": "HeOCR/heocr-restricted-eval (private), request 48aac5dc, receipt f4baad08",
+  "result": "all rows keep"
+ }
+}

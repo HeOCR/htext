@@ -1,0 +1,49 @@
+{
+  "schema": "hebrew_print_line_pairs_card.v1",
+  "name": "Hebrew print line pairs",
+  "corpus": "hebrew-print-line-pairs",
+  "corpus_version": "v2-p1",
+  "htext_release": "by-sa",
+  "source_licence": "CC BY-SA 4.0",
+  "credit": {
+    "text": "Project Ben-Yehuda volunteers (text); Internet Archive and holding libraries (scans); line-pairing method by Rivok Labs; HeOCR book-level aligner",
+    "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/d50f569bf0d4f030986624c885f5466f69d5b54a/README.md"
+  },
+  "text_quality": "transcription",
+  "kind": "image_text_line_pairs",
+  "part": "p1-ops707",
+  "rows": {
+    "public": 15248
+  },
+  "image_licence_basis": {
+    "pd_il": 15248
+  },
+  "text_licence": "PD (Project Ben-Yehuda)",
+  "files": {
+    "v2/p1-ops707/public/train-00000.parquet": {
+      "rows": 15248,
+      "sha256": "56547cc6bf497c28ad18288ac37b4ed85d8b7b8b399b36b2dc242317802ab421"
+    }
+  },
+  "huggingface": "HeOCR/hebrew-print-line-pairs",
+  "huggingface_revision": "d50f569bf0d4f030986624c885f5466f69d5b54a",
+  "huggingface_tag": "v2-p1",
+  "huggingface_config": "book_level_v2_p1",
+  "zenodo": {
+    "doi": "10.5281/zenodo.24574729",
+    "concept_doi": "10.5281/zenodo.24571579"
+  },
+  "clean": "signed by heocr-clean (private restricted-eval record, request 48aac5dc, receipt f4baad08); all rows keep",
+  "builder": {
+    "htext_commit": "42569b3a2d4c8d6b40fe39d1c4f6f9393e7d3226",
+    "driver": "htext.linepairs.editions (HeOCR/htext#63)",
+    "packager": "htext.linepairs.release_editions (HeOCR/htext#65)"
+  },
+  "source": {
+    "manifest": "b01_verified-pairs.json",
+    "manifest_sha256": "f4bc34bd93af153b770200b67b89f1e895099b8447690de0125cfd0c5f0df807",
+    "source": "heocr-ops#707 @cf4fb989 records/real-line-pairs-scale-batch-01-20261126/verified-pairs.json"
+  },
+  "layout": "docs/linepairs_release_v2.md",
+  "label_noise_estimate": "about 3% (manual check of 40 lines after the digits_extra rule)"
+}
