@@ -271,6 +271,32 @@ def _done(job: dict[str, Any]) -> bool:
     return rec.get("input_key") == job["input_key"] and lines.exists() and _sha256(lines) == rec["lines_sha256"]
 
 
+_NOTES_ON = re.compile(r"^(?:Footnotes|Notes|Endnotes|Glosses) on (.+)$")
+
+
+def reserved_sefaria_work(reservations: Reservations, title: str, version_title: str) -> bool:
+    """Whether a Sefaria work/version is held out by the eval reservations' ``sefaria_works``.
+
+    Eval names a reserved book the way readers know it, which is not always Sefaria's title:
+    - the exact Sefaria title (``Radak on Genesis``);
+    - ``<title>, <part>`` when Sefaria keeps the part only in the version title
+      (``Arukh HaShulchan, Choshen Mishpat`` = title ``Arukh HaShulchan``, version ``Aruch HaShulchan, Choshen Mishpat. ...``);
+    - footnotes or notes printed with a reserved book (``Footnotes on <reserved title>``).
+    """
+    names = reservations.units.get("sefaria", set())
+    if title in names:
+        return True
+    notes = _NOTES_ON.match(title)
+    if notes and notes.group(1) in names:
+        return True
+    norm = lambda s: re.sub(r"[^a-z0-9]+", " ", s.lower()).strip()
+    for name in names:
+        base, sep, part = name.partition(", ")
+        if sep and base == title and norm(part) and norm(part) in norm(version_title):
+            return True
+    return False
+
+
 def build(config: SefariaConfig, progress: Callable[[str], None] | None = None) -> dict[str, Any]:
     """Incremental build: shards per version (skipped when their receipt matches), then a deterministic merge."""
     if config.lane not in RELEASES:
@@ -308,7 +334,7 @@ def build(config: SefariaConfig, progress: Callable[[str], None] | None = None) 
             if not version["rights"]["pass"]:
                 out_list.append({"title": work["title"], "version": version["versionTitle"], "reason": version["rights"]["basis"]})
                 continue
-            if reservations is not None and reservations.reserved("sefaria", work["title"]):
+            if reservations is not None and reserved_sefaria_work(reservations, work["title"], version["versionTitle"]):
                 # Listed by identity in the eval reservations: the work itself is held out, so it leaves the lane.
                 out_list.append({"title": work["title"], "version": version["versionTitle"], "reason": "eval_reserved_work"})
                 continue

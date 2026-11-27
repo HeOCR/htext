@@ -9,6 +9,8 @@ from pathlib import Path
 
 import pytest
 
+from htext.reservations import Reservations
+
 from htext import sefaria as s
 
 BODY = "זה הוא משפט ראשון בקטע שנכתב לצורך הבדיקה בלבד והוא נמשך עוד מעט עד סופו של העניין הבדוי"
@@ -146,3 +148,17 @@ def test_interrupted_build_resumes_to_byte_identical_output(tmp_path, monkeypatc
     s.build(config)
     assert rebuilt == ["Invented Tractate"]  # the first shard came from its receipt, the interrupted one is redone
     assert _all_bytes(config.output) == _all_bytes(clean.output)
+
+
+def test_reserved_names_match_part_in_version_title_and_notes_on_a_reserved_book(tmp_path):
+    reserved = {"schema": "heocr_eval_reservations.v1", "owner": "eval", "as_of": "2026-11-27",
+                "reservations": [{"set": "s", "sefaria_works": ["Invented Code, Third Part", "Invented Responsa"]}],
+                "supersedes": {"file": "v0.json", "sha256": "0"}}
+    path = tmp_path / "r.json"; path.write_text(json.dumps(reserved), encoding="utf-8")
+    r = Reservations.load([path])
+    assert s.reserved_sefaria_work(r, "Invented Code", "Invented Code, Third Part. Vilna 1900")  # the part lives in the version title
+    assert not s.reserved_sefaria_work(r, "Invented Code", "Invented Code, First Part. Vilna 1900")
+    assert not s.reserved_sefaria_work(r, "Invented Code HeAtid", "Invented Code, Third Part")  # another work
+    assert s.reserved_sefaria_work(r, "Footnotes on Invented Responsa", "Warsaw 1883")
+    assert s.reserved_sefaria_work(r, "Invented Responsa", "any")
+    assert not s.reserved_sefaria_work(r, "Commentary on Invented Responsa by Someone", "x")
