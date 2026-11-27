@@ -1,0 +1,398 @@
+{
+  "schema": "sefaria_corpus_card.v3",
+  "name": "Sefaria open-licence Hebrew texts (by-sa)",
+  "builder": {
+    "package": "htext",
+    "version": "0.1.0",
+    "code": "sefaria-v3-shards-1"
+  },
+  "credit": {
+    "text": "Sefaria",
+    "url": "https://www.sefaria.org"
+  },
+  "licence": {
+    "outputs": "CC-BY-SA-4.0"
+  },
+  "htext_release": "by-sa",
+  "release": {
+    "htext_release": "by-sa",
+    "release_name": "htext-by-sa",
+    "release_licence": "CC-BY-SA-4.0",
+    "entries_admitted": 84,
+    "source_licences": {
+      "CC-BY-SA": 84
+    }
+  },
+  "text_quality": "transcription",
+  "source_tag": "sefaria",
+  "source": {
+    "export": {
+      "repo": "Sefaria/Sefaria-Export",
+      "commit": "32d7bcf7e82882a854e633d72b9b32e1df286c8f",
+      "books_json_sha256": "e5784fcf2ece785e2137ad4411c101839ada49a6ed1930b1af7b3d4510d20361",
+      "generated_at": "2026-11-02T06:05:26Z"
+    },
+    "rights_rule": "licence grants (CC0/CC-BY/CC-BY-SA) pass; Public Domain label needs every author dead <=1955 (Sefaria topic deathYear), else birth <=1860 or pre-modern era; anonymous: pre-modern era or composed <=1860; else out",
+    "sources_sha256": "c7e1dc95c47f845350cde53be6a220cdbecaaf871b17c95483129a8aa81d3191"
+  },
+  "works": 84,
+  "versions": 84,
+  "out": [],
+  "inputs": {
+    "eval_reservations": [
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "print_scan_PS-v1",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "pby": 4,
+          "reshumot": 20
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "midcentury (test, dev, retired dev units; v0-v2 union)",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "plenary": 60,
+          "reshumot": 125
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "P-mod eval and holdout units (v6-v7 union, incl. exposed units)",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "knesset_protocol": 7,
+          "plenary": 138,
+          "reshumot": 157
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "D-bench synthetic text pool (sets A, B, C and the gate's fresh set)",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "reshumot": 83
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "P-hist audit2 (Hebrew Wikisource proofread pages)",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "wikisource": 14
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "line_verify scored lines (units held out whole)",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "benyehuda_nli_aligned": 2,
+          "pby": 10,
+          "wikisource": 23
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "h_eval_v1 (handwriting)",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "hash": 33
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "P-hist eval hold-out v1 (27 P-hist books + 3 Rashi-script stratum; with audit2, 40 P-hist books)",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "ia": 13,
+          "pby": 11,
+          "sefaria": 5,
+          "wikisource": 23
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "P-hist eval hold-out v1 top-up (standard square; 8 books + 2 reserves)",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "ia": 10,
+          "pby": 6
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "niqqud_print_v1",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "pby": 32,
+          "tanakh_range": 4
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "phist_holdout_v1_pby_editions",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "pby": 1
+        }
+      },
+      {
+        "schema": "heocr_eval_reservations.v8",
+        "set": "PH1 phone-capture test (210 original + 19 amendment-4 replacement test units, CLEAN)",
+        "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c",
+        "units": {
+          "doi": 128,
+          "hewikinews": 101
+        }
+      }
+    ],
+    "leakage_fixtures": [
+      {
+        "repository": "HeOCR/hocrgen",
+        "path": "docs/evaluation-fixtures/bidi-synthetic-corpus.txt",
+        "commit": "c8fb74eb5d0afedd812a0da69562e4610a0b3394",
+        "sha256": "b325673476bce8c16f0a2731e5de1ec9b226b8274fc1e7dfb723dbccb3edf966",
+        "lines": 100,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "ac7e1dc2c21d2506b93c26ce81cab3327baf217d82fb6620c1ddf6f597235fd6",
+        "lines": 19,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "89e52f8b90cdbb8a276fbdaf96530afff2cc266e13ad6355c215c79e5a58d97f",
+        "lines": 812,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_niqqud_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "974ffa19251bcc1137a3baf908f22d2770d801a38d93456d6109bf6565de5640",
+        "lines": 40,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_mixed_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "45a81fff1105ba347c2e80ebfe5cafa0c4e3763975279709c0b9af7a0eedaa88",
+        "lines": 401,
+        "stripped": true
+      },
+      {
+        "repository": "HeOCR/hocrsyngen",
+        "path": "src/hocrsyngen/data/synthetic/texts/hebrew_typographic_lines_eval_v1.txt",
+        "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+        "sha256": "3364283592492d8827ae94b8899ce44cecedf1281b4fbeb69f9d76b3e9a09a3c",
+        "lines": 418,
+        "stripped": true
+      }
+    ],
+    "dedup_against": [
+      {
+        "file": "sefaria-v1__niqqud.txt",
+        "sha256": "da52f415ee46c6653fce2c2ee95d96cb44e0fa1aaf2572289358d2a2cb74b89f"
+      },
+      {
+        "file": "sefaria-v1__plain.txt",
+        "sha256": "a39ccb9e6363d79baf059fa7851f4732ed36b674415d68b45c9fa7fa4f2275c6"
+      },
+      {
+        "file": "sefaria-v2-by__niqqud.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "sefaria-v2-by__plain.txt",
+        "sha256": "148d2e342b6a276f1e9913ca92cfa4294c464a718762256fbce0ef08aac5bbee"
+      },
+      {
+        "file": "sefaria-v2-cc0__releases_sefaria-v2-cc0_niqqud.txt",
+        "sha256": "9f3b868948f97224ec3a291bc60b563285ac46c9c93a0082947ac3d4dd44fa4b"
+      },
+      {
+        "file": "sefaria-v2-cc0__releases_sefaria-v2-cc0_plain.txt",
+        "sha256": "c5ab6dfa9a2bcb127b6efb1b5ef56f7b2daff1c036afd773765037212b97d610"
+      },
+      {
+        "file": "tanakh-v1.1__data_tanakh_lines_niqqud_v1.txt",
+        "sha256": "c4da466e48fef1086dc18fe3d7baed439ff6fd22d09ddc0d7f655066a66a1c0f"
+      },
+      {
+        "file": "tanakh-v1.1__data_tanakh_lines_plain_v1.txt",
+        "sha256": "0291d17d4594bc0a41b5304eb3655add4a2ebb03ab92f90fe9e4d773883d8c7b"
+      },
+      {
+        "file": "tsel-haolam-v1__niqqud.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "tsel-haolam-v1__plain.txt",
+        "sha256": "2466941c5be91ec12813726f678daf0fe5eaf2a3378fdd6ea40405741f8fbdb6"
+      }
+    ],
+    "dedup_hashes": {
+      "file": "dedup_against_cc00bcce98267b9b.bin",
+      "sha256": "d812f79da18ed17ceef55b078a8f6c74da2cb1ab6f59180d497c5a4b88f68a7d"
+    },
+    "length_profile_source": "/Users/shaypalachy/temp/heocr/downloads/htext-gutenberg/hebrew_lines_train_v1.txt",
+    "fit_check": {
+      "ran": true,
+      "hocrsyngen_version": null,
+      "hocrsyngen_commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+      "bodies": [
+        {
+          "template_id": "printed_letter",
+          "font_file": "Alef-Regular.ttf",
+          "size": 42,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "handwritten_note",
+          "font_file": "GveretLevin-Regular.ttf",
+          "size": 46,
+          "width": 968,
+          "rows_per_line": null
+        },
+        {
+          "template_id": "archive_card",
+          "font_file": "Alef-Regular.ttf",
+          "size": 38,
+          "width": 498,
+          "rows_per_line": 2
+        },
+        {
+          "template_id": "ledger",
+          "font_file": "Alef-Regular.ttf",
+          "size": 30,
+          "width": 206,
+          "rows_per_line": 10
+        }
+      ],
+      "maqaf_glyph_check": true
+    }
+  },
+  "corpus_version": "v3",
+  "contamination_policy": "v2 amendment 1: matches are tags (line index), not drops",
+  "parameters": {
+    "seed": 15,
+    "niqqud_threshold": 0.5,
+    "max_line_chars": 55
+  },
+  "files": {
+    "sefaria_by-sa_lines_plain_he_v3.txt": {
+      "subset": "plain",
+      "lang": "he",
+      "lines": 210770,
+      "sha256": "e49bb51e0f4dee2c3e4e95ecffa5c079b1fd8beb859a630b3a938854a1071a2b",
+      "bytes": 9855563,
+      "length_profile": {
+        "lines": 210770,
+        "max_chars": 55,
+        "median": 23.0,
+        "share_31_55": 0.2322,
+        "share_36_47": 0.144
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      }
+    },
+    "sefaria_by-sa_lines_plain_arc_v3.txt": {
+      "subset": "plain",
+      "lang": "arc",
+      "lines": 343511,
+      "sha256": "1dc20b6de4dac52b6111e37ad3562951aac7bacec3aec665ecd0c4665de58e78",
+      "bytes": 15974685,
+      "length_profile": {
+        "lines": 343511,
+        "max_chars": 55,
+        "median": 23,
+        "share_31_55": 0.2254,
+        "share_36_47": 0.13
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      }
+    },
+    "sefaria_by-sa_lines_niqqud_he_v3.txt": {
+      "subset": "niqqud",
+      "lang": "he",
+      "lines": 36804,
+      "sha256": "eccc1d599d5195c69c2673dd8e50c320a29d04ed9739e8424ba0ef2768a8de2c",
+      "bytes": 2865680,
+      "length_profile": {
+        "lines": 36804,
+        "max_chars": 55,
+        "median": 23.0,
+        "share_31_55": 0.2217,
+        "share_36_47": 0.135
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": true,
+        "share_36_47": true,
+        "median": true
+      }
+    },
+    "sefaria_by-sa_lines_niqqud_arc_v3.txt": {
+      "subset": "niqqud",
+      "lang": "arc",
+      "lines": 2,
+      "sha256": "6a64abc88dad5a0f79ca41e7e66fa9c4360beef09172d94e9da3faa2e8a02658",
+      "bytes": 96,
+      "length_profile": {
+        "lines": 2,
+        "max_chars": 20,
+        "median": 17.0,
+        "share_31_55": 0.0,
+        "share_36_47": 0.0
+      },
+      "length_profile_passes": {
+        "max_chars": true,
+        "share_31_55": false,
+        "share_36_47": false,
+        "median": false
+      }
+    }
+  },
+  "pipeline": {
+    "lines_tagged:protected_text:word3": 20,
+    "segments": 630497,
+    "segments_dropped:charset": 6004,
+    "segments_dropped:duplicate": 29752,
+    "segments_dropped:fit:archive_card:too_many_rows": 988,
+    "segments_dropped:fit:ledger:word_too_wide": 20,
+    "segments_dropped:in_other_htext_release": 2584,
+    "segments_dropped:medial_final_form": 8,
+    "segments_dropped:too_few_letters": 54
+  },
+  "length_profile_targets": {
+    "max_chars": 55,
+    "share_31_55": [
+      0.18,
+      0.35
+    ],
+    "min_share_36_47": 0.1,
+    "median": [
+      18,
+      30
+    ]
+  }
+}
