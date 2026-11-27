@@ -509,6 +509,19 @@
       "huggingface": "HeOCR/htext-by-sa",
       "huggingface_revision": "9c80e95dc4c28f3491744bb0213f6a6c16365f5f",
       "zenodo": {"doi": "10.5281/zenodo.24584416", "concept_doi": "10.5281/zenodo.24583233"}
+    },
+    {
+      "corpus": "hebrew-print-line-pairs",
+      "version": "v2-p4",
+      "card": "data/hebrew-print-line-pairs/v2-p4/corpus_card.json",
+      "release_tag": "hebrew-print-line-pairs-v2-p4",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {"text": "Project Ben-Yehuda volunteers (text); Internet Archive and holding libraries (scans); line-pairing method by Rivok Labs; HeOCR book-level aligner", "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/be8f68ef74e0f79e4896e5887ee1d2455528811e/README.md"},
+      "huggingface": "HeOCR/hebrew-print-line-pairs",
+      "huggingface_revision": "be8f68ef74e0f79e4896e5887ee1d2455528811e",
+      "zenodo": {"doi": "10.5281/zenodo.24600092", "concept_doi": "10.5281/zenodo.24571579"}
     }
   ]
 }
