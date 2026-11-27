@@ -228,7 +228,8 @@ class Reservations:
                     if status is not None:
                         if not _RETIRED.match(str(status)):
                             raise ValueError(f"{path}: {row['set']}: unknown status {status!r}; teach htext.reservations to read it")
-                        reservations.retired.append({"set": row["set"], "status": status, "units": len(set(ids))})
+                        reservations.retired.append({"set": row["set"], "status": status, "units": len(set(ids)),
+                                                     "schema": schema, "sha256": hashlib.sha256(raw).hexdigest()})
                         continue
                     parsed.append((row["set"], ids))
             elif schema == SCHEMA:
@@ -280,4 +281,5 @@ class Reservations:
 
     def card(self) -> list[dict[str, Any]]:
         """What a corpus card records: each set's name, the file sha256 and counts, not the ids; retired sets by name."""
-        return list(self.files) + [{"set": r["set"], "status": r["status"], "reserves": "nothing (retired)"} for r in self.retired]
+        return list(self.files) + [{"schema": r["schema"], "set": r["set"], "sha256": r["sha256"], "status": r["status"],
+                                    "reserves": "nothing (retired)"} for r in self.retired]
