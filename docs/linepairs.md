@@ -48,3 +48,12 @@ sliced, anchors, OCR lines, kept lines and drop reasons.
 
 Knesset plenary text must also pass the privacy gate (hocrgen `plenary_private_names_v1`) before intake. A line that
 names a private person is dropped whole.
+
+## Packaging edition pairs (`python -m htext.linepairs.release_editions`)
+Writes one v2 part (docs/linepairs_release_v2.md) from the editions driver's receipts and crops.
+- **Arguments:** `--manifest --work --out --version --part-id --basis <image basis> --text-licence <PD|CC0|CC-BY|CC-BY-SA>
+  --source-tag source:<pby|sefaria|...>`.
+- **`--public`:** only when both licences allow it. Without it, the rows go to `internal/`.
+- **`--gate gate.jsonl`:** for Knesset text. Only gate-kept lines are packaged, and each row carries `privacy_gate`.
+- **`--drop-extra-digits`:** for packages built before the `digits_extra` label rule.
+- **Label normalisation:** ׳׳ becomes ״, as printed.

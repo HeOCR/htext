@@ -34,7 +34,7 @@ from htext.linepairs import rivok_align as A
 from htext.linepairs import rivok_labels as L
 
 MAX_CER = 0.25
-CODE_VERSION = "linepairs-wikisource-7"
+CODE_VERSION = "linepairs-wikisource-8"
 
 
 def atomic_write(path: Path, data: str) -> None:
@@ -196,6 +196,9 @@ def label_of(r: dict[str, Any], ok_chars: set[str] | None, print_forms: bool = F
     # HeOCR (QA v1): printed digits (verse or note numbers) that the label renders otherwise or leaves out.
     if re.search(r"[0-9]", ocr) and not re.search(r"[0-9]", label):
         return None, "digits_missing"
+    # HeOCR (QA v2 p1): label digit runs the OCR did not read (Ben-Yehuda renumbers footnotes per work; print shows *, 4).
+    if set(re.findall(r"[0-9]+", label)) - set(re.findall(r"[0-9]+", ocr)):
+        return None, "digits_extra"
     return label, None
 
 
