@@ -1,0 +1,70 @@
+{
+  "schema": "hebrew_print_line_pairs_card.v1",
+  "name": "Hebrew print line pairs",
+  "corpus": "hebrew-print-line-pairs",
+  "corpus_version": "v2-p4",
+  "htext_release": "by-sa",
+  "source_licence": "CC BY-SA 4.0",
+  "credit": {
+    "text": "Project Ben-Yehuda volunteers (text); Internet Archive and holding libraries (scans); line-pairing method by Rivok Labs; HeOCR book-level aligner",
+    "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/be8f68ef74e0f79e4896e5887ee1d2455528811e/README.md"
+  },
+  "text_quality": "transcription",
+  "kind": "image_text_line_pairs",
+  "part": "p4-ia-pby",
+  "rows": {
+    "public": 64235,
+    "internal": 0
+  },
+  "image_licence_basis": {
+    "public:pd_il": 64235
+  },
+  "text_licence": {
+    "PD": 64235
+  },
+  "files": {
+    "v2/p4-ia-pby/public/train-00000.parquet": {
+      "rows": 20000,
+      "sha256": "02d2dc2452accdf9154226944ed4e33cdfaff9eb4888db838de31d69b1bfbdf5"
+    },
+    "v2/p4-ia-pby/public/train-00001.parquet": {
+      "rows": 20000,
+      "sha256": "1adfd10e279a41691ae1f8ed51c1307b8cfa50ce6394095e6e5ec9ad53e322fe"
+    },
+    "v2/p4-ia-pby/public/train-00002.parquet": {
+      "rows": 20000,
+      "sha256": "b8041cd03f3948e2e98d34ddbdd74547554ddc58a97deec2760f8d930b946025"
+    },
+    "v2/p4-ia-pby/public/train-00003.parquet": {
+      "rows": 4235,
+      "sha256": "77ad763e143cd57f56374f04a8dd7075cce4b68ad5e1f7b12df09e94f635b1cf"
+    }
+  },
+  "huggingface": "HeOCR/hebrew-print-line-pairs",
+  "huggingface_revision": "be8f68ef74e0f79e4896e5887ee1d2455528811e",
+  "huggingface_tag": "v2-p4",
+  "huggingface_config": "book_level_v2_p4",
+  "zenodo": {
+    "doi": "10.5281/zenodo.24600092",
+    "concept_doi": "10.5281/zenodo.24571579"
+  },
+  "clean": "TRAIN CLEAN, public OK (restricted-eval #1922); 1 C3 text-hit row dropped. Shortlist screens #1903, #1905, #1908.",
+  "builder": {
+    "htext_commit": "9764bb0",
+    "driver": "htext.linepairs.editions (+ page-direction, HeOCR/htext#79)",
+    "packager": "htext.linepairs.release_editions + overlapping-box dedupe"
+  },
+  "source": {
+    "screen": "IA pre-1931 Hebrew items x PBY 4-gram index; coverage >= 0.3",
+    "manifest": "recipe/batch_p4_ordered.json",
+    "exclusions": "recipe/exclusions.json"
+  },
+  "stats": {
+    "lines_in": 66006,
+    "normalised_gershayim": 1,
+    "dropped:overlapping_box_other_pair": 1770,
+    "dropped:clean_c3_text_hold": 1
+  },
+  "layout": "docs/linepairs_release_v2.md",
+  "label_noise_estimate": "about 7% (manual check of 14 random lines; two-line boxes)"
+}
