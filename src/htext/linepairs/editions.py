@@ -162,9 +162,18 @@ def main() -> int:
             for _, ws in hocr[n]:
                 ocr_words += ws
                 page_of += [n] * len(ws)
+        if B.page_direction(ocr_words, page_of, text_words) < 0:
+            # The scan stores the book back to front: read its pages in reverse and rebuild the word stream.
+            pages = pages[::-1]
+            ocr_words, page_of = [], []
+            for n in pages:
+                for _, ws in hocr[n]:
+                    ocr_words += ws
+                    page_of += [n] * len(ws)
+            report.setdefault(pid, {})["page_order"] = "reversed"
         chain = B.anchors(ocr_words, text_words)
         slices = {sl.page: sl for sl in B.page_slices(page_of, len(text_words), chain)}
-        report[pid] = {"pages": len(pages), "pages_sliced": len(slices), "anchors": len(chain), "text_words": len(text_words)}
+        report[pid] = {**report.get(pid, {}), "pages": len(pages), "pages_sliced": len(slices), "anchors": len(chain), "text_words": len(text_words)}
         for n in pages:
             if n not in slices:
                 continue

@@ -70,6 +70,28 @@ class PageSlice:
     anchors: int
 
 
+
+def page_direction(ocr_words: Sequence[str], page_of_ocr_word: Sequence[int], text_words: Sequence[str], min_shared: int = 20) -> int:
+    """+1 if the pages follow the transcription in the order given, -1 if the text runs backwards over them.
+
+    Some scans store a Hebrew book back to front (the archive's page order is the reverse of the reading order). The
+    unique 4-grams shared by OCR and text then have text positions that fall as the page number rises, and the anchor
+    chain (which must increase in both) finds almost nothing. The sign of the rank correlation between page and text
+    position decides; with fewer than ``min_shared`` shared grams the order is left as given (+1).
+    """
+    ko = [key(w) for w in ocr_words]
+    kt = [key(w) for w in text_words]
+    go, gt = _grams(ko), _grams(kt)
+    pts = sorted((page_of_ocr_word[go[g][0]], gt[g][0]) for g in go.keys() & gt.keys() if len(go[g]) == 1 and len(gt[g]) == 1)
+    if len(pts) < min_shared:
+        return 1
+    n = len(pts)
+    rank_t = {t: r for r, t in enumerate(sorted(t for _, t in pts))}
+    xs = list(range(n)); ys = [rank_t[t] for _, t in pts]
+    mx, my = (n - 1) / 2, sum(ys) / n
+    cov = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
+    return -1 if cov < 0 else 1
+
 def page_slices(page_of_ocr_word: Sequence[int], text_len: int, chain: Sequence[tuple[int, int]],
                 margin: int = 12, min_anchors: int = 3) -> list[PageSlice]:
     """Each page's transcription slice from the anchor chain."""
