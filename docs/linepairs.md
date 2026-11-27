@@ -24,3 +24,27 @@ HeOCR rules on top of Rivok's (each found in a visual QA sample):
 - A pointed print whose label is only partly pointed is dropped.
 - A label missing printed digits is dropped.
 - A box with two comparable ink bands (two printed lines) is dropped.
+
+## Edition-pair manifests (`python -m htext.linepairs.editions`)
+A manifest is JSON with `pairs`. Each pair needs:
+- `id`: unique; it is also hashed into the work folder name.
+- `transcription`: `url` and `sha256`, plus a `format`. `JSON` is a Sefaria named-version tree, `HTML` a Wikisource
+  snapshot, `Word` a `.doc` read with macOS `textutil`, and anything else plain UTF-8 text. When `format` is absent,
+  `source: "Sefaria"` means JSON.
+- `scan` and `scope`, in one of three shapes:
+  - per-page images: `scope.bound_native_pages`, a list of `{native_leaf, url, sha256}` (for example IA JP2 leaves).
+    `scope.native_leaves_in_reading_order` sets the order;
+  - a PDF, `scan.url` plus `scan.sha256` (or `scan.sha1`), with either `scope.pdf_ordinals` (an explicit list),
+    `scope.pdf_ordinal_ranges_inclusive`, or the pilot field `pilot_pdf_ordinals_in_reading_order`.
+- Optional:
+  - `exact_test_pages_excluded`: page numbers never processed (page-only exclusion);
+  - `columns: "rtl2"`: two-column Hebrew pages. Full-width lines split the page into bands; each band is read right
+    column first, then left.
+
+Run with `--work <dir> --tessdata <dir with heb_rivok.traineddata> --jobs N`. `--skip-prefix` skips pairs by id prefix,
+for example multi-commentary pages. Every input is checked against its pinned digest, and pages are OCR'd in parallel
+and cached. Each page writes an atomic receipt, so a rerun resumes. The per-pair `report.json` gives pages, pages
+sliced, anchors, OCR lines, kept lines and drop reasons.
+
+Knesset plenary text must also pass the privacy gate (hocrgen `plenary_private_names_v1`) before intake. A line that
+names a private person is dropped whole.
