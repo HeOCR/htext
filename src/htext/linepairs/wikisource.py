@@ -129,6 +129,50 @@ def order_columns(lines: list, full_width: float = 0.6) -> list:
     return out
 
 
+def order_columns_n(lines: list, full_width: float = 0.6, gap: int = 8, wide_factor: float = 1.5) -> list:
+    """Reading order for Hebrew pages with any number of columns (newspapers: 3-4 columns, boxed ads).
+
+    Full-width lines split the page into bands. In a band, the lines' horizontal extents are merged into blocks
+    (extents that overlap, or are closer than ``gap`` pixels, are one block); blocks are read right to left and each
+    top to bottom. Lines wider than ``wide_factor`` x the band's median line (ads and headings across some columns) do
+    not define columns; they are read after the columns, top to bottom. Text that is not in the transcription (ads) is
+    then dropped by the aligner, and a part-width heading read out of order fails to align and is dropped: a lost line,
+    never a wrong label. ``order_columns`` (two columns, ``rtl2``) is unchanged."""
+    if not lines:
+        return lines
+    x0 = min(b[0] for b, _ in lines)
+    x1 = max(b[2] for b, _ in lines)
+    width = max(1, x1 - x0)
+    out, band = [], []
+
+    def flush():
+        if not band:
+            return
+        widths = sorted(ln[0][2] - ln[0][0] for ln in band)
+        med = widths[len(widths) // 2]
+        narrow = [ln for ln in band if (ln[0][2] - ln[0][0]) <= wide_factor * med]
+        wide = [ln for ln in band if (ln[0][2] - ln[0][0]) > wide_factor * med]
+        spans: list[list[int]] = []
+        for (a, _, b, _), _ in sorted(narrow, key=lambda ln: ln[0][0]):
+            if spans and a <= spans[-1][1] + gap:
+                spans[-1][1] = max(spans[-1][1], b)
+            else:
+                spans.append([a, b])
+        for s0, s1 in sorted(spans, key=lambda s: -s[1]):
+            out.extend(sorted((ln for ln in narrow if s0 <= ln[0][0] and ln[0][2] <= s1), key=lambda ln: ln[0][1]))
+        out.extend(sorted(wide, key=lambda ln: ln[0][1]))  # ads and part-width headings last; unmatched text is dropped
+        band.clear()
+
+    for ln in sorted(lines, key=lambda ln: ln[0][1]):
+        if (ln[0][2] - ln[0][0]) >= full_width * width:
+            flush()
+            out.append(ln)
+        else:
+            band.append(ln)
+    flush()
+    return out
+
+
 def _hebrew_share(s: str) -> float:
     heb = len(re.findall(r"[א-ת]", s))
     lat = len(re.findall(r"[A-Za-z]", s))
@@ -264,6 +308,8 @@ def _compute_page(job: dict[str, Any], out: Path, book: str, n: int) -> dict[str
         heb = [ln for ln in lines if _hebrew_share(" ".join(ln[1])) >= 0.5]
         if job.get("columns") == "rtl2":
             heb = order_columns(heb)
+        elif job.get("columns") == "rtlN":
+            heb = order_columns_n(heb)
         non_hebrew = len(lines) - len(heb)
         rows = A.align_page(heb, (body + " " + notes).strip(), "wiki")
     except Exception as e:  # noqa: BLE001 - a page failure is a counted drop, never a crash
