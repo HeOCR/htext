@@ -1,0 +1,422 @@
+{
+ "schema": "htext_wikisource_corpus_card.v1",
+ "name": "htext Wikisource B v4: Hebrew Wikisource main-namespace training lines",
+ "builder": {
+  "package": "htext",
+  "version": "0.1.0"
+ },
+ "source": {
+  "url": "https://dumps.wikimedia.org/hewikisource/20261101/hewikisource-20261101-pages-articles.xml.bz2",
+  "date": "20261101",
+  "sha256": "15a731d70154941afec2a616d538434573a4e068f94c8ea91b659ac64b833fe1",
+  "bytes": 469082606
+ },
+ "source_licence": "CC BY-SA 4.0",
+ "licence": {
+  "outputs": "CC-BY-SA-4.0",
+  "source": "CC BY-SA 4.0",
+  "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+ },
+ "credit": {
+  "text": "Hebrew Wikisource contributors",
+  "url": "https://he.wikisource.org"
+ },
+ "htext_release": "by-sa",
+ "text_quality": "transcription",
+ "proofread_quality_levels": [],
+ "parameters": {
+  "seed": 15,
+  "niqqud_threshold": 0.5,
+  "max_line_chars": 55,
+  "maqaf_allowed": true,
+  "length_profile_source": "hocrsyngen texts/hebrew_lines_train_v1.txt",
+  "length_profile_sha256": "155073071cc39a5fcfd2fe3d70878f2e4d89208721d0ecf14447f608895dcdff",
+  "fit_check": {
+   "ran": true,
+   "hocrsyngen_version": null,
+   "hocrsyngen_commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "bodies": [
+    {
+     "template_id": "printed_letter",
+     "font_file": "Alef-Regular.ttf",
+     "size": 42,
+     "width": 968,
+     "rows_per_line": null
+    },
+    {
+     "template_id": "handwritten_note",
+     "font_file": "GveretLevin-Regular.ttf",
+     "size": 46,
+     "width": 968,
+     "rows_per_line": null
+    },
+    {
+     "template_id": "archive_card",
+     "font_file": "Alef-Regular.ttf",
+     "size": 38,
+     "width": 498,
+     "rows_per_line": 2
+    },
+    {
+     "template_id": "ledger",
+     "font_file": "Alef-Regular.ttf",
+     "size": 30,
+     "width": 206,
+     "rows_per_line": 10
+    }
+   ],
+   "maqaf_glyph_check": true
+  }
+ },
+ "eval_reservations": {
+  "sets": [
+   {
+    "sha256": "be8d0439a32b55047781beb52bc1702e408fbdc164ce78207c6a7a9da0676e5c"
+   },
+   {
+    "sha256": "daa574e50bbd8d9ee68acce3289547206d00622e86d784d88685b3c39bc650ac"
+   }
+  ],
+  "units": 120,
+  "reserved_indexes": 51,
+  "works_excluded": 43,
+  "scan_families_excluded": 55,
+  "pages_excluded": 2938,
+  "article_pages_excluded": 2938
+ },
+ "leakage_fixtures": [
+  {
+   "repository": "HeOCR/hocrgen",
+   "path": "docs/evaluation-fixtures/bidi-synthetic-corpus.txt",
+   "commit": "c8fb74eb5d0afedd812a0da69562e4610a0b3394",
+   "sha256": "b325673476bce8c16f0a2731e5de1ec9b226b8274fc1e7dfb723dbccb3edf966",
+   "lines": 100,
+   "stripped": true
+  },
+  {
+   "repository": "HeOCR/hocrsyngen",
+   "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines.txt",
+   "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "sha256": "ac7e1dc2c21d2506b93c26ce81cab3327baf217d82fb6620c1ddf6f597235fd6",
+   "lines": 19,
+   "stripped": true
+  },
+  {
+   "repository": "HeOCR/hocrsyngen",
+   "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_eval_v1.txt",
+   "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "sha256": "89e52f8b90cdbb8a276fbdaf96530afff2cc266e13ad6355c215c79e5a58d97f",
+   "lines": 812,
+   "stripped": true
+  },
+  {
+   "repository": "HeOCR/hocrsyngen",
+   "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_niqqud_eval_v1.txt",
+   "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "sha256": "974ffa19251bcc1137a3baf908f22d2770d801a38d93456d6109bf6565de5640",
+   "lines": 40,
+   "stripped": true
+  },
+  {
+   "repository": "HeOCR/hocrsyngen",
+   "path": "src/hocrsyngen/data/synthetic/texts/hebrew_mixed_lines_eval_v1.txt",
+   "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "sha256": "45a81fff1105ba347c2e80ebfe5cafa0c4e3763975279709c0b9af7a0eedaa88",
+   "lines": 401,
+   "stripped": true
+  },
+  {
+   "repository": "HeOCR/hocrsyngen",
+   "path": "src/hocrsyngen/data/synthetic/texts/hebrew_typographic_lines_eval_v1.txt",
+   "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "sha256": "3364283592492d8827ae94b8899ce44cecedf1281b4fbeb69f9d76b3e9a09a3c",
+   "lines": 418,
+   "stripped": true
+  }
+ ],
+ "release_gate": "The official HeOCR evaluation overlap check must find 0 before release.",
+ "known_limitations": [
+  "No paired scans are included.",
+  "Unproofread against print. Preserve revision-level attribution and NOTICE."
+ ],
+ "totals": {
+  "plain": 4088,
+  "niqqud": 0,
+  "lines": 4088,
+  "pages": 5
+ },
+ "counts": {
+  "article_pages_excluded_by_eval": 2938,
+  "articles_outside_reviewed_inputs": 240375,
+  "articles_outside_reviewed_work_scope": 376,
+  "lines_dropped:charset": 58,
+  "lines_dropped:duplicate": 18,
+  "lines_dropped:fit:archive_card:too_many_rows": 10,
+  "lines_dropped:too_few_letters": 30,
+  "pages_excluded_by_eval": 2938,
+  "pages_redirect": 1296655,
+  "pages_seen": 1540365,
+  "pages_without_lines": 7
+ },
+ "files": {
+  "wikisource_plain_v4.txt": {
+   "sha256": "e9c377c973ce4843b2b952378c9ef74f791f1dc52c13546f18d2d69b2d85529f"
+  },
+  "wikisource_niqqud_v4.txt": {
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "wikisource_line_index.v1.jsonl.gz": {
+   "sha256": "9f13ca109f3bc67d315255e3a1c65bfb5cc17483a3a1974619b781020ddeda20"
+  },
+  "wikisource_rights_index.v1.jsonl.gz": {
+   "sha256": "76ecaef4c72eb2677ed0fe0bb4eb77764cbc54b44e64dbcbd17ace57856fce1d"
+  }
+ },
+ "rights_index": {
+  "name": "wikisource_rights_index.v1.jsonl.gz",
+  "schema": "wikisource_rights_index.v1",
+  "pages": 14,
+  "sha256": "65f4608bbf256fcb6a5e612e020b8cc269e557b50e5daf2e4a0ffea0ae06c122"
+ },
+ "line_index": {
+  "name": "wikisource_line_index.v1.jsonl.gz",
+  "schema": "wikisource_line_index.v1",
+  "lines": 5077,
+  "sha256": "78748c6d719607edd968e3fc68c224f222a78b490b598a2a671b26ca0084e972"
+ },
+ "notice": "NOTICE.md",
+ "main_namespace_inputs": {
+  "works_sha256": "2b8faf8180f719d378c1045c915179ed7ce7b87307a81a1a2b17dc9607378dd6"
+ },
+ "corpus_version": "v4",
+ "release": {
+  "htext_release": "by-sa",
+  "release_name": "htext-by-sa",
+  "release_licence": "CC-BY-SA-4.0",
+  "entries_admitted": 5,
+  "source_licences": {
+   "CC BY-SA 4.0": 14
+  }
+ },
+ "folded_candidates": [
+  {
+   "candidate": "v4",
+   "handoff_sha256": "94cbc049929ced304fafe3fa32a857f655fb4c7716850044570c45c609e3dc15",
+   "builder_git": null,
+   "lines": 55,
+   "pages": 2
+  },
+  {
+   "candidate": "v5",
+   "handoff_sha256": "f806e8f3303ee315c9e9bf45cf373f234d1a0df589a43233847a074bc0ed6110",
+   "builder_git": "3d8422092fc9f4b347bc8c380c329556c51757f0",
+   "lines": 5077,
+   "pages": 14
+  }
+ ],
+ "train_clean": {
+  "record": "HeOCR/heocr-restricted-eval#1714",
+  "merge_commit": "f4070238",
+  "train_clean_code": "a8e14c7e",
+  "policy": "contamination v2 amendment 1 (text matches are tags, kept in a private sidecar)",
+  "pages": {
+   "v4": "2/2 kept",
+   "v5": "14/14 kept"
+  }
+ },
+ "pages_excluded_corpus_quality": {
+  "223100": "root page of חיי מוהר\"ן: section-number list (592 of 598 lines) plus a third-party notice that the text comes from another website with permission on condition of a link on every page",
+  "185158": "root page: table of contents",
+  "233803": "root page: table of contents and 'for more details' links",
+  "250689": "root page: table of contents (gate list)",
+  "216737": "root page: title stub",
+  "92169": "root page: byline stub",
+  "3728": "root page: title and dedication stub",
+  "92084": "root page: modern editorial introduction, not the work's text",
+  "1637": "root page: modern editorial introduction, not the work's text",
+  "163098": "root page: table of contents with holes where wiki links were removed",
+  "464319": "root page: modern introduction with holes where wiki links were removed"
+ },
+ "dedup": {
+  "key": "htext.hebrew.strip_marks, exact",
+  "against": [
+   {
+    "file": "htext-knesset-laws@main__knesset_laws_lines_plain_v2.txt",
+    "lines": 223617,
+    "sha256": "790099a2e64c2e391957a2c9f306c6a8c0addd087cfd8431666165f5b4f65de1"
+   },
+   {
+    "file": "htext-pby@pby-v1.1__pby_lines_il_niqqud_v1.txt",
+    "lines": 400665,
+    "sha256": "ae553d87c6b6ba5587288eb66239706029a0e0d12434585e042b0fabe5f3a0af"
+   },
+   {
+    "file": "htext-pby@pby-v1.1__pby_lines_il_plain_v1.txt",
+    "lines": 1619558,
+    "sha256": "9c10bdf9663fb671f5509d59686cbcf8e39862881ee23d38413b6db11f4441b6"
+   },
+   {
+    "file": "htext-pby@pby-v1.1__pby_lines_il_us_niqqud_v1.txt",
+    "lines": 9991,
+    "sha256": "9ed8232bc217384b1af76f3024c756bb27ef08f80147d7168bf89e127cb118ab"
+   },
+   {
+    "file": "htext-pby@pby-v1.1__pby_lines_il_us_plain_v1.txt",
+    "lines": 68086,
+    "sha256": "8f31f41b4b94567f609a8277436816f0087dc40147d02b7f80b5687222c9e309"
+   },
+   {
+    "file": "htext-pby@pby-v2.1__pby_lines_il_niqqud_v2.txt",
+    "lines": 1672686,
+    "sha256": "3065cc229f75fd09e3ff94806bf5f592391e07294f5e790cb2a7ca2dda26fe2a"
+   },
+   {
+    "file": "htext-pby@pby-v2.1__pby_lines_il_plain_v2.txt",
+    "lines": 11937313,
+    "sha256": "a822cc0b633254ec037844d82c7c17189a188cf278ed1f7eb8c8a89ad854c672"
+   },
+   {
+    "file": "htext-pby@pby-v2.1__pby_lines_il_us_niqqud_v2.txt",
+    "lines": 18557,
+    "sha256": "1afa01272237f83b2533b5db1ec64b5763d85f6680b79fb7fb9313e772234bdd"
+   },
+   {
+    "file": "htext-pby@pby-v2.1__pby_lines_il_us_plain_v2.txt",
+    "lines": 371068,
+    "sha256": "b0ee7cbf8451653b2c8f0d74d89187070f7561503451cf601d34a2af13f07d3d"
+   },
+   {
+    "file": "htext-pby@pby-v3.1__pby_lines_il_niqqud_v3.txt",
+    "lines": 1672711,
+    "sha256": "4fe93147b96e1b089cb3bfe8900049e0a9cf0c03e9a853126bfbce25862ee8f2"
+   },
+   {
+    "file": "htext-pby@pby-v3.1__pby_lines_il_plain_v3.txt",
+    "lines": 11937498,
+    "sha256": "ff20f4502f27daae23266f8eb895ce1db0d1ba1acf6c2268203cd9c0e8256d5c"
+   },
+   {
+    "file": "htext-wikisource@b7766502d9d297176925da620b01e357ad0f4ec6__wikisource_niqqud_v3.txt",
+    "lines": 42944,
+    "sha256": "5d9ca2c472c355ac94b71118250a17baa04b2e20904287f50b579ab6358493ca"
+   },
+   {
+    "file": "htext-wikisource@b7766502d9d297176925da620b01e357ad0f4ec6__wikisource_plain_v3.txt",
+    "lines": 36485,
+    "sha256": "32de6167757afd0b1744abefa83d04412f055ef24cd1dcc3c3abe5041afb7814"
+   },
+   {
+    "file": "htext-wikisource@efcf3e55bedd7a17e6eef7db02afd4c5f6447144__wikisource_plain_v2.txt",
+    "lines": 12953,
+    "sha256": "dc0ef72c17ced163f3a64553dc43b00c18ee9df18b72c2cdeb6aa1a12bdb12e7"
+   },
+   {
+    "file": "htext-wikisource@main__wikisource_niqqud_v1.txt",
+    "lines": 767,
+    "sha256": "057ca4d684ed874d29efded4f9a384ff01465edba8217f9497b4f5c6227d6075"
+   },
+   {
+    "file": "htext-wikisource@main__wikisource_plain_v1.txt",
+    "lines": 71452,
+    "sha256": "f734f6484d767ff6c2f43d049923794756545f4c97349b18338df22ad3069769"
+   },
+   {
+    "file": "sefaria_by-sa_lines_niqqud_he_v3.txt",
+    "lines": 36804,
+    "sha256": "eccc1d599d5195c69c2673dd8e50c320a29d04ed9739e8424ba0ef2768a8de2c"
+   },
+   {
+    "file": "sefaria_by-sa_lines_plain_he_v3.txt",
+    "lines": 210770,
+    "sha256": "e49bb51e0f4dee2c3e4e95ecffa5c079b1fd8beb859a630b3a938854a1071a2b"
+   },
+   {
+    "file": "sefaria_by_lines_niqqud_he_v3.txt",
+    "lines": 52344,
+    "sha256": "f72b35aaa27bc10fefcddf40c0cf77a217a79f91393c24782a8af5fc168c75ca"
+   },
+   {
+    "file": "sefaria_by_lines_plain_he_v3.txt",
+    "lines": 1170055,
+    "sha256": "bb7c9c28f28a74ffe66cdd4f932b4b3d7a47980e3267bf942070a11b972cee13"
+   },
+   {
+    "file": "sefaria_cc0_lines_niqqud_he_v3.txt",
+    "lines": 939240,
+    "sha256": "917456bbdd625835b316a7c7a2658bb021b804dc26a7763484dfc32fb9946a30"
+   },
+   {
+    "file": "sefaria_cc0_lines_plain_he_v3.txt",
+    "lines": 28210217,
+    "sha256": "0965124efeb2139eb6b07f89e59809c36d87a268337ae798afaf39c5043303bf"
+   },
+   {
+    "file": "gutenberg_lines_niqqud_v1.txt",
+    "lines": 1,
+    "sha256": "502fc295aedce7f5316739877cae8bef8fa4bd0cc4aaf59a70082d5d80660471"
+   },
+   {
+    "file": "gutenberg_lines_plain_v1.txt",
+    "lines": 5315,
+    "sha256": "7f91ae47cc68a943e3e21fd7c8f6915fae4b33ee6564188e7ff99291c3faf662"
+   },
+   {
+    "file": "sefaria-v1__niqqud.txt",
+    "lines": 1,
+    "sha256": "da52f415ee46c6653fce2c2ee95d96cb44e0fa1aaf2572289358d2a2cb74b89f"
+   },
+   {
+    "file": "sefaria-v1__plain.txt",
+    "lines": 6340,
+    "sha256": "a39ccb9e6363d79baf059fa7851f4732ed36b674415d68b45c9fa7fa4f2275c6"
+   },
+   {
+    "file": "sefaria-v2-by__niqqud.txt",
+    "lines": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "file": "sefaria-v2-by__plain.txt",
+    "lines": 32296,
+    "sha256": "148d2e342b6a276f1e9913ca92cfa4294c464a718762256fbce0ef08aac5bbee"
+   },
+   {
+    "file": "sefaria-v2-cc0__releases_sefaria-v2-cc0_niqqud.txt",
+    "lines": 43067,
+    "sha256": "9f3b868948f97224ec3a291bc60b563285ac46c9c93a0082947ac3d4dd44fa4b"
+   },
+   {
+    "file": "sefaria-v2-cc0__releases_sefaria-v2-cc0_plain.txt",
+    "lines": 15076,
+    "sha256": "c5ab6dfa9a2bcb127b6efb1b5ef56f7b2daff1c036afd773765037212b97d610"
+   },
+   {
+    "file": "tanakh-v1.1__data_tanakh_lines_niqqud_v1.txt",
+    "lines": 57683,
+    "sha256": "c4da466e48fef1086dc18fe3d7baed439ff6fd22d09ddc0d7f655066a66a1c0f"
+   },
+   {
+    "file": "tanakh-v1.1__data_tanakh_lines_plain_v1.txt",
+    "lines": 57637,
+    "sha256": "0291d17d4594bc0a41b5304eb3655add4a2ebb03ab92f90fe9e4d773883d8c7b"
+   },
+   {
+    "file": "tsel-haolam-v1__niqqud.txt",
+    "lines": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "file": "tsel-haolam-v1__plain.txt",
+    "lines": 2408,
+    "sha256": "2466941c5be91ec12813726f678daf0fe5eaf2a3378fdd6ea40405741f8fbdb6"
+   }
+  ],
+  "stats": {
+   "dropped:page_excluded_corpus_quality": 741,
+   "dropped:prior_release_duplicate": 303,
+   "lines_out": 4088,
+   "lines_in": 5132,
+   "pages_excluded": 11
+  }
+ }
+}
