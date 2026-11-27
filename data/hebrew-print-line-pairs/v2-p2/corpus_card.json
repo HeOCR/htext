@@ -1,0 +1,47 @@
+{
+  "schema": "hebrew_print_line_pairs_card.v1",
+  "name": "Hebrew print line pairs",
+  "corpus": "hebrew-print-line-pairs",
+  "corpus_version": "v2-p2",
+  "htext_release": "by-sa",
+  "source_licence": "CC BY-SA 4.0",
+  "credit": {
+    "text": "Sefaria (Vilna Edition, PD); Hebrew Wikisource contributors (Talmud Bavli, CC BY-SA); Duke University Libraries and Internet Archive (scans); Rivok Labs (method); HeOCR opensrc (region route)",
+    "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/96edb570944dcbebc54cbf70f94476e0b2384cb8/README.md"
+  },
+  "text_quality": "transcription",
+  "kind": "image_text_line_pairs",
+  "part": "p2-ops708-709",
+  "rows": {
+    "public": 5031,
+    "internal": 0
+  },
+  "image_licence_basis": {
+    "public:pd_il": 5031
+  },
+  "text_licence": {
+    "PD": 4137,
+    "CC-BY-SA": 894
+  },
+  "files": {
+    "v2/p2-ops708-709/public/train-00000.parquet": {
+      "rows": 5031,
+      "sha256": "5517204d9a592f78b4b372089d2b8dc60142478c41f9857ddd346f0a432858e8"
+    }
+  },
+  "huggingface": "HeOCR/hebrew-print-line-pairs",
+  "huggingface_revision": "96edb570944dcbebc54cbf70f94476e0b2384cb8",
+  "huggingface_tag": "v2-p2",
+  "huggingface_config": "book_level_v2_p2",
+  "zenodo": {
+    "doi": "10.5281/zenodo.24575597",
+    "concept_doi": "10.5281/zenodo.24571579"
+  },
+  "clean": "signed by heocr-clean (private restricted-eval#1835, receipt 123a71b4); all rows keep",
+  "builder": {
+    "htext_commit": "7ca4d0238e02e399bdb813ee2f8039659f2e4d47",
+    "driver": "ops #728 Vilna per-region recovery; #64 packaging adapter"
+  },
+  "layout": "docs/linepairs_release_v2.md",
+  "produced_by": "opensrc[openai/codex#shay-macbook-m4]@heocr/opensource; published by htext"
+}

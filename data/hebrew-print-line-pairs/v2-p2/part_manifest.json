@@ -1,0 +1,78 @@
+{
+ "part": "p2-ops708-709",
+ "version": "v2",
+ "rows": {
+  "public": 5031,
+  "internal": 0
+ },
+ "shards": {
+  "public/train-00000.parquet": {
+   "rows": 5031,
+   "sha256": "5517204d9a592f78b4b372089d2b8dc60142478c41f9857ddd346f0a432858e8"
+  }
+ },
+ "by_licence_basis": {
+  "public:pd_il": 5031
+ },
+ "by_text_licence": {
+  "PD": 4137,
+  "CC-BY-SA": 894
+ },
+ "builder": {
+  "htext_commit": "7ca4d0238e02e399bdb813ee2f8039659f2e4d47",
+  "driver": "ops #728 Vilna per-region recovery; #64 packaging adapter"
+ },
+ "inputs": {
+  "manifest": "inputs.json",
+  "manifest_sha256": "e61266308af14e8cad2cd8ded86af0b186bc1dbb7d1130918bd2eb9cc669d5d1"
+ },
+ "report": {
+  "exact_native_pins": 137,
+  "above_gutter_threshold": 204,
+  "rows_by_region": {
+   "gemara": 894,
+   "rashi": 1786,
+   "tosafot": 2351
+  },
+  "primary_qa": {
+   "defects": 2,
+   "rows": 60
+  },
+  "wrap_qa": {
+   "defects": 0,
+   "rows": 15
+  },
+  "additional_qa": {
+   "defects": 1,
+   "rows": 20
+  },
+  "ocr_readback": {
+   "psm": 7,
+   "models": {
+    "heb_rivok": "09ef1830f3393c590791abf9c18deca14450c8e5d3b556249d63b0183cf7a426",
+    "heb_rashi": "c3bdf2c4188e037838e027de419e6e8ca663f1168fef3d09df1a3a46afab6c50",
+    "heb": "11f9e43ab227f786352a50f75c94c2e9906f1baba86d93276da19da7ce0904db",
+    "heb_rashi_fast": "5ce0c3561850b2468c73c83056726c1883c42a648b1b4974ee566db18f3b0b55"
+   },
+   "stats": {
+    "readback_empty": 3,
+    "readback_cer_over_0.25": 39
+   }
+  },
+  "seed_overlap": {
+   "seed_candidate_sha256": "bbfecea13d25c9eea823ddca22c8cff12f7c182ae4698f4251cb2b8aced135f4",
+   "recovery_rows": 4051,
+   "active_leaves_with_candidates": 100,
+   "leaves_with_30_or_more": 74,
+   "same_printed_region_overlap_candidates": 559,
+   "same_label": 559,
+   "different_label": 0,
+   "overlap_definition": "same page and role, intersection covers at least 75% of smaller native crop"
+  }
+ },
+ "clean": {
+  "record": "HeOCR/heocr-restricted-eval#1835 (private), receipt 123a71b4",
+  "result": "all rows keep"
+ },
+ "source_signed_manifest_sha256": "dc4bbc84744add4e0dfacdbd41c8939f28c69ec4d8d9a7764d90d7d8d0a3628c"
+}
