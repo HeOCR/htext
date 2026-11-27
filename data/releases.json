@@ -351,6 +351,19 @@
       "source_licence": "CC BY-SA 4.0",
       "text_quality": "transcription",
       "credit": {"text": "Hebrew Wikisource contributors", "url": "https://he.wikisource.org"}
+    },
+    {
+      "corpus": "hebrew-print-line-pairs",
+      "version": "v2-p3",
+      "card": "data/hebrew-print-line-pairs/v2-p3/corpus_card.json",
+      "release_tag": "hebrew-print-line-pairs-v2-p3",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {"text": "Project Ben-Yehuda volunteers (text); Internet Archive and holding libraries (scans); line-pairing method by Rivok Labs; HeOCR book-level aligner", "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/481edf6e9b0d82897ec28b4b25d8fcea2efccce7/README.md"},
+      "huggingface": "HeOCR/hebrew-print-line-pairs",
+      "huggingface_revision": "481edf6e9b0d82897ec28b4b25d8fcea2efccce7",
+      "zenodo": {"doi": "10.5281/zenodo.24580468", "concept_doi": "10.5281/zenodo.24571579"}
     }
   ]
 }

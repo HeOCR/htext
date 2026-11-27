@@ -1,0 +1,58 @@
+{
+  "schema": "hebrew_print_line_pairs_card.v1",
+  "name": "Hebrew print line pairs",
+  "corpus": "hebrew-print-line-pairs",
+  "corpus_version": "v2-p3",
+  "htext_release": "by-sa",
+  "source_licence": "CC BY-SA 4.0",
+  "credit": {
+    "text": "Project Ben-Yehuda volunteers (text); Internet Archive and holding libraries (scans); line-pairing method by Rivok Labs; HeOCR book-level aligner",
+    "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/481edf6e9b0d82897ec28b4b25d8fcea2efccce7/README.md"
+  },
+  "text_quality": "transcription",
+  "kind": "image_text_line_pairs",
+  "part": "p3-ops711-714",
+  "rows": {
+    "public": 9492,
+    "internal": 0
+  },
+  "image_licence_basis": {
+    "public:pd_il": 9492
+  },
+  "text_licence": {
+    "PD": 9492
+  },
+  "files": {
+    "v2/p3-ops711-714/public/train-00000.parquet": {
+      "rows": 9492,
+      "sha256": "6c824e9f2506e319d9badf2b506cc21feb44acc1f4ccd229edcd643a65d54b1a"
+    }
+  },
+  "huggingface": "HeOCR/hebrew-print-line-pairs",
+  "huggingface_revision": "481edf6e9b0d82897ec28b4b25d8fcea2efccce7",
+  "huggingface_tag": "v2-p3",
+  "huggingface_config": "book_level_v2_p3",
+  "zenodo": {
+    "doi": "10.5281/zenodo.24580468",
+    "concept_doi": "10.5281/zenodo.24571579"
+  },
+  "clean": "signed by heocr-clean (private restricted-eval record, train_clean 9112b9f4); 9,492/9,492 keep, 0 exclusions, 44 text tags in the private sidecar",
+  "text_overlap_note": "315 lines (Project Ben-Yehuda work 1282, Ha-Shiloah VI) have the same text as another printing that HeOCR holds out for evaluation. Their images differ, so they stay under contamination policy v2 amendment 1, tagged as a text overlap in the private sidecar.",
+  "builder": {
+    "htext_commit": "7064f715cdd342ec10e3184a2eeb323703aa386e",
+    "driver": "htext.linepairs.editions, columns rtlN (HeOCR/htext#63, #68)",
+    "packager": "htext.linepairs.release_editions (HeOCR/htext#65)",
+    "prep": "recipe/prep.py (Ha-Melitz pages rotated 180 degrees before OCR)"
+  },
+  "source": {
+    "manifest": "recipe/batch.json",
+    "manifest_sha256": "93d13a0d916450a47ee95c178b6de34b7b82675de42bb00ce2f8792f105f55aa",
+    "sources": [
+      "heocr-ops#711 @ca7df207 records/real-line-print-types-press-20261126/verified-pairs.json",
+      "heocr-ops#713 @a2b5c007 records/real-line-press-scale-20261127/verified-pairs.json",
+      "heocr-ops#714 @d301da88 records/real-line-press-scale-extension-20261127/verified-pairs.json"
+    ]
+  },
+  "layout": "docs/linepairs_release_v2.md",
+  "label_noise_estimate": "0 wrong labels in a manual check of 12 random lines; 2 of 12 show Ben-Yehuda's modernised spelling or punctuation within the 0.25 CER rule"
+}
