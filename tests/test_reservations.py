@@ -239,7 +239,10 @@ def test_a_retired_set_reserves_nothing_and_is_listed(tmp_path):
     reservations = Reservations.load([_eval_file(tmp_path / "r.json", sets, schema="heocr_eval_reservations.v8")])
     assert reservations.reserved("pby", "7") and reservations.reserved("sefaria", "Invented Held Work")
     assert not reservations.reserved("pby", "8") and not reservations.reserved("wikisource", "ws_index_9")
-    assert {"set": "retired one", "status": "retired_2026-11-26", "reserves": "nothing (retired)"} in reservations.card()
+    retired = [row for row in reservations.card() if row.get("status")]
+    assert [(r["set"], r["status"], r["reserves"]) for r in retired] == [("retired one", "retired_2026-11-26", "nothing (retired)")]
+    # Every card row names its file by sha256, as the builders' cards require (the wikisource card failed without it).
+    assert all(len(row["sha256"]) == 64 and row["schema"] == "heocr_eval_reservations.v8" for row in reservations.card())
 
 
 @pytest.mark.parametrize("status", ["retired", "active", "retired_soon", ""])
