@@ -1,0 +1,62 @@
+{
+ "schema": "htext_unified_card.v1",
+ "name": "htext-by",
+ "corpus_version": "v1",
+ "htext_release": "by",
+ "credit": {
+  "text": "Sefaria and the CC BY editions it credits (see NOTICE.md)",
+  "url": "https://huggingface.co/datasets/HeOCR/htext-by/blob/302605896568ab0bb4b1987b50c8fee7c874306d/NOTICE.md"
+ },
+ "source_licences": [
+  "CC-BY"
+ ],
+ "sources": [
+  {
+   "source_licence": "CC-BY"
+  }
+ ],
+ "text_quality": {
+  "variant:niqqud": "transcription",
+  "variant:plain": "transcription"
+ },
+ "files": {
+  "variant:niqqud": {
+   "rows": 203546,
+   "text_quality": "transcription"
+  },
+  "variant:plain": {
+   "rows": 1205667,
+   "text_quality": "transcription"
+  }
+ },
+ "shards": {
+  "data/train-00000.parquet": {
+   "rows": 1409213,
+   "sha256": "e0e18d6b9ddf721e49281ab5b45cbe15aa096b524c40f98d7fc1a25c19c35e67",
+   "bytes": 23983529
+  }
+ },
+ "rows_in": 1409213,
+ "rows_out": 1409213,
+ "by_source": {
+  "sefaria-v3-by": 1376917,
+  "sefaria-v2-by": 32296
+ },
+ "components": {
+  "sefaria-v3-by": {
+   "repo": "HeOCR/htext-sefaria-by",
+   "commit": "c55b5dcbc79b360b87031a1fa7aca029b62d25f0"
+  },
+  "sefaria-v2-by": {
+   "repo": "HeOCR/htext-sefaria-by",
+   "commit": "e28fae17d635f72ad6c9a628734252c1ea219e24"
+  }
+ },
+ "dedupe": "exact (variant, text); blake2b-64 + length; first row in component order kept, others listed in `sources`",
+ "clean": "no new CLEAN: every component passed CLEAN (records in README); work-level screen vs reservations v14: restricted-eval #1893",
+ "huggingface": "HeOCR/htext-by",
+ "huggingface_revision": "302605896568ab0bb4b1987b50c8fee7c874306d",
+ "zenodo": {
+  "doi": "10.5281/zenodo.24583224"
+ }
+}

@@ -374,6 +374,7 @@
       "version": "v3-cc0",
       "card": "data/sefaria/v3-cc0/corpus_card.json",
       "release_tag": "sefaria-v3-cc0",
+      "withdrawn": {"date": "2026-11-27", "reason": "reserved eval work removed (Arukh HaShulchan, Choshen Mishpat, a P-hist hold-out book, and footnotes on another; restricted-eval #1893)", "superseded_by": "sefaria-v3.1-cc0", "assets": "removed from HF main (commit 5208c76e; history keeps them); the Zenodo version stays as an older version"},
       "htext_release": "cc0",
       "source_licence": "Public Domain",
       "text_quality": "transcription",
@@ -422,6 +423,63 @@
       "huggingface": "HeOCR/htext-gutenberg",
       "huggingface_revision": "1f7432ee0240c0a23b44347cb1612c454fe78eed",
       "zenodo": {"doi": "10.5281/zenodo.24581353", "concept_doi": "10.5281/zenodo.24581352"}
+    },
+    {
+      "corpus": "sefaria",
+      "version": "v3.1-cc0",
+      "card": "data/sefaria/v3.1-cc0/corpus_card.json",
+      "release_tag": "sefaria-v3.1-cc0",
+      "supersedes": "sefaria-v3-cc0",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {"text": "Sefaria", "url": "https://www.sefaria.org"},
+      "huggingface": "HeOCR/htext-sefaria",
+      "huggingface_revision": "afcf93c24cda1ccbc80f3fe8fa49599b0ea5708b",
+      "huggingface_path": "releases/sefaria-v3.1-cc0",
+      "zenodo": {"doi": "10.5281/zenodo.24583313", "concept_doi": "10.5281/zenodo.24521422"}
+    },
+    {
+      "corpus": "htext-cc0",
+      "version": "v1",
+      "card": "data/htext-cc0/v1/corpus_card.json",
+      "release_tag": "htext-cc0-v1",
+      "htext_release": "cc0",
+      "source_licences": ["Israel Copyright Act 2007 s.6 (not protected)", "Public Domain"],
+      "source_licence": "Israel Copyright Act 2007 s.6 (not protected)",
+      "text_quality": {"variant:niqqud": "transcription", "variant:ocr": "ocr_layer", "variant:plain": "transcription", "variant:transcription": "transcription"},
+      "credit": {"text": "the htext component releases listed in NOTICE.md (Sefaria and its editions, Project Ben-Yehuda, Hebrew Wikisource contributors, the Knesset, Project Gutenberg, OSHB/WLC)", "url": "https://huggingface.co/datasets/HeOCR/htext-cc0/blob/f74bcfcb2eca39194c3962ec5e82a0c45f11ed69/NOTICE.md"},
+      "huggingface": "HeOCR/htext-cc0",
+      "huggingface_revision": "f74bcfcb2eca39194c3962ec5e82a0c45f11ed69",
+      "zenodo": {"doi": "10.5281/zenodo.24583809"}
+    },
+    {
+      "corpus": "htext-by",
+      "version": "v1",
+      "card": "data/htext-by/v1/corpus_card.json",
+      "release_tag": "htext-by-v1",
+      "htext_release": "by",
+      "source_licences": ["CC-BY"],
+      "source_licence": "CC-BY",
+      "text_quality": {"variant:niqqud": "transcription", "variant:plain": "transcription"},
+      "credit": {"text": "Sefaria and the CC BY editions it credits (see NOTICE.md)", "url": "https://huggingface.co/datasets/HeOCR/htext-by/blob/302605896568ab0bb4b1987b50c8fee7c874306d/NOTICE.md"},
+      "huggingface": "HeOCR/htext-by",
+      "huggingface_revision": "302605896568ab0bb4b1987b50c8fee7c874306d",
+      "zenodo": {"doi": "10.5281/zenodo.24583224"}
+    },
+    {
+      "corpus": "htext-by-sa",
+      "version": "v1",
+      "card": "data/htext-by-sa/v1/corpus_card.json",
+      "release_tag": "htext-by-sa-v1",
+      "htext_release": "by-sa",
+      "source_licences": ["CC-BY-SA"],
+      "source_licence": "CC-BY-SA",
+      "text_quality": {"variant:niqqud": "transcription", "variant:plain": "transcription"},
+      "credit": {"text": "Hebrew Wikisource contributors and the CC BY-SA Sefaria editions (see NOTICE.md)", "url": "https://huggingface.co/datasets/HeOCR/htext-by-sa/blob/169531494d3cc085938a7b58e4ddd5bd76f59769/NOTICE.md"},
+      "huggingface": "HeOCR/htext-by-sa",
+      "huggingface_revision": "169531494d3cc085938a7b58e4ddd5bd76f59769",
+      "zenodo": {"doi": "10.5281/zenodo.24583234"}
     }
   ]
 }
