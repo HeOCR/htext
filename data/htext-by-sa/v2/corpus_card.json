@@ -1,0 +1,93 @@
+{
+ "schema": "htext_unified_card.v1",
+ "name": "htext-by-sa",
+ "corpus_version": "v2",
+ "htext_release": "by-sa",
+ "credit": {
+  "text": "Hebrew Wikisource contributors and the CC BY-SA Sefaria editions (see NOTICE.md)",
+  "url": "https://huggingface.co/datasets/HeOCR/htext-by-sa/blob/9c80e95dc4c28f3491744bb0213f6a6c16365f5f/NOTICE.md"
+ },
+ "source_licences": [
+  "CC-BY-SA"
+ ],
+ "sources": [
+  {
+   "source_licence": "CC-BY-SA"
+  }
+ ],
+ "text_quality": {
+  "variant:niqqud": "transcription",
+  "variant:plain": "transcription"
+ },
+ "files": {
+  "variant:niqqud": {
+   "rows": 491159,
+   "text_quality": "transcription"
+  },
+  "variant:plain": {
+   "rows": 3971132,
+   "text_quality": "transcription"
+  }
+ },
+ "shards": {
+  "data/train-00000.parquet": {
+   "rows": 2000000,
+   "sha256": "422ab2eba311cd91ad87826b4716bc6ef9ca603e2bd5a0a466a7a62eba0c239f",
+   "bytes": 34632156
+  },
+  "data/train-00001.parquet": {
+   "rows": 2000000,
+   "sha256": "88a7e1dead09acbdb7d00c6c344ff578a8a8451b3b15b58a32bc65b981934f88",
+   "bytes": 33217153
+  },
+  "data/train-00002.parquet": {
+   "rows": 462291,
+   "sha256": "bfaf3dcc1de1b5b381828a822c7ea723f805115ee6e76528042bb0b5265fb0fd",
+   "bytes": 7183624
+  }
+ },
+ "rows_in": 4463188,
+ "rows_out": 4462291,
+ "by_source": {
+  "wikisource-v5": 3703412,
+  "wikisource-v4": 4088,
+  "wikisource-v3": 79429,
+  "wikisource-v2": 12953,
+  "wikisource-v1": 72219,
+  "sefaria-v3-by-sa": 590190
+ },
+ "components": {
+  "wikisource-v5": {
+   "repo": "HeOCR/htext-wikisource",
+   "commit": "ea93b039a4d57234466d4c649ff83311069394a4"
+  },
+  "wikisource-v4": {
+   "repo": "HeOCR/htext-wikisource",
+   "commit": "a5ee2ac15051447d571e027c87c9512317cce919"
+  },
+  "wikisource-v3": {
+   "repo": "HeOCR/htext-wikisource",
+   "commit": "b7766502d9d297176925da620b01e357ad0f4ec6"
+  },
+  "wikisource-v2": {
+   "repo": "HeOCR/htext-wikisource",
+   "commit": "efcf3e55bedd7a17e6eef7db02afd4c5f6447144"
+  },
+  "wikisource-v1": {
+   "repo": "HeOCR/htext-wikisource",
+   "commit": "c2f4310c16d194224458fc9efb17cf9342c875ed"
+  },
+  "sefaria-v3-by-sa": {
+   "repo": "HeOCR/htext-sefaria-by-sa",
+   "commit": "1d24204f8bd53d3abc214619a2b73cd731552b5e"
+  }
+ },
+ "dedupe": "exact (variant, text); blake2b-64 + length; first row in component order kept, others listed in `sources`",
+ "clean": "no new CLEAN: every component passed CLEAN (records in README); work-level screen vs reservations v14: restricted-eval #1893; wikisource-v5: #1896",
+ "huggingface": "HeOCR/htext-by-sa",
+ "huggingface_revision": "9c80e95dc4c28f3491744bb0213f6a6c16365f5f",
+ "zenodo": {
+  "doi": "10.5281/zenodo.24584416",
+  "concept_doi": "10.5281/zenodo.24583233"
+ }
+}
