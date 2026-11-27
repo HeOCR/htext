@@ -1,0 +1,221 @@
+{
+ "schema": "htext_wikisource_corpus_card.v1",
+ "name": "htext Wikisource B v5: Hebrew Wikisource main-namespace training lines (130 rights-proven works)",
+ "builder": {
+  "package": "htext",
+  "version": "0.1.0"
+ },
+ "corpus_version": "v5",
+ "source": {
+  "url": "https://dumps.wikimedia.org/hewikisource/20261101/hewikisource-20261101-pages-articles.xml.bz2",
+  "date": "20261101",
+  "sha256": "15a731d70154941afec2a616d538434573a4e068f94c8ea91b659ac64b833fe1",
+  "bytes": 469082606
+ },
+ "source_licence": "CC BY-SA 4.0",
+ "licence": {
+  "outputs": "CC-BY-SA-4.0",
+  "source": "CC BY-SA 4.0",
+  "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+ },
+ "credit": {
+  "text": "Hebrew Wikisource contributors",
+  "url": "https://he.wikisource.org"
+ },
+ "htext_release": "by-sa",
+ "release": {
+  "htext_release": "by-sa",
+  "release_name": "htext-by-sa",
+  "release_licence": "CC-BY-SA-4.0",
+  "entries_admitted": 13801,
+  "source_licences": {
+   "CC BY-SA 4.0": 13801
+  }
+ },
+ "text_quality": "transcription",
+ "proofread_quality_levels": [],
+ "parameters": {
+  "seed": 15,
+  "niqqud_threshold": 0.5,
+  "max_line_chars": 55,
+  "maqaf_allowed": true,
+  "length_profile_source": "/Users/shaypalachy/temp/heocr/downloads/htext-gutenberg/hebrew_lines_train_v1.txt",
+  "length_profile_sha256": "155073071cc39a5fcfd2fe3d70878f2e4d89208721d0ecf14447f608895dcdff",
+  "fit_check": {
+   "ran": true,
+   "hocrsyngen_version": null,
+   "hocrsyngen_commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "bodies": [
+    {
+     "template_id": "printed_letter",
+     "font_file": "Alef-Regular.ttf",
+     "size": 42,
+     "width": 968,
+     "rows_per_line": null
+    },
+    {
+     "template_id": "handwritten_note",
+     "font_file": "GveretLevin-Regular.ttf",
+     "size": 46,
+     "width": 968,
+     "rows_per_line": null
+    },
+    {
+     "template_id": "archive_card",
+     "font_file": "Alef-Regular.ttf",
+     "size": 38,
+     "width": 498,
+     "rows_per_line": 2
+    },
+    {
+     "template_id": "ledger",
+     "font_file": "Alef-Regular.ttf",
+     "size": 30,
+     "width": 206,
+     "rows_per_line": 10
+    }
+   ],
+   "maqaf_glyph_check": true
+  }
+ },
+ "eval_reservations": {
+  "sets": [
+   {
+    "sha256": "aa84b66c5871116e6511efe3667f58d7bfa611ba63d969d3d77466b615f6956a"
+   }
+  ],
+  "units": 37,
+  "reserved_indexes": 37,
+  "works_excluded": 25,
+  "scan_families_excluded": 41,
+  "pages_excluded": 2700,
+  "article_pages_excluded": 2700
+ },
+ "eval_overlap_drop": {
+  "units": 0,
+  "line_sha256s": 0,
+  "lines_dropped": 0
+ },
+ "leakage_fixtures": [
+  {
+   "repository": "HeOCR/hocrgen",
+   "path": "docs/evaluation-fixtures/bidi-synthetic-corpus.txt",
+   "commit": "c8fb74eb5d0afedd812a0da69562e4610a0b3394",
+   "sha256": "b325673476bce8c16f0a2731e5de1ec9b226b8274fc1e7dfb723dbccb3edf966",
+   "lines": 100,
+   "stripped": true
+  },
+  {
+   "repository": "HeOCR/hocrsyngen",
+   "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines.txt",
+   "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "sha256": "ac7e1dc2c21d2506b93c26ce81cab3327baf217d82fb6620c1ddf6f597235fd6",
+   "lines": 19,
+   "stripped": true
+  },
+  {
+   "repository": "HeOCR/hocrsyngen",
+   "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_eval_v1.txt",
+   "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "sha256": "89e52f8b90cdbb8a276fbdaf96530afff2cc266e13ad6355c215c79e5a58d97f",
+   "lines": 812,
+   "stripped": true
+  },
+  {
+   "repository": "HeOCR/hocrsyngen",
+   "path": "src/hocrsyngen/data/synthetic/texts/hebrew_lines_niqqud_eval_v1.txt",
+   "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "sha256": "974ffa19251bcc1137a3baf908f22d2770d801a38d93456d6109bf6565de5640",
+   "lines": 40,
+   "stripped": true
+  },
+  {
+   "repository": "HeOCR/hocrsyngen",
+   "path": "src/hocrsyngen/data/synthetic/texts/hebrew_mixed_lines_eval_v1.txt",
+   "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "sha256": "45a81fff1105ba347c2e80ebfe5cafa0c4e3763975279709c0b9af7a0eedaa88",
+   "lines": 401,
+   "stripped": true
+  },
+  {
+   "repository": "HeOCR/hocrsyngen",
+   "path": "src/hocrsyngen/data/synthetic/texts/hebrew_typographic_lines_eval_v1.txt",
+   "commit": "88c61af4c12cc4a462fc1f57a1c4027b3459366d",
+   "sha256": "3364283592492d8827ae94b8899ce44cecedf1281b4fbeb69f9d76b3e9a09a3c",
+   "lines": 418,
+   "stripped": true
+  }
+ ],
+ "release_gate": "The official HeOCR evaluation overlap check must find 0 before release.",
+ "known_limitations": [
+  "The exclusion map covers the same ProofreadPage work and its article subpages. Other editions require the official eval overlap check.",
+  "Main-namespace text is an unproofread transcription."
+ ],
+ "totals": {
+  "plain": 3292731,
+  "niqqud": 410681,
+  "lines": 3703412
+ },
+ "counts": {
+  "article_pages_excluded_by_eval": 2700,
+  "articles_excluded_by_conversion": 1885,
+  "articles_outside_reviewed_inputs": 221447,
+  "lines_dropped:charset": 43090,
+  "lines_dropped:duplicate": 124056,
+  "lines_dropped:fit:archive_card:too_many_rows": 7269,
+  "lines_dropped:fit:ledger:word_too_wide": 1107,
+  "lines_dropped:leak_line": 10,
+  "lines_dropped:leak_word3": 148,
+  "lines_dropped:medial_final_form": 283,
+  "lines_dropped:too_few_letters": 9486,
+  "pages_excluded_by_eval": 2700,
+  "pages_redirect": 1296665,
+  "pages_seen": 1540365,
+  "pages_without_lines": 3867
+ },
+ "files": {
+  "wikisource_plain_v5.txt": {
+   "lines": 3292731,
+   "sha256": "b8737862c943c90089610c2a8fb788a4066c6cf6fbd81ff89ee287983efc6040"
+  },
+  "wikisource_niqqud_v5.txt": {
+   "lines": 410681,
+   "sha256": "151fd75153fb9d569e618c8adcce8f6a34a950e99fac4798432a77828a606390"
+  }
+ },
+ "rights_index": {
+  "name": "wikisource_rights_index.v1.jsonl.gz",
+  "schema": "wikisource_rights_index.v1",
+  "pages": 13801,
+  "sha256": "213032145ff71ad6dfcb17d90b908d592413c852de7059aa986194f82151df67"
+ },
+ "line_index": {
+  "name": "wikisource_line_index.v1.jsonl.gz",
+  "schema": "wikisource_line_index.v1",
+  "lines": 4067609,
+  "sha256": "cabadb3f49581851ed04890586d38e976181a86a45a194728f03d6b399e04530"
+ },
+ "notice": "NOTICE.md",
+ "main_namespace_inputs": {
+  "works_sha256": "b1cfc4584cba82a2642bd794c90e9d8c89bc17491859bebc935beae4ce3c912f"
+ },
+ "dedup": {
+  "against": "every published htext line (htext-cc0/by/by-sa v1 parquet, incl. PBY); marks stripped, exact",
+  "stats": {
+   "dropped:prior_release_duplicate": 357054,
+   "dropped:in_corpus_duplicate": 7143,
+   "lines_in": 4067609,
+   "lines_out": 3703412,
+   "pages_emptied": 409
+  }
+ },
+ "train_clean": {
+  "record": "HeOCR/heocr-restricted-eval#1896",
+  "train_clean": "f822da02",
+  "kept": "3,703,412 of 3,703,412",
+  "tagged": 1113,
+  "work_level_screen": "reservations v14: 0 reserved works, 0 transclusions of a reserved Index"
+ },
+ "near_duplicate_note": "About 39% of this corpus's content (sampled 4-word phrases, census estimate) also appears in Sefaria or other htext releases, mostly Talmud commentaries (Rishonim) and halakhic works; 36 of the 130 works overlap by 50% or more. Exact duplicate lines are removed, but the same text with different line breaks or edition wording is kept on purpose (lead ruling, 2026-11-27).",
+ "rights": "130 works, every author died by 1955 (Wikidata P50/P570 or Wikisource author pages); translations only with a proven translator; other editions of evaluation hold-out books left out. Works list: works.v3.json (HeOCR/htext data/wikisource/works.v3.json)."
+}

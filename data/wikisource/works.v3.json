@@ -1,0 +1,1306 @@
+{
+ "schema": "htext_wikisource_works.v1",
+ "works": [
+  {
+   "root": "ליקוטי הלכות",
+   "work": "ליקוטי הלכות",
+   "authors": [
+    "רבי נתן מברסלב (d. 1844, Q2777592)"
+   ],
+   "pd_israel_basis": 1844,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2777592",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1844). Translations need a proven translator. Estimated 521,288 lines, 11% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שיטה מקובצת על הש\"ס",
+   "work": "שיטה מקובצת על הש\"ס",
+   "authors": [
+    "בצלאל אשכנזי (d. 1594, Q832201)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q832201",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1594). Translations need a proven translator. Estimated 605,264 lines, 40% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "פני יהושע",
+   "work": "פני יהושע",
+   "authors": [
+    "יעקב יהושע פלק (d. 1756, Q571580)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q571580",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1756, attributed). Translations need a proven translator. Estimated 385,404 lines, 53% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חידושי הרשב\"א על הש\"ס",
+   "work": "חידושי הרשב\"א על הש\"ס",
+   "authors": [
+    "רשב\"א (d. 1310, Q982170)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q982170",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1310, category). Translations need a proven translator. Estimated 382,321 lines, 53% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חידושי הריטב\"א על הש\"ס",
+   "work": "חידושי הריטב\"א על הש\"ס",
+   "authors": [
+    "ריטב\"א (d. 1330, Q460368)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q460368",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1330). Translations need a proven translator. Estimated 295,815 lines, 52% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "טור ברקת",
+   "work": "טור ברקת",
+   "authors": [
+    "חיים הכהן (מקובל) (d. 1655, Q6624808)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q6624808",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1655, attributed). Translations need a proven translator. Estimated 117,222 lines, 13% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מאירי על הש\"ס",
+   "work": "מאירי על הש\"ס",
+   "authors": [
+    "מנחם המאירי (d. 1315, Q1920221)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q1920221",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1315, attributed). Translations need a proven translator. Estimated 106,342 lines, 24% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חידושי הרמב\"ן על הש\"ס",
+   "work": "חידושי הרמב\"ן על הש\"ס",
+   "authors": [
+    "Q355455 (d. 1270)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q107091189",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1270). Translations need a proven translator. Estimated 182,537 lines, 57% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "רבינו אשר על הש\"ס",
+   "work": "רבינו אשר על הש\"ס",
+   "authors": [
+    "רא\"ש (d. 1327, Q722525)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q722525",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1327). Translations need a proven translator. Estimated 211,781 lines, 63% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שפת אמת",
+   "work": "שפת אמת",
+   "authors": [
+    "Q2891454 (d. 1905)"
+   ],
+   "pd_israel_basis": 1905,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q6965529",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1905). Translations need a proven translator. Estimated 147,422 lines, 56% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שו\"ת רדב\"ז",
+   "work": "שו\"ת רדב\"ז",
+   "authors": [
+    "רדב\"ז (d. 1573, Q5241455)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q5241455",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1573). Translations need a proven translator. Estimated 141,573 lines, 54% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מגלה צפונות",
+   "work": "מגלה צפונות",
+   "authors": [
+    "Q1328913 (d. 1729)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q106311769",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1729). Translations need a proven translator. Estimated 71,477 lines, 14% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "נתיבות המשפט",
+   "work": "נתיבות המשפט",
+   "authors": [
+    "Q2904852 (d. 1832)"
+   ],
+   "pd_israel_basis": 1832,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q93576848",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1832). Translations need a proven translator. Estimated 128,262 lines, 55% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "כל כתבי שאול טשרניחובסקי",
+   "work": "כל כתבי שאול טשרניחובסקי",
+   "authors": [
+    "שאול טשרניחובסקי (d. 1943, Q521410)"
+   ],
+   "pd_israel_basis": 1943,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q521410",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1943, attributed). Translations need a proven translator. Estimated 55,882 lines, 0% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "עין משפט ונר מצוה",
+   "work": "עין משפט ונר מצוה",
+   "authors": [
+    "Q2902916 (d. 1557)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q118780836",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1557). Translations need a proven translator. Estimated 53,024 lines, 4% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "נתיבות עולם",
+   "work": "נתיבות עולם",
+   "authors": [
+    "מהר\"ל מפראג (d. 1609, Q363513)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q363513",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1609, author page). Translations need a proven translator. Estimated 56,013 lines, 21% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "רי\"ף על הש\"ס",
+   "work": "רי\"ף על הש\"ס",
+   "authors": [
+    "Q523491 (d. 1103)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q12406664",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1103). Translations need a proven translator. Estimated 97,783 lines, 56% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חיים ביד",
+   "work": "חיים ביד",
+   "authors": [
+    "Q2903944 (d. 1869)"
+   ],
+   "pd_israel_basis": 1869,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q114832273",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1869). Translations need a proven translator. Estimated 47,836 lines, 17% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "עץ חיים",
+   "work": "עץ חיים",
+   "authors": [
+    "האר\"י (d. 1572, Q339509)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q339509",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1620). Translations need a proven translator. Estimated 72,173 lines, 46% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מנורת המאור (אבוהב)",
+   "work": "מנורת המאור (אבוהב)",
+   "authors": [
+    "Q1673399 (d. 1400)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q12409262",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1400). Translations need a proven translator. Estimated 49,143 lines, 26% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר הבדיחה והחידוד",
+   "work": "ספר הבדיחה והחידוד",
+   "authors": [
+    "אלתר דרויאנוב (d. 1938, Q437809)"
+   ],
+   "pd_israel_basis": 1938,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q437809",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1938). Translations need a proven translator. Estimated 35,294 lines, 2% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "נועם אלימלך",
+   "work": "נועם אלימלך",
+   "authors": [
+    "Q1329488 (d. 1787)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q7217791",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1787). Translations need a proven translator. Estimated 35,300 lines, 10% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תשובות הרשב\"א",
+   "work": "תשובות הרשב\"א",
+   "authors": [
+    "רשב\"א (d. 1310, Q982170)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q982170",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1310). Translations need a proven translator. Estimated 55,872 lines, 44% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שו\"ת הרא\"ש",
+   "work": "שו\"ת הרא\"ש",
+   "authors": [
+    "Q722525 (d. 1327)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q111434803",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1327). Translations need a proven translator. Estimated 62,873 lines, 53% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "כף החיים",
+   "work": "כף החיים",
+   "authors": [
+    "Q1679613 (d. 1939)"
+   ],
+   "pd_israel_basis": 1939,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q58348685",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1939). Translations need a proven translator. Estimated 45,202 lines, 35% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "משך חכמה",
+   "work": "משך חכמה",
+   "authors": [
+    "מאיר שמחה הכהן (d. 1926, Q2910090)"
+   ],
+   "pd_israel_basis": 1926,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2910090",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1926). Translations need a proven translator. Estimated 58,433 lines, 50% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חפץ חיים על ספרא",
+   "work": "חפץ חיים על ספרא",
+   "authors": [
+    "ישראל מאיר הכהן (d. 1933, Q733140)"
+   ],
+   "pd_israel_basis": 1933,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q733140",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1933, category). Translations need a proven translator. Estimated 46,581 lines, 40% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תורה אור (חב\"ד)",
+   "work": "תורה אור (חב\"ד)",
+   "authors": [
+    "שניאור זלמן מלאדי (d. 1812, Q547033)"
+   ],
+   "pd_israel_basis": 1812,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q547033",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1812, attributed). Translations need a proven translator. Estimated 30,965 lines, 12% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר מכלול (רד\"ק)",
+   "work": "ספר מכלול (רד\"ק)",
+   "authors": [
+    "רד\"ק (d. 1235, Q733619)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q733619",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1235). Translations need a proven translator. Estimated 28,447 lines, 5% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "בן יהוידע",
+   "work": "בן יהוידע",
+   "authors": [
+    "יוסף חיים מבגדד (d. 1909, Q775996)"
+   ],
+   "pd_israel_basis": 1909,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q775996",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1909, attributed). Translations need a proven translator. Estimated 48,009 lines, 45% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "לקוטי עצות",
+   "work": "לקוטי עצות",
+   "authors": [
+    "רבי נחמן מברסלב (d. 1810, Q467182)"
+   ],
+   "pd_israel_basis": 1810,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q467182",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1844). Translations need a proven translator. Estimated 27,769 lines, 5% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שבט מוסר",
+   "work": "שבט מוסר",
+   "authors": [
+    "Q1328913 (d. 1729)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q44427202",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1729). Translations need a proven translator. Estimated 36,379 lines, 28% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תורת העולה",
+   "work": "תורת העולה",
+   "authors": [
+    "Q1949189 (d. 1572)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q29652329",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1572). Translations need a proven translator. Estimated 50,745 lines, 49% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "אבודרהם",
+   "work": "אבודרהם",
+   "authors": [
+    "Q461507 (d. 1400)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q126960453",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1400). Translations need a proven translator. Estimated 34,411 lines, 25% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "יהל אור",
+   "work": "יהל אור",
+   "authors": [
+    "הגאון מווילנה (d. 1797, Q279359)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q279359",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1797, attributed). Translations need a proven translator. Estimated 43,166 lines, 41% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "דרך חיים (מהר\"ל)",
+   "work": "דרך חיים (מהר\"ל)",
+   "authors": [
+    "מהר\"ל מפראג (d. 1609, Q363513)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q363513",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1609). Translations need a proven translator. Estimated 40,439 lines, 39% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תרומת הדשן",
+   "work": "תרומת הדשן",
+   "authors": [
+    "Q45017 (d. 1460)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q130213555",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1460). Translations need a proven translator. Estimated 50,311 lines, 52% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חיי אדם",
+   "work": "חיי אדם",
+   "authors": [
+    "אברהם דנציג (d. 1820, Q2909560)"
+   ],
+   "pd_israel_basis": 1820,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2909560",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1820). Translations need a proven translator. Estimated 51,167 lines, 53% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "כף החיים (פאלאג'י)",
+   "work": "כף החיים (פאלאג'י)",
+   "authors": [
+    "Q2903944 (d. 1869)"
+   ],
+   "pd_israel_basis": 1869,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q114134035",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1869). Translations need a proven translator. Estimated 26,659 lines, 11% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "קדושת לוי",
+   "work": "קדושת לוי",
+   "authors": [
+    "Q1821872 (d. 1809)"
+   ],
+   "pd_israel_basis": 1809,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q6382636",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1809). Translations need a proven translator. Estimated 50,622 lines, 53% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תפארת ישראל (מהר\"ל)",
+   "work": "תפארת ישראל (מהר\"ל)",
+   "authors": [
+    "מהר\"ל מפראג (d. 1609, Q363513)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q363513",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1609). Translations need a proven translator. Estimated 47,500 lines, 52% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תוספתא",
+   "work": "תוספתא",
+   "authors": [
+    "משה שמואל צוקרמנדל (d. 1917, Q1949222)"
+   ],
+   "pd_israel_basis": 1917,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q1949222",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1917, attributed). Translations need a proven translator. Estimated 56,277 lines, 60% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "פלא יועץ",
+   "work": "פלא יועץ",
+   "authors": [
+    "Q5360768 (d. 1828)"
+   ],
+   "pd_israel_basis": 1828,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q7161245",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1828). Translations need a proven translator. Estimated 44,048 lines, 51% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "גבורות ה'",
+   "work": "גבורות ה'",
+   "authors": [
+    "מהר\"ל מפראג (d. 1609, Q363513)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q363513",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1609). Translations need a proven translator. Estimated 36,731 lines, 41% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תורת הבית הארוך",
+   "work": "תורת הבית הארוך",
+   "authors": [
+    "רשב\"א (d. 1310, Q982170)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q982170",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1310). Translations need a proven translator. Estimated 48,654 lines, 56% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מאמרי הראיה",
+   "work": "מאמרי הראיה",
+   "authors": [
+    "אברהם יצחק הכהן קוק (d. 1935, Q330110)"
+   ],
+   "pd_israel_basis": 1935,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q330110",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1935). Translations need a proven translator. Estimated 22,442 lines, 5% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מדרש שמואל (אוזידא)",
+   "work": "מדרש שמואל (אוזידא)",
+   "authors": [
+    "Q12411794 (d. 1604)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q113170544",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1604). Translations need a proven translator. Estimated 43,012 lines, 51% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר יראים",
+   "work": "ספר יראים",
+   "authors": [
+    "Q1329306 (d. 1190)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q85991652",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1190). Translations need a proven translator. Estimated 46,860 lines, 55% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "כרך של רומי",
+   "work": "כרך של רומי",
+   "authors": [
+    "ישראל משה חזן (d. 1862, Q16132896)"
+   ],
+   "pd_israel_basis": 1862,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q16132896",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1862, attributed). Translations need a proven translator. Estimated 44,691 lines, 53% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מהרש\"ל על הש\"ס",
+   "work": "מהרש\"ל על הש\"ס",
+   "authors": [
+    "מהרש\"ל (d. 1573, Q83960)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q83960",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1573, category). Translations need a proven translator. Estimated 44,499 lines, 54% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שו\"ת מהרש\"ל",
+   "work": "שו\"ת מהרש\"ל",
+   "authors": [
+    "מהרש\"ל (d. 1573, Q83960)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q83960",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1573, category). Translations need a proven translator. Estimated 23,794 lines, 14% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר העקרים",
+   "work": "ספר העקרים",
+   "authors": [
+    "רבי יוסף אלבו (d. 1444, Q559622)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q559622",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1444). Translations need a proven translator. Estimated 36,690 lines, 47% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר קרניים",
+   "work": "ספר קרניים",
+   "authors": [
+    "אליעזר פישל מסטריזוב (d. 1811, Q118913788)",
+    "שמשון מאוסטרופולי (d. 1648, Q2907021)"
+   ],
+   "pd_israel_basis": 1811,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q118913788",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1811, attributed). Translations need a proven translator. Estimated 19,902 lines, 6% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חיי מוהר\"ן",
+   "work": "חיי מוהר\"ן",
+   "authors": [
+    "רבי נחמן מברסלב (d. 1810, Q467182)"
+   ],
+   "pd_israel_basis": 1810,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q467182",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1844). Translations need a proven translator. Estimated 19,717 lines, 6% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חפץ חיים",
+   "work": "חפץ חיים",
+   "authors": [
+    "ישראל מאיר הכהן (d. 1933, Q733140)"
+   ],
+   "pd_israel_basis": 1933,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q733140",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1933). Translations need a proven translator. Estimated 23,954 lines, 23% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "כוכבי אור",
+   "work": "כוכבי אור",
+   "authors": [
+    "Q4668801 (d. 1917)"
+   ],
+   "pd_israel_basis": 1917,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q110987044",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1917). Translations need a proven translator. Estimated 18,789 lines, 3% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ראשית חכמה",
+   "work": "ראשית חכמה",
+   "authors": [
+    "Q5362066 (d. 1592)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q7315371",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1592). Translations need a proven translator. Estimated 20,760 lines, 18% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "אוהב ישראל",
+   "work": "אוהב ישראל",
+   "authors": [
+    "Q330132 (d. 1825)"
+   ],
+   "pd_israel_basis": 1825,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q97262949",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1825). Translations need a proven translator. Estimated 33,419 lines, 51% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "דרכי הגשמה",
+   "work": "דרכי הגשמה",
+   "authors": [
+    "חיים ארלוזורוב (d. 1933, Q726510)"
+   ],
+   "pd_israel_basis": 1933,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q726510",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1933, attributed). Translations need a proven translator. Estimated 16,504 lines, 0% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תוספות הרא\"ש על הש\"ס",
+   "work": "תוספות הרא\"ש על הש\"ס",
+   "authors": [
+    "Q722525 (d. 1327)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q60475468",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1327). Translations need a proven translator. Estimated 26,971 lines, 39% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תולדות ההתישבות בעולם",
+   "work": "תולדות ההתישבות בעולם",
+   "authors": [
+    "חיים ארלוזורוב (d. 1933, Q726510)"
+   ],
+   "pd_israel_basis": 1933,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q726510",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1933, attributed). Translations need a proven translator. Estimated 15,888 lines, 0% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "רש\"ש על המשנה",
+   "work": "רש\"ש על המשנה",
+   "authors": [
+    "שמואל שטראשון (d. 1872, Q527375)"
+   ],
+   "pd_israel_basis": 1872,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q527375",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1872, category). Translations need a proven translator. Estimated 38,699 lines, 60% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תורת חובות הלבבות",
+   "work": "תורת חובות הלבבות",
+   "authors": [
+    "בחיי אבן פקודה (d. 1120, Q762229)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q762229",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1120). Translations need a proven translator. Estimated 18,340 lines, 15% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מנחת חינוך",
+   "work": "מנחת חינוך",
+   "authors": [
+    "Q2903622 (d. 1874)"
+   ],
+   "pd_israel_basis": 1874,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q6863341",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1874). Translations need a proven translator. Estimated 30,603 lines, 50% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מגלה עמוקות על איוב",
+   "work": "מגלה עמוקות על איוב",
+   "authors": [
+    "משה דוד ואלי (d. 1777, Q6616438)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q6616438",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1777, attributed). Translations need a proven translator. Estimated 16,686 lines, 9% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ציצים ופרחים (יעב\"ץ)",
+   "work": "ציצים ופרחים (יעב\"ץ)",
+   "authors": [
+    "יעקב עמדין (d. 1776, Q473756)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q473756",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1776, attributed). Translations need a proven translator. Estimated 15,982 lines, 6% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תניא מנוקד",
+   "work": "תניא מנוקד",
+   "authors": [
+    "שניאור זלמן מלאדי (d. 1812, Q547033)"
+   ],
+   "pd_israel_basis": 1812,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q547033",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1812, category). Translations need a proven translator. Estimated 16,007 lines, 10% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חיים חדשים",
+   "work": "חיים חדשים",
+   "authors": [
+    "חיים ארלוזורוב (d. 1933, Q726510)"
+   ],
+   "pd_israel_basis": 1933,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q726510",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1933, attributed). Translations need a proven translator. Estimated 14,426 lines, 1% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חסד לאברהם",
+   "work": "חסד לאברהם",
+   "authors": [
+    "Q1977082 (d. 1643)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q25635391",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1643). Translations need a proven translator. Estimated 26,652 lines, 46% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "אור חדש",
+   "work": "אור חדש",
+   "authors": [
+    "Q363513 (d. 1609)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q55650819",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1609). Translations need a proven translator. Estimated 20,791 lines, 34% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "אם הבנים שמחה",
+   "work": "אם הבנים שמחה",
+   "authors": [
+    "Q3323875 (d. 1945)"
+   ],
+   "pd_israel_basis": 1945,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q7063938",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1945). Translations need a proven translator. Estimated 26,604 lines, 49% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "לשון חכמים",
+   "work": "לשון חכמים",
+   "authors": [
+    "יוסף חיים מבגדד (d. 1909, Q775996)"
+   ],
+   "pd_israel_basis": 1909,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q775996",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1909, attributed). Translations need a proven translator. Estimated 28,613 lines, 53% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "משיבת נפש",
+   "work": "משיבת נפש",
+   "authors": [
+    "Q4736287 (d. 1919)"
+   ],
+   "pd_israel_basis": 1919,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q115611750",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1919). Translations need a proven translator. Estimated 14,339 lines, 8% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "סמ\"ק",
+   "work": "סמ\"ק",
+   "authors": [
+    "Q6077408 (d. 1280)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q6855962",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1280). Translations need a proven translator. Estimated 20,404 lines, 40% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שב שמעתתא",
+   "work": "שב שמעתתא",
+   "authors": [
+    "אריה לייב הכהן הלר (d. 1813, Q2907499)"
+   ],
+   "pd_israel_basis": 1813,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2907499",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1813). Translations need a proven translator. Estimated 27,129 lines, 55% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "האומה והעבודה",
+   "work": "האומה והעבודה",
+   "authors": [
+    "אהרן דוד גורדון (d. 1922, Q399986)"
+   ],
+   "pd_israel_basis": 1922,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q399986",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1922, attributed). Translations need a proven translator. Estimated 12,291 lines, 1% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר חסידים",
+   "work": "ספר חסידים",
+   "authors": [
+    "Q1391474 (d. 1217)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q7020186",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1217). Translations need a proven translator. Estimated 22,614 lines, 48% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "צדקת הצדיק",
+   "work": "צדקת הצדיק",
+   "authors": [
+    "צדוק הכהן מלובלין (d. 1900, Q8064174)"
+   ],
+   "pd_israel_basis": 1900,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q8064174",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1900, category). Translations need a proven translator. Estimated 17,563 lines, 34% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חומה של זכוכית",
+   "work": "חומה של זכוכית",
+   "authors": [
+    "חיים ארלוזורוב (d. 1933, Q726510)"
+   ],
+   "pd_israel_basis": 1933,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q726510",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1933, attributed). Translations need a proven translator. Estimated 11,465 lines, 0% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שיחות הר\"ן",
+   "work": "שיחות הר\"ן",
+   "authors": [
+    "רבי נחמן מברסלב (d. 1810, Q467182)"
+   ],
+   "pd_israel_basis": 1810,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q467182",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1810, category). Translations need a proven translator. Estimated 11,617 lines, 5% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ובחרת בחיים",
+   "work": "ובחרת בחיים",
+   "authors": [
+    "חיים פלאג'י (d. 1869, Q2903944)"
+   ],
+   "pd_israel_basis": 1869,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2903944",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1868, author page). Translations need a proven translator. Estimated 13,891 lines, 24% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "אגרת רבן יוחנן בן זכאי",
+   "work": "אגרת רבן יוחנן בן זכאי",
+   "authors": [
+    "אברהם יצחק דזובס (d. 1947, Q118913075)"
+   ],
+   "pd_israel_basis": 1947,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q118913075",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1947, attributed). Translations need a proven translator. Estimated 11,646 lines, 12% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "קב הישר",
+   "work": "קב הישר",
+   "authors": [
+    "Q244520 (d. 1712)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q6378990",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1712). Translations need a proven translator. Estimated 19,690 lines, 48% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "באר הגולה (מהר\"ל)",
+   "work": "באר הגולה (מהר\"ל)",
+   "authors": [
+    "מהר\"ל מפראג (d. 1609, Q363513)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q363513",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1609). Translations need a proven translator. Estimated 17,148 lines, 42% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "איל משולש",
+   "work": "איל משולש",
+   "authors": [
+    "הגאון מווילנה (d. 1797, Q279359)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q279359",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1797). Translations need a proven translator. Estimated 10,134 lines, 2% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "עולת ראי\"ה",
+   "work": "עולת ראי\"ה",
+   "authors": [
+    "Q330110 (d. 1935)"
+   ],
+   "pd_israel_basis": 1935,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q12410256",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1935). Translations need a proven translator. Estimated 9,442 lines, 5% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "בחורף",
+   "work": "בחורף",
+   "authors": [
+    "יוסף חיים ברנר (d. 1921, Q939732)"
+   ],
+   "pd_israel_basis": 1921,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q939732",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1921). Translations need a proven translator. Estimated 8,847 lines, 1% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שערי אורה (ג'יקאטיליה)",
+   "work": "שערי אורה (ג'יקאטיליה)",
+   "authors": [
+    "יוסף גיקטיליה (d. 1325, Q1704663)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q1704663",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1325). Translations need a proven translator. Estimated 16,998 lines, 48% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שער הגלגולים",
+   "work": "שער הגלגולים",
+   "authors": [
+    "חיים ויטאל (d. 1620, Q2302424)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2302424",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1620, category). Translations need a proven translator. Estimated 17,295 lines, 52% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "יוסף תהלות",
+   "work": "יוסף תהלות",
+   "authors": [
+    "Q1058991 (d. 1806)"
+   ],
+   "pd_israel_basis": 1806,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q25635927",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1806). Translations need a proven translator. Estimated 9,374 lines, 12% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ישראל קדושים",
+   "work": "ישראל קדושים",
+   "authors": [
+    "צדוק הכהן מלובלין (d. 1900, Q8064174)"
+   ],
+   "pd_israel_basis": 1900,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q8064174",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1900, category). Translations need a proven translator. Estimated 13,270 lines, 38% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר הערוך",
+   "work": "ספר הערוך",
+   "authors": [
+    "Q1803572 (d. 1200)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2863487",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1200). Translations need a proven translator. Estimated 11,984 lines, 32% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מדרש זוטא (בובר)",
+   "work": "מדרש זוטא (בובר)",
+   "authors": [
+    "שלמה בובר (d. 1906, Q982067)"
+   ],
+   "pd_israel_basis": 1906,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q982067",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1906). Translations need a proven translator. Estimated 9,600 lines, 18% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "היכל הברכה",
+   "work": "היכל הברכה",
+   "authors": [
+    "רבי יצחק יהודה יחיאל ספרין (d. 1874, Q6882579)"
+   ],
+   "pd_israel_basis": 1874,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q6882579",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1874, category). Translations need a proven translator. Estimated 8,855 lines, 12% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מקור ברוך",
+   "work": "מקור ברוך",
+   "authors": [
+    "ברוך הלוי אפשטיין (d. 1942, Q4865853)"
+   ],
+   "pd_israel_basis": 1942,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q4865853",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1942, category). Translations need a proven translator. Estimated 8,788 lines, 12% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שו\"ת מהר\"ם מרוטנבורג (דפוס קרימונה)",
+   "work": "שו\"ת מהר\"ם מרוטנבורג (דפוס קרימונה)",
+   "authors": [
+    "מהר\"ם מרוטנבורג (d. 1293, Q72163)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q72163",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1293, category). Translations need a proven translator. Estimated 14,997 lines, 50% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "עין יעקב",
+   "work": "עין יעקב",
+   "authors": [
+    "Q1679441 (d. 1516)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q5349597",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1516). Translations need a proven translator. Estimated 9,480 lines, 22% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר המידות (ברסלב)",
+   "work": "ספר המידות (ברסלב)",
+   "authors": [
+    "רבי נחמן מברסלב (d. 1810, Q467182)"
+   ],
+   "pd_israel_basis": 1810,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q467182",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1810). Translations need a proven translator. Estimated 12,353 lines, 43% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ערפלי טוהר",
+   "work": "ערפלי טוהר",
+   "authors": [
+    "אברהם יצחק הכהן קוק (d. 1935, Q330110)"
+   ],
+   "pd_israel_basis": 1935,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q330110",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1935, author page). Translations need a proven translator. Estimated 7,613 lines, 10% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "רש\"י על בראשית רבה",
+   "work": "רש\"י על בראשית רבה",
+   "authors": [
+    "רש\"י (d. 1105, Q26456)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q26456",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1105). Translations need a proven translator. Estimated 12,645 lines, 46% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר תולדות אדם וחוה",
+   "work": "ספר תולדות אדם וחוה",
+   "authors": [
+    "רבי ירוחם בן משולם (d. 1350, Q2907087)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2907087",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1350, attributed). Translations need a proven translator. Estimated 7,567 lines, 13% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "לנבוכי הדור",
+   "work": "לנבוכי הדור",
+   "authors": [
+    "אברהם יצחק הכהן קוק (d. 1935, Q330110)"
+   ],
+   "pd_israel_basis": 1935,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q330110",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1935). Translations need a proven translator. Estimated 6,835 lines, 5% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "רש\"י על הש\"ס",
+   "work": "רש\"י על הש\"ס",
+   "authors": [
+    "רש\"י (d. 1105, Q26456)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q26456",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1105). Translations need a proven translator. Estimated 6,651 lines, 3% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "אורות האמונה",
+   "work": "אורות האמונה",
+   "authors": [
+    "אברהם יצחק הכהן קוק (d. 1935, Q330110)"
+   ],
+   "pd_israel_basis": 1935,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q330110",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1935). Translations need a proven translator. Estimated 7,228 lines, 11% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "כוכבי שמים רחוקים",
+   "work": "כוכבי שמים רחוקים",
+   "authors": [
+    "Q521410 (d. 1943)"
+   ],
+   "pd_israel_basis": 1943,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q6971623",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1943). Translations need a proven translator. Estimated 6,330 lines, 1% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר האורה",
+   "work": "ספר האורה",
+   "authors": [
+    "רש\"י (d. 1105, Q26456)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q26456",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1105). Translations need a proven translator. Estimated 12,202 lines, 51% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "פרי הארץ",
+   "work": "פרי הארץ",
+   "authors": [
+    "Q2066799 (d. 1788)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q15901518",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1788). Translations need a proven translator. Estimated 7,234 lines, 18% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "גר\"א על ספרא דצניעותא",
+   "work": "גר\"א על ספרא דצניעותא",
+   "authors": [
+    "הגאון מווילנה (d. 1797, Q279359)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q279359",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1797, category). Translations need a proven translator. Estimated 12,660 lines, 53% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "רד\"ק על תהלים",
+   "work": "רד\"ק על תהלים",
+   "authors": [
+    "רד\"ק (d. 1235, Q733619)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q733619",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1235, attributed). Translations need a proven translator. Estimated 9,173 lines, 36% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "נפש החיים",
+   "work": "נפש החיים",
+   "authors": [
+    "Q1059243 (d. 1821)"
+   ],
+   "pd_israel_basis": 1821,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q12409931",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1821). Translations need a proven translator. Estimated 11,305 lines, 48% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר השרשים (רד\"ק)",
+   "work": "ספר השרשים (רד\"ק)",
+   "authors": [
+    "רד\"ק (d. 1235, Q733619)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q733619",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1235). Translations need a proven translator. Estimated 6,432 lines, 9% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "דרשות המהר\"ל",
+   "work": "דרשות המהר\"ל",
+   "authors": [
+    "מהר\"ל מפראג (d. 1609, Q363513)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q363513",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1609, author page). Translations need a proven translator. Estimated 13,258 lines, 57% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חובת התלמידים",
+   "work": "חובת התלמידים",
+   "authors": [
+    "קלונימוס קלמיש שפירא (d. 1943, Q2891467)"
+   ],
+   "pd_israel_basis": 1943,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2891467",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1943). Translations need a proven translator. Estimated 10,266 lines, 45% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מלבי\"ם על הש\"ס",
+   "work": "מלבי\"ם על הש\"ס",
+   "authors": [
+    "מלבי\"ם (d. 1879, Q1391091)"
+   ],
+   "pd_israel_basis": 1879,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q1391091",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1879, category). Translations need a proven translator. Estimated 7,150 lines, 21% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "עבודת הקדש",
+   "work": "עבודת הקדש",
+   "authors": [
+    "רשב\"א (d. 1310, Q982170)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q982170",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1310, attributed). Translations need a proven translator. Estimated 11,453 lines, 53% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר שקל הקודש",
+   "work": "ספר שקל הקודש",
+   "authors": [
+    "Q456758 (d. 1305)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q97693677",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1305). Translations need a proven translator. Estimated 5,531 lines, 7% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר זכרון (ריק\"ם)",
+   "work": "ספר זכרון (ריק\"ם)",
+   "authors": [
+    "יוסף קמחי (d. 1170, Q1371519)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q1371519",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1170). Translations need a proven translator. Estimated 5,164 lines, 1% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "פרי עץ חיים",
+   "work": "פרי עץ חיים",
+   "authors": [
+    "חיים ויטאל (d. 1620, Q2302424)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2302424",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1620, category). Translations need a proven translator. Estimated 10,829 lines, 53% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "הליכות עולם (ישועה בן יוסף הלוי)",
+   "work": "הליכות עולם (ישועה בן יוסף הלוי)",
+   "authors": [
+    "ישועה בן יוסף הלוי (d. 1500, Q41616548)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q41616548",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1500). Translations need a proven translator. Estimated 6,245 lines, 20% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "משנת רבי אליעזר",
+   "work": "משנת רבי אליעזר",
+   "authors": [
+    "Q921589 (d. 200)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q4858215",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 200). Translations need a proven translator. Estimated 10,137 lines, 52% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "יסוד ושורש העבודה",
+   "work": "יסוד ושורש העבודה",
+   "authors": [
+    "Q6042243 (d. 1793)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q7213061",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1793). Translations need a proven translator. Estimated 6,944 lines, 34% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "נדחי ישראל",
+   "work": "נדחי ישראל",
+   "authors": [
+    "ישראל מאיר הכהן (d. 1933, Q733140)"
+   ],
+   "pd_israel_basis": 1933,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q733140",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1933, category). Translations need a proven translator. Estimated 5,352 lines, 18% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "שו\"ת תורת חסד",
+   "work": "שו\"ת תורת חסד",
+   "authors": [
+    "מנחם מנדל שניאורסון (הצמח צדק) (d. 1866, Q1337389)"
+   ],
+   "pd_israel_basis": 1866,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q1337389",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1866, attributed). Translations need a proven translator. Estimated 5,383 lines, 19% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "פוקד עַקָרִים",
+   "work": "פוקד עַקָרִים",
+   "authors": [
+    "צדוק הכהן מלובלין (d. 1900, Q8064174)"
+   ],
+   "pd_israel_basis": 1900,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q8064174",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1900, category). Translations need a proven translator. Estimated 6,288 lines, 34% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "דרך החיים (הגאון מליסא)",
+   "work": "דרך החיים (הגאון מליסא)",
+   "authors": [
+    "Q2904852 (d. 1832)"
+   ],
+   "pd_israel_basis": 1832,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q121140354",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1832). Translations need a proven translator. Estimated 4,917 lines, 16% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "הלכות קטנות לרבינו אשר",
+   "work": "הלכות קטנות לרבינו אשר",
+   "authors": [
+    "רא\"ש (d. 1327, Q722525)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q722525",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1327, attributed). Translations need a proven translator. Estimated 11,082 lines, 63% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "חיים תחילה",
+   "work": "חיים תחילה",
+   "authors": [
+    "חיים פלאג'י (d. 1869, Q2903944)"
+   ],
+   "pd_israel_basis": 1869,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q2903944",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1868, author page). Translations need a proven translator. Estimated 5,209 lines, 22% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "תורת האדם",
+   "work": "תורת האדם",
+   "authors": [
+    "Q355455 (d. 1270)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q55713102",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1270). Translations need a proven translator. Estimated 5,538 lines, 41% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "מאור ושמש",
+   "work": "מאור ושמש",
+   "authors": [
+    "Q964980 (d. 1823)"
+   ],
+   "pd_israel_basis": 1823,
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q6753670",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 1823). Translations need a proven translator. Estimated 5,244 lines, 45% already in htext (4-gram estimate)."
+  },
+  {
+   "root": "ספר הבהיר",
+   "work": "ספר הבהיר",
+   "authors": [
+    "רבי נחוניא בן הקנה (d. 200, Q982191)"
+   ],
+   "pd_israel_basis": "ancient",
+   "rights_evidence_url": "https://www.wikidata.org/wiki/Q982191",
+   "reviewer_note": "Census 2026-11-27 rights pass: PD-IL (d. 200, category). Translations need a proven translator. Estimated 5,531 lines, 63% already in htext (4-gram estimate)."
+  }
+ ]
+}

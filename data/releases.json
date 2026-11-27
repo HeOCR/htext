@@ -480,6 +480,35 @@
       "huggingface": "HeOCR/htext-by-sa",
       "huggingface_revision": "169531494d3cc085938a7b58e4ddd5bd76f59769",
       "zenodo": {"doi": "10.5281/zenodo.24583234"}
+    },
+    {
+      "corpus": "wikisource",
+      "version": "v5",
+      "card": "data/wikisource/v5/corpus_card.json",
+      "release_tag": "wikisource-v5",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {"text": "Hebrew Wikisource contributors", "url": "https://he.wikisource.org"},
+      "huggingface": "HeOCR/htext-wikisource",
+      "huggingface_revision": "ea93b039a4d57234466d4c649ff83311069394a4",
+      "huggingface_path": "releases/wikisource-v5",
+      "zenodo": {"doi": "10.5281/zenodo.24584329", "concept_doi": "10.5281/zenodo.24521418"}
+    },
+    {
+      "corpus": "htext-by-sa",
+      "version": "v2",
+      "card": "data/htext-by-sa/v2/corpus_card.json",
+      "release_tag": "htext-by-sa-v2",
+      "supersedes": "htext-by-sa-v1",
+      "htext_release": "by-sa",
+      "source_licences": ["CC-BY-SA"],
+      "source_licence": "CC-BY-SA",
+      "text_quality": {"variant:niqqud": "transcription", "variant:plain": "transcription"},
+      "credit": {"text": "Hebrew Wikisource contributors and the CC BY-SA Sefaria editions (see NOTICE.md)", "url": "https://huggingface.co/datasets/HeOCR/htext-by-sa/blob/9c80e95dc4c28f3491744bb0213f6a6c16365f5f/NOTICE.md"},
+      "huggingface": "HeOCR/htext-by-sa",
+      "huggingface_revision": "9c80e95dc4c28f3491744bb0213f6a6c16365f5f",
+      "zenodo": {"doi": "10.5281/zenodo.24584416", "concept_doi": "10.5281/zenodo.24583233"}
     }
   ]
 }
