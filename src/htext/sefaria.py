@@ -16,9 +16,11 @@ Text rules: Sefaria segments are walked in order; footnotes (``<sup class="footn
 ``<i class="footnote">``) are removed with their content, other markup is dropped, entities are unescaped. Each
 segment is cut by the S10b length profile and the PBY character and niqqud rules into plain and pointed lines.
 
-Tags, not drops (contamination policy v2, amendment 1, 2026-11-26): eval-reserved works and protected-text matches
-are tagged in the line index; only in-corpus duplicates and lines already in other htext releases
-(``--dedup-against``) are removed, as a corpus-quality step. Aramaic-heavy works (Talmud tractates, Targum, Zohar) go
+Reserved works are dropped: a work listed by identity in the eval reservations (``sefaria_works``, e.g. the P-hist
+hold-out books, which are held out whole with every edition) is out of every lane and listed in ``out``.
+Tags, not drops (contamination policy v2, amendment 1, 2026-11-26): protected-text matches are tagged in the line
+index; in-corpus duplicates and lines already in other htext releases (``--dedup-against``) are removed, as a
+corpus-quality step. Aramaic-heavy works (Talmud tractates, Targum, Zohar) go
 to separate ``*_arc`` files so a Hebrew-only fit can leave them out.
 """
 
@@ -306,9 +308,11 @@ def build(config: SefariaConfig, progress: Callable[[str], None] | None = None) 
             if not version["rights"]["pass"]:
                 out_list.append({"title": work["title"], "version": version["versionTitle"], "reason": version["rights"]["basis"]})
                 continue
-            work_tags = list(work.get("tags", []))
             if reservations is not None and reservations.reserved("sefaria", work["title"]):
-                work_tags.append("eval_reserved_work")
+                # Listed by identity in the eval reservations: the work itself is held out, so it leaves the lane.
+                out_list.append({"title": work["title"], "version": version["versionTitle"], "reason": "eval_reserved_work"})
+                continue
+            work_tags = list(work.get("tags", []))
             sid = shard_id(work["title"], version["versionTitle"])
             job = dict(common, title=work["title"], versionTitle=version["versionTitle"], license=version["license"],
                        sha256=version["sha256"], path=str(config.inputs / version["file"]), work_tags=work_tags,

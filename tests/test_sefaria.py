@@ -39,7 +39,11 @@ def _setup(tmp_path: Path, lane: str = "cc0", bad_sha: bool = False) -> s.Sefari
     a = _version_file(inputs, "Invented Work", "Invented Edition, 1850", "Public Domain", [[BODY, BODY + " שוב"]])
     b = _version_file(inputs, "Invented Commentary", "Invented CC-BY", "CC-BY", [BODY + " פירוש"])
     c = _version_file(inputs, "Invented Tractate", "Invented Edition", "CC0", [["תנן " + BODY]])
+    d = _version_file(inputs, "Invented Held-Out Book", "Invented Edition, 1860", "Public Domain", [[BODY + " שמור"]])
     works = [
+        {"title": "Invented Held-Out Book", "categories": ["Halakhah"], "tags": [], "versions": [
+            {"versionTitle": "Invented Edition, 1860", "license": "Public Domain", "file": f"{d}.json", "sha256": d,
+             "rights": {"pass": True, "basis": "all_authors:invented:d1860"}}]},
         {"title": "Invented Work", "categories": ["Halakhah"], "tags": [], "versions": [
             {"versionTitle": "Invented Edition, 1850", "license": "Public Domain", "file": f"{a}.json", "sha256": "0" * 64 if bad_sha else a,
              "rights": {"pass": True, "basis": "all_authors:invented:d1850"}}]},
@@ -55,7 +59,7 @@ def _setup(tmp_path: Path, lane: str = "cc0", bad_sha: bool = False) -> s.Sefari
     src = {"schema": s.SOURCES_SCHEMA, "export": {"repo": "Sefaria/Sefaria-Export", "commit": "0" * 40}, "works": works}
     (tmp_path / "sources.json").write_text(json.dumps(src, ensure_ascii=False), encoding="utf-8")
     reserved = {"schema": "heocr_eval_reservations.v1", "owner": "eval", "as_of": "2026-11-26",
-                "reservations": [{"set": "s", "sefaria_works": ["Invented Work"]}], "supersedes": {"file": "v0.json", "sha256": "0"}}
+                "reservations": [{"set": "s", "sefaria_works": ["Invented Held-Out Book"]}], "supersedes": {"file": "v0.json", "sha256": "0"}}
     (tmp_path / "reserved.json").write_text(json.dumps(reserved), encoding="utf-8")
     return s.SefariaConfig(sources=tmp_path / "sources.json", inputs=inputs, output=tmp_path / "out", lane=lane,
                            length_profile=[20, 25, 30, 35, 40], length_profile_source="test", reservations=[tmp_path / "reserved.json"])
@@ -66,18 +70,28 @@ def _index(out: Path) -> list[list[str]]:
         return [l.rstrip("\n").split("\t") for l in f][1:]
 
 
-def test_cc0_build_keeps_lane_routes_aramaic_and_tags_reserved_work(tmp_path):
+def test_cc0_build_keeps_lane_routes_aramaic_and_drops_reserved_work(tmp_path):
     card = s.build(_setup(tmp_path))
     files = card["files"]
-    he = files[s.corpus_file_name("plain", "he", "cc0")]["lines"]
     arc = files[s.corpus_file_name("plain", "arc", "cc0")]["lines"]
-    assert he > 0 and arc > 0
+    assert arc > 0
     rows = _index(tmp_path / "out")
-    assert {r[2] for r in rows} == {"Invented Work", "Invented Tractate"}  # the CC-BY work is not in the cc0 lane
-    assert all("eval_reserved_work" in r[5] for r in rows if r[2] == "Invented Work")  # a tag, not a drop
+    # The CC-BY work is not in the cc0 lane; the reserved work is held out whole: no line of it, in any file.
+    assert {r[2] for r in rows} == {"Invented Work", "Invented Tractate"}
     assert all(r[1] == "arc" and "family_shared_with_wikisource" in r[5] for r in rows if r[2] == "Invented Tractate")
-    assert [o["reason"] for o in card["out"]] == ["licence_refused:unlisted_label:Invented-Label", "author_death_unknown:x"]
+    assert sorted(o["reason"] for o in card["out"]) == ["author_death_unknown:x", "eval_reserved_work", "licence_refused:unlisted_label:Invented-Label"]
+    assert [o["title"] for o in card["out"] if o["reason"] == "eval_reserved_work"] == ["Invented Held-Out Book"]
+    assert not any("שמור" in line for f in (tmp_path / "out").glob("*.txt") for line in f.read_text(encoding="utf-8").splitlines())
     assert card["htext_release"] == "cc0"
+
+
+def test_a_reserved_work_is_dropped_in_every_lane(tmp_path):
+    config = _setup(tmp_path, lane="by")
+    reserved = json.loads(config.reservations[0].read_text(encoding="utf-8"))
+    reserved["reservations"][0]["sefaria_works"] = ["Invented Commentary"]
+    config.reservations[0].write_text(json.dumps(reserved), encoding="utf-8")
+    card = s.build(config)
+    assert _index(tmp_path / "out") == [] and [o["title"] for o in card["out"]] == ["Invented Commentary"]
 
 
 def test_by_lane_takes_only_the_cc_by_version(tmp_path):
