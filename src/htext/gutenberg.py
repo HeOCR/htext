@@ -49,6 +49,9 @@ SUBSETS = ("plain", "niqqud")
 
 _START = re.compile(r"^\*\*\* ?START OF (THE|THIS) PROJECT GUTENBERG.*$", re.M)
 _END = re.compile(r"^\*\*\* ?END OF (THE|THIS) PROJECT GUTENBERG.*$", re.M)
+# A transcriber's / electronic-edition notes section (errata lists, keying notes) is the producer's text, not the
+# book's: the body ends at its heading line.
+_EDITION_NOTES = re.compile(r"^\s*(הערות על המהדורה ה?אלקטרונית|הערות המעתיק|Transcriber'?s? [Nn]otes?:?)\s*$", re.M)
 _FOOTNOTE_BLOCK = re.compile(r"^\s*\[\d+\]")
 _FOOTNOTE_MARK = re.compile(r"\[\d+\]")
 _EMPHASIS = re.compile(r"[*_]")
@@ -75,7 +78,9 @@ def body(text: str) -> str:
     start, end = _START.search(text), _END.search(text)
     if not start or not end or end.start() <= start.end():
         raise ValueError("no Project Gutenberg START/END markers")
-    return text[start.end():end.start()]
+    inner = text[start.end():end.start()]
+    notes = _EDITION_NOTES.search(inner)
+    return inner[:notes.start()] if notes else inner
 
 
 @dataclass(frozen=True)

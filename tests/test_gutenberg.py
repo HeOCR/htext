@@ -40,6 +40,12 @@ def test_body_keeps_only_the_text_between_the_markers():
         g.body("no markers here")
 
 
+def test_body_stops_at_the_electronic_edition_notes():
+    notes = "\n                       הערות על המהדורה אלקטרונית\n\nהטעויות דפוס הבאות תוקנו:\n\n  * ע׳ 1, ש׳ 2: שגיאה ← תיקון\n"
+    text = g.body(HEADER + START + BODY + notes + END + FOOTER)
+    assert "פסקה שנייה" in text and "הטעויות דפוס" not in text and "תיקון" not in text
+
+
 def test_paragraphs_drop_footnotes_markup_and_latin_and_split_headings():
     stats = Counter()
     paras = g.paragraphs(TEXT, stats)
