@@ -368,6 +368,60 @@
       "huggingface": "HeOCR/hebrew-print-line-pairs",
       "huggingface_revision": "481edf6e9b0d82897ec28b4b25d8fcea2efccce7",
       "zenodo": {"doi": "10.5281/zenodo.24580468", "concept_doi": "10.5281/zenodo.24571579"}
+    },
+    {
+      "corpus": "sefaria",
+      "version": "v3-cc0",
+      "card": "data/sefaria/v3-cc0/corpus_card.json",
+      "release_tag": "sefaria-v3-cc0",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {"text": "Sefaria", "url": "https://www.sefaria.org"},
+      "huggingface": "HeOCR/htext-sefaria",
+      "huggingface_revision": "8da7fb539e9ac8fc40c4f6e4f7073cb9a575bb38",
+      "huggingface_path": "releases/sefaria-v3-cc0",
+      "zenodo": {"doi": "10.5281/zenodo.24581317", "concept_doi": "10.5281/zenodo.24521422"}
+    },
+    {
+      "corpus": "sefaria",
+      "version": "v3-by",
+      "card": "data/sefaria/v3-by/corpus_card.json",
+      "release_tag": "sefaria-v3-by",
+      "htext_release": "by",
+      "source_licence": "CC-BY",
+      "text_quality": "transcription",
+      "credit": {"text": "Sefaria", "url": "https://www.sefaria.org"},
+      "huggingface": "HeOCR/htext-sefaria-by",
+      "huggingface_revision": "c55b5dcbc79b360b87031a1fa7aca029b62d25f0",
+      "huggingface_path": "releases/sefaria-v3-by",
+      "zenodo": {"doi": "10.5281/zenodo.24581347", "concept_doi": "10.5281/zenodo.24521429"}
+    },
+    {
+      "corpus": "sefaria",
+      "version": "v3-by-sa",
+      "card": "data/sefaria/v3-by-sa/corpus_card.json",
+      "release_tag": "sefaria-v3-by-sa",
+      "htext_release": "by-sa",
+      "source_licence": "CC-BY-SA",
+      "text_quality": "transcription",
+      "credit": {"text": "Sefaria", "url": "https://www.sefaria.org"},
+      "huggingface": "HeOCR/htext-sefaria-by-sa",
+      "huggingface_revision": "1d24204f8bd53d3abc214619a2b73cd731552b5e",
+      "zenodo": {"doi": "10.5281/zenodo.24581351", "concept_doi": "10.5281/zenodo.24581350"}
+    },
+    {
+      "corpus": "gutenberg",
+      "version": "v1",
+      "card": "data/gutenberg/v1/corpus_card.json",
+      "release_tag": "gutenberg-v1",
+      "htext_release": "cc0",
+      "source_licence": "Public Domain",
+      "text_quality": "transcription",
+      "credit": {"text": "Project Gutenberg", "url": "https://www.gutenberg.org"},
+      "huggingface": "HeOCR/htext-gutenberg",
+      "huggingface_revision": "1f7432ee0240c0a23b44347cb1612c454fe78eed",
+      "zenodo": {"doi": "10.5281/zenodo.24581353", "concept_doi": "10.5281/zenodo.24581352"}
     }
   ]
 }
