@@ -37,5 +37,6 @@
   },
   "clean": "TRAIN CLEAN, public OK (restricted-eval #1933); 12,001/12,001 keep",
   "layout": "docs/linepairs_release_v2.md",
-  "labels": "pointed (niqqud kept)"
+  "labels": "pointed (niqqud kept)",
+  "label_caveat": "Niqqud in these labels follows the Project Ben-Yehuda text; it has not been verified mark by mark against the printed scan."
 }

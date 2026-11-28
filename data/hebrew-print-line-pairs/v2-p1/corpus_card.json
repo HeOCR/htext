@@ -45,5 +45,6 @@
     "source": "heocr-ops#707 @cf4fb989 records/real-line-pairs-scale-batch-01-20261126/verified-pairs.json"
   },
   "layout": "docs/linepairs_release_v2.md",
-  "label_noise_estimate": "about 3% (manual check of 40 lines after the digits_extra rule)"
+  "label_noise_estimate": "about 3% (manual check of 40 lines after the digits_extra rule)",
+  "label_caveat": "Niqqud in these labels follows the Project Ben-Yehuda text; it has not been verified mark by mark against the printed scan."
 }
