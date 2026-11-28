@@ -322,6 +322,7 @@
       "version": "v2-p1",
       "card": "data/hebrew-print-line-pairs/v2-p1/corpus_card.json",
       "release_tag": "hebrew-print-line-pairs-v2-p1",
+      "withdrawn": {"date": "2026-11-28", "reason": "niqqud labels corrected", "superseded_by": "hebrew-print-line-pairs-v2-p6.1 (corrected labels; heavily marked rows omitted)", "assets": "older HF revision and Zenodo version stay as history"},
       "htext_release": "by-sa",
       "source_licence": "CC BY-SA 4.0",
       "text_quality": "transcription",
@@ -517,6 +518,7 @@
       "version": "v2-p4",
       "card": "data/hebrew-print-line-pairs/v2-p4/corpus_card.json",
       "release_tag": "hebrew-print-line-pairs-v2-p4",
+      "withdrawn": {"date": "2026-11-28", "reason": "niqqud labels corrected", "superseded_by": "hebrew-print-line-pairs-v2-p6.1 (corrected labels; heavily marked rows omitted)", "assets": "older HF revision and Zenodo version stay as history"},
       "htext_release": "by-sa",
       "source_licence": "CC BY-SA 4.0",
       "text_quality": "transcription",
@@ -550,6 +552,19 @@
       "huggingface": "HeOCR/hebrew-print-line-pairs",
       "huggingface_revision": "dca089016e6cc389997b533cbf5cee4fcc3df2a3",
       "zenodo": {"doi": "10.5281/zenodo.24615586", "concept_doi": "10.5281/zenodo.24571579"}
+    },
+    {    
+      "corpus": "hebrew-print-line-pairs",
+      "version": "v2-p6.1",
+      "card": "data/hebrew-print-line-pairs/v2-p6.1/corpus_card.json",
+      "release_tag": "hebrew-print-line-pairs-v2-p6.1",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {"text": "Project Ben-Yehuda volunteers (text); Internet Archive and holding libraries (scans); line-pairing method by Rivok Labs; HeOCR book-level aligner", "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/8ee6fde3305705c57d035eccde84d60de866b022/README.md"},
+      "huggingface": "HeOCR/hebrew-print-line-pairs",
+      "huggingface_revision": "8ee6fde3305705c57d035eccde84d60de866b022",
+      "zenodo": {"doi": "10.5281/zenodo.24631463", "concept_doi": "10.5281/zenodo.24571579"}
     }
   ]
 }

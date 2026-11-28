@@ -1,0 +1,86 @@
+{
+  "schema": "hebrew_print_line_pairs_card.v1",
+  "name": "Hebrew print line pairs",
+  "corpus": "hebrew-print-line-pairs",
+  "corpus_version": "v2-p6.1",
+  "htext_release": "by-sa",
+  "source_licence": "CC BY-SA 4.0",
+  "credit": {
+    "text": "Project Ben-Yehuda volunteers (text); Internet Archive and holding libraries (scans); line-pairing method by Rivok Labs; HeOCR book-level aligner",
+    "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/8ee6fde3305705c57d035eccde84d60de866b022/README.md"
+  },
+  "text_quality": "transcription",
+  "kind": "image_text_line_pairs",
+  "correction": {
+    "of": "v2 parts 1, 3 and 4",
+    "change": "niqqud and cantillation stripped from rows with marks on under 30% of letters (parts 1, 4) or under 10% (part 3); more heavily marked rows omitted pending a check against the scans",
+    "counts": {
+      "p1-ops707": {
+        "rows_published": 15248,
+        "stripped": 1232,
+        "marks_removed": 2039,
+        "held": 5,
+        "unchanged": 14011,
+        "rows_corrected": 15243
+      },
+      "p3-ops711-714": {
+        "rows_published": 8960,
+        "stripped": 600,
+        "marks_removed": 1092,
+        "held": 511,
+        "unchanged": 7849,
+        "rows_corrected": 8449
+      },
+      "p4-ia-pby": {
+        "rows_published": 64235,
+        "stripped": 131,
+        "marks_removed": 159,
+        "held": 0,
+        "unchanged": 64104,
+        "rows_corrected": 64235
+      }
+    },
+    "clean": "no new check: only label text was removed; the parts' earlier CLEAN checks stand"
+  },
+  "rows": {
+    "public": 87927
+  },
+  "text_licence": {
+    "PD": 87927
+  },
+  "files": {
+    "v2/p1-ops707/public/train-00000.parquet": {
+      "rows": 15243,
+      "sha256": "43c94f15eb3f12f77d5993af4f7f307885308651c9781ac2094c3b61af3191a2"
+    },
+    "v2/p3-ops711-714/public/train-00000.parquet": {
+      "rows": 8449,
+      "sha256": "1a10ea3acc16dd8509da9fbde1f715ebef2c741f7973f7ca0c82014f40d42a6d"
+    },
+    "v2/p4-ia-pby/public/train-00000.parquet": {
+      "rows": 20000,
+      "sha256": "02d2dc2452accdf9154226944ed4e33cdfaff9eb4888db838de31d69b1bfbdf5"
+    },
+    "v2/p4-ia-pby/public/train-00001.parquet": {
+      "rows": 20000,
+      "sha256": "aa51adf4d516b92979359bb8ce0b46d862d2110fd15ea6b6bb05278518307c91"
+    },
+    "v2/p4-ia-pby/public/train-00002.parquet": {
+      "rows": 20000,
+      "sha256": "b8041cd03f3948e2e98d34ddbdd74547554ddc58a97deec2760f8d930b946025"
+    },
+    "v2/p4-ia-pby/public/train-00003.parquet": {
+      "rows": 4235,
+      "sha256": "77ad763e143cd57f56374f04a8dd7075cce4b68ad5e1f7b12df09e94f635b1cf"
+    }
+  },
+  "huggingface": "HeOCR/hebrew-print-line-pairs",
+  "huggingface_revision": "8ee6fde3305705c57d035eccde84d60de866b022",
+  "huggingface_tag": "v2-p6.1",
+  "zenodo": {
+    "doi": "10.5281/zenodo.24631463",
+    "concept_doi": "10.5281/zenodo.24571579"
+  },
+  "layout": "docs/linepairs_release_v2.md",
+  "label_caveat": "Niqqud in these labels follows the Project Ben-Yehuda text; it has not been verified mark by mark against the printed scan."
+}
