@@ -58,3 +58,7 @@ v2/parts/<part_id>/            part_id: p1-ops707, p2-ops708-709, ...
 
 v1.1's Wikisource pairs are not repeated in v2's parts. The v2 card links v1.1, and a user who wants both loads both
 tags.
+
+## Niqqud in Ben-Yehuda labels (parts 1, 3, 4 and 4b)
+
+Niqqud in these labels follows the Project Ben-Yehuda text; it has not been verified mark by mark against the printed scan.

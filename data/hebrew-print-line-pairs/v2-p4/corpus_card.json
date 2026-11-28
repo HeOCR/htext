@@ -66,5 +66,6 @@
     "dropped:clean_c3_text_hold": 1
   },
   "layout": "docs/linepairs_release_v2.md",
-  "label_noise_estimate": "about 7% (manual check of 14 random lines; two-line boxes)"
+  "label_noise_estimate": "about 7% (manual check of 14 random lines; two-line boxes)",
+  "label_caveat": "Niqqud in these labels follows the Project Ben-Yehuda text; it has not been verified mark by mark against the printed scan."
 }

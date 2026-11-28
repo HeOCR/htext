@@ -54,5 +54,6 @@
     ]
   },
   "layout": "docs/linepairs_release_v2.md",
-  "label_noise_estimate": "0 wrong labels in a manual check of 12 random lines; 2 of 12 show Ben-Yehuda's modernised spelling or punctuation within the 0.25 CER rule"
+  "label_noise_estimate": "0 wrong labels in a manual check of 12 random lines; 2 of 12 show Ben-Yehuda's modernised spelling or punctuation within the 0.25 CER rule",
+  "label_caveat": "Niqqud in these labels follows the Project Ben-Yehuda text; it has not been verified mark by mark against the printed scan."
 }
