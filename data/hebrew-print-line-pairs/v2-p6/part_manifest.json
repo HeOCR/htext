@@ -1,0 +1,62 @@
+{
+ "part": "p6-vilna-volumes",
+ "version": "v2",
+ "rows": {
+  "public": 119939,
+  "internal": 0
+ },
+ "state": "public",
+ "shards": {
+  "public/train-00000.parquet": {
+   "rows": 20000,
+   "sha256": "822941ad8ab12502097309a18f2f86e7a0dd41db4ed66744c645f3d74df0fd27"
+  },
+  "public/train-00001.parquet": {
+   "rows": 20000,
+   "sha256": "806ad2cb80c74cac7a05e6eaf4473f1ce77b9df2fd12147bce3d0c3671b6fa10"
+  },
+  "public/train-00002.parquet": {
+   "rows": 20000,
+   "sha256": "cd7c3289d848993582ac13acddd2dc07f0ac2b58f8a783c306a67807d2e1813b"
+  },
+  "public/train-00003.parquet": {
+   "rows": 20000,
+   "sha256": "5a4598c9c904542c415cef414cc6090ffa9e692109049c4ca9d96ccab5840727"
+  },
+  "public/train-00004.parquet": {
+   "rows": 20000,
+   "sha256": "394b05e24d07f5c2ac61b6d4662323c1bcaec1968957a2d49e1561a09a04a437"
+  },
+  "public/train-00005.parquet": {
+   "rows": 19939,
+   "sha256": "8070e7272fdd8971f56e1dea209e2bb495efef8c6eecee158712454778799c1f"
+  }
+ },
+ "by_licence_basis": {
+  "public:pd_il": 119939
+ },
+ "stats": {
+  "role:gemara": 20505,
+  "text:CC-BY-SA": 20505,
+  "role:rashi": 46118,
+  "text:PD": 99434,
+  "role:tosafot": 53316,
+  "leaf:processed_zero_candidates": 18
+ },
+ "by_text_licence": {
+  "PD": 99434,
+  "CC-BY-SA": 20505
+ },
+ "clean": {
+  "record": "HeOCR/heocr-restricted-eval#1931",
+  "result": "119,939/119,939 keep, 0 exclusions; 84 text tags"
+ },
+ "builder": {
+  "runner": "heocr-ops #729/#730/#732 (opensrc Vilna volume runner)",
+  "packager": "htext pack_vilna_volumes.py"
+ },
+ "attribution": {
+  "gemara_labels": "Hebrew Wikisource Talmud Bavli via Sefaria, CC BY-SA 4.0: Hebrew Wikisource contributors",
+  "commentary_labels": "Vilna Edition via Sefaria, PD"
+ }
+}

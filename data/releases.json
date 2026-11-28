@@ -308,6 +308,7 @@
       "version": "v1.1",
       "card": "data/hebrew-print-line-pairs/v1.1/corpus_card.json",
       "release_tag": "hebrew-print-line-pairs-v1.1",
+      "withdrawn": {"date": "2026-11-27", "reason": "rows removed for overlap with reserved evaluation material", "superseded_by": "hebrew-print-line-pairs-v2-p6 (same parts without those rows)", "assets": "older HF revision and Zenodo version stay as history"},
       "htext_release": "by-sa",
       "source_licence": "CC BY-SA 4.0",
       "text_quality": "transcription",
@@ -361,6 +362,7 @@
       "version": "v2-p3",
       "card": "data/hebrew-print-line-pairs/v2-p3/corpus_card.json",
       "release_tag": "hebrew-print-line-pairs-v2-p3",
+      "withdrawn": {"date": "2026-11-27", "reason": "rows removed for overlap with reserved evaluation material", "superseded_by": "hebrew-print-line-pairs-v2-p6 (same parts without those rows)", "assets": "older HF revision and Zenodo version stay as history"},
       "htext_release": "by-sa",
       "source_licence": "CC BY-SA 4.0",
       "text_quality": "transcription",
@@ -522,6 +524,32 @@
       "huggingface": "HeOCR/hebrew-print-line-pairs",
       "huggingface_revision": "be8f68ef74e0f79e4896e5887ee1d2455528811e",
       "zenodo": {"doi": "10.5281/zenodo.24600092", "concept_doi": "10.5281/zenodo.24571579"}
+    },
+    {
+      "corpus": "hebrew-print-line-pairs",
+      "version": "v2-p6",
+      "card": "data/hebrew-print-line-pairs/v2-p6/corpus_card.json",
+      "release_tag": "hebrew-print-line-pairs-v2-p6",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {"text": "Sefaria (Vilna Edition, PD); Hebrew Wikisource contributors (Talmud Bavli Gemara labels, CC BY-SA 4.0); Duke University Libraries and Internet Archive (scans); Rivok Labs (method); HeOCR opensrc (region runner)", "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/1fdb6dd534e3632fd118189d122affe141222923/README.md"},
+      "huggingface": "HeOCR/hebrew-print-line-pairs",
+      "huggingface_revision": "1fdb6dd534e3632fd118189d122affe141222923",
+      "zenodo": {"doi": "10.5281/zenodo.24615586", "concept_doi": "10.5281/zenodo.24571579"}
+    },
+    {
+      "corpus": "hebrew-print-line-pairs",
+      "version": "v2-p4b",
+      "card": "data/hebrew-print-line-pairs/v2-p4b/corpus_card.json",
+      "release_tag": "hebrew-print-line-pairs-v2-p4b",
+      "htext_release": "by-sa",
+      "source_licence": "CC BY-SA 4.0",
+      "text_quality": "transcription",
+      "credit": {"text": "Project Ben-Yehuda volunteers (pointed text); Internet Archive and holding libraries (scans); line-pairing method by Rivok Labs; HeOCR book-level aligner", "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/dca089016e6cc389997b533cbf5cee4fcc3df2a3/README.md"},
+      "huggingface": "HeOCR/hebrew-print-line-pairs",
+      "huggingface_revision": "dca089016e6cc389997b533cbf5cee4fcc3df2a3",
+      "zenodo": {"doi": "10.5281/zenodo.24615586", "concept_doi": "10.5281/zenodo.24571579"}
     }
   ]
 }
