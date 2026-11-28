@@ -1,0 +1,39 @@
+{
+ "version": "v2",
+ "part": "p4b-ia-pby-pointed",
+ "rows": {
+  "public": 12001
+ },
+ "shard_part": "public",
+ "basis": "pd_il",
+ "stats": {
+  "lines_in": 12001,
+  "normalised_gershayim": 0,
+  "dropped:overlapping_box_other_pair": 0
+ },
+ "shards": {
+  "public/train-00000.parquet": {
+   "rows": 12001,
+   "sha256": "ca94affdb477c5aef1619e12b305d185ef265c056394c8c5437c9248a74905ea"
+  }
+ },
+ "inputs": {
+  "manifest": "batch_pointed.json",
+  "manifest_sha256": "d45f1add3778f0230a9219884a619db885c20c6c9fb75c1f78531934d5401167"
+ },
+ "by_licence_basis": {
+  "public:pd_il": 12001
+ },
+ "by_text_licence": {
+  "PD": 12001
+ },
+ "clean": {
+  "record": "HeOCR/heocr-restricted-eval#1933",
+  "result": "12,001/12,001 keep, 0 exclusions; 28 text tags"
+ },
+ "builder": {
+  "htext_commit": "01528fb",
+  "driver": "htext.linepairs.editions (page direction #79)",
+  "labels": "PBY public_domain_dump @5e4277fe txt (pointed)"
+ }
+}
