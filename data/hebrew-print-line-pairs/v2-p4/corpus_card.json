@@ -57,7 +57,7 @@
   "source": {
     "screen": "IA pre-1931 Hebrew items x PBY 4-gram index; coverage >= 0.3",
     "manifest": "recipe/batch_p4_ordered.json",
-    "exclusions": "recipe/exclusions.json"
+    "exclusions": "kept private (HeOCR evaluation custody); not published"
   },
   "stats": {
     "lines_in": 66006,
