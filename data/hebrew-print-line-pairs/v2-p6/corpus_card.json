@@ -1,0 +1,64 @@
+{
+  "schema": "hebrew_print_line_pairs_card.v1",
+  "name": "Hebrew print line pairs",
+  "corpus": "hebrew-print-line-pairs",
+  "corpus_version": "v2-p6",
+  "htext_release": "by-sa",
+  "source_licence": "CC BY-SA 4.0",
+  "credit": {
+    "text": "Sefaria (Vilna Edition, PD); Hebrew Wikisource contributors (Talmud Bavli Gemara labels, CC BY-SA 4.0); Duke University Libraries and Internet Archive (scans); Rivok Labs (method); HeOCR opensrc (region runner)",
+    "url": "https://huggingface.co/datasets/HeOCR/hebrew-print-line-pairs/blob/1fdb6dd534e3632fd118189d122affe141222923/README.md"
+  },
+  "text_quality": "transcription",
+  "kind": "image_text_line_pairs",
+  "part": "p6-vilna-volumes",
+  "rows": {
+    "public": 119939,
+    "internal": 0
+  },
+  "image_licence_basis": {
+    "public:pd_il": 119939
+  },
+  "text_licence": {
+    "PD": 99434,
+    "CC-BY-SA": 20505
+  },
+  "files": {
+    "v2/p6-vilna-volumes/public/train-00000.parquet": {
+      "rows": 20000,
+      "sha256": "822941ad8ab12502097309a18f2f86e7a0dd41db4ed66744c645f3d74df0fd27"
+    },
+    "v2/p6-vilna-volumes/public/train-00001.parquet": {
+      "rows": 20000,
+      "sha256": "806ad2cb80c74cac7a05e6eaf4473f1ce77b9df2fd12147bce3d0c3671b6fa10"
+    },
+    "v2/p6-vilna-volumes/public/train-00002.parquet": {
+      "rows": 20000,
+      "sha256": "cd7c3289d848993582ac13acddd2dc07f0ac2b58f8a783c306a67807d2e1813b"
+    },
+    "v2/p6-vilna-volumes/public/train-00003.parquet": {
+      "rows": 20000,
+      "sha256": "5a4598c9c904542c415cef414cc6090ffa9e692109049c4ca9d96ccab5840727"
+    },
+    "v2/p6-vilna-volumes/public/train-00004.parquet": {
+      "rows": 20000,
+      "sha256": "394b05e24d07f5c2ac61b6d4662323c1bcaec1968957a2d49e1561a09a04a437"
+    },
+    "v2/p6-vilna-volumes/public/train-00005.parquet": {
+      "rows": 19939,
+      "sha256": "8070e7272fdd8971f56e1dea209e2bb495efef8c6eecee158712454778799c1f"
+    }
+  },
+  "huggingface": "HeOCR/hebrew-print-line-pairs",
+  "huggingface_revision": "1fdb6dd534e3632fd118189d122affe141222923",
+  "huggingface_tag": "v2-p6",
+  "huggingface_config": "book_level_v2_p6",
+  "zenodo": {
+    "doi": "10.5281/zenodo.24615586",
+    "concept_doi": "10.5281/zenodo.24571579"
+  },
+  "clean": "TRAIN CLEAN, public OK (restricted-eval #1931); 119,939/119,939 keep",
+  "layout": "docs/linepairs_release_v2.md",
+  "attribution": "Gemara labels CC BY-SA 4.0: Hebrew Wikisource contributors via Sefaria",
+  "release_row_drop": "this version also removes 550 rows (p3 532, v1.1 18) for overlap with reserved evaluation material"
+}
