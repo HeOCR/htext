@@ -18,6 +18,8 @@ new = {"README.md": SCR / "README_v2p6b.md", "v2-p4b_manifest.json": SCR / "mani
        "v1.1_manifest.json": SCR / "new/manifest.json",
        "v2-p3_train-00000.parquet": SCR / "new/v2/p3-ops711-714/public/train-00000.parquet", "v2-p3_manifest.json": SCR / "new/v2/p3-ops711-714/manifest.json"}
 md5 = lambda p: "md5:" + hashlib.md5(p.read_bytes()).hexdigest()
+from htext.public_guard import assert_public_safe  # fail closed on custody material (htext#81)
+assert_public_safe(new.values(), targets=new.keys())
 token = os.environ["ZENODO_TOKEN"]
 state = json.loads(STATE.read_text()) if STATE.exists() else {}
 save = lambda: STATE.write_text(json.dumps(state, indent=2) + "\n")
