@@ -62,3 +62,5 @@ tags.
 ## Niqqud in Ben-Yehuda labels (parts 1, 3, 4 and 4b)
 
 Niqqud in these labels follows the Project Ben-Yehuda text; it has not been verified mark by mark against the printed scan.
+
+Before any pointed Ben-Yehuda rows enter training or a release, run `data/hebrew-print-line-pairs/niqqud-caveat/pointed_print_check.py` on them. It finds pointed labels on unpointed or half-pointed print; it does not check individual marks. Counts for part 4b: `p4b_pointed_print_check.json`, beside the script.

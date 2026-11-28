@@ -1,0 +1,173 @@
+{
+ "rows": 12001,
+ "books": 16,
+ "flagged_books": [],
+ "totals": {
+  "rows": 12001,
+  "pointed_rows": 11511,
+  "scan_not_confirming": 13,
+  "scan_shows_no_mark": 10
+ },
+ "per_book": [
+  {
+   "book": "39093018020180",
+   "rows": 73,
+   "pointed_rows": 72,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.778,
+   "scan_marks_per_letter": 0.778,
+   "flagged": false
+  },
+  {
+   "book": "halevdeam00deamuoft",
+   "rows": 5941,
+   "pointed_rows": 5938,
+   "scan_not_confirming": 4,
+   "scan_shows_no_mark": 1,
+   "label_marks_per_letter": 0.792,
+   "scan_marks_per_letter": 0.795,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah01fris",
+   "rows": 216,
+   "pointed_rows": 207,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.783,
+   "scan_marks_per_letter": 0.784,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah02fris",
+   "rows": 121,
+   "pointed_rows": 107,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.78,
+   "scan_marks_per_letter": 0.765,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah06fris",
+   "rows": 152,
+   "pointed_rows": 151,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.8,
+   "scan_marks_per_letter": 0.797,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah08telauoft",
+   "rows": 244,
+   "pointed_rows": 242,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.814,
+   "scan_marks_per_letter": 0.815,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah14telauoft",
+   "rows": 921,
+   "pointed_rows": 879,
+   "scan_not_confirming": 1,
+   "scan_shows_no_mark": 1,
+   "label_marks_per_letter": 0.821,
+   "scan_marks_per_letter": 0.808,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah19telauoft",
+   "rows": 149,
+   "pointed_rows": 149,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.812,
+   "scan_marks_per_letter": 0.806,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah20telauoft",
+   "rows": 1744,
+   "pointed_rows": 1395,
+   "scan_not_confirming": 7,
+   "scan_shows_no_mark": 7,
+   "label_marks_per_letter": 0.765,
+   "scan_marks_per_letter": 0.762,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah24telauoft",
+   "rows": 258,
+   "pointed_rows": 258,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.8,
+   "scan_marks_per_letter": 0.789,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah26telauoft",
+   "rows": 356,
+   "pointed_rows": 356,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.809,
+   "scan_marks_per_letter": 0.81,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah28telauoft",
+   "rows": 236,
+   "pointed_rows": 236,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.8,
+   "scan_marks_per_letter": 0.8,
+   "flagged": false
+  },
+  {
+   "book": "hatekufah29telauoft",
+   "rows": 333,
+   "pointed_rows": 333,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.808,
+   "scan_marks_per_letter": 0.81,
+   "flagged": false
+  },
+  {
+   "book": "maazorimperushib00alfeuoft",
+   "rows": 1,
+   "pointed_rows": 1,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.7,
+   "scan_marks_per_letter": 0.7,
+   "flagged": false
+  },
+  {
+   "book": "micahyoseflevinz0000jaco",
+   "rows": 603,
+   "pointed_rows": 593,
+   "scan_not_confirming": 0,
+   "scan_shows_no_mark": 0,
+   "label_marks_per_letter": 0.789,
+   "scan_marks_per_letter": 0.778,
+   "flagged": false
+  },
+  {
+   "book": "shaarshimon00bachuoft",
+   "rows": 653,
+   "pointed_rows": 594,
+   "scan_not_confirming": 1,
+   "scan_shows_no_mark": 1,
+   "label_marks_per_letter": 0.792,
+   "scan_marks_per_letter": 0.786,
+   "flagged": false
+  }
+ ]
+}
