@@ -4,6 +4,7 @@ readback). State: hf_state.json. Usage: release_v2p6.py STAGE_DIR"""
 import collections, glob, hashlib, json, os, sys
 import pyarrow as pa, pyarrow.compute as pc, pyarrow.parquet as pq
 from huggingface_hub import HfApi, CommitOperationAdd, hf_hub_download
+from htext.public_guard import assert_public_safe  # fail closed on custody material (htext#81)
 S = sys.argv[1]; R = "HeOCR/hebrew-print-line-pairs"; PARENT = "be8f68ef74e0f79e4896e5887ee1d2455528811e"
 P6 = os.path.expanduser("~/temp/heocr/downloads/v2/parts/p6-vilna-volumes"); P4B = os.path.expanduser("~/temp/heocr/downloads/v2/parts/p4b-ia-pby-pointed")
 DROP = os.path.expanduser("~/temp/heocr/htext-v2-pull/release-drop-ids.jsonl")
@@ -96,6 +97,7 @@ f6["v2/p6-vilna-volumes/manifest.json"] = f"{S}/manifest_p6.json"
 for f in ("data/train-00001.parquet", "data/train-00002.parquet", "manifest.json", "v2/p3-ops711-714/public/train-00000.parquet", "v2/p3-ops711-714/manifest.json"):
     f6[f] = f"{S}/new/{f}"
 f6["README.md"] = f"{S}/README_v2p6.md"
+assert_public_safe(f6.values(), targets=f6.keys())
 if not st.get("commit"):
     assert api.dataset_info(R).sha == PARENT, "HF main moved; re-stage on the new parent"
     c = api.create_commit(R, [CommitOperationAdd(k, v) for k, v in f6.items()], repo_type="dataset", parent_commit=PARENT,
@@ -107,6 +109,7 @@ if not st.get("verified_p6"):
         g = hf_hub_download(R, k, repo_type="dataset", revision=st["commit"], token=False, local_dir=f"{S}/rb"); assert sha(g) == sha(v), k; os.remove(g)
     st["verified_p6"] = True; save(); log("verified p6", len(f6))
 f4 = {"v2/p4b-ia-pby-pointed/public/train-00000.parquet": f"{P4B}/public/train-00000.parquet", "v2/p4b-ia-pby-pointed/manifest.json": f"{S}/manifest_p4b.json", "README.md": f"{S}/README_v2p6b.md"}
+assert_public_safe(f4.values(), targets=f4.keys())
 if not st.get("commit_p4b"):
     c = api.create_commit(R, [CommitOperationAdd(k, v) for k, v in f4.items()], repo_type="dataset", parent_commit=st["commit"],
         commit_message="v2-p4b: pointed (niqqud) print, Ben-Yehuda works 1880-1930 (config book_level_v2_p4b, 12,001 lines)")
